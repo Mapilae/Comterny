@@ -83,22 +83,8 @@ public class DialogueManager : MonoBehaviour
             else soundManager.PlayBGM(currentBlock.bgm, currentBlock.bgmSubtitle, !currentBlock.isBGMNoLoop);
             //if (currentBlock.se != null) SoundManager.instance.PlaySE(currentBlock.se);
         }*/
-
-        if (startDelaySecond > 0)
-        {
-            StartCoroutine(Delay(startDelaySecond));
-            return;
-        }
-        else
-        {
-
-            if (!dialogWhole.gameObject.activeInHierarchy)
-            {
-                dialogWhole.gameObject.SetActive(true);
-                Debug.Log("다이얼로그가 꺼져있어서 켯음. 이거 안 나오도록 코드 수정 하셈.");
-            }
-
-        }
+        // 다이얼 로그가 꺼져 있다면 다이얼 로그를 키고 다이얼 로그가 켜져있다면 아무 변화도 없음
+        dialogWhole.gameObject.SetActive(true);
 
 
         if (typeWriter.isTyping)

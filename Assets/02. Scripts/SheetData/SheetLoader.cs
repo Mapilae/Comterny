@@ -11,6 +11,8 @@ public class SheetLoader : MonoBehaviour
     public static SheetLoader instance;
     public SheetData sheetData;
     string strSheetData;
+    // 다이얼로그는 구글 스프레드 시트로 저장됨
+    // 다이얼 로그 구분을 위해 캐릭터 별로 정리를 한번 해야 겠음
     static string url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
 
     public static int chapNumber = 1;

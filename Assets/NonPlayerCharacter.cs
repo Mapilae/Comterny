@@ -41,12 +41,12 @@ public class NonPlayerCharacter : MovingFootPrint
 
     private void Update()
     {
-        //ÀÌ NPCÀÇ Position ¹İ°æ 1 ÀÌ³»¿¡ ÀÖ´Â °æ¿ì
-        //Space Å°¸¦ ´©¸£¸é ´ëÈ­ ½ÃÀÛ
+        //ì´ NPCì˜ Position ë°˜ê²½ 1 ì´ë‚´ì— ìˆëŠ” ê²½ìš°
+        //Space í‚¤ë¥¼ ëˆ„ë¥´ë©´ ëŒ€í™” ì‹œì‘
         if (!convObj.activeInHierarchy) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("¸» °ÉÀ½");
+            Debug.Log("ë§ ê±¸ìŒ");
             dialogueContent.StartDialogue();
             convObj.SetActive(false);
         }
