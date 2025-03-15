@@ -77,15 +77,6 @@ public class DialogueManager : MonoBehaviour
         if (!canClickToNext) return;
 
 
-        if (dialogueList.Count <= crtIndex)
-        {
-
-            Debug.Log("끝");
-            dialogWhole.gameObject.SetActive(false);
-            standingImg.enabled = false;
-            return;
-
-        }
         /*if (currentBlock.bgm != null)
         {
             if (SoundManager.instance != null) SoundManager.instance.PlayBGM(currentBlock.bgm, currentBlock.bgmSubtitle, !currentBlock.isBGMNoLoop);
@@ -118,6 +109,17 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+
+            if (dialogueList.Count <= crtIndex)
+            {
+                dialogWhole.gameObject.SetActive(false);
+                standingImg.enabled = false;
+                PlayerMovement.canMove = true;
+                return;
+
+            }
+
+
             // if (sheetData.storyBlock[crtBranch].block[crtPage].se != null)
             //  {
             // SoundManager.instance.PlaySound(sheetData.storyBlock[crtBranch].block[crtPage].se, sheetData.storyBlock[crtBranch].block[crtPage].seSubtitle);
@@ -125,7 +127,7 @@ public class DialogueManager : MonoBehaviour
             //if(영어버전)string content =content_ENG
 
             string content = dialogueList[crtIndex].content;
-            nameTxt.text = dialogueList[crtIndex].charName;
+            nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].charName);
             standingImg.sprite = dialogueList[crtIndex].sprite;
             standingImg.enabled = standingImg.sprite != null;
 
@@ -140,20 +142,27 @@ public class DialogueManager : MonoBehaviour
                     string key = match.Groups[1].Value.Trim(); // 변수명 추출 및 공백 제거
                                                                // Debug.Log($"치환 시도: {key}");
 
+                    if (key.Equals("Player"))
+                    {
+                        return PlayerMovement.playerName;
+                    }
                     // PlayerPrefs에서 값 가져오기
-                    string value = PlayerPrefs.GetString(key, "null");
-                    // Debug.Log($"PlayerPrefs에서 가져온 값: {value}");
+                    else
+                    {
+                        string value = PlayerPrefs.GetString(key, "null");
+                        // Debug.Log($"PlayerPrefs에서 가져온 값: {value}");
 
 
 
-                    return value;
+                        return value;
+                    }
                 });
 
                 // Debug.Log("치환 후: " + content);
             }
 
 
-            typeWriter.StartTyping(content, 0);//(int)currentBlock.block[index].name_ch
+            typeWriter.StartTyping(content, nameTxt.text);//(int)currentBlock.block[index].name_ch
 
 
             //ChangeSprite();
@@ -162,6 +171,17 @@ public class DialogueManager : MonoBehaviour
             //else isNoNext = false;
             crtIndex++;
         }
+    }
+
+    string ChangeIfPlayerName(string current)
+    {
+
+        if (current.Equals("유저 디버그"))
+        {
+            if (PlayerMovement.playerName.Equals("유저 디버그")) return current;
+            else return PlayerMovement.playerName;
+        }
+        else return current;
     }
 
 

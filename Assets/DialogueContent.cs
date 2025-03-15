@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -22,6 +23,7 @@ public class DialogueContent : MonoBehaviour
 
     IEnumerator IELoadDialogueFromSheetData()
     {
+        PlayerMovement.canMove = false;
         dialogue = new List<Dialogue>();
         yield return new WaitUntil(() => SheetLoader.isLoading == false);
         Block block = SheetData.instance.GetBlock(id);
@@ -34,17 +36,23 @@ public class DialogueContent : MonoBehaviour
             dialogue.Add(d);
         }
         yield return new WaitForSeconds(0.1f);
-        StartDialogue();
+        StartDialogueInManager();
     }
 
     public void StartDialogue()
+    {
+        LoadDialogueFromSheetData();
+    }
+    void StartDialogueInManager()
     {
         DialogueManager.instance.StartDialogue(dialogue);
     }
 
     private void Start()
     {
-        LoadDialogueFromSheetData();
+        //LoadDialogueFromSheetData();
         //StartDialogue();
     }
+
+
 }
