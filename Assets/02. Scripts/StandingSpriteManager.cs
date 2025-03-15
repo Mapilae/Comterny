@@ -14,63 +14,41 @@ public class StandingSpriteManager : ScriptableObject
         public Sprite sprite;
     }
 
-    [System.Serializable]
-    public class CharacterSprList
-    {
-        //public string characterName;
-        public List<CharacterSpr> chapter1;
-    }
+    public List<CharacterSpr> userSpr;
+    public List<CharacterSpr> ramSpr;
+    public List<CharacterSpr> processorSpr;
+    public List<CharacterSpr> compilerSpr;
+    public List<CharacterSpr> ransomwareSpr;
 
-    //public List<CharacterSpr> enjolrasSpr;
-    //public List<CharacterSpr> grantaireSpr;
 
-    public bool isShortHair = false;
-
-    public CharacterSprList enjolrasSpr;
-    public CharacterSprList grantaireSpr;
-    public CharacterSprList combeferreSpr;
-    public CharacterSprList courfeyracSpr;
-    public CharacterSprList jolySpr;
-    public CharacterSprList lamarqueSpr;
-    public CharacterSprList musichettaSpr;
-
-    int iChapter = 1;//나중에 findsprite의 파라미터로 옮기기
-    public Sprite FindSprite(string chName, string face)
+    public Sprite FindSprite(string chName, int standingNum)
     {
         if (chName.Equals("")) return null;
 
-        Sprite spr = null;
-        CharacterSprList sprListWhole;
-        List<CharacterSpr> sprList;
+
+        List<CharacterSpr> sprListWhole;
 
         switch (chName)
         {
-            case "R":
-                sprListWhole = grantaireSpr;
+            case "유저 디버그":
+                sprListWhole = userSpr;
                 break;
-            case "ENJ":
-                sprListWhole = enjolrasSpr;
+            case "램":
+                sprListWhole = ramSpr;
                 break;
-            case "COM":
-                sprListWhole = combeferreSpr;
+            case "프로세서":
+                sprListWhole = processorSpr;
                 break;
-            case "X":
-                return null;
-            case "CUF":
-                sprListWhole = courfeyracSpr;
+            case "컴파일러":
+                sprListWhole = compilerSpr;
                 break;
-            case "LMQ":
-                sprListWhole = lamarqueSpr;
+            case "랜섬웨어":
+                sprListWhole = ransomwareSpr;
                 break;
 
-            case "JOL":
-                sprListWhole = jolySpr;
-                break;
-            case "MUS":
-                sprListWhole = musichettaSpr;
-                break;
+
             default:
-                sprListWhole = new();
+                sprListWhole = null;
                 break;
         }
 
@@ -86,21 +64,9 @@ public class StandingSpriteManager : ScriptableObject
                  sprList = new();
                  break;
          }*/
-        sprList = sprListWhole.chapter1;
-        if (face.Replace(" ", "").Equals("")) face = "DEFAULT";
 
-        if (isShortHair && chName.Equals("ENJOLRAS"))
-        {
-            face += "2";
-        }
-        for (int i = 0; i < sprList.Count; i++)
-        {
-            if (sprList[i].name.Equals(face))
-            {
-                spr = sprList[i].sprite;
-                break;
-            }
-        }
+        if (sprListWhole == null) return null;
+        Sprite spr = sprListWhole[standingNum].sprite;
 
         return spr;
     }

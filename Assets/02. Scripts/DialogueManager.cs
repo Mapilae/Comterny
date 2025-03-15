@@ -127,6 +127,7 @@ public class DialogueManager : MonoBehaviour
             string content = dialogueList[crtIndex].content;
             nameTxt.text = dialogueList[crtIndex].charName;
             standingImg.sprite = dialogueList[crtIndex].sprite;
+            standingImg.enabled = standingImg.sprite != null;
 
 
             if (content.Contains("{"))

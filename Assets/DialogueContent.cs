@@ -11,8 +11,31 @@ public class Dialogue
 }
 public class DialogueContent : MonoBehaviour
 {
-
+    public StandingSpriteManager sprManager;
+    public string id;
     public List<Dialogue> dialogue;
+
+    public void LoadDialogueFromSheetData()
+    {
+        StartCoroutine(IELoadDialogueFromSheetData());
+    }
+
+    IEnumerator IELoadDialogueFromSheetData()
+    {
+        dialogue = new List<Dialogue>();
+        yield return new WaitUntil(() => SheetLoader.isLoading == false);
+        Block block = SheetData.instance.GetBlock(id);
+        foreach (Cell cell in block.cells)
+        {
+            Dialogue d = new Dialogue();
+            d.charName = cell.name;
+            d.content = cell.content;
+            d.sprite = sprManager.FindSprite(cell.name, cell.standingNum);
+            dialogue.Add(d);
+        }
+        yield return new WaitForSeconds(0.1f);
+        StartDialogue();
+    }
 
     public void StartDialogue()
     {
@@ -21,6 +44,7 @@ public class DialogueContent : MonoBehaviour
 
     private void Start()
     {
-        StartDialogue();
+        LoadDialogueFromSheetData();
+        //StartDialogue();
     }
 }
