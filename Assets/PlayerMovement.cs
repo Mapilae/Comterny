@@ -6,7 +6,7 @@ public class PlayerMovement : MovingFootPrint
 
     public float moveSpeed = 5f;
     public static bool canMove = true;
-    public static string playerName = "ÇÃ·¹ÀÌ¾î";
+    public static string playerName = "ï¿½Ã·ï¿½ï¿½Ì¾ï¿½";
 
     private Vector2 input;
 
@@ -23,7 +23,7 @@ public class PlayerMovement : MovingFootPrint
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
-            input.Normalize(); // ´ë°¢¼± ÀÌµ¿ ¼Óµµ ±ÕÀÏÈ­
+            input.Normalize(); // ï¿½ë°¢ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½È­
         }
         else
         {
@@ -33,7 +33,7 @@ public class PlayerMovement : MovingFootPrint
 
     private void FixedUpdate()
     {
-        rb.velocity = input * moveSpeed;
+        rb.linearVelocity = input * moveSpeed;
 
         if (input.x != 0)
             spriteRender.flipX = input.x < 0;

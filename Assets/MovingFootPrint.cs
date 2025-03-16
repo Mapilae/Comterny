@@ -8,7 +8,7 @@ public class MovingFootPrint : MonoBehaviour
     public Rigidbody2D rb;
     public GameObject footprintObj;
     public Transform footPos;
-    int poolSize = 5; // º¯°æ °¡´É
+    int poolSize = 5; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private List<GameObject> footPrintList = new List<GameObject>();
     private int poolIndex = 0;
@@ -28,7 +28,7 @@ public class MovingFootPrint : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         InitializeFootprintPool();
-        // ÀÌ ÄÚµå¸¦ »ó¼Ó¹ÞÀº PlayerMovement¿¡¼­ Start()¿¡¼­ È£ÃâÇÔ
+        // ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½ PlayerMovementï¿½ï¿½ï¿½ï¿½ Start()ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½
         if (rb != null)
             StartCoroutine(CreateFootPrint());
     }
@@ -36,7 +36,7 @@ public class MovingFootPrint : MonoBehaviour
     public void CheckIfWalking()
     {
         if (rb == null) return;
-        isWalking = rb.velocity.sqrMagnitude > 0.01f;
+        isWalking = rb.linearVelocity.sqrMagnitude > 0.01f;
     }
 
     IEnumerator CreateFootPrint()
