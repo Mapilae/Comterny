@@ -10,9 +10,10 @@ public class Dialogue
     public string content;
     public Sprite sprite;
 }
-public class DialogueContent : MonoBehaviour
+public class DialogueContent : InteractableObject
 {
     public StandingSpriteManager sprManager;
+
     public string id;
     public List<Dialogue> dialogue;
 
