@@ -11,11 +11,38 @@ public class Inventory : MonoBehaviour
     public List<Image> itemHoldList;
 
     public List<Item> currentItems;
+    public int currentHoldingItemIndex = -1;
+
 
     private void Awake()
     {
         instance = this;
     }
+
+    public void ClickToHoldItem(int index)
+    {
+        if (currentItems.Count == 0)
+        {
+            return;
+        }
+
+        if (currentHoldingItemIndex >= 0)
+            itemHoldList[currentHoldingItemIndex].transform.parent.GetComponent<Outline>().enabled = false;
+        if (currentHoldingItemIndex.Equals(index))
+        {
+            currentHoldingItemIndex = -1;
+            PlayerMovement.instance.UnholdItem();
+            return;
+        }
+
+        currentHoldingItemIndex = index;
+        //set outline enabled in its parent img
+        itemHoldList[currentHoldingItemIndex].transform.parent.GetComponent<Outline>().enabled = true;
+
+
+        PlayerMovement.instance.HoldItem(currentItems[currentHoldingItemIndex].itemID, currentItems[currentHoldingItemIndex].itemSpr);
+    }
+
 
     public void UpdateInventory()
     {
@@ -39,7 +66,7 @@ public class Inventory : MonoBehaviour
         itemHoldList = new List<Image>();
         for (int i = 0; i < itemHoldParent.childCount; i++)
         {
-            itemHoldList.Add(itemHoldParent.GetChild(i).GetComponent<Image>());
+            itemHoldList.Add(itemHoldParent.GetChild(i).GetChild(0).GetComponent<Image>());
         }
     }
 

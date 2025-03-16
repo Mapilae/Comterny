@@ -5,7 +5,7 @@ using UnityEngine;
 public class NonPlayerCharacter : MovingFootPrint
 {
     public string characterName;
-    public List<DialogueContent> dialogueContent;
+    public DialogueContent dialogueContent;
 
     public GameObject convObj;
 
@@ -39,11 +39,11 @@ public class NonPlayerCharacter : MovingFootPrint
         }
     }
 
-    public void StartConversation(int index)
+    public void StartConversation(string ID)
     {
         if (!convObj.activeInHierarchy) return;
-        Debug.Log("말 걸음: " + dialogueContent[index].id);
-        dialogueContent[index].StartDialogue();
+        Debug.Log("말 걸음: " + ID);
+        dialogueContent.StartDialogueInManager(ID);
         convObj.SetActive(false);
     }
 

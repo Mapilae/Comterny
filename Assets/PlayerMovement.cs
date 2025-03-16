@@ -1,15 +1,40 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerMovement : MovingFootPrint
 {
+    public static PlayerMovement instance;
+
     SpriteRenderer spriteRender;
 
     public float moveSpeed = 5f;
     public static bool canMove = true;
-    public static string playerName = "�÷��̾�";
+    public static string playerName = "유저 디버그";
 
     private Vector2 input;
 
+    public int currentHoldingItem = -1; //-1: no item holding, else: item code
+    public SpriteRenderer currentHoldingImg;
+
+    public void UnholdItem()
+    {
+        currentHoldingItem = -1;
+        currentHoldingImg.sprite = null;
+        currentHoldingImg.enabled = false;
+    }
+
+    public void HoldItem(int holdItem, Sprite holdSpr)
+    {
+        currentHoldingItem = holdItem;
+        currentHoldingImg.sprite = holdSpr;
+        currentHoldingImg.enabled = true;
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
