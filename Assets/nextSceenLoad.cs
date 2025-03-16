@@ -12,9 +12,9 @@ public class nextSceenLoad : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.transform.position.x < 0  && this.transform.position.y < 0)
+        if (this.transform.position.x < 0 && this.transform.position.y < 0)
         {
-            SceneManager.LoadSceneAsync("testsceen");
+            SceneManager.LoadSceneAsync("SampleScene");
         }
     }
 }
