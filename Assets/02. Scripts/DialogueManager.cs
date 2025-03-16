@@ -65,8 +65,12 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(List<Dialogue> dialogue)
     {
+        dialogueList = new List<Dialogue>();
         dialogueList = dialogue;
         standingImg.enabled = true;
+        crtIndex = 0;
+        dialogWhole.gameObject.SetActive(true);
+        Debug.Log("다이얼로그 변경됨: " + dialogueList[0].content);
         ChangeDialogue();
     }
 

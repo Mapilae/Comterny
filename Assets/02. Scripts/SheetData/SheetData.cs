@@ -60,6 +60,11 @@ public class SheetData : MonoBehaviour
 
     public int FindIDIndex(string id)
     {
+        if (block == null)
+        {
+            Debug.Log("block이 null입니다");
+            return -1;
+        }
         if (block.Count == 0)
         {
 
