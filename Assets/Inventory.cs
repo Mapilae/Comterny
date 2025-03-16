@@ -5,11 +5,17 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory instance;
     public Transform itemHoldParent;
     //상단 창 리스트
     public List<Image> itemHoldList;
 
-    public List<Sprite> currentItems;
+    public List<Item> currentItems;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void UpdateInventory()
     {
@@ -17,7 +23,7 @@ public class Inventory : MonoBehaviour
         {
             if (i < currentItems.Count)
             {
-                itemHoldList[i].sprite = currentItems[i];
+                itemHoldList[i].sprite = currentItems[i].itemSpr;
 
             }
             else
@@ -37,8 +43,24 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void AddItemInInventory(Item item)
+    {
+        currentItems.Add(item);
+        UpdateInventory();
 
+    }
 
+    public bool CheckIfItemIsInInventory(int itemID)
+    {
+        foreach (Item item in currentItems)
+        {
+            if (item.itemID == itemID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void Start()
     {
