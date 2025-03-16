@@ -35,7 +35,7 @@ public class DialogueContent : MonoBehaviour
     {
         for (int i = 0; i < containers.Count; i++)
         {
-            PlayerMovement.canMove = false;
+            PlayerMovement.instance.ChangeCanMove(false);
             containers[i].dialogue = new List<Dialogue>();
             yield return new WaitUntil(() => SheetLoader.isLoading == false);
             Block block = SheetData.instance.GetBlock(containers[i].id);

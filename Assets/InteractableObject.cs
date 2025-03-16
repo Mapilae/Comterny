@@ -8,7 +8,7 @@ public enum InteractableType
     NPC,
     SELFDOOR,
     AUTODOOR,
-
+    PUZZLE
 }
 
 [System.Serializable]
@@ -21,14 +21,23 @@ public class InteractableSetting
     public List<int> needItemCode = new();
 
     public bool reverseNeedItem = false;
+
+
+    [Header("for NPC")]
     public string dialogueID;
+
+    [Header("for PUZZLE")]
+    public GameObject objToEnable; //여기에다가 활성화할 미니게임을 끌어다 넣으면 됨.
+
 }
 
 public class InteractableObject : MonoBehaviour
 {
     public List<InteractableSetting> interactList = new List<InteractableSetting>();
+    [Header("현재 조건에 부합하는 인덱스")]
     int currentInteractIndex = 0;
 
+    [Header("현재 감지 영역에 플레이어가 들어왔는지")]
     public bool isClose = false;
 
 
@@ -123,7 +132,12 @@ public class InteractableObject : MonoBehaviour
                 Debug.Log("AUTO DOOR");
                 this.gameObject.gameObject.SetActive(false);
                 break;
+            case InteractableType.PUZZLE:
+                Debug.Log("퍼즐 시작");
+                PlayerMovement.instance.ChangeCanMove(false);
+                interactList[currentInteractIndex].objToEnable.SetActive(true);
 
+                break;
 
             default:
                 break;

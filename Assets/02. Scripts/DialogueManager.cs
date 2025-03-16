@@ -104,7 +104,8 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogWhole.gameObject.SetActive(false);
                 standingImg.enabled = false;
-                PlayerMovement.canMove = true;
+                PlayerMovement.instance.ChangeCanMove(true);
+                Debug.Log("Ω««‡¡ﬂ.");
                 return;
 
             }
@@ -325,12 +326,15 @@ public class DialogueManager : MonoBehaviour
 
         if (isPause || isViewPause) return;
 
-        //Spacebar or EnterKey, or Click Between bottom 0~700
-        if (canClickToNext && ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || (Input.mousePosition.y <= FIXED_HEIGHT && Input.GetMouseButtonDown(0))) ||
-            (Input.mouseScrollDelta.y != 0.0)))
+        if (dialogWhole.gameObject.activeInHierarchy)
         {
+            //Spacebar or EnterKey, or Click Between bottom 0~700
+            if (canClickToNext && ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || (Input.mousePosition.y <= FIXED_HEIGHT && Input.GetMouseButtonDown(0))) ||
+                (Input.mouseScrollDelta.y != 0.0)))
+            {
 
-            ChangeDialogue();
+                ChangeDialogue();
+            }
         }
 
 #if UNITY_IOS
