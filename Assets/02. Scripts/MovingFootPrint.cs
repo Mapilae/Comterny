@@ -8,7 +8,7 @@ public class MovingFootPrint : MonoBehaviour
     public Rigidbody2D rb;
     public GameObject footprintObj;
     public Transform footPos;
-    int poolSize = 5; // ���� ����
+    int poolSize = 5; // object pooling object size
 
     private List<GameObject> footPrintList = new List<GameObject>();
     private int poolIndex = 0;
@@ -28,7 +28,7 @@ public class MovingFootPrint : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         InitializeFootprintPool();
-        // �� �ڵ带 ��ӹ��� PlayerMovement���� Start()���� ȣ����
+
         if (rb != null)
             StartCoroutine(CreateFootPrint());
     }

@@ -9,6 +9,20 @@ public class Dialogue
     public string charName;
     public string content;
     public Sprite sprite;
+
+    public Dialogue(string charName, string content, Sprite sprite)
+    {
+        this.charName = charName;
+        this.content = content;
+        this.sprite = sprite;
+    }
+
+    public Dialogue()
+    {
+        this.charName = "";
+        this.content = "";
+        this.sprite = null;
+    }
 }
 
 [System.Serializable]

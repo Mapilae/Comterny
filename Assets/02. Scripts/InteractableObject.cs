@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 [System.Serializable]
@@ -21,23 +22,25 @@ public class InteractableSetting
     public List<int> needItemCode = new();
 
     public bool reverseNeedItem = false;
-
-
+    
+    [Header("After this worked, add variable?")]
+    public List<string> varNameOrCodeToAdd;
+    
     [Header("for NPC")]
     public string dialogueID;
 
     [Header("for PUZZLE")]
-    public GameObject objToEnable; //ø©±‚ø°¥Ÿ∞° »∞º∫»≠«“ πÃ¥œ∞‘¿”¿ª ≤¯æÓ¥Ÿ ≥÷¿∏∏È µ .
+    public GameObject objToEnable; //ÎØ∏ÎãàÍ≤åÏûÑ ÌçºÏ¶ê Ïò§Î∏åÏ†ùÌä∏.
 
 }
 
 public class InteractableObject : MonoBehaviour
 {
     public List<InteractableSetting> interactList = new List<InteractableSetting>();
-    [Header("«ˆ¿Á ¡∂∞«ø° ∫Œ«’«œ¥¬ ¿Œµ¶Ω∫")]
+    [Header("interactListÏóêÏÑú true Ï°∞Í±¥ÏùÑ Îã¨ÏÑ±Ìïú Ïù∏Îç±Ïä§")]
     int currentInteractIndex = 0;
 
-    [Header("«ˆ¿Á ∞®¡ˆ øµø™ø° «√∑π¿ÃæÓ∞° µÈæÓø‘¥¬¡ˆ")]
+    [Header("true when player is in trigger area")]
     public bool isClose = false;
 
 
@@ -72,13 +75,18 @@ public class InteractableObject : MonoBehaviour
                 bool isAllItemsInInventory = true;
                 if (interactList[num].needItemCode.Count > 0)
                 {
-                    if (!interactList[num].reverseNeedItem) //æ∆¿Ã≈€¿Ã ¿÷¥¬ ∞ÊøÏ∑Œ ∞ËªÍ«“∂ß
+                    if (!interactList[num].reverseNeedItem) //Ï°¥Ïû¨ÌïòÎäîÏßÄ Ï≤¥ÌÅ¨
                     {
                         for (int i = 0; i < interactList[num].needItemCode.Count; i++)
                         {
-
-
-                            if (!Inventory.instance.CheckIfItemIsInInventory(interactList[num].needItemCode[i]))
+                            if (interactList[num].needItemCode[i] >= 100)//Variable(not item)
+                            {
+                                if(!Inventory.instance.IsVariableExist(interactList[num].needItemCode[i])){
+                                    isAllItemsInInventory = false;
+                                    break;
+                                }
+                            }
+                            else if (!Inventory.instance.CheckIfItemIsInInventory(interactList[num].needItemCode[i]))
                             {
                                 isAllItemsInInventory = false;
                                 break;
@@ -88,10 +96,18 @@ public class InteractableObject : MonoBehaviour
                         }
                     }
                     else
-                    {
+                    {//reverse
+                        
                         for (int i = 0; i < interactList[num].needItemCode.Count; i++)
                         {
-                            if (Inventory.instance.CheckIfItemIsInInventory(interactList[num].needItemCode[i]))
+                            if (interactList[num].needItemCode[i] >= 100)//Variable(not item)
+                            {
+                                if(Inventory.instance.IsVariableExist(interactList[num].needItemCode[i])){
+                                    isAllItemsInInventory = false;
+                                    break;
+                                }
+                            }
+                            else if (Inventory.instance.CheckIfItemIsInInventory(interactList[num].needItemCode[i]))
                             {
                                 isAllItemsInInventory = false;
                                 break;
@@ -117,6 +133,9 @@ public class InteractableObject : MonoBehaviour
     {
 
         isClose = true;
+        for(int i=0;i<interactList[currentInteractIndex].varNameOrCodeToAdd.Count;i++){
+            Inventory.instance.AddVariable(interactList[currentInteractIndex].varNameOrCodeToAdd[i]);
+        }
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
@@ -124,16 +143,16 @@ public class InteractableObject : MonoBehaviour
                 this.GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
                 break;
 
-            case InteractableType.SELFDOOR://∆Ø¡§ æ∆¿Ã≈€¿ª µÈ∞Ì ¿÷¥¬ ªÛ≈¬ø°º≠ Ω∫∆‰¿ÃΩ∫ πŸ∏¶ ¥≠∑Øæﬂ ¿⁄µø¿∏∑Œ ø≠∏≤
+            case InteractableType.SELFDOOR://When Player holding the item
                 Debug.Log("SELF DOOR");
                 break;
 
-            case InteractableType.AUTODOOR://∆Ø¡§ æ∆¿Ã≈€¿ª ¿Œ∫•≈‰∏Æ ƒ≠ø° ∞°¡ˆ∞Ì ¿÷¥¬ ∞ÊøÏ, Ω∫∆‰¿ÃΩ∫πŸ∏¶ ¥©∏£∏È ¿⁄µø¿∏∑Œ ø≠∏≤
+            case InteractableType.AUTODOOR://When Player have the item(no need to hold)
                 Debug.Log("AUTO DOOR");
                 this.gameObject.gameObject.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
-                Debug.Log("∆€¡Ò Ω√¿€");
+                Debug.Log("PUZZLE MINIGAME START");
                 PlayerMovement.instance.ChangeCanMove(false);
                 interactList[currentInteractIndex].objToEnable.SetActive(true);
 

@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform player; // ÇÃ·¹ÀÌ¾îÀÇ Transform
-    public float smoothSpeed = 1f; // Ä«¸Ş¶ó ÀÌµ¿ ¼Óµµ
-    private Vector3 defaultOffset; // ±âº» Ä«¸Ş¶ó ¿ÀÇÁ¼Â
+    public Transform player; //í”Œë ˆì´ì–´ íŠ¸ëœìŠ¤í¼
+    public float smoothSpeed = 1f;
+    private Vector3 defaultOffset;
 
-    private bool isFixed = false; // Ä«¸Ş¶ó °íÁ¤ ¿©ºÎ
-    private Vector3 fixedPosition; // °íÁ¤µÉ À§Ä¡
+    private bool isFixed = false;
+    private Vector3 fixedPosition;
 
     private void Start()
     {
-        // ±âº»ÀûÀ¸·Î ÇÃ·¹ÀÌ¾î¸¦ Áß½É¿¡ µÎ´Â ¿ÀÇÁ¼Â ¼³Á¤
+        
         defaultOffset = transform.position - player.position;
     }
 
@@ -19,25 +19,23 @@ public class CameraFollow : MonoBehaviour
     {
         if (isFixed)
         {
-            // Ä«¸Ş¶ó°¡ Æ¯Á¤ À§Ä¡¿¡ °íÁ¤µÊ
+           
             transform.localPosition = Vector3.Lerp(transform.position, fixedPosition, smoothSpeed);
         }
         else
         {
-            // Æò¼Ò¿¡´Â ÇÃ·¹ÀÌ¾î¸¦ µû¶ó´Ù´Ô
+        
             Vector3 targetPosition = player.position + defaultOffset;
             transform.localPosition = Vector3.Lerp(transform.position, targetPosition, smoothSpeed);
         }
     }
 
-    // Ä«¸Ş¶ó¸¦ Æ¯Á¤ À§Ä¡¿¡ °íÁ¤ÇÏ´Â ÇÔ¼ö (¹ßÆÇ¿¡¼­ È£Ãâ)
     public void SetFixedPosition(Vector3 newPosition)
     {
         isFixed = true;
         fixedPosition = newPosition;
     }
 
-    // Ä«¸Ş¶ó¸¦ ´Ù½Ã ÇÃ·¹ÀÌ¾î µû¶ó°¡µµ·Ï ¼³Á¤ÇÏ´Â ÇÔ¼ö (¹ßÆÇ¿¡¼­ È£Ãâ)
     public void ResetToFollow()
     {
         isFixed = false;

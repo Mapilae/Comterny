@@ -30,19 +30,19 @@ public class StandingSpriteManager : ScriptableObject
 
         switch (chName)
         {
-            case "À¯Àú µğ¹ö±×":
+            case "ìœ ì € ë””ë²„ê·¸": //user debug
                 sprListWhole = userSpr;
                 break;
-            case "·¥":
+            case "ë¨": //RAM
                 sprListWhole = ramSpr;
                 break;
-            case "ÇÁ·Î¼¼¼­":
+            case "í”„ë¡œì„¸ì„œ": //Processor
                 sprListWhole = processorSpr;
                 break;
-            case "ÄÄÆÄÀÏ·¯":
+            case "ì»´íŒŒì¼ëŸ¬":
                 sprListWhole = compilerSpr;
                 break;
-            case "·£¼¶¿ş¾î":
+            case "ëœì„¬ì›¨ì–´":
                 sprListWhole = ransomwareSpr;
                 break;
 

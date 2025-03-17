@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class nextSceenLoad : MonoBehaviour
+public class NextSceneLoad : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,4 +17,11 @@ public class nextSceenLoad : MonoBehaviour
             SceneManager.LoadSceneAsync("SampleScene");
         }
     }
+    
+    public void ExitGame()
+    {
+        Debug.Log("Application Exit!");
+        Application.Quit();
+    }
+    
 }

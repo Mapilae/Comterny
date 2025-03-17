@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    /// <summary>
+    /// ë‹¤ì´ì–¼ë¡œê·¸ë¥¼ í´ë¦­, ì‹¤í–‰í•˜ëŠ” ì—­í•  ìˆ˜í–‰
+    /// ë‹¤ë¥¸ ê°œì¸ ë¹„ì£¼ì–¼ë…¸ë²¨ ê²Œì„ì— ìˆë˜ ì½”ë“œë¥¼ ë³µì‚¬í•´ì™€ì„œ ì•ˆì“°ëŠ” ì½”ë“œê°€ ì¢€ ì„ì—¬ìˆìŠµë‹ˆë‹¤.
+    /// </summary>
     public static DialogueManager instance;
 
     [Header("Dialogue")]
@@ -53,6 +57,15 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    public void ItemGetDialogue(string msg)
+    {
+        List<Dialogue> dialogue = new List<Dialogue>
+        {
+            new Dialogue("", msg, null)
+        };
+        StartDialogue(dialogue);
+    }
+
     public void StartDialogueManager()
     {
 
@@ -70,7 +83,7 @@ public class DialogueManager : MonoBehaviour
         standingImg.enabled = true;
         crtIndex = 0;
         dialogWhole.gameObject.SetActive(true);
-        Debug.Log("´ÙÀÌ¾ó·Î±× º¯°æµÊ: " + dialogueList[0].content);
+        Debug.Log("ë‹¤ì´ì–¼ë¡œê·¸ ì‹œì‘: " + dialogueList[0].content);
         ChangeDialogue();
     }
 
@@ -87,7 +100,7 @@ public class DialogueManager : MonoBehaviour
             else soundManager.PlayBGM(currentBlock.bgm, currentBlock.bgmSubtitle, !currentBlock.isBGMNoLoop);
             //if (currentBlock.se != null) SoundManager.instance.PlaySE(currentBlock.se);
         }*/
-        // ´ÙÀÌ¾ó ·Î±×°¡ ²¨Á® ÀÖ´Ù¸é ´ÙÀÌ¾ó ·Î±×¸¦ Å°°í ´ÙÀÌ¾ó ·Î±×°¡ ÄÑÁ®ÀÖ´Ù¸é ¾Æ¹« º¯È­µµ ¾øÀ½
+       
         dialogWhole.gameObject.SetActive(true);
 
 
@@ -105,7 +118,7 @@ public class DialogueManager : MonoBehaviour
                 dialogWhole.gameObject.SetActive(false);
                 standingImg.enabled = false;
                 PlayerMovement.instance.ChangeCanMove(true);
-                Debug.Log("½ÇÇàÁß.");
+                Debug.Log("ì¢…ë£Œ");
                 return;
 
             }
@@ -115,7 +128,7 @@ public class DialogueManager : MonoBehaviour
             //  {
             // SoundManager.instance.PlaySound(sheetData.storyBlock[crtBranch].block[crtPage].se, sheetData.storyBlock[crtBranch].block[crtPage].seSubtitle);
             //  }
-            //if(¿µ¾î¹öÀü)string content =content_ENG
+            //if(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)string content =content_ENG
 
             string content = dialogueList[crtIndex].content;
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].charName);
@@ -125,23 +138,23 @@ public class DialogueManager : MonoBehaviour
 
             if (content.Contains("{"))
             {
-                // Debug.Log("Ä¡È¯ Àü: " + content);
+                // Debug.Log("Ä¡È¯ ï¿½ï¿½: " + content);
 
                 System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"\{(.*?)\}");
                 content = regex.Replace(content, match =>
                 {
-                    string key = match.Groups[1].Value.Trim(); // º¯¼ö¸í ÃßÃâ ¹× °ø¹é Á¦°Å
-                                                               // Debug.Log($"Ä¡È¯ ½Ãµµ: {key}");
+                    string key = match.Groups[1].Value.Trim(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                                                               // Debug.Log($"Ä¡È¯ ï¿½Ãµï¿½: {key}");
 
                     if (key.Equals("Player"))
                     {
                         return PlayerMovement.playerName;
                     }
-                    // PlayerPrefs¿¡¼­ °ª °¡Á®¿À±â
+                    // PlayerPrefsï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     else
                     {
                         string value = PlayerPrefs.GetString(key, "null");
-                        // Debug.Log($"PlayerPrefs¿¡¼­ °¡Á®¿Â °ª: {value}");
+                        // Debug.Log($"PlayerPrefsï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: {value}");
 
 
 
@@ -149,7 +162,7 @@ public class DialogueManager : MonoBehaviour
                     }
                 });
 
-                // Debug.Log("Ä¡È¯ ÈÄ: " + content);
+                // Debug.Log("Ä¡È¯ ï¿½ï¿½: " + content);
             }
 
 
@@ -167,9 +180,9 @@ public class DialogueManager : MonoBehaviour
     string ChangeIfPlayerName(string current)
     {
 
-        if (current.Equals("À¯Àú µğ¹ö±×"))
+        if (current.Equals("ìœ ì € ë””ë²„ê·¸")) //name=User Debug
         {
-            if (PlayerMovement.playerName.Equals("À¯Àú µğ¹ö±×")) return current;
+            if (PlayerMovement.playerName.Equals("ìœ ì € ë””ë²„ê·¸")) return current;//name=User Debug
             else return PlayerMovement.playerName;
         }
         else return current;
@@ -206,7 +219,7 @@ public class DialogueManager : MonoBehaviour
                 break;
             case "GIFT"://gift
                 {
-                    //gift ¿©´Â ½ºÅ©¸³Æ®-ÀÎº¥Åä¸®or¼±¹° ½ºÅ©¸³Æ®¿Í ¿¬µ¿ÇÏ±â
+                    //gift ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®-ï¿½Îºï¿½ï¿½ä¸®orï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
                     inventory.StartGiftEvent(currentBlock.itemBlock);
 
                     //currentBlock = 
@@ -237,7 +250,7 @@ public class DialogueManager : MonoBehaviour
         //  bool isNoName = currentBlock.block[index].isNoName;
         Color gray = new Color32(163, 164, 168, 255);
         // Debug.Log("focusOn: " + focusOn);
-        //StandingSpriteManager¿¡¼­ ½ºÇÁ¶óÀÌÆ®¸¦ Ã£¾Æ¿È. (Ä³ ÀÌ¸§, ¾ó±¼ Á¾·ù ÆÄ¶ó¹ÌÅÍ·Î ÇÊ¿ä.)
+        //StandingSpriteManagerï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã£ï¿½Æ¿ï¿½. (Ä³ ï¿½Ì¸ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½Í·ï¿½ ï¿½Ê¿ï¿½.)
 
 
         for (int i = 0; i < standingImg.Length; i++)
@@ -265,7 +278,7 @@ public class DialogueManager : MonoBehaviour
 
         }
 
-        //2¸í¸¸ ÀÖ´Â °æ¿ì Áß°£À¸·Î ÀÌµ¿½ÃÅ°±â
+        //2ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å°ï¿½ï¿½
         if (standingImg[1].enabled && standingImg[0].enabled && !standingImg[2].enabled)
         {
             standingImg[1].transform.parent.localPosition = new Vector3(3.2f, standingImg[1].transform.parent.localPosition.y, standingImg[1].transform.parent.localPosition.z);

@@ -6,7 +6,8 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     /// <summary>
-    /// º£¸®¾î ÇÁ¸® ÀÚ¸· Á¦ÀÛ °¡ÀÌµå
+    /// ë‹¤ë¥¸ ê²Œì„ì—ì„œ ì“°ë˜ ì½”ë“œë¥¼ ë³µì‚¬í•´ì™€ì„œ ì•ˆì“°ëŠ” ê¸°ëŠ¥ì´ ë¼ì–´ìˆì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+    /// 
     /// https://m.blog.naver.com/bluebell2018/221319730428
     /// https://m.blog.naver.com/bluebell2018/221321787597
     /// https://newsroom.daewoong.co.kr/archives/13336
@@ -15,13 +16,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance;
     public SoundHolder soundHolder;
 
-    [Header("Barrier Free Subtitle")]
-    string currentBgmSub;
-    public TMP_Text bgmSubTxt;
-    public TMP_Text ambSubTxt;
-    public TMP_Text seSubTxt;
-
-
+    
 
     private void Awake()
     {
@@ -36,7 +31,7 @@ public class SoundManager : MonoBehaviour
     [Space]
     public AudioSource uiAudio;
 
-    float bgmVolume = 0.4f;//pref¿¡¼­ °¡Á®¿À±â
+    float bgmVolume = 0.4f;
 
     public void PlayVoice(int index)
     {
@@ -63,8 +58,7 @@ public class SoundManager : MonoBehaviour
         soundAudio.clip = clip;
         soundAudio.Stop();
         soundAudio.Play();
-        //[  ] SE Àç»ı ½Ã, seSubtitle Ãâ·Â
-        seSubTxt.text = "[ " + subtitle + " ]";
+        
     }
 
     public void PlayUISound(AudioClip clip)
@@ -85,9 +79,6 @@ public class SoundManager : MonoBehaviour
         if (clip.Equals(bgmAudio.clip)) return;
         StartCoroutine(CoroutinePlayBGM(clip));
 
-        //[ ¢Ü ] BGM Àç»ı ½Ã, bgmSubtitle Ãâ·Â
-        bgmSubTxt.text = "[ ¢Ü " + subtitle + " ]";
-        currentBgmSub = subtitle;
     }
     IEnumerator CoroutinePlayBGM(AudioClip clip)
     {
@@ -121,7 +112,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayAmbience(AudioClip clip, string subtitle)
     {
-        ambSubTxt.text = "[ " + subtitle + "-°è¼Ó ]";
+        
     }
 
     public void EndBGM()
@@ -147,33 +138,18 @@ public class SoundManager : MonoBehaviour
         if (bgmAudio.isPlaying)
             bgmAudio.Stop();
 
-        if (bgmSubTxt != null && currentBgmSub != null)
-        {
-            currentBgmSub = currentBgmSub.Replace("½ÃÀÛ", "Á¾·á");
-            currentBgmSub = currentBgmSub.Replace("´Ù½Ã ½ÃÀÛ", "Á¾·á");
-            currentBgmSub = currentBgmSub.Replace("¸ØÃã", "Á¾·á");
-
-            //[ ¢Ü ]
-            bgmSubTxt.text = "[ ¢Ü " + currentBgmSub + " ]";
-            currentBgmSub = "";
-        }
+      
     }
 
     public void PauseBGM()
     {
         bgmAudio.Pause();
-
-        currentBgmSub = currentBgmSub.Replace("½ÃÀÛ", "¸ØÃã");
-        currentBgmSub = currentBgmSub.Replace("-°è¼Ó", "¸ØÃã");
-        currentBgmSub = currentBgmSub.Replace("´Ù½Ã ½ÃÀÛ", "¸ØÃã");
-
-        //[ ¢Ü ]
-        bgmSubTxt.text = "[ ¢Ü " + currentBgmSub + " ]";
+        
     }
 
     public void StopAmbience()
     {
-        //ambSubTxt.text = "[ " + subtitle + " Á¾·á ]";
+        //ambSubTxt.text = "[ " + subtitle + " ï¿½ï¿½ï¿½ï¿½ ]";
     }
 
 

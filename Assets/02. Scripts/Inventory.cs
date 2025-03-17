@@ -2,21 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEditorInternal.VersionControl;
+
 
 public class Inventory : MonoBehaviour
 {
+    public VariableHolder varHolder;
+    public List<VariableIntStr> varList=new List<VariableIntStr>(); 
+    
     public static Inventory instance;
     public Transform itemHoldParent;
-    //ªÛ¥‹ √¢ ∏ÆΩ∫∆Æ
     public List<Image> itemHoldList;
 
     public List<Item> currentItems;
     public int currentHoldingItemIndex = -1;
-
-
+    
+    [Header("Item Info")] 
+    public RectTransform itemInfoRect;
+    public TMP_Text itemInfoNameText;
+    public TMP_Text itemInfoDescText;
+    
     private void Awake()
     {
         instance = this;
+    }
+
+    public bool IsVariableExist(string varName)
+    {
+        return  varList.Exists(x => x.varName == varName);
+    }
+
+    public bool IsVariableExist(int varCode)
+    {
+        return varList.Exists(x => x.varCode == varCode);
+    }
+
+    public void AddVariable(string varNameOrCode)
+    {
+        VariableIntStr newVar;
+        if (int.TryParse(varNameOrCode, out int result))
+        {
+            newVar=varHolder.FindVariable(result); 
+        }
+        else newVar=varHolder.FindVariable(result);
+        
+        if(!varList.Count.Equals(0)&&varList.Exists(x => x.varName == newVar.varName))
+            Debug.Log("varName "+newVar.varName+" and varCode "+newVar.varCode+" already exist, so did not add var");
+        else {
+            varList.Add(newVar);
+            Debug.Log("Î≥ÄÏàò Îì±Î°ù: "+varList[varList.Count-1].varName);
+        
+        }
     }
 
     public void ClickToHoldItem(int index)
@@ -43,6 +80,18 @@ public class Inventory : MonoBehaviour
         PlayerMovement.instance.HoldItem(currentItems[currentHoldingItemIndex].itemID, currentItems[currentHoldingItemIndex].itemSpr);
     }
 
+    public void EnableItemInfo(int index)
+    {
+        itemInfoRect.anchoredPosition = new Vector2(itemInfoRect.anchoredPosition.x, -120-(75*index));
+        itemInfoNameText.text = currentItems[index].itemName;
+        itemInfoDescText.text = currentItems[index].itemDesc;
+        itemInfoRect.gameObject.SetActive(true);
+    }
+
+    public void DisableItemInfo()
+    {
+        itemInfoRect.gameObject.SetActive(false);
+    }
 
     public void UpdateInventory()
     {
@@ -51,11 +100,12 @@ public class Inventory : MonoBehaviour
             if (i < currentItems.Count)
             {
                 itemHoldList[i].sprite = currentItems[i].itemSpr;
-
+                itemHoldList[i].transform.parent.gameObject.SetActive(true);
             }
             else
             {
                 itemHoldList[i].sprite = null;
+                itemHoldList[i].transform.parent.gameObject.SetActive(false);
             }
         }
     }
@@ -68,6 +118,8 @@ public class Inventory : MonoBehaviour
         {
             itemHoldList.Add(itemHoldParent.GetChild(i).GetChild(0).GetComponent<Image>());
         }
+
+        varList = new();
     }
 
     public void AddItemInInventory(Item item)

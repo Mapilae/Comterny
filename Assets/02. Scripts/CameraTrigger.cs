@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class CameraTrigger : MonoBehaviour
 {
-    public Vector3 MaxCameraPosition; // Ä«¸Ş¶ó°¡ ÃÖ´ë·Î °¥ ¼ö ÀÖ´Â À§Ä¡
-    private CameraFollow cameraFollow; // Ä«¸Ş¶ó ½ºÅ©¸³Æ® ÂüÁ¶
+    /// <summary>
+    /// ë§Œë“¤ë‹¤ ë§ì•˜ìŒ. ìƒê°ëŒ€ë¡œ ì‘ë™ ì•ˆí•¨.
+    /// </summary>
+    public Vector3 MaxCameraPosition;
+    private CameraFollow cameraFollow;
     public bool useX = true;
     public bool useY = true;
 
@@ -14,27 +17,24 @@ public class CameraTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // ÇÃ·¹ÀÌ¾î°¡ ¹ßÆÇÀ» ¹â¾ÒÀ» ¶§
+        if (other.CompareTag("Player")) 
         {
             Vector3 currentCameraPos = Camera.main.transform.position;
             Vector3 newCameraPos = currentCameraPos;
             bool shouldUpdate = false;
 
-            // XÃà Á¦ÇÑ Àû¿ë (ÇöÀç À§Ä¡°¡ MaxCameraPosition.xº¸´Ù Å©°Å³ª ÀÛÀ» °æ¿ì)
             if (useX && (currentCameraPos.x < MaxCameraPosition.x))
             {
                 newCameraPos.x = MaxCameraPosition.x;
                 shouldUpdate = true;
             }
 
-            // YÃà Á¦ÇÑ Àû¿ë (ÇöÀç À§Ä¡°¡ MaxCameraPosition.yº¸´Ù Å©°Å³ª ÀÛÀ» °æ¿ì)
             if (useY && (currentCameraPos.y > MaxCameraPosition.y))
             {
                 newCameraPos.y = MaxCameraPosition.y;
                 shouldUpdate = true;
             }
 
-            // ÇÊ¿äÇÒ ¶§¸¸ Ä«¸Ş¶ó À§Ä¡ ¾÷µ¥ÀÌÆ®
             if (shouldUpdate)
             {
                 cameraFollow.SetFixedPosition(newCameraPos);
@@ -44,7 +44,7 @@ public class CameraTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // ÇÃ·¹ÀÌ¾î°¡ ¹ßÆÇÀ» ¶°³ª¸é
+        if (other.CompareTag("Player")) // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
             cameraFollow.ResetToFollow();
         }
@@ -59,11 +59,11 @@ public class CameraTrigger : MonoBehaviour
 
         foreach (Renderer renderer in renderers)
         {
-            if (((1 << renderer.gameObject.layer) & targetLayer) != 0) // Æ¯Á¤ ·¹ÀÌ¾î Ã¼Å©
+            if (((1 << renderer.gameObject.layer) & targetLayer) != 0) // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ Ã¼Å©
             {
                 if (renderer.isVisible)
                 {
-                    Debug.Log($"{renderer.gameObject.name}ÀÌ(°¡) Ä«¸Ş¶ó¿¡¼­ ·»´õ¸µ Áß!");
+                    Debug.Log($"{renderer.gameObject.name}ï¿½ï¿½(ï¿½ï¿½) Ä«ï¿½Ş¶ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½!");
                 }
             }
         }
