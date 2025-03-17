@@ -1,3 +1,5 @@
+기획서 링크 : https://docs.google.com/document/d/1RgZgkPXxin5CLx1coXiGRlcYuUgrXLgRHBx_NzOlFBo/edit?usp=sharing
+
 # Comterny
 
 **버전:** 1.0  
