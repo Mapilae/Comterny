@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-[System.Serializable]
-public class Item : MonoBehaviour
+public class ItemGet : MonoBehaviour
 {
     /// <summary>
     /// 아이템을 줍기 전, 줍고, 주운 후를 처리하는 코드.
@@ -15,9 +14,7 @@ public class Item : MonoBehaviour
 
     [Header("about items")]
     public int itemID;
-    public string itemName;
-    [TextArea] public string itemDesc;
-    public Sprite itemSpr;
+    Item item;
 
     [Header("When Player Come Close")]
     public bool isClose = false; //플레이어가 해당 아이템의 트리거 영역에 있는지 여부
@@ -35,6 +32,8 @@ public class Item : MonoBehaviour
     void Start()
     {
         sprRender = GetComponent<SpriteRenderer>();
+        
+        item=Inventory.instance.varHolder.FindItem(itemID);
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -61,10 +60,15 @@ public class Item : MonoBehaviour
         if (!canUse) return;
         if (isClose && Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Item picked up: " + itemName);
-            Inventory.instance.AddItemInInventory(this);
+            Debug.Log("Item picked up: " + item.itemName);
+            Inventory.instance.AddItemInInventory(item);
             objToEnable.SetActive(false);
-            if (msgToDialogue != "") DialogueManager.instance.ItemGetDialogue(msgToDialogue);
+
+            if (msgToDialogue != "")
+            {
+                DialogueManager.instance.ItemGetDialogue(msgToDialogue);
+                PlayerMovement.instance.canMove = false;
+            }
             canUse = false;
             for(int i=0;i<varNameOrCodeToAdd.Count;i++){
                 Inventory.instance.AddVariable(varNameOrCodeToAdd[i]);

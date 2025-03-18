@@ -46,14 +46,19 @@ public class Inventory : MonoBehaviour
             newVar=varHolder.FindVariable(result); 
         }
         else newVar=varHolder.FindVariable(result);
-        
-        if(!varList.Count.Equals(0)&&varList.Exists(x => x.varName == newVar.varName))
-            Debug.Log("varName "+newVar.varName+" and varCode "+newVar.varCode+" already exist, so did not add var");
-        else {
-            varList.Add(newVar);
-            Debug.Log("변수 등록: "+varList[varList.Count-1].varName);
-        
+
+        if (!varList.Count.Equals(0))
+        {
+            if (IsVariableExist(newVar.varCode))
+                Debug.Log("varName " + newVar.varName + " and varCode " + newVar.varCode +
+                          " already exist, so did not add var");
+            return;
         }
+        
+        varList.Add(newVar);
+        Debug.Log("변수 등록: "+varList[varList.Count-1].varName);
+        
+        
     }
 
     public void ClickToHoldItem(int index)

@@ -1,0 +1,1820 @@
+fileFormatVersion: 2
+guid: 5ae19f20d025798499d80d8422166b00
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3649840353163233954
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_0
+  - first:
+      213: -3560981475245135476
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_1
+  - first:
+      213: -4245468102593230561
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_2
+  - first:
+      213: 799908763882903944
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_3
+  - first:
+      213: 2479610298377418593
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_4
+  - first:
+      213: -4407208922300068732
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_5
+  - first:
+      213: 4546776089676782648
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_6
+  - first:
+      213: 3205755999480312653
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_7
+  - first:
+      213: -5006209824335421810
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_8
+  - first:
+      213: 4573058077114784043
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_9
+  - first:
+      213: 4685343722276831414
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_10
+  - first:
+      213: -5353818492604507677
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_11
+  - first:
+      213: -6700577704580233207
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_12
+  - first:
+      213: -6767275826728482837
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_13
+  - first:
+      213: -7521259308028215606
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_14
+  - first:
+      213: 5984541971709331384
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_15
+  - first:
+      213: -200474496713414308
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_16
+  - first:
+      213: 1563949664186281696
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_17
+  - first:
+      213: -9082153968484770352
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_18
+  - first:
+      213: -9035125615704815007
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_19
+  - first:
+      213: 5929716921578469363
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_20
+  - first:
+      213: -6705720556054281554
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_21
+  - first:
+      213: -5668553980434630689
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_22
+  - first:
+      213: 4767604714137357083
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_23
+  - first:
+      213: 742264969501881395
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_24
+  - first:
+      213: -3124519414763195072
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_25
+  - first:
+      213: 4868346556146095775
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_26
+  - first:
+      213: -6012439678262268482
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_27
+  - first:
+      213: 3719558839551867681
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_28
+  - first:
+      213: 3240637973346699334
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_29
+  - first:
+      213: 6121568254644929533
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_30
+  - first:
+      213: -457479406489253373
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_31
+  - first:
+      213: 4808725889623363793
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_32
+  - first:
+      213: 1629406701168300497
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_33
+  - first:
+      213: 8201615427604579291
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_34
+  - first:
+      213: -8463661386168431507
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_35
+  - first:
+      213: -5841853545948022786
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_36
+  - first:
+      213: 4190190858804737065
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_37
+  - first:
+      213: -2061368402401825273
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_38
+  - first:
+      213: 5211977101864095039
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_39
+  - first:
+      213: 2606439821392333440
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_40
+  - first:
+      213: -4938770699560573093
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_41
+  - first:
+      213: -8257472745934177562
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_42
+  - first:
+      213: -4722378073335281452
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_43
+  - first:
+      213: 7089215264928444406
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_44
+  - first:
+      213: -4804071325345128656
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_45
+  - first:
+      213: 8079418828215491666
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_46
+  - first:
+      213: 8347415173449563507
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_47
+  - first:
+      213: 3151121314407436102
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_48
+  - first:
+      213: 4952513698449633325
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_49
+  - first:
+      213: -8668984010506180835
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_50
+  - first:
+      213: 6994951056857791643
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_51
+  - first:
+      213: -5298124717608970150
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_52
+  - first:
+      213: -3913168690682876824
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_53
+  - first:
+      213: 4006487986437993781
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_54
+  - first:
+      213: 6227709963243235671
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_55
+  - first:
+      213: 7518126131092049989
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_56
+  - first:
+      213: 7709893844599147218
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_57
+  - first:
+      213: -7917276983568981218
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_58
+  - first:
+      213: -4930968448192239281
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_59
+  - first:
+      213: 1080061811795818647
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_60
+  - first:
+      213: 8833746035001635706
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_61
+  - first:
+      213: -2289154591223384030
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_62
+  - first:
+      213: -4295173334399161586
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_63
+  - first:
+      213: -4489001760887588557
+    second: vecteezy_hand-drawn-splash-watercolor_9692506_64
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 3000
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_0
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 284
+        width: 4004
+        height: 4135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2aa4e29a676d6a230800000000000000
+      internalID: 3649840353163233954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_1
+      rect:
+        serializedVersion: 2
+        x: 2618
+        y: 4403
+        width: 23
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c896444173ad49ec0800000000000000
+      internalID: -3560981475245135476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_2
+      rect:
+        serializedVersion: 2
+        x: 2646
+        y: 4401
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f19cdaf01411515c0800000000000000
+      internalID: -4245468102593230561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_3
+      rect:
+        serializedVersion: 2
+        x: 2650
+        y: 4394
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88956fb58c8d91b00800000000000000
+      internalID: 799908763882903944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_4
+      rect:
+        serializedVersion: 2
+        x: 2664
+        y: 4396
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 167bf28cd68596220800000000000000
+      internalID: 2479610298377418593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_5
+      rect:
+        serializedVersion: 2
+        x: 2674
+        y: 4386
+        width: 28
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48c4f57e5d276d2c0800000000000000
+      internalID: -4407208922300068732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_6
+      rect:
+        serializedVersion: 2
+        x: 4491
+        y: 3277
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83c9c6283c4691f30800000000000000
+      internalID: 4546776089676782648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_7
+      rect:
+        serializedVersion: 2
+        x: 4492
+        y: 2160
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d43f991c8122d7c20800000000000000
+      internalID: 3205755999480312653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_8
+      rect:
+        serializedVersion: 2
+        x: 4507
+        y: 2162
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8e9a6550be568ab0800000000000000
+      internalID: -5006209824335421810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_9
+      rect:
+        serializedVersion: 2
+        x: 4511
+        y: 2171
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2958af8714c67f30800000000000000
+      internalID: 4573058077114784043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_10
+      rect:
+        serializedVersion: 2
+        x: 4526
+        y: 2139
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b0cae89a4fa50140800000000000000
+      internalID: 4685343722276831414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_11
+      rect:
+        serializedVersion: 2
+        x: 4548
+        y: 2165
+        width: 19
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e9146c527a63b5b0800000000000000
+      internalID: -5353818492604507677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_12
+      rect:
+        serializedVersion: 2
+        x: 4569
+        y: 2171
+        width: 21
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 908c7903414c203a0800000000000000
+      internalID: -6700577704580233207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_13
+      rect:
+        serializedVersion: 2
+        x: 4481
+        y: 2154
+        width: 24
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be7c2ca7d7ec512a0800000000000000
+      internalID: -6767275826728482837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_14
+      rect:
+        serializedVersion: 2
+        x: 4505
+        y: 2160
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aceb069328e1f9790800000000000000
+      internalID: -7521259308028215606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_15
+      rect:
+        serializedVersion: 2
+        x: 4505
+        y: 2153
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b7862f373d5d0350800000000000000
+      internalID: 5984541971709331384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_16
+      rect:
+        serializedVersion: 2
+        x: 4558
+        y: 2115
+        width: 41
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c592fd4e185c73df0800000000000000
+      internalID: -200474496713414308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_17
+      rect:
+        serializedVersion: 2
+        x: 4589
+        y: 2154
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ee2a64fee344b510800000000000000
+      internalID: 1563949664186281696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_18
+      rect:
+        serializedVersion: 2
+        x: 4491
+        y: 2142
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dd9f01c515b5f180800000000000000
+      internalID: -9082153968484770352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_19
+      rect:
+        serializedVersion: 2
+        x: 4514
+        y: 2141
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16ac1e66f19cc9280800000000000000
+      internalID: -9035125615704815007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_20
+      rect:
+        serializedVersion: 2
+        x: 4518
+        y: 2148
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f7be498f169a4250800000000000000
+      internalID: 5929716921578469363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_21
+      rect:
+        serializedVersion: 2
+        x: 4556
+        y: 2141
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea28955ceae70f2a0800000000000000
+      internalID: -6705720556054281554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_22
+      rect:
+        serializedVersion: 2
+        x: 4486
+        y: 2131
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd7311620304551b0800000000000000
+      internalID: -5668553980434630689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_23
+      rect:
+        serializedVersion: 2
+        x: 4518
+        y: 2133
+        width: 22
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1b82a74a3fe92240800000000000000
+      internalID: 4767604714137357083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_24
+      rect:
+        serializedVersion: 2
+        x: 4532
+        y: 2129
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 334306c9e0e0d4a00800000000000000
+      internalID: 742264969501881395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_25
+      rect:
+        serializedVersion: 2
+        x: 4541
+        y: 2131
+        width: 25
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0457a3d852a73a4d0800000000000000
+      internalID: -3124519414763195072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_26
+      rect:
+        serializedVersion: 2
+        x: 4542
+        y: 2127
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9695923667df8340800000000000000
+      internalID: 4868346556146095775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_27
+      rect:
+        serializedVersion: 2
+        x: 4567
+        y: 2125
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebda6b7c7f58f8ca0800000000000000
+      internalID: -6012439678262268482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_28
+      rect:
+        serializedVersion: 2
+        x: 4508
+        y: 2124
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12b37a8be078e9330800000000000000
+      internalID: 3719558839551867681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_29
+      rect:
+        serializedVersion: 2
+        x: 4520
+        y: 2121
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 648c8fe211f09fc20800000000000000
+      internalID: 3240637973346699334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_30
+      rect:
+        serializedVersion: 2
+        x: 4535
+        y: 2115
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df34b66e4ed24f450800000000000000
+      internalID: 6121568254644929533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_31
+      rect:
+        serializedVersion: 2
+        x: 4542
+        y: 2114
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30ac62457e4b6a9f0800000000000000
+      internalID: -457479406489253373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_32
+      rect:
+        serializedVersion: 2
+        x: 4528
+        y: 2107
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d0993908b60cb240800000000000000
+      internalID: 4808725889623363793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_33
+      rect:
+        serializedVersion: 2
+        x: 4549
+        y: 2105
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d117c103c0dc9610800000000000000
+      internalID: 1629406701168300497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_34
+      rect:
+        serializedVersion: 2
+        x: 4511
+        y: 2092
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd30cb207cdf1d170800000000000000
+      internalID: 8201615427604579291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_35
+      rect:
+        serializedVersion: 2
+        x: 4501
+        y: 2084
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6c8d3acfc80b8a80800000000000000
+      internalID: -8463661386168431507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_36
+      rect:
+        serializedVersion: 2
+        x: 4515
+        y: 2085
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef779e3c6219deea0800000000000000
+      internalID: -5841853545948022786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_37
+      rect:
+        serializedVersion: 2
+        x: 4560
+        y: 2082
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9243520b26c862a30800000000000000
+      internalID: 4190190858804737065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_38
+      rect:
+        serializedVersion: 2
+        x: 4499
+        y: 2054
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70eef9f0c5c8463e0800000000000000
+      internalID: -2061368402401825273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_39
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 2033
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3d44165f89a45840800000000000000
+      internalID: 5211977101864095039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_40
+      rect:
+        serializedVersion: 2
+        x: 4501
+        y: 2037
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08ac582453feb2420800000000000000
+      internalID: 2606439821392333440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_41
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 2029
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b57a5992736f57bb0800000000000000
+      internalID: -4938770699560573093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_42
+      rect:
+        serializedVersion: 2
+        x: 4495
+        y: 2026
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eabf1c9940976d80800000000000000
+      internalID: -8257472745934177562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_43
+      rect:
+        serializedVersion: 2
+        x: 2096
+        y: 458
+        width: 18
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d8c1cb992eb67eb0800000000000000
+      internalID: -4722378073335281452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_44
+      rect:
+        serializedVersion: 2
+        x: 2102
+        y: 466
+        width: 92
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ff265229b3f16260800000000000000
+      internalID: 7089215264928444406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_45
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 457
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03fd9292592845db0800000000000000
+      internalID: -4804071325345128656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_46
+      rect:
+        serializedVersion: 2
+        x: 2111
+        y: 446
+        width: 35
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25c136f1e9cdf1070800000000000000
+      internalID: 8079418828215491666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_47
+      rect:
+        serializedVersion: 2
+        x: 2133
+        y: 465
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37dba2eafd9f7d370800000000000000
+      internalID: 8347415173449563507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_48
+      rect:
+        serializedVersion: 2
+        x: 2246
+        y: 470
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64fca6dd3280bbb20800000000000000
+      internalID: 3151121314407436102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_49
+      rect:
+        serializedVersion: 2
+        x: 2941
+        y: 460
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d20b85d18fcdab440800000000000000
+      internalID: 4952513698449633325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_50
+      rect:
+        serializedVersion: 2
+        x: 2093
+        y: 456
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d17ec3209f491b780800000000000000
+      internalID: -8668984010506180835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_51
+      rect:
+        serializedVersion: 2
+        x: 2145
+        y: 458
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c7045ecee031160800000000000000
+      internalID: 6994951056857791643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_52
+      rect:
+        serializedVersion: 2
+        x: 2935
+        y: 454
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a585337d3a74976b0800000000000000
+      internalID: -5298124717608970150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_53
+      rect:
+        serializedVersion: 2
+        x: 2944
+        y: 453
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86caaa50fc1a1b9c0800000000000000
+      internalID: -3913168690682876824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_54
+      rect:
+        serializedVersion: 2
+        x: 2144
+        y: 451
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 535b18ca897e99730800000000000000
+      internalID: 4006487986437993781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_55
+      rect:
+        serializedVersion: 2
+        x: 2147
+        y: 444
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 759264b37354d6650800000000000000
+      internalID: 6227709963243235671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_56
+      rect:
+        serializedVersion: 2
+        x: 2945
+        y: 447
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 540d25c22efb55860800000000000000
+      internalID: 7518126131092049989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_57
+      rect:
+        serializedVersion: 2
+        x: 2103
+        y: 435
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2da8d475a9b0ffa60800000000000000
+      internalID: 7709893844599147218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_58
+      rect:
+        serializedVersion: 2
+        x: 2118
+        y: 428
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e13aefde78e202290800000000000000
+      internalID: -7917276983568981218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_59
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 435
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f49a7de525ea19bb0800000000000000
+      internalID: -4930968448192239281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_60
+      rect:
+        serializedVersion: 2
+        x: 2940
+        y: 435
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 798fd83de762dfe00800000000000000
+      internalID: 1080061811795818647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_61
+      rect:
+        serializedVersion: 2
+        x: 2940
+        y: 429
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a73b9443735c79a70800000000000000
+      internalID: 8833746035001635706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_62
+      rect:
+        serializedVersion: 2
+        x: 2157
+        y: 423
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 228fc2a170a4b30e0800000000000000
+      internalID: -2289154591223384030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_63
+      rect:
+        serializedVersion: 2
+        x: 2950
+        y: 419
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0b6862fb9a7464c0800000000000000
+      internalID: -4295173334399161586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: vecteezy_hand-drawn-splash-watercolor_9692506_64
+      rect:
+        serializedVersion: 2
+        x: 2195
+        y: 395
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3393136aeacd3b1c0800000000000000
+      internalID: -4489001760887588557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      vecteezy_hand-drawn-splash-watercolor_9692506_0: 3649840353163233954
+      vecteezy_hand-drawn-splash-watercolor_9692506_1: -3560981475245135476
+      vecteezy_hand-drawn-splash-watercolor_9692506_10: 4685343722276831414
+      vecteezy_hand-drawn-splash-watercolor_9692506_11: -5353818492604507677
+      vecteezy_hand-drawn-splash-watercolor_9692506_12: -6700577704580233207
+      vecteezy_hand-drawn-splash-watercolor_9692506_13: -6767275826728482837
+      vecteezy_hand-drawn-splash-watercolor_9692506_14: -7521259308028215606
+      vecteezy_hand-drawn-splash-watercolor_9692506_15: 5984541971709331384
+      vecteezy_hand-drawn-splash-watercolor_9692506_16: -200474496713414308
+      vecteezy_hand-drawn-splash-watercolor_9692506_17: 1563949664186281696
+      vecteezy_hand-drawn-splash-watercolor_9692506_18: -9082153968484770352
+      vecteezy_hand-drawn-splash-watercolor_9692506_19: -9035125615704815007
+      vecteezy_hand-drawn-splash-watercolor_9692506_2: -4245468102593230561
+      vecteezy_hand-drawn-splash-watercolor_9692506_20: 5929716921578469363
+      vecteezy_hand-drawn-splash-watercolor_9692506_21: -6705720556054281554
+      vecteezy_hand-drawn-splash-watercolor_9692506_22: -5668553980434630689
+      vecteezy_hand-drawn-splash-watercolor_9692506_23: 4767604714137357083
+      vecteezy_hand-drawn-splash-watercolor_9692506_24: 742264969501881395
+      vecteezy_hand-drawn-splash-watercolor_9692506_25: -3124519414763195072
+      vecteezy_hand-drawn-splash-watercolor_9692506_26: 4868346556146095775
+      vecteezy_hand-drawn-splash-watercolor_9692506_27: -6012439678262268482
+      vecteezy_hand-drawn-splash-watercolor_9692506_28: 3719558839551867681
+      vecteezy_hand-drawn-splash-watercolor_9692506_29: 3240637973346699334
+      vecteezy_hand-drawn-splash-watercolor_9692506_3: 799908763882903944
+      vecteezy_hand-drawn-splash-watercolor_9692506_30: 6121568254644929533
+      vecteezy_hand-drawn-splash-watercolor_9692506_31: -457479406489253373
+      vecteezy_hand-drawn-splash-watercolor_9692506_32: 4808725889623363793
+      vecteezy_hand-drawn-splash-watercolor_9692506_33: 1629406701168300497
+      vecteezy_hand-drawn-splash-watercolor_9692506_34: 8201615427604579291
+      vecteezy_hand-drawn-splash-watercolor_9692506_35: -8463661386168431507
+      vecteezy_hand-drawn-splash-watercolor_9692506_36: -5841853545948022786
+      vecteezy_hand-drawn-splash-watercolor_9692506_37: 4190190858804737065
+      vecteezy_hand-drawn-splash-watercolor_9692506_38: -2061368402401825273
+      vecteezy_hand-drawn-splash-watercolor_9692506_39: 5211977101864095039
+      vecteezy_hand-drawn-splash-watercolor_9692506_4: 2479610298377418593
+      vecteezy_hand-drawn-splash-watercolor_9692506_40: 2606439821392333440
+      vecteezy_hand-drawn-splash-watercolor_9692506_41: -4938770699560573093
+      vecteezy_hand-drawn-splash-watercolor_9692506_42: -8257472745934177562
+      vecteezy_hand-drawn-splash-watercolor_9692506_43: -4722378073335281452
+      vecteezy_hand-drawn-splash-watercolor_9692506_44: 7089215264928444406
+      vecteezy_hand-drawn-splash-watercolor_9692506_45: -4804071325345128656
+      vecteezy_hand-drawn-splash-watercolor_9692506_46: 8079418828215491666
+      vecteezy_hand-drawn-splash-watercolor_9692506_47: 8347415173449563507
+      vecteezy_hand-drawn-splash-watercolor_9692506_48: 3151121314407436102
+      vecteezy_hand-drawn-splash-watercolor_9692506_49: 4952513698449633325
+      vecteezy_hand-drawn-splash-watercolor_9692506_5: -4407208922300068732
+      vecteezy_hand-drawn-splash-watercolor_9692506_50: -8668984010506180835
+      vecteezy_hand-drawn-splash-watercolor_9692506_51: 6994951056857791643
+      vecteezy_hand-drawn-splash-watercolor_9692506_52: -5298124717608970150
+      vecteezy_hand-drawn-splash-watercolor_9692506_53: -3913168690682876824
+      vecteezy_hand-drawn-splash-watercolor_9692506_54: 4006487986437993781
+      vecteezy_hand-drawn-splash-watercolor_9692506_55: 6227709963243235671
+      vecteezy_hand-drawn-splash-watercolor_9692506_56: 7518126131092049989
+      vecteezy_hand-drawn-splash-watercolor_9692506_57: 7709893844599147218
+      vecteezy_hand-drawn-splash-watercolor_9692506_58: -7917276983568981218
+      vecteezy_hand-drawn-splash-watercolor_9692506_59: -4930968448192239281
+      vecteezy_hand-drawn-splash-watercolor_9692506_6: 4546776089676782648
+      vecteezy_hand-drawn-splash-watercolor_9692506_60: 1080061811795818647
+      vecteezy_hand-drawn-splash-watercolor_9692506_61: 8833746035001635706
+      vecteezy_hand-drawn-splash-watercolor_9692506_62: -2289154591223384030
+      vecteezy_hand-drawn-splash-watercolor_9692506_63: -4295173334399161586
+      vecteezy_hand-drawn-splash-watercolor_9692506_64: -4489001760887588557
+      vecteezy_hand-drawn-splash-watercolor_9692506_7: 3205755999480312653
+      vecteezy_hand-drawn-splash-watercolor_9692506_8: -5006209824335421810
+      vecteezy_hand-drawn-splash-watercolor_9692506_9: 4573058077114784043
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

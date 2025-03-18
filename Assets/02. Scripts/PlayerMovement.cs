@@ -109,8 +109,9 @@ public class PlayerMovement : MovingFootPrint
             }
         }
 
+        isWalking = isMoving;
 
-        CheckIfWalking();
+        //CheckIfWalking();
     }
 }
 

@@ -17,3 +17,8 @@ MonoBehaviour:
     varCode: 100
   - varName: test1
     varCode: 101
+  allItemList:
+  - itemID: 0
+    itemName: "\uC544\uC774\uD15C\uC774\uB984"
+    itemDesc: "\uC544\uC774\uD15C\uC124\uBA85"
+    itemSpr: {fileID: 21300000, guid: d08d14a2969b743b1a8b14dc46e0e8fa, type: 3}
