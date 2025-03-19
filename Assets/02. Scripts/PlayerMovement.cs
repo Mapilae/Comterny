@@ -48,6 +48,7 @@ public class PlayerMovement : MovingFootPrint
     private void Start()
     {
         spriteRender = GetComponent<SpriteRenderer>();
+        if(footprintObj==null) footprintObj=GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
         StartFootPrint();
         targetPos = transform.position; // 초기 위치 설정
     }

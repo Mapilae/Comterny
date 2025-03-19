@@ -32,6 +32,8 @@ public class InteractableSetting
     [Header("for PUZZLE")]
     public GameObject objToEnable; //미니게임 퍼즐 오브젝트.
 
+    [Header("for SelfDoor and AutoDoor")]
+    public GameObject objToDisable;
 }
 
 public class InteractableObject : MonoBehaviour
@@ -145,17 +147,20 @@ public class InteractableObject : MonoBehaviour
 
             case InteractableType.SELFDOOR://When Player holding the item
                 Debug.Log("SELF DOOR");
+                interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
                 break;
 
             case InteractableType.AUTODOOR://When Player have the item(no need to hold)
                 Debug.Log("AUTO DOOR");
-                this.gameObject.gameObject.SetActive(false);
+                interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
                 Debug.Log("PUZZLE MINIGAME START");
                 PlayerMovement.instance.ChangeCanMove(false);
-                interactList[currentInteractIndex].objToEnable.SetActive(true);
-
+                if(interactList[currentInteractIndex].objToEnable!=null)
+                    interactList[currentInteractIndex].objToEnable.SetActive(true);
+                else 
+                    Debug.Log(name+"이 퍼즐임에도 퍼즐 오브젝트가 비어있습니다! Inspector에서 할당해주세요!");
                 break;
 
             default:
