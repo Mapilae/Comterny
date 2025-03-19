@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,11 +22,44 @@ public class ParityBit : MonoBehaviour
     public void CreateParity(int index)
     {
         int rand = Random.Range(0, 2);
-
         parityBlocks[index].isParityRight = rand == 0;
-        char[] code= "00000000".ToCharArray();
 
-        int randInt = Random.Range(0, 128);
+        bool isSolo;
+        string code;
+        int loopCount = 0; // 추가: 루프 제한용 카운터
+
+        do
+        {
+            isSolo = true;
+            code = CreateParityCode(Random.Range(0, 128), parityBlocks[index].isParityRight);
+
+            for (int i = 0; i < parityBlocks.Count; i++)
+            {
+                if (i != index && code.Equals(parityBlocks[i].parityCode))
+                {
+                    isSolo = false;
+                    break;
+                }
+            }
+
+            loopCount++;
+            if (loopCount > 50) // 50번 넘게 반복되면 강제 탈출
+            {
+                Debug.LogWarning("CreateParity() 무한 루프 방지: 강제 탈출");
+                break;
+            }
+
+        } while (!isSolo);
+
+        parityBlocks[index].bitText.text = parityBlocks[index].parityCode = code;
+        parityBlocks[index].obj.SetActive(true);
+    }
+
+
+    string CreateParityCode(int randInt, bool isParityRight)
+    {
+        char[] code= "00000000".ToCharArray();
+        
         int parityCount = 0;
         
         if (randInt / 64 > 1)
@@ -71,16 +104,14 @@ public class ParityBit : MonoBehaviour
             parityCount++;
         }
 
-        if (parityBlocks[index].isParityRight)
+        if (isParityRight)
             code[3]=parityCount%2==0?'0':'1';
         else
             code[3]=parityCount%2==0?'1':'0';
 
-
-        parityBlocks[index].bitText.text = parityBlocks[index].parityCode = code.ArrayToString();
-        parityBlocks[index].obj.SetActive(true);
+        return code.ArrayToString();
     }
-    
+
     public void ResetParity()
     {
   
@@ -94,24 +125,34 @@ public class ParityBit : MonoBehaviour
 
     public void ParityCheck(int index)
     {
-
         if (parityBlocks[index].isParityRight)
-        {//패리티 맞음. 오류 없음. 잘못 클릭함!
+        { 
             ResetParity();
         }
-        else{//패리티 안맞음. 오류 있음. 사라짐.
-            parityBlocks[index].obj.SetActive(false);
-            CreateParity(index);
-            if (CheckIfFinished())
-            {
-                EndGame();
-            }
+        else
+        {
+            StartCoroutine(AnotherBlock(index));
         }
-        
+    }
+
+    IEnumerator AnotherBlock(int index)
+    {
+        parityBlocks[index].obj.SetActive(false);
+        CreateParity(index);
+        yield return new WaitForSeconds(1f);
+        if (CheckIfFinished())
+        {
+            EndGame();
+        }
+        else
+        {
+            Debug.Log("Not finished");
+        }
     }
 
     public void EndGame()
     {
+        Debug.Log("패리티비트 클리어!");
         for(int i=0;i<parityBlocks.Count;i++)
             parityBlocks[i].objBtn.interactable = false;
        
