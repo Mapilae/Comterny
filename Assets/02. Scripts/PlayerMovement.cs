@@ -12,6 +12,8 @@ public class PlayerMovement : MovingFootPrint
     private Vector2 targetPos;
 
     public float moveSpeed = 5f;
+    private float moveSpeed1x;
+    public float moveSpeed2x = 5f;
     public bool canMove = true;
     public static string playerName = "유저 디버그";
 
@@ -47,6 +49,8 @@ public class PlayerMovement : MovingFootPrint
 
     private void Start()
     {
+        moveSpeed1x=moveSpeed;
+        
         spriteRender = GetComponent<SpriteRenderer>();
         if(footprintObj==null) footprintObj=GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
         StartFootPrint();
@@ -59,10 +63,15 @@ public class PlayerMovement : MovingFootPrint
         if (!canMove) return;
         if (isMoving) return;
 
+        if (Input.GetKey(KeyCode.LeftShift)||Input.GetKey(KeyCode.RightShift)||Input.GetKey(KeyCode.LeftControl))
+            moveSpeed = moveSpeed2x;
+        else
+            moveSpeed = moveSpeed1x;
+        
         Vector2 moveInput = Vector2.zero;
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal")*0.5f;
+        float vertical = Input.GetAxisRaw("Vertical")*0.5f;
 
         Vector2 currentPosition = transform.position;
 

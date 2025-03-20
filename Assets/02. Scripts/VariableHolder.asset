@@ -22,3 +22,7 @@ MonoBehaviour:
     itemName: "\uC544\uC774\uD15C\uC774\uB984"
     itemDesc: "\uC544\uC774\uD15C\uC124\uBA85"
     itemSpr: {fileID: 21300000, guid: d08d14a2969b743b1a8b14dc46e0e8fa, type: 3}
+  - itemID: 1
+    itemName: "\uBB3C\uCEF5"
+    itemDesc: "\uADF8\uB0E5 \uBB3C"
+    itemSpr: {fileID: 21300000, guid: 5b54b64aa03a6418fa2cf8b50928ceb9, type: 3}
