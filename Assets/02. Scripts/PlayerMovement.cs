@@ -1,6 +1,93 @@
 using UnityEngine;
 using UnityEngine.UI;
+public class PlayerMovement : MovingFootPrint
+{
 
+    public static PlayerMovement instance;
+
+    private SpriteRenderer spriteRender;
+    private Vector2 input;
+    private bool isMoving = false;
+    private Vector2 targetPos;
+
+    public float moveSpeed = 5f;
+    private float moveSpeed1x;
+    public float moveSpeed2x = 5f;
+    public bool canMove = true;
+    public static string playerName = "유저 디버그";
+
+    public int currentHoldingItem = -1; //-1: no item holding, else: item code
+    public SpriteRenderer currentHoldingImg;
+
+    public LayerMask obstacleLayer;
+
+    public void ChangeCanMove(bool canMove)
+    {
+        this.canMove = canMove;
+    }
+
+    public void UnholdItem()
+    {
+        currentHoldingItem = -1;
+        currentHoldingImg.sprite = null;
+        currentHoldingImg.enabled = false;
+    }
+
+    public void HoldItem(int holdItem, Sprite holdSpr)
+    {
+        currentHoldingItem = holdItem;
+        currentHoldingImg.sprite = holdSpr;
+        currentHoldingImg.enabled = true;
+    }
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
+    {
+        moveSpeed1x=moveSpeed;
+        
+        spriteRender = GetComponent<SpriteRenderer>();
+        if(footprintObj==null) footprintObj=GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
+        StartFootPrint();
+        targetPos = transform.position; // 초기 위치 설정
+    }
+
+    private void Update()
+    {
+        if (isMoving) return;
+
+        if (Input.GetKey(KeyCode.LeftShift)||Input.GetKey(KeyCode.RightShift)||Input.GetKey(KeyCode.LeftControl))
+            moveSpeed = moveSpeed2x;
+        else
+            moveSpeed = moveSpeed1x;
+        
+        if (canMove)
+        {
+            input.x = Input.GetAxisRaw("Horizontal");
+            input.y = Input.GetAxisRaw("Vertical");
+            input.Normalize();
+        }
+        else
+        {
+            input = Vector2.zero;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!canMove) return;
+        rb.linearVelocity = input * moveSpeed;
+
+        if (input.x != 0)
+            spriteRender.flipX = input.x < 0;
+        CheckIfWalking();
+    }
+}
+/*
 public class PlayerMovement : MovingFootPrint
 {
 
@@ -123,7 +210,7 @@ public class PlayerMovement : MovingFootPrint
 
         //CheckIfWalking();
     }
-}
+}*/
 
 /*
 public class PlayerMovement : MovingFootPrint

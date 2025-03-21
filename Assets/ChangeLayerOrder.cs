@@ -10,6 +10,9 @@ public class ChangeLayerOrder : MonoBehaviour
     public GameObject[] objToEnableWhenEnter;
     public GameObject[] objToDisableWhenEnter;
     
+    public Collider2D[] colliderToEnableWhenEnter;
+    public Collider2D[] colliderToDisableWhenEnter;
+    
     
     void Start()
     {
@@ -23,6 +26,8 @@ public class ChangeLayerOrder : MonoBehaviour
             Debug.Log("sort order changed!");
             if(objToDisableWhenEnter.Length>0) foreach(GameObject obj in objToDisableWhenEnter) obj.SetActive(false);
             if(objToEnableWhenEnter.Length>0) foreach(GameObject obj in objToEnableWhenEnter) obj.SetActive(true);
+            if(colliderToEnableWhenEnter.Length>0) foreach(Collider2D obj in colliderToEnableWhenEnter) obj.enabled=true;
+            if(colliderToDisableWhenEnter.Length>0) foreach(Collider2D obj in colliderToDisableWhenEnter) obj.enabled=false;
         }
     }
 
@@ -34,6 +39,8 @@ public class ChangeLayerOrder : MonoBehaviour
           
             if(objToDisableWhenEnter.Length>0) foreach(GameObject obj in objToDisableWhenEnter) obj.SetActive(true);
             if(objToEnableWhenEnter.Length>0) foreach(GameObject obj in objToEnableWhenEnter) obj.SetActive(false);
+            if(colliderToEnableWhenEnter.Length>0) foreach(Collider2D obj in colliderToEnableWhenEnter) obj.enabled=false;
+            if(colliderToDisableWhenEnter.Length>0) foreach(Collider2D obj in colliderToDisableWhenEnter) obj.enabled=true;
         }
     }
 }

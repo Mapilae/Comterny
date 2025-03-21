@@ -5,50 +5,31 @@ public class CameraTrigger : MonoBehaviour
     /// <summary>
     /// 만들다 말았음. 생각대로 작동 안함.
     /// </summary>
-    public Vector3 MaxCameraPosition;
-    private CameraFollow cameraFollow;
-    public bool useX = true;
-    public bool useY = true;
-
-    private void Start()
-    {
-        cameraFollow = Camera.main.GetComponent<CameraFollow>();
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player")) 
         {
-            Vector3 currentCameraPos = Camera.main.transform.position;
-            Vector3 newCameraPos = currentCameraPos;
-            bool shouldUpdate = false;
-
-            if (useX && (currentCameraPos.x < MaxCameraPosition.x))
-            {
-                newCameraPos.x = MaxCameraPosition.x;
-                shouldUpdate = true;
-            }
-
-            if (useY && (currentCameraPos.y > MaxCameraPosition.y))
-            {
-                newCameraPos.y = MaxCameraPosition.y;
-                shouldUpdate = true;
-            }
-
-            if (shouldUpdate)
-            {
-                cameraFollow.SetFixedPosition(newCameraPos);
-            }
+            CameraFollow.SetIsXFixed(false);
+            CameraFollow.SetIsYFixed(false);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // �÷��̾ ������ ������
+        if (other.CompareTag("Player"))
         {
-            cameraFollow.ResetToFollow();
+            Bounds bounds = GetComponent<BoxCollider2D>().bounds;
+            Vector3 playerPos = other.transform.position;
+
+            bool fixX = playerPos.x < bounds.min.x || playerPos.x > bounds.max.x;
+            bool fixY = playerPos.y < bounds.min.y || playerPos.y > bounds.max.y;
+
+            CameraFollow.SetIsXFixed(fixX);
+            CameraFollow.SetIsYFixed(fixY);
         }
     }
+
 
 /*    public Camera mainCamera;
     public LayerMask targetLayer;
