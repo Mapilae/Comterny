@@ -31,6 +31,7 @@ public class InteractableSetting
 
     [Header("for PUZZLE")]
     public GameObject objToEnable; //미니게임 퍼즐 오브젝트.
+    public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
 
     [Header("for SelfDoor and AutoDoor")]
     public GameObject objToDisable;
@@ -157,6 +158,8 @@ public class InteractableObject : MonoBehaviour
             case InteractableType.PUZZLE:
                 Debug.Log("PUZZLE MINIGAME START");
                 PlayerMovement.instance.ChangeCanMove(false);
+                if(interactList[currentInteractIndex].objToEnable2!=null)
+                    interactList[currentInteractIndex].objToEnable2.SetActive(true);
                 if(interactList[currentInteractIndex].objToEnable!=null)
                     interactList[currentInteractIndex].objToEnable.SetActive(true);
                 else 

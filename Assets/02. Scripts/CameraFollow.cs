@@ -137,6 +137,9 @@ public class CameraFollow : MonoBehaviour
     
     private Vector3 targetPosition;
 
+    private static float timeX = 0f;
+    private static float timeY = 0f;
+    
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -158,19 +161,37 @@ public class CameraFollow : MonoBehaviour
         {
             desiredPosition.y = transform.position.y; // Y축 고정
         }
-        // 부드럽게 이동하도록 Lerp 사용
-        targetPosition = Vector3.Lerp(targetPosition, desiredPosition, smoothSpeed * Time.deltaTime);
 
+        if (timeX < 1.5f)
+        {
+            // 부드럽게 이동하도록 Lerp 사용
+            targetPosition.x = Vector3.Lerp(targetPosition, desiredPosition, smoothSpeed * Time.deltaTime).x;
+        }
+        if (timeY < 1.5f)
+        {
+            // 부드럽게 이동하도록 Lerp 사용
+            targetPosition.y = Vector3.Lerp(targetPosition, desiredPosition, smoothSpeed * Time.deltaTime).y;
+        }
+        else targetPosition = desiredPosition;
+        
+        timeX += Time.deltaTime;
+        timeY += Time.deltaTime;
+        
         transform.position = targetPosition;
+        
+       // Debug.Log(timeX+"sec, X Fix? "+isXFixed+", Y Fix? "+isYFixed);
     }
 
 
     public static void SetIsXFixed(bool isFixed)
     {
+        if(CameraFollow.isXFixed!=isFixed) timeX = 0f;
         CameraFollow.isXFixed = isFixed;
+        
     }
     public static void SetIsYFixed(bool isFixed)
     {
+        if(CameraFollow.isXFixed!=isFixed) timeY = 0f;
         CameraFollow.isYFixed = isFixed;
     }
 

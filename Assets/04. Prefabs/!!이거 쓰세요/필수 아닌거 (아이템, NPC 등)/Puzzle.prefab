@@ -149,10 +149,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactList:
   - interactableType: 3
-    needItemCode: 64000000
+    needItemCode: 
     reverseNeedItem: 0
-    varNameOrCodeToAdd:
-    - 101
+    varNameOrCodeToAdd: []
     dialogueID: 
     objToEnable: {fileID: 0}
+    objToDisable: {fileID: 0}
   isClose: 0
