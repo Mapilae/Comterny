@@ -1,44 +1,25 @@
 using UnityEngine;
-using UnityEngine.UI;
+
 public class PlayerMovement : MovingFootPrint
 {
-
     public static PlayerMovement instance;
-
-    private SpriteRenderer spriteRender;
-    private Vector2 input;
-    private bool isMoving = false;
-    private Vector2 targetPos;
+    public static string playerName = "유저 디버그";
+    public Transform spineTrans;
 
     public float moveSpeed = 5f;
-    private float moveSpeed1x;
     public float moveSpeed2x = 5f;
     public bool canMove = true;
-    public static string playerName = "유저 디버그";
 
     public int currentHoldingItem = -1; //-1: no item holding, else: item code
     public SpriteRenderer currentHoldingImg;
 
     public LayerMask obstacleLayer;
+    private readonly bool isMoving = false;
+    private Vector2 input;
+    private float moveSpeed1x;
 
-    public void ChangeCanMove(bool canMove)
-    {
-        this.canMove = canMove;
-    }
-
-    public void UnholdItem()
-    {
-        currentHoldingItem = -1;
-        currentHoldingImg.sprite = null;
-        currentHoldingImg.enabled = false;
-    }
-
-    public void HoldItem(int holdItem, Sprite holdSpr)
-    {
-        currentHoldingItem = holdItem;
-        currentHoldingImg.sprite = holdSpr;
-        currentHoldingImg.enabled = true;
-    }
+    private SpriteRenderer spriteRender;
+    private Vector2 targetPos;
 
 
     private void Awake()
@@ -48,10 +29,10 @@ public class PlayerMovement : MovingFootPrint
 
     private void Start()
     {
-        moveSpeed1x=moveSpeed;
-        
+        moveSpeed1x = moveSpeed;
+
         spriteRender = GetComponent<SpriteRenderer>();
-        if(footprintObj==null) footprintObj=GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
+        if (footprintObj == null) footprintObj = GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
         StartFootPrint();
         targetPos = transform.position; // 초기 위치 설정
     }
@@ -60,11 +41,11 @@ public class PlayerMovement : MovingFootPrint
     {
         if (isMoving) return;
 
-        if (Input.GetKey(KeyCode.LeftShift)||Input.GetKey(KeyCode.RightShift)||Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
             moveSpeed = moveSpeed2x;
         else
             moveSpeed = moveSpeed1x;
-        
+
         if (canMove)
         {
             input.x = Input.GetAxisRaw("Horizontal");
@@ -83,8 +64,31 @@ public class PlayerMovement : MovingFootPrint
         rb.linearVelocity = input * moveSpeed;
 
         if (input.x != 0)
+        {
             spriteRender.flipX = input.x < 0;
+            spineTrans.localScale = input.x < 0 ? Vector3.one : new Vector3(-1, 1, 1);
+        }
+
         CheckIfWalking();
+    }
+
+    public void ChangeCanMove(bool canMove)
+    {
+        this.canMove = canMove;
+    }
+
+    public void UnholdItem()
+    {
+        currentHoldingItem = -1;
+        currentHoldingImg.sprite = null;
+        currentHoldingImg.enabled = false;
+    }
+
+    public void HoldItem(int holdItem, Sprite holdSpr)
+    {
+        currentHoldingItem = holdItem;
+        currentHoldingImg.sprite = holdSpr;
+        currentHoldingImg.enabled = true;
     }
 }
 /*
@@ -137,7 +141,7 @@ public class PlayerMovement : MovingFootPrint
     private void Start()
     {
         moveSpeed1x=moveSpeed;
-        
+
         spriteRender = GetComponent<SpriteRenderer>();
         if(footprintObj==null) footprintObj=GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
         StartFootPrint();
@@ -154,7 +158,7 @@ public class PlayerMovement : MovingFootPrint
             moveSpeed = moveSpeed2x;
         else
             moveSpeed = moveSpeed1x;
-        
+
         Vector2 moveInput = Vector2.zero;
 
         float horizontal = Input.GetAxisRaw("Horizontal")*0.5f;

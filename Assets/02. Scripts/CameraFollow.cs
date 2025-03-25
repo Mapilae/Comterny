@@ -1,7 +1,6 @@
-using System;
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine;
+
 /*
 public class CameraFollow : MonoBehaviour
 {
@@ -113,8 +112,8 @@ public class CameraFollow : MonoBehaviour
         foreach (Vector3 corner in worldCorners)
         {
             Vector3 screenPoint = mainCamera.WorldToScreenPoint(corner);
-            if (screenPoint.z > 0 && 
-                screenPoint.x > 0 && screenPoint.x < Screen.width && 
+            if (screenPoint.z > 0 &&
+                screenPoint.x > 0 && screenPoint.x < Screen.width &&
                 screenPoint.y > 0 && screenPoint.y < Screen.height)
             {
                 return true; // 하나라도 카메라 화면 안에 있으면 보이는 것
@@ -129,80 +128,127 @@ public class CameraFollow : MonoBehaviour
 public class CameraFollow : MonoBehaviour
 {
     public Transform player; //플레이어 트랜스폼
-    public float smoothSpeed = 50f;
-    private Vector3 defaultOffset;
 
-    private static bool isXFixed = false;
-    private static bool isYFixed = false;
-    
+    //SpriteRenderer sprRenderer;
+    public float smoothSpeed = 50f;
+
+    public bool isFixed;
+    public float duration = 1.0f; // 이동 시간
+    public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 부드러운 이동 곡선
+    private bool _isXFixed;
+    private bool _isYFixed;
+
+    private float _timeX;
+    private float _timeY;
+
     private Vector3 targetPosition;
 
-    private static float timeX = 0f;
-    private static float timeY = 0f;
-    
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        defaultOffset = transform.position - player.position;
-        targetPosition = transform.position; 
+        targetPosition = transform.position;
     }
 
     private void LateUpdate()
     {
-        // isXFixed, isYFixed
-        Vector3 desiredPosition = player.position + defaultOffset;
+        if (isFixed) return;
+        targetPosition = transform.position;
+        if (!_isXFixed) targetPosition.x = player.position.x;
+        if (!_isYFixed) targetPosition.y = player.position.y;
 
-        if (isXFixed)
-        {
-            desiredPosition.x = transform.position.x; // X축 고정
-        }
-
-        if (isYFixed)
-        {
-            desiredPosition.y = transform.position.y; // Y축 고정
-        }
-
-        if (timeX < 1.5f)
-        {
-            // 부드럽게 이동하도록 Lerp 사용
-            targetPosition.x = Vector3.Lerp(targetPosition, desiredPosition, smoothSpeed * Time.deltaTime).x;
-        }
-        if (timeY < 1.5f)
-        {
-            // 부드럽게 이동하도록 Lerp 사용
-            targetPosition.y = Vector3.Lerp(targetPosition, desiredPosition, smoothSpeed * Time.deltaTime).y;
-        }
-        else targetPosition = desiredPosition;
-        
-        timeX += Time.deltaTime;
-        timeY += Time.deltaTime;
-        
         transform.position = targetPosition;
-        
-       // Debug.Log(timeX+"sec, X Fix? "+isXFixed+", Y Fix? "+isYFixed);
+    }
+
+    public void ResetPosition()
+    {
+        StopAllCoroutines();
+        StartCoroutine(SmoothMoveTrans(player, false, false, duration));
+    }
+
+    public void MoveToTarget(Vector3 targetVec, bool isX, bool isY)
+    {
+        StopAllCoroutines();
+        StartCoroutine(SmoothMove(targetVec, isX, isY, duration));
+    }
+
+    private IEnumerator SmoothMove(Vector3 targetPos, bool isX, bool isY, float duration)
+    {
+        isFixed = true;
+        _isXFixed = isX;
+        _isYFixed = isY;
+        var startPosition = transform.position;
+        var elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            var t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
+
+            var newX = isX ? Mathf.Lerp(startPosition.x, targetPos.x, t) : startPosition.x;
+            var newY = isY ? Mathf.Lerp(startPosition.y, targetPos.y, t) : startPosition.y;
+            var newZ = startPosition.z; // Z축은 그대로 유지
+
+            transform.position = new Vector3(newX, newY, newZ);
+            yield return null;
+        }
+
+        // 최종 위치 보정
+        transform.position = new Vector3(
+            isX ? targetPos.x : startPosition.x,
+            isY ? targetPos.y : startPosition.y,
+            startPosition.z
+        );
+    }
+
+    private IEnumerator SmoothMoveTrans(Transform target, bool isX, bool isY, float duration)
+    {
+        isFixed = true;
+        _isXFixed = isX;
+        _isYFixed = isY;
+        var startPosition = transform.position;
+        var elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            var t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
+
+            // 매 프레임 target의 최신 position 사용
+            var targetPos = target.position;
+
+            var newX = isX ? Mathf.Lerp(startPosition.x, targetPos.x, t) : startPosition.x;
+            var newY = isY ? Mathf.Lerp(startPosition.y, targetPos.y, t) : startPosition.y;
+            var newZ = startPosition.z; // Z축은 그대로 유지
+
+            transform.position = new Vector3(newX, newY, newZ);
+            yield return null;
+        }
+
+        // 최종 위치 보정 (마지막 위치를 최신 target의 position으로 설정)
+        transform.position = new Vector3(
+            isX ? target.position.x : startPosition.x,
+            isY ? target.position.y : startPosition.y,
+            startPosition.z
+        );
+
+        isFixed = false;
+        _isXFixed = false;
+        _isYFixed = false;
     }
 
 
-    public static void SetIsXFixed(bool isFixed)
+    public void FreezeMove(bool isX, bool isY)
     {
-        if(CameraFollow.isXFixed!=isFixed) timeX = 0f;
-        CameraFollow.isXFixed = isFixed;
-        
-    }
-    public static void SetIsYFixed(bool isFixed)
-    {
-        if(CameraFollow.isXFixed!=isFixed) timeY = 0f;
-        CameraFollow.isYFixed = isFixed;
+        if (isX) _isXFixed = true;
+        if (isY) _isYFixed = true;
+        Debug.Log("Freeze move: " + _isXFixed + ", " + _isYFixed);
     }
 
-    public void SetFixedPosition(Vector3 newPosition)
+    public void UnfreezeMove(bool isX, bool isY)
     {
-        isXFixed = isYFixed=true;
-        //fixedPosition = newPosition;
-    }
-
-    public void ResetToFollow()
-    {
-        isXFixed = isYFixed= false;
+        if (isX) _isXFixed = false;
+        if (isY) _isYFixed = false;
+        Debug.Log("unfreeze move: " + _isXFixed + ", " + _isYFixed);
+        ResetPosition();
     }
 }

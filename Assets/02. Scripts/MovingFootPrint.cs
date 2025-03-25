@@ -35,8 +35,8 @@ public class MovingFootPrint : MonoBehaviour
 
     public void CheckIfWalking()
     {
-        //if (rb == null) return;
-        //isWalking = rb.linearVelocity.sqrMagnitude > 0.01f;
+        if (rb == null) return;
+            isWalking = rb.linearVelocity.sqrMagnitude > 0.01f;
     }
 
     IEnumerator CreateFootPrint()
