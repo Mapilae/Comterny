@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MovingFootPrint
 {
+    public static bool isSpace;
     public static PlayerMovement instance;
     public static string playerName = "유저 디버그";
     public Transform spineTrans;
@@ -15,6 +16,8 @@ public class PlayerMovement : MovingFootPrint
 
     public LayerMask obstacleLayer;
     private readonly bool isMoving = false;
+
+    private FixedJoystick fixedJoystick;
     private Vector2 input;
     private float moveSpeed1x;
 
@@ -29,6 +32,7 @@ public class PlayerMovement : MovingFootPrint
 
     private void Start()
     {
+        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FixedJoystick>();
         moveSpeed1x = moveSpeed;
 
         spriteRender = GetComponent<SpriteRenderer>();
@@ -40,22 +44,19 @@ public class PlayerMovement : MovingFootPrint
     private void Update()
     {
         if (isMoving) return;
-
+#if UNITY_EDITOR
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
-            moveSpeed = moveSpeed2x;
+            SetIfRunning(true);
         else
-            moveSpeed = moveSpeed1x;
+            SetIfRunning(false);
+        if (Input.GetKeyDown(KeyCode.Space)) SetIsSpace(true);
+#endif
+
 
         if (canMove)
-        {
-            input.x = Input.GetAxisRaw("Horizontal");
-            input.y = Input.GetAxisRaw("Vertical");
-            input.Normalize();
-        }
+            input = GetInput();
         else
-        {
             input = Vector2.zero;
-        }
     }
 
     private void FixedUpdate()
@@ -70,6 +71,42 @@ public class PlayerMovement : MovingFootPrint
         }
 
         CheckIfWalking();
+    }
+
+    public void SetIsSpace(bool isButtonClicked)
+    {
+        isSpace = isButtonClicked;
+    }
+
+    public static void IsSpaceFalse()
+    {
+        isSpace = false;
+    }
+
+    public void SetIfRunning(bool isRunning)
+    {
+        if (isRunning) moveSpeed = moveSpeed2x;
+        else moveSpeed = moveSpeed1x;
+    }
+
+
+    private Vector2 GetInput()
+    {
+        var inputVec = Vector2.zero;
+#if UNITY_ANDROID
+        //모바일인 경우
+        inputVec.x = fixedJoystick.Horizontal;
+        inputVec.y = fixedJoystick.Vertical;
+        Debug.Log(inputVec.x + ",  " + inputVec.y);
+        return inputVec;
+#endif
+#if UNITY_EDITOR
+        //PC인 경우
+        inputVec.x = Input.GetAxisRaw("Horizontal");
+        inputVec.y = Input.GetAxisRaw("Vertical");
+        inputVec.Normalize();
+        return inputVec;
+#endif
     }
 
     public void ChangeCanMove(bool canMove)

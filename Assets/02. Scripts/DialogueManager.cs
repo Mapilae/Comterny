@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -8,17 +9,17 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     /// <summary>
-    /// 다이얼로그를 클릭, 실행하는 역할 수행
-    /// 다른 개인 비주얼노벨 게임에 있던 코드를 복사해와서 안쓰는 코드가 좀 섞여있습니다.
+    ///     다이얼로그를 클릭, 실행하는 역할 수행
+    ///     다른 개인 비주얼노벨 게임에 있던 코드를 복사해와서 안쓰는 코드가 좀 섞여있습니다.
     /// </summary>
     public static DialogueManager instance;
 
-    [Header("Dialogue")]
-    public Canvas uiCanvas;
-    Inventory inventory;
+    public static float FIXED_HEIGHT = Screen.height; //* 0.45f;
+
+    [Header("Dialogue")] public Canvas uiCanvas;
 
     public List<Dialogue> dialogueList;
-    public int crtIndex = 0;
+    public int crtIndex;
 
     public GameObject dialogueWholeObj;
     public Animator dialogWhole;
@@ -32,17 +33,18 @@ public class DialogueManager : MonoBehaviour
     public Image standingImg;
 
 
-    [Header("Others")]
-    public TypeWriter typeWriter;
-    public bool isPause = false;
-    public bool isViewPause = false;
+    [Header("Others")] public TypeWriter typeWriter;
+
+    public bool isPause;
+    public bool isViewPause;
     public bool canClickToNext = true;
-    bool isMiniOn = false;
 
-    bool hasUnderletter = false;
+    private bool hasUnderletter = false;
+    private Inventory inventory;
+    private bool isMiniOn = false;
 
-    public static float FIXED_HEIGHT = Screen.height; //* 0.45f;
-    float startDelaySecond = 0.0f;
+    private Vector3[] standingDftPos = new Vector3[3];
+    private float startDelaySecond;
 
 
     private void Awake()
@@ -54,26 +56,62 @@ public class DialogueManager : MonoBehaviour
     {
         //        StartDialogueManager();
         //set standingDftPos
+    }
 
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            isViewPause = !isViewPause;
+
+            uiCanvas.enabled = !isViewPause;
+        }
+
+        if (isPause || isViewPause) return;
+
+        if (dialogWhole.gameObject.activeInHierarchy)
+            //Spacebar or EnterKey, or Click Between bottom 0~700
+            if (canClickToNext && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
+                                   (Input.mousePosition.y <= FIXED_HEIGHT && Input.GetMouseButtonDown(0)) ||
+                                   Input.mouseScrollDelta.y != 0.0))
+                ChangeDialogue();
+
+#if UNITY_IOS
+        if (Input.touchCount > 0)
+        {
+           // if (!isNoNext && (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.y <= FIXED_HEIGHT))
+          //  {
+          //      tmptext.text = Input.GetTouch(0).position.y.ToString();
+           //     ChangeDialogue();
+           // }
+        }
+#endif
+#if UNITY_ANDROID
+        if (Input.touchCount > 0)
+        {
+            // if (!isNoNext && (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.y <= FIXED_HEIGHT))
+            // {
+            // tmptext.text = Input.GetTouch(0).position.y.ToString();
+            //     ChangeDialogue();
+            // }
+        }
+#endif
     }
 
     public void ItemGetDialogue(string msg)
     {
-        List<Dialogue> dialogue = new List<Dialogue>
+        var dialogue = new List<Dialogue>
         {
-            new Dialogue("", msg, null)
+            new("", msg, null)
         };
         StartDialogue(dialogue);
     }
 
     public void StartDialogueManager()
     {
-
         inventory = uiCanvas.GetComponent<Inventory>();
         contentTrans = contentTxt.GetComponent<RectTransform>();
-
-
-
     }
 
     public void StartDialogue(List<Dialogue> dialogue)
@@ -88,7 +126,6 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-
     public void ChangeDialogue()
     {
         if (!canClickToNext) return;
@@ -100,19 +137,16 @@ public class DialogueManager : MonoBehaviour
             else soundManager.PlayBGM(currentBlock.bgm, currentBlock.bgmSubtitle, !currentBlock.isBGMNoLoop);
             //if (currentBlock.se != null) SoundManager.instance.PlaySE(currentBlock.se);
         }*/
-       
+
         dialogWhole.gameObject.SetActive(true);
 
 
         if (typeWriter.isTyping)
         {
             typeWriter.StopTyping();
-            return;
-
         }
         else
         {
-
             if (dialogueList.Count <= crtIndex)
             {
                 dialogWhole.gameObject.SetActive(false);
@@ -120,7 +154,6 @@ public class DialogueManager : MonoBehaviour
                 PlayerMovement.instance.ChangeCanMove(true);
                 Debug.Log("종료");
                 return;
-
             }
 
 
@@ -130,7 +163,7 @@ public class DialogueManager : MonoBehaviour
             //  }
             //if(�������)string content =content_ENG
 
-            string content = dialogueList[crtIndex].content;
+            var content = dialogueList[crtIndex].content;
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].charName);
             standingImg.sprite = dialogueList[crtIndex].sprite;
             standingImg.enabled = standingImg.sprite != null;
@@ -140,33 +173,26 @@ public class DialogueManager : MonoBehaviour
             {
                 // Debug.Log("ġȯ ��: " + content);
 
-                System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"\{(.*?)\}");
+                var regex = new Regex(@"\{(.*?)\}");
                 content = regex.Replace(content, match =>
                 {
-                    string key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
-                                                               // Debug.Log($"ġȯ �õ�: {key}");
+                    var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
+                    // Debug.Log($"ġȯ �õ�: {key}");
 
-                    if (key.Equals("Player"))
-                    {
-                        return PlayerMovement.playerName;
-                    }
+                    if (key.Equals("Player")) return PlayerMovement.playerName;
                     // PlayerPrefs���� �� ��������
-                    else
-                    {
-                        string value = PlayerPrefs.GetString(key, "null");
-                        // Debug.Log($"PlayerPrefs���� ������ ��: {value}");
+                    var value = PlayerPrefs.GetString(key, "null");
+                    // Debug.Log($"PlayerPrefs���� ������ ��: {value}");
 
 
-
-                        return value;
-                    }
+                    return value;
                 });
 
                 // Debug.Log("ġȯ ��: " + content);
             }
 
 
-            typeWriter.StartTyping(content, nameTxt.text);//(int)currentBlock.block[index].name_ch
+            typeWriter.StartTyping(content, nameTxt.text); //(int)currentBlock.block[index].name_ch
 
 
             //ChangeSprite();
@@ -177,19 +203,19 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    string ChangeIfPlayerName(string current)
+    private string ChangeIfPlayerName(string current)
     {
-
         if (current.Equals("유저 디버그")) //name=User Debug
         {
-            if (PlayerMovement.playerName.Equals("유저 디버그")) return current;//name=User Debug
-            else return PlayerMovement.playerName;
+            if (PlayerMovement.playerName.Equals("유저 디버그")) return current; //name=User Debug
+            return PlayerMovement.playerName;
         }
-        else return current;
+
+        return current;
     }
 
 
-    void WhenLastPage()
+    private void WhenLastPage()
     {
         /*
         switch (sheetData.storyBlock[crtBranch].ifEnd.ToString())
@@ -222,7 +248,7 @@ public class DialogueManager : MonoBehaviour
                     //gift ���� ��ũ��Ʈ-�κ��丮or���� ��ũ��Ʈ�� �����ϱ�
                     inventory.StartGiftEvent(currentBlock.itemBlock);
 
-                    //currentBlock = 
+                    //currentBlock =
                     //ChangeDialogue();
                 }
                 break;
@@ -235,16 +261,12 @@ public class DialogueManager : MonoBehaviour
         }*/
     }
 
-    void DisableSprite()
+    private void DisableSprite()
     {
         standingImg.enabled = false;
-
-
     }
 
-    Vector3[] standingDftPos = new Vector3[3];
-
-    void ChangeSprite()
+    private void ChangeSprite()
     {
         /*string[] standing = sheetData.storyBlock[crtBranch].block[crtPage].standing;
         //  bool isNoName = currentBlock.block[index].isNoName;
@@ -307,11 +329,10 @@ public class DialogueManager : MonoBehaviour
         }
 
         */
-
     }
 
 
-    IEnumerator Delay(float seconds)
+    private IEnumerator Delay(float seconds)
     {
         canClickToNext = false;
         dialogWhole.gameObject.SetActive(false);
@@ -323,53 +344,5 @@ public class DialogueManager : MonoBehaviour
         ChangeDialogue();
 
         yield return null;
-    }
-
-
-
-    void Update()
-    {
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            isViewPause = !isViewPause;
-
-            uiCanvas.enabled = !isViewPause;
-        }
-
-        if (isPause || isViewPause) return;
-
-        if (dialogWhole.gameObject.activeInHierarchy)
-        {
-            //Spacebar or EnterKey, or Click Between bottom 0~700
-            if (canClickToNext && ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || (Input.mousePosition.y <= FIXED_HEIGHT && Input.GetMouseButtonDown(0))) ||
-                (Input.mouseScrollDelta.y != 0.0)))
-            {
-
-                ChangeDialogue();
-            }
-        }
-
-#if UNITY_IOS
-        if (Input.touchCount > 0)
-        {
-            if (!isNoNext && (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.y <= FIXED_HEIGHT))
-            {
-                tmptext.text = Input.GetTouch(0).position.y.ToString();
-                ChangeDialogue();
-            }
-        }
-#endif
-#if UNITY_ANDROID
-        if (Input.touchCount > 0)
-        {
-            if (!isNoNext && (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.y <= FIXED_HEIGHT))
-            {
-                tmptext.text = Input.GetTouch(0).position.y.ToString();
-                ChangeDialogue();
-            }
-        }
-#endif
-
     }
 }

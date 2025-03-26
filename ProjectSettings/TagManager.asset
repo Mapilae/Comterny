@@ -8,6 +8,7 @@ TagManager:
   - FootPrint
   - SoundManager
   - CameraLimit
+  - Mobile
   layers:
   - Default
   - TransparentFX
