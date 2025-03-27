@@ -73,5 +73,3 @@ crashlytics-build.properties
 Library/
 
 .idea/.idea.comtany/.idea/workspace.xml
-Packages/manifest.json
-Packages/packages-lock.json
