@@ -18,10 +18,7 @@ public class BinaryTree : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
-    {
-        Debug.Log("fddf");
-        neverClick = true;
-        /*
+    {   /*
         for (var i = 0; i < binaryNodes.Count; i++)
         {
             var node = binaryNodes[i];
@@ -40,6 +37,7 @@ public class BinaryTree : MonoBehaviour
         Debug.Log(index);
         if ((index == 4 || index == 5 || index == 6) && neverClick)
         {
+            
             neverClick = false;
             Debug.Log("성공!!!!!!");
             foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
