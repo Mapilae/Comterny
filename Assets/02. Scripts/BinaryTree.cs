@@ -1,45 +1,47 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 
 // 각각의 노드를 구성하는 기본적인 정보를 가지는 클래스
-[System.Serializable]
+[Serializable]
 public class NodeBlock
 {
-    public string binaryCode;
-    public bool isNodeRight;
-    public GameObject objNode;
-    [HideInInspector] public GameObject obj;
-    public TMP_Text text;
-    
+    public GameObject vertexObj;
+    public List<GameObject> adjustArrows;
 }
+
 public class BinaryTree : MonoBehaviour
 {
-    public List<NodeBlock> binaryNodes = new List<NodeBlock>();
-    public void CreateNode(int index)   
-    {
-    }
+    public List<NodeBlock> nodeBlocks = new();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         Debug.Log("fddf");
-        
-        for (int i = 0; i < binaryNodes.Count; i++)
+
+        /*
+        for (var i = 0; i < binaryNodes.Count; i++)
         {
-            NodeBlock node = binaryNodes[i];
+            var node = binaryNodes[i];
             Debug.Log(node.objNode.transform.position);
-            
-        }
+        }*/
+    }
+
+    public void CreateNode(int index)
+    {
     }
 
     public void imgClick(int index)
     {
+        //코드 추가 가이드: 정점을 1개만 제거하도록 4,5,6번 원중 하나를 지웠으면 나머지 원은 눌러도 삭제 안되는 코드 추가 필요
+
         Debug.Log(index);
         if (index == 4 || index == 5 || index == 6)
         {
             Debug.Log("성공!!!!!!");
+            foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
+            nodeBlocks[index - 1].vertexObj.SetActive(false);
         }
         else
         {
