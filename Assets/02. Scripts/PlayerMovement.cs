@@ -28,11 +28,12 @@ public class PlayerMovement : MovingFootPrint
     private void Awake()
     {
         instance = this;
+
+        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FixedJoystick>();
     }
 
     private void Start()
     {
-        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FixedJoystick>();
         moveSpeed1x = moveSpeed;
 
         spriteRender = GetComponent<SpriteRenderer>();
@@ -66,7 +67,7 @@ public class PlayerMovement : MovingFootPrint
 
         if (input.x != 0)
         {
-            spriteRender.flipX = input.x < 0;
+            if (spriteRender != null) spriteRender.flipX = input.x < 0;
             spineTrans.localScale = input.x < 0 ? Vector3.one : new Vector3(-1, 1, 1);
         }
 

@@ -132,14 +132,22 @@ public class CameraFollow : MonoBehaviour
     //SpriteRenderer sprRenderer;
     public float smoothSpeed = 50f;
 
-    public bool isFixed;
-    public float duration = 1.0f; // 이동 시간
+    public float cDuration = 1.0f; // 이동 시간
     public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 부드러운 이동 곡선
-    private bool _isXFixed;
-    private bool _isYFixed;
+
+
+    public bool isFixed;
+    public bool _isXFixed;
+    public bool _isYFixed;
+
+    public bool isFreezed;
+    public bool isXFreezed;
+    public bool isYFreezed;
 
     private float _timeX;
     private float _timeY;
+
+    private bool isCoroutineRunning;
 
     private Vector3 targetPosition;
 
@@ -151,36 +159,47 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (isFixed) return;
         targetPosition = transform.position;
-        if (!_isXFixed) targetPosition.x = player.position.x;
-        if (!_isYFixed) targetPosition.y = player.position.y;
+        if (!_isXFixed && !isXFreezed) targetPosition.x = player.position.x;
+        if (!_isYFixed && !isYFreezed) targetPosition.y = player.position.y;
 
         transform.position = targetPosition;
     }
 
-    public void ResetPosition()
+    public void ResetPosition(bool isFreezeMode)
     {
-        StopAllCoroutines();
-        StartCoroutine(SmoothMoveTrans(player, false, false, duration));
+        if (!isFreezeMode)
+        {
+            isFixed = false;
+            _isXFixed = false;
+            _isYFixed = false;
+        }
+        // if (isCoroutineRunning) StopAllCoroutines();
+
+        StartCoroutine(SmoothMoveTrans(isFreezeMode, isXFreezed || _isXFixed,
+            isYFreezed || _isYFixed,
+            cDuration));
     }
 
     public void MoveToTarget(Vector3 targetVec, bool isX, bool isY)
     {
-        StopAllCoroutines();
-        StartCoroutine(SmoothMove(targetVec, isX, isY, duration));
+        // if (isCoroutineRunning) StopAllCoroutines();
+        isFixed = isX || isY;
+        _isXFixed = isX;
+        _isYFixed = isY;
+        StartCoroutine(SmoothMove(targetVec, isX, isY, cDuration));
     }
 
     private IEnumerator SmoothMove(Vector3 targetPos, bool isX, bool isY, float duration)
     {
-        isFixed = true;
-        _isXFixed = isX;
-        _isYFixed = isY;
+        isCoroutineRunning = true;
         var startPosition = transform.position;
+
         var elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
+            if (this == null) yield break;
             elapsedTime += Time.deltaTime;
             var t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
 
@@ -198,57 +217,62 @@ public class CameraFollow : MonoBehaviour
             isY ? targetPos.y : startPosition.y,
             startPosition.z
         );
+        isCoroutineRunning = false;
     }
 
-    private IEnumerator SmoothMoveTrans(Transform target, bool isX, bool isY, float duration)
+    private IEnumerator SmoothMoveTrans(bool isFreezeMode, bool isXNoMove, bool isYNoMove, float duration)
     {
-        isFixed = true;
-        _isXFixed = isX;
-        _isYFixed = isY;
-        var startPosition = transform.position;
+        isCoroutineRunning = true;
+        var startOffset = transform.position; // - player.transform.position;
         var elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
+            //if (this == null) yield break;
             elapsedTime += Time.deltaTime;
+            // 현재 위치의 상대적 오프셋
             var t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
+            startOffset = transform.position;
 
-            // 매 프레임 target의 최신 position 사용
-            var targetPos = target.position;
-
-            var newX = isX ? Mathf.Lerp(startPosition.x, targetPos.x, t) : startPosition.x;
-            var newY = isY ? Mathf.Lerp(startPosition.y, targetPos.y, t) : startPosition.y;
-            var newZ = startPosition.z; // Z축은 그대로 유지
+            // 매 프레임마다 startOffset을 갱신하며 보간 수행
+            var newX = isXNoMove ? startOffset.x : Mathf.Lerp(startOffset.x, player.transform.position.x, t);
+            var newY = isYNoMove ? startOffset.y : Mathf.Lerp(startOffset.y, player.transform.position.y, t);
+            var newZ = startOffset.z; // Z축은 그대로 유지
 
             transform.position = new Vector3(newX, newY, newZ);
+            Debug.Log(transform.position.y + "+ repeat: " + t);
             yield return null;
         }
 
-        // 최종 위치 보정 (마지막 위치를 최신 target의 position으로 설정)
+        Debug.Log("repeat: Finish");
+        // 최종 위치 보정
         transform.position = new Vector3(
-            isX ? target.position.x : startPosition.x,
-            isY ? target.position.y : startPosition.y,
-            startPosition.z
+            isXNoMove ? startOffset.x : player.transform.position.x,
+            isYNoMove ? startOffset.y : player.transform.position.y,
+            startOffset.z
         );
 
-        isFixed = false;
-        _isXFixed = false;
-        _isYFixed = false;
+        isCoroutineRunning = false;
     }
 
 
     public void FreezeMove(bool isX, bool isY)
     {
-        if (isX) _isXFixed = true;
-        if (isY) _isYFixed = true;
-        Debug.Log("Freeze move: " + _isXFixed + ", " + _isYFixed);
+        if (isX) isXFreezed = true;
+        if (isY) isYFreezed = true;
+        Debug.Log("Freeze move: " + isXFreezed + ", " + isYFreezed);
+
+        isFreezed = true;
     }
+
 
     public void UnfreezeMove(bool isX, bool isY)
     {
-        if (isX) _isXFixed = false;
-        if (isY) _isYFixed = false;
-        Debug.Log("unfreeze move: " + _isXFixed + ", " + _isYFixed);
-        ResetPosition();
+        if (isX) isXFreezed = false;
+        if (isY) isYFreezed = false;
+        Debug.Log("unfreeze move: " + isXFreezed + ", " + isYFreezed);
+
+        isFreezed = isXFreezed || isYFreezed;
+        //ResetPosition(true);
     }
 }

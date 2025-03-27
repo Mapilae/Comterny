@@ -1134,7 +1134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31f87efe1265a6040b350783a7a524c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {x: 0, y: 0, z: -10}
+  target: {x: 0, y: 0.5, z: -10}
   isUsingX: 0
   isUsingY: 1
 --- !u!1 &355941905
@@ -1684,7 +1684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &545013548
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9461,7 +9461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1123702710
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12558,9 +12558,9 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2140534645}
   - {fileID: 759739033}
   - {fileID: 903774960}
+  - {fileID: 2140534645}
   - {fileID: 985805101}
   - {fileID: 1469239749}
   - {fileID: 1678598632}

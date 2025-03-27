@@ -43,6 +43,6 @@ public class CameraLookChange : MonoBehaviour
     private void OnExit()
     {
         isUsed = false;
-        cam.ResetPosition();
+        cam.ResetPosition(false);
     }
 }
