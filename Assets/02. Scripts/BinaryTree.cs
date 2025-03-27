@@ -30,6 +30,20 @@ public class BinaryTree : MonoBehaviour
         {
             NodeBlock node = binaryNodes[i];
             Debug.Log(node.objNode.transform.position);
+            
+        }
+    }
+
+    public void imgClick(int index)
+    {
+        Debug.Log(index);
+        if (index == 4 || index == 5 || index == 6)
+        {
+            Debug.Log("성공!!!!!!");
+        }
+        else
+        {
+            Debug.Log("실패!!!!!!!");
         }
     }
 

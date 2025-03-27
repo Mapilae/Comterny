@@ -8,10 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.comtany/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.comtany/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/01. Scenes/minigame2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/01. Scenes/minigame2.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/BinaryTree.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/BinaryTree.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/ParityBit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/ParityBit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/02. Scripts/SheetData/SheetLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/02. Scripts/SheetData/SheetLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/03. Image/Map/Bus Stop/KakaoTalk_20250320_155146042.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/03. Image/Map/Bus Stop/KakaoTalk_20250320_155146042.jpg.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/03. Image/Map/Bus Stop/별 파티클.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/03. Image/Map/Bus Stop/별 파티클.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/04. Prefabs/Minigame_2/minigame2_node.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/04. Prefabs/Minigame_2/minigame2_node.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +30,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/PlayerMovement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/02. Scripts/SheetData/SheetLoader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@087c6d6dbb7d/Runtime/Data/UniversalRenderPipelineAsset.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@9496653a3df6/Runtime/TMP/TMP_Text.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@9496653a3df6/Runtime/TMP/TextMeshProUGUI.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -48,7 +47,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "4d3e2ba8",
+    "git-widget-placeholder": "6bce9bce",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
