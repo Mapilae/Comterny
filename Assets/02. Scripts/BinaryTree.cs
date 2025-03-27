@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 
 // 각각의 노드를 구성하는 기본적인 정보를 가지는 클래스
-public class Node
+[System.Serializable]
+public class NodeBlock
 {
     public string binaryCode;
     public bool isNodeRight;
@@ -13,22 +15,23 @@ public class Node
     public TMP_Text text;
     
 }
-public class Binary : MonoBehaviour
+public class BinaryTree : MonoBehaviour
 {
-    public List<Node> nodes = new List<Node>();
-
-    public void CreateNode(int index)
+    public List<NodeBlock> binaryNodes = new List<NodeBlock>();
+    public void CreateNode(int index)   
     {
-        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Debug.Log("fddf");
         
+        for (int i = 0; i < binaryNodes.Count; i++)
+        {
+            NodeBlock node = binaryNodes[i];
+            Debug.Log(node.objNode.transform.position);
+        }
     }
 
     // Update is called once per frame
-    void Update()
-    {
-    }
 }

@@ -11,8 +11,8 @@ public class SheetLoader : MonoBehaviour
     public static SheetLoader instance;
     public SheetData sheetData;
     string strSheetData;
-    // ´ÙÀÌ¾ó·Î±×´Â ±¸±Û ½ºÇÁ·¹µå ½ÃÆ®·Î ÀúÀåµÊ
-    // ´ÙÀÌ¾ó ·Î±× ±¸ºÐÀ» À§ÇØ Ä³¸¯ÅÍ º°·Î Á¤¸®¸¦ ÇÑ¹ø ÇØ¾ß °ÚÀ½
+    // ï¿½ï¿½ï¿½Ì¾ï¿½Î±×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½Ø¾ï¿½ ï¿½ï¿½ï¿½ï¿½
     static string url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
 
     public static int chapNumber = 1;
@@ -58,7 +58,7 @@ public class SheetLoader : MonoBehaviour
 
     void DisplayText()
     {
-        Debug.Log(strSheetData);
+            Debug.Log(strSheetData);
 
     }
 
@@ -73,16 +73,16 @@ public class SheetLoader : MonoBehaviour
             string[] columns = rows[i].Replace("\r", "").Split('\t');
             string id = columns[0];
 
-            // ¹è¿­ ±æÀÌ È®ÀÎ
+            // ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
             if (columns.Length < 4)
             {
-                // Debug.LogWarning("Àß¸øµÈ µ¥ÀÌÅÍ Çü½Ä: " + rows[i]);
-                continue; // µ¥ÀÌÅÍ°¡ ºÎÁ·ÇÑ ÇàÀ» °Ç³Ê¶Ü
+                // Debug.LogWarning("ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: " + rows[i]);
+                continue; // ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç³Ê¶ï¿½
             }
 
             if (columns[0].Equals(columns[2]) && columns[3].Equals(""))
             {
-                // Debug.Log("ºó ÁÙÀÔ´Ï´Ù!:" + columns[0] + ", " + columns[1] + ", " + columns[2] + ", " + columns[3]);
+                // Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´Ï´ï¿½!:" + columns[0] + ", " + columns[1] + ", " + columns[2] + ", " + columns[3]);
                 continue;
             }
 
@@ -102,12 +102,12 @@ public class SheetLoader : MonoBehaviour
             }
             else
             {
-                //{ //ÇÏÀ§ branch·Î
+                //{ //ï¿½ï¿½ï¿½ï¿½ branchï¿½ï¿½
                 id = currentId;
                 Cell cell = MakeCell(columns);
                 sheetData.AddCell(id, cell);
                 //}
-                //else continue; //ÁÖ¼®. Ã³¸®X, ½ºÅµ
+                //else continue; //ï¿½Ö¼ï¿½. Ã³ï¿½ï¿½X, ï¿½ï¿½Åµ
 
             }
         }
@@ -119,7 +119,7 @@ public class SheetLoader : MonoBehaviour
             dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
         }
         else
-            Debug.Log("DialogueManager¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+            Debug.Log("DialogueManagerï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!");
     }
 
     Cell MakeCell(string[] columns)
