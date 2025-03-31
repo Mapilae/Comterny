@@ -1059,7 +1059,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uB514\uBC84\uADF8\uC758 \uB208 \uC55E\uC5D0 \uBC8C\uB808\uAC00 \uC704\uCE58\uD558\uB3C4\uB85D
-    \uD558\uC2DC"
+    \uD558\uC2DC\uC624."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a096cc2d9716eb0439fb83174b5fe24d, type: 2}
   m_sharedMaterial: {fileID: -6844524709953845814, guid: a096cc2d9716eb0439fb83174b5fe24d, type: 2}
