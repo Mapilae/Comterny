@@ -17,6 +17,10 @@ MonoBehaviour:
     varCode: 100
   - varName: test1
     varCode: 101
+  - varName: readCPUfall
+    varCode: 120
+  - varName: afterPower
+    varCode: 122
   allItemList:
   - itemID: 0
     itemName: "\uC544\uC774\uD15C\uC774\uB984"

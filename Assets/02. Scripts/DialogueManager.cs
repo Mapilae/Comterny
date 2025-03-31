@@ -61,13 +61,6 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            isViewPause = !isViewPause;
-
-            uiCanvas.enabled = !isViewPause;
-        }
-
         if (isPause || isViewPause) return;
 
         if (dialogWhole.gameObject.activeInHierarchy)
@@ -101,9 +94,9 @@ public class DialogueManager : MonoBehaviour
 
     public void ItemGetDialogue(string msg)
     {
-        var dialogue = new List<Dialogue>
+        List<Dialogue> dialogue = new()
         {
-            new("", msg, null)
+            new Dialogue("", msg, null)
         };
         StartDialogue(dialogue);
     }
@@ -163,7 +156,7 @@ public class DialogueManager : MonoBehaviour
             //  }
             //if(�������)string content =content_ENG
 
-            var content = dialogueList[crtIndex].content;
+            string content = dialogueList[crtIndex].content;
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].charName);
             standingImg.sprite = dialogueList[crtIndex].sprite;
             standingImg.enabled = standingImg.sprite != null;
@@ -173,15 +166,15 @@ public class DialogueManager : MonoBehaviour
             {
                 // Debug.Log("ġȯ ��: " + content);
 
-                var regex = new Regex(@"\{(.*?)\}");
+                Regex regex = new(@"\{(.*?)\}");
                 content = regex.Replace(content, match =>
                 {
-                    var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
+                    string key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
                     // Debug.Log($"ġȯ �õ�: {key}");
 
                     if (key.Equals("Player")) return PlayerMovement.playerName;
                     // PlayerPrefs���� �� ��������
-                    var value = PlayerPrefs.GetString(key, "null");
+                    string value = PlayerPrefs.GetString(key, "null");
                     // Debug.Log($"PlayerPrefs���� ������ ��: {value}");
 
 

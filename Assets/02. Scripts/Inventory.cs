@@ -42,21 +42,22 @@ public class Inventory : MonoBehaviour
 
     public void AddVariable(string varNameOrCode)
     {
-        VariableIntStr newVar;
-        if (int.TryParse(varNameOrCode, out var result))
-            newVar = varHolder.FindVariable(result);
-        else newVar = varHolder.FindVariable(result);
+        string[] vstr = varHolder.FindVariableStr(varNameOrCode);
+
+        VariableIntStr newVar = new(vstr[0], int.Parse(vstr[1]));
 
         if (!varList.Count.Equals(0))
         {
-            if (IsVariableExist(newVar.varCode))
-                Debug.Log("varName " + newVar.varName + " and varCode " + newVar.varCode +
+            if (IsVariableExist(int.Parse(vstr[1])))
+                Debug.Log("varName " + vstr[0] + " and varCode " + vstr[1] +
                           " already exist, so did not add var");
+            else Debug.Log("변수 등록: " + vstr[1]);
             return;
         }
 
+        Debug.Log("varList.Count = " + varList.Count);
+
         varList.Add(newVar);
-        Debug.Log("변수 등록: " + varList[varList.Count - 1].varName);
     }
 
     public void ClickToHoldItem(int index)
@@ -96,7 +97,7 @@ public class Inventory : MonoBehaviour
 
     public void UpdateInventory()
     {
-        for (var i = 0; i < itemHoldList.Count; i++)
+        for (int i = 0; i < itemHoldList.Count; i++)
             if (i < currentItems.Count)
             {
                 itemHoldList[i].sprite = currentItems[i].itemSpr;
@@ -113,7 +114,7 @@ public class Inventory : MonoBehaviour
     private void MakeList()
     {
         itemHoldList = new List<Image>();
-        for (var i = 0; i < itemHoldParent.childCount; i++)
+        for (int i = 0; i < itemHoldParent.childCount; i++)
             itemHoldList.Add(itemHoldParent.GetChild(i).GetChild(0).GetComponent<Image>());
 
         varList = new List<VariableIntStr>();
@@ -127,7 +128,7 @@ public class Inventory : MonoBehaviour
 
     public bool CheckIfItemIsInInventory(int itemID)
     {
-        foreach (var item in currentItems)
+        foreach (Item item in currentItems)
             if (item.itemID == itemID)
                 return true;
 

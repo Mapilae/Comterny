@@ -50,14 +50,14 @@ public class InteractableObject : MonoBehaviour
             PlayerMovement.IsSpaceFalse();
             //Debug.Log("Interacted with: " + gameObject.name);
 
-            for (var num = 0; num < interactList.Count; num++)
+            for (int num = 0; num < interactList.Count; num++)
             {
-                var isAllItemsInInventory = true;
+                bool isAllItemsInInventory = true;
                 if (interactList[num].needItemCode.Count > 0)
                 {
                     if (!interactList[num].reverseNeedItem) //존재하는지 체크
                     {
-                        for (var i = 0; i < interactList[num].needItemCode.Count; i++)
+                        for (int i = 0; i < interactList[num].needItemCode.Count; i++)
                             if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
                             {
                                 if (!Inventory.instance.IsVariableExist(interactList[num].needItemCode[i]))
@@ -76,7 +76,7 @@ public class InteractableObject : MonoBehaviour
                     {
                         //reverse
 
-                        for (var i = 0; i < interactList[num].needItemCode.Count; i++)
+                        for (int i = 0; i < interactList[num].needItemCode.Count; i++)
                             if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
                             {
                                 if (Inventory.instance.IsVariableExist(interactList[num].needItemCode[i]))
@@ -120,26 +120,26 @@ public class InteractableObject : MonoBehaviour
     private void ItemTypeAct()
     {
         isClose = true;
-        for (var i = 0; i < interactList[currentInteractIndex].varNameOrCodeToAdd.Count; i++)
+        for (int i = 0; i < interactList[currentInteractIndex].varNameOrCodeToAdd.Count; i++)
             Inventory.instance.AddVariable(interactList[currentInteractIndex].varNameOrCodeToAdd[i]);
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
-                Debug.Log("NPC");
+                Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
                 GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item
-                Debug.Log("SELF DOOR");
+                // Debug.Log("SELF DOOR");
                 interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
                 break;
 
             case InteractableType.AUTODOOR: //When Player have the item(no need to hold)
-                Debug.Log("AUTO DOOR");
+                // Debug.Log("AUTO DOOR");
                 interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
-                Debug.Log("PUZZLE MINIGAME START");
+                //  Debug.Log("PUZZLE MINIGAME START");
                 PlayerMovement.instance.ChangeCanMove(false);
                 if (interactList[currentInteractIndex].objToEnable2 != null)
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);
