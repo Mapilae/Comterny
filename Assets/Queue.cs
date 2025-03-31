@@ -10,70 +10,61 @@
 
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 [Serializable]
 public class QueueBlock
 {
-    [SerializeField]
-    public GameObject pushButton; // push 버튼
     public GameObject gridLayoutGroup; //그리드 obj 이거 자식을 불러와야함
-    public List<GameObject> blocks; // queueBlock 모음 시작 할 때 기본적으로 2개 주기
+
+    //public List<GameObject> blocks; // queueBlock 모음 시작 할 때 기본적으로 2개 주기
     public GameObject initBlock; //복제될 블럭 push버튼을 누르면 이걸 복사함
     public GameObject bugBlock;
 }
-    
+
 public class Queue : MonoBehaviour
 {
     public QueueBlock queueBlock = new();
 
-    private bool cheakBug()
-    {
-        Debug.Log(queueBlock.gridLayoutGroup.transform.GetChild(2).gameObject.name +" "+ queueBlock.bugBlock.name);
-        if (queueBlock.gridLayoutGroup.transform.GetChild(1).gameObject.name == queueBlock.bugBlock.name)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         Debug.Log(queueBlock.gridLayoutGroup.transform);
-        queueBlock.initBlock = queueBlock.gridLayoutGroup.transform.GetChild(0).gameObject; // 가장 처음있는 블록을 initBlock로 설정
+        // queueBlock.initBlock = queueBlock.gridLayoutGroup.transform.GetChild(0).gameObject; // 가장 처음있는 블록을 initBlock로 설정
         queueBlock.bugBlock = queueBlock.gridLayoutGroup.transform.GetChild(2).gameObject;
-        
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+    }
+
+    private bool cheakBug()
+    {
+        //Debug.Log(queueBlock.gridLayoutGroup.transform.GetChild(2).gameObject.name + " " + queueBlock.bugBlock.name);
+        if (queueBlock.gridLayoutGroup.transform.childCount > 0 && queueBlock.bugBlock != null)
+            if (queueBlock.gridLayoutGroup.transform.GetChild(1).gameObject.name == queueBlock.bugBlock.name)
+                return true;
+        return false;
     }
 
     public void pushButtonClick()
     {
-        if (queueBlock.gridLayoutGroup.transform.gameObject.GetComponentCount() >= 5)
-        {
-            return;
-        }
-        GameObject willAddBlock = Instantiate(queueBlock.initBlock, queueBlock.gridLayoutGroup.transform, true);
-        willAddBlock.transform.localPosition = new Vector3(willAddBlock.transform.localPosition.x,willAddBlock.transform.localPosition.y,0f);//추가될 블럭
+        if (queueBlock.gridLayoutGroup.transform.childCount >= 5) return;
+        var willAddBlock = Instantiate(queueBlock.initBlock, queueBlock.gridLayoutGroup.transform, true);
+        willAddBlock.transform.localPosition = new Vector3(willAddBlock.transform.localPosition.x,
+            willAddBlock.transform.localPosition.y, 0f); //추가될 블럭
         willAddBlock.transform.localScale = new Vector2(1, 1);
-        
+
 
         Debug.Log(cheakBug());
     }
 
     public void popButtonClick()
     {
-        Destroy(queueBlock.gridLayoutGroup.transform.GetChild(0).gameObject);
-       
+        if (queueBlock.gridLayoutGroup.transform.childCount > 0)
+            Destroy(queueBlock.gridLayoutGroup.transform.GetChild(0).gameObject);
+
         Debug.Log(cheakBug());
     }
 }
