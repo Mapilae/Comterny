@@ -29,7 +29,7 @@ public class PlayerMovement : MovingFootPrint
     {
         instance = this;
 
-        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FixedJoystick>();
+        // fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FixedJoystick>();
     }
 
     private void Start()

@@ -47,7 +47,7 @@ public class Queue : MonoBehaviour
         Debug.Log(queueBlock.gridLayoutGroup.transform);
         queueBlock.initBlock = queueBlock.gridLayoutGroup.transform.GetChild(0).gameObject; // 가장 처음있는 블록을 initBlock로 설정
         queueBlock.bugBlock = queueBlock.gridLayoutGroup.transform.GetChild(2).gameObject;
-       
+        
     }
 
     // Update is called once per frame
@@ -58,6 +58,10 @@ public class Queue : MonoBehaviour
 
     public void pushButtonClick()
     {
+        if (queueBlock.gridLayoutGroup.transform.gameObject.GetComponentCount() >= 5)
+        {
+            return;
+        }
         GameObject willAddBlock = Instantiate(queueBlock.initBlock, queueBlock.gridLayoutGroup.transform, true);
         willAddBlock.transform.localPosition = new Vector3(willAddBlock.transform.localPosition.x,willAddBlock.transform.localPosition.y,0f);//추가될 블럭
         willAddBlock.transform.localScale = new Vector2(1, 1);
