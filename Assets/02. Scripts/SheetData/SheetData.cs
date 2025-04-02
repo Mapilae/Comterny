@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
-[System.Serializable]
+[Serializable]
 public class Block
 {
     public string id;
@@ -12,20 +12,18 @@ public class Block
     public Block(string id)
     {
         this.id = id;
-        this.cells = new List<Cell>();
+        cells = new List<Cell>();
     }
 
     public void AddCell(Cell cell)
     {
-        this.cells.Add(cell);
+        cells.Add(cell);
     }
-
 }
 
-[System.Serializable]
+[Serializable]
 public class Cell
 {
-
     public string name;
     public int standingNum;
     [TextArea] public string content;
@@ -37,15 +35,13 @@ public class Cell
         this.standingNum = standingNum;
         this.content = content;
     }
-
 }
 
 public class SheetData : MonoBehaviour
 {
     public static SheetData instance;
 
-    [Header("½Ã³ª¸®¿À")]
-    public List<Block> block;
+    [Header("ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½")] public List<Block> block;
 
     private void Awake()
     {
@@ -55,31 +51,27 @@ public class SheetData : MonoBehaviour
     public void AddCell(string id, Cell cell)
     {
         block[FindIDIndex(id)].AddCell(cell);
-
     }
 
     public int FindIDIndex(string id)
     {
         if (block == null)
         {
-            Debug.Log("blockÀÌ nullÀÔ´Ï´Ù");
+            Debug.Log("blockï¿½ï¿½ nullï¿½Ô´Ï´ï¿½");
             return -1;
         }
+
         if (block.Count == 0)
         {
-
-            Debug.Log($"blockÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!");
+            Debug.Log("block\ufffd\ufffd \ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd \ufffdÊ½\ufffd\ufffdÏ´\ufffd!");
             return -1;
         }
-        for (int i = 0; i < block.Count; i++)
-        {
-            if (block[i].id.Equals(id))
-            {
-                return i;
-            }
-        }
 
-        Debug.Log($"{id}°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!");
+        for (int i = 0; i < block.Count; i++)
+            if (block[i].id.Equals(id))
+                return i;
+
+        Debug.Log($"{id}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½!");
         return -1;
     }
 
@@ -93,6 +85,4 @@ public class SheetData : MonoBehaviour
     {
         return block[FindIDIndex(id)];
     }
-
 }
-

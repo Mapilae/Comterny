@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2545001741022085194}
   - component: {fileID: 6031014609228861021}
   - component: {fileID: 8391466068683864633}
-  - component: {fileID: 4065050787556762257}
   - component: {fileID: 959973888554898507}
   - component: {fileID: 3123256497045867628}
   m_Layer: 0
@@ -109,26 +108,8 @@ MonoBehaviour:
   footprintObj: {fileID: 0}
   footPos: []
   characterName: "\uB7A8"
-  dialogueContent: {fileID: 4065050787556762257}
+  dialogueContent: {fileID: 0}
   convObj: {fileID: 1840569882743803576}
---- !u!114 &4065050787556762257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794280212828718961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e3d27a9b6c24d4884553b3a4583eff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprManager: {fileID: 11400000, guid: af77fe92cac18994bb32303a9f117630, type: 2}
-  containers:
-  - id: "\uCEF4\uD30C\uC77C\uB7EC\uCCAB\uB9CC\uB0A8"
-    dialogue: []
-  - id: "\uD14C\uC2A4\uD2B8"
-    dialogue: []
 --- !u!114 &959973888554898507
 MonoBehaviour:
   m_ObjectHideFlags: 0

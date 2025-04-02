@@ -37,7 +37,19 @@ public class Inventory : MonoBehaviour
 
     public bool IsVariableExist(int varCode)
     {
-        return varList.Exists(x => x.varCode == varCode);
+        bool isTrue = false; // = varList.Exists(x => x.varCode == varCode);
+
+
+        for (int i = 0; i < varList.Count; i++)
+            if (varCode == varList[i].varCode)
+            {
+                isTrue = true;
+                Debug.Log("true::" + varCode);
+                break;
+            }
+
+        Debug.Log("is Variable Exist : " + varCode + " :: " + isTrue);
+        return isTrue;
     }
 
     public void AddVariable(string varNameOrCode)

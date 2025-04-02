@@ -95,7 +95,7 @@ public class InteractableObject : MonoBehaviour
 
                 if (isAllItemsInInventory)
                 {
-                    Debug.Log("All items are in inventory");
+                    Debug.Log("All items are in inventory. ItemTypeActStart");
                     currentInteractIndex = num;
                     ItemTypeAct();
 

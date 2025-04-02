@@ -18,7 +18,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dialogue")] public Canvas uiCanvas;
 
-    public List<Dialogue> dialogueList;
+    public List<Cell> dialogueList;
     public int crtIndex;
 
     public GameObject dialogueWholeObj;
@@ -94,9 +94,9 @@ public class DialogueManager : MonoBehaviour
 
     public void ItemGetDialogue(string msg)
     {
-        List<Dialogue> dialogue = new()
+        List<Cell> dialogue = new()
         {
-            new Dialogue("", msg, null)
+            new Cell("", 0, msg)
         };
         StartDialogue(dialogue);
     }
@@ -107,9 +107,9 @@ public class DialogueManager : MonoBehaviour
         contentTrans = contentTxt.GetComponent<RectTransform>();
     }
 
-    public void StartDialogue(List<Dialogue> dialogue)
+    public void StartDialogue(List<Cell> dialogue)
     {
-        dialogueList = new List<Dialogue>();
+        dialogueList = new List<Cell>();
         dialogueList = dialogue;
         standingImg.enabled = true;
         crtIndex = 0;
@@ -157,8 +157,8 @@ public class DialogueManager : MonoBehaviour
             //if(�������)string content =content_ENG
 
             string content = dialogueList[crtIndex].content;
-            nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].charName);
-            standingImg.sprite = dialogueList[crtIndex].sprite;
+            nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
+            standingImg.sprite = sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
             standingImg.enabled = standingImg.sprite != null;
 
 
@@ -336,6 +336,24 @@ public class DialogueManager : MonoBehaviour
         startDelaySecond = 0.0f;
         ChangeDialogue();
 
+        yield return null;
+    }
+
+    public void StartDialogueInManager(string idName)
+    {
+        StartCoroutine(IEStartDialogue(idName));
+    }
+
+    private IEnumerator IEStartDialogue(string idName)
+    {
+        //if (!isLoaded) LoadDialogueFromSheetData();
+        //Debug.Log("Start Dialogue waiting.");
+        //WaitUntil waitUntil = new(() => isLoaded);
+        //yield return waitUntil;
+        //Debug.Log("Start Dialogue waiting end.");
+
+        int index = SheetData.instance.block.FindIndex(x => x.id == idName);
+        instance.StartDialogue(SheetData.instance.block[index].cells);
         yield return null;
     }
 }
