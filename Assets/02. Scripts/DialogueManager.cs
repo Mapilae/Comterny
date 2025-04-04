@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class DialogueManager : MonoBehaviour
 
     public SoundManager soundManager;
     public StandingSpriteManager sprManager;
-    public Image standingImg;
+    public StandingAnim standingImg;
 
 
     [Header("Others")] public TypeWriter typeWriter;
@@ -111,7 +110,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueList = new List<Cell>();
         dialogueList = dialogue;
-        standingImg.enabled = true;
+        standingImg.StandingAlpha(true);
         crtIndex = 0;
         dialogWhole.gameObject.SetActive(true);
         Debug.Log("다이얼로그 시작: " + dialogueList[0].content);
@@ -143,7 +142,7 @@ public class DialogueManager : MonoBehaviour
             if (dialogueList.Count <= crtIndex)
             {
                 dialogWhole.gameObject.SetActive(false);
-                standingImg.enabled = false;
+                standingImg.StandingAlpha(false);
                 PlayerMovement.instance.ChangeCanMove(true);
                 Debug.Log("종료");
                 return;
@@ -158,8 +157,9 @@ public class DialogueManager : MonoBehaviour
 
             string content = dialogueList[crtIndex].content;
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
-            standingImg.sprite = sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
-            standingImg.enabled = standingImg.sprite != null;
+            standingImg.image.sprite =
+                sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
+            standingImg.image.enabled = standingImg.image.sprite != null;
 
 
             if (content.Contains("{"))
@@ -256,72 +256,7 @@ public class DialogueManager : MonoBehaviour
 
     private void DisableSprite()
     {
-        standingImg.enabled = false;
-    }
-
-    private void ChangeSprite()
-    {
-        /*string[] standing = sheetData.storyBlock[crtBranch].block[crtPage].standing;
-        //  bool isNoName = currentBlock.block[index].isNoName;
-        Color gray = new Color32(163, 164, 168, 255);
-        // Debug.Log("focusOn: " + focusOn);
-        //StandingSpriteManager���� ��������Ʈ�� ã�ƿ�. (ĳ �̸�, �� ���� �Ķ���ͷ� �ʿ�.)
-
-
-        for (int i = 0; i < standingImg.Length; i++)
-        {
-            //string[] spr1 = standing[0].Split('_');
-            //if (spr1.Length <= 1)
-            //    spr1 = new string[] { "", "" };
-            //Sprite spr = sprManager.FindSprite(spr1[0], spr1[1]);
-
-            string[] spl = standing[i].Split('_');
-            if (spl.Length <= 1)
-                spl = new string[] { "", "" };
-
-            Sprite spr = sprManager.FindSprite(spl[0], spl[1]);
-
-            standingImg[i].sprite = spr;
-            standingImg[i].color = (focusOn == i) ? Color.white : gray;
-            standingImg[i].enabled = (spr != null && !isMiniOn);
-
-            if (minigameState.Equals(1) && i.Equals(1))
-            {
-                currentMinigame.GetComponent<Minigame_Phone>().ChangeStandingImg(spr, focusOn == 1);
-                standingImg[i].enabled = false;
-            }
-
-        }
-
-        //2�� �ִ� ��� �߰����� �̵���Ű��
-        if (standingImg[1].enabled && standingImg[0].enabled && !standingImg[2].enabled)
-        {
-            standingImg[1].transform.parent.localPosition = new Vector3(3.2f, standingImg[1].transform.parent.localPosition.y, standingImg[1].transform.parent.localPosition.z);
-            standingImg[0].transform.parent.localPosition = new Vector3(-3.2f, standingImg[0].transform.parent.localPosition.y, standingImg[0].transform.parent.localPosition.z);
-
-        }
-        else if (standingImg[1].enabled && standingImg[2].enabled && !standingImg[0].enabled)
-        {
-            standingImg[2].transform.parent.localPosition = new Vector3(3.2f, standingImg[2].transform.parent.localPosition.y, standingImg[2].transform.parent.localPosition.z);
-            standingImg[1].transform.parent.localPosition = new Vector3(-3.2f, standingImg[1].transform.parent.localPosition.y, standingImg[1].transform.parent.localPosition.z);
-
-        }
-        else
-        {
-            //compare with default position
-            for (int i = 0; i < standingImg.Length; i++)
-            {
-                if (standingImg[i].enabled)
-                {
-                    if (standingImg[i].transform.parent.localPosition != standingDftPos[i])
-                    {
-                        standingImg[i].transform.parent.localPosition = standingDftPos[i];
-                    }
-                }
-            }
-        }
-
-        */
+        standingImg.StandingAlpha(false);
     }
 
 

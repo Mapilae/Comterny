@@ -227,7 +227,7 @@ Animator:
   m_GameObject: {fileID: 696027867733042739}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7ff1be61dba36df4d9ce1ea84bfd46b4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -655,7 +655,7 @@ MonoBehaviour:
   currentVolumeObj: {fileID: 0}
   soundManager: {fileID: 0}
   sprManager: {fileID: 11400000, guid: af77fe92cac18994bb32303a9f117630, type: 2}
-  standingImg: {fileID: 609185405699796520}
+  standingImg: {fileID: 5898171876768846321}
   typeWriter: {fileID: 1017751288062344564}
   isPause: 0
   isViewPause: 0
@@ -965,6 +965,7 @@ GameObject:
   - component: {fileID: 1924887418547296970}
   - component: {fileID: 6726458560499922179}
   - component: {fileID: 609185405699796520}
+  - component: {fileID: 5898171876768846321}
   m_Layer: 5
   m_Name: StandingImg
   m_TagString: Untagged
@@ -1011,7 +1012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 17117f644872f9040bd9cdaf8fc46ebb, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1029,6 +1030,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5898171876768846321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328885929235521933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855ed6bf93bb4244d9a7d5062f0023d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
 --- !u!1 &8470347691099729769
 GameObject:
   m_ObjectHideFlags: 0
