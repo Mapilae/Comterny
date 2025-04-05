@@ -18,8 +18,6 @@ public class InteractableSetting
 
     public List<int> needItemCode = new();
 
-    public bool reverseNeedItem;
-
     [Header("After this worked, add variable?")]
     public List<string> varNameOrCodeToAdd;
 
@@ -42,56 +40,40 @@ public class InteractableObject : MonoBehaviour
     [Header("interactList에서 true 조건을 달성한 인덱스")]
     private int currentInteractIndex;
 
+    private PlayerData playerData;
+
+    private void Awake()
+    {
+        playerData = GameObject.FindGameObjectWithTag("PlayerData").GetComponent<PlayerData>();
+    }
+
+
     private void Update()
     {
         if (isClose && PlayerMovement.isSpace)
         {
             isClose = false;
-            PlayerMovement.IsSpaceFalse();
+            PlayerMovement.instance.IsSpaceFalse(0.5f);
             //Debug.Log("Interacted with: " + gameObject.name);
-
+            currentInteractIndex = -1;
             for (int num = 0; num < interactList.Count; num++)
             {
                 bool isAllItemsInInventory = true;
                 if (interactList[num].needItemCode.Count > 0)
-                {
-                    if (!interactList[num].reverseNeedItem) //존재하는지 체크
-                    {
-                        for (int i = 0; i < interactList[num].needItemCode.Count; i++)
-                            if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
-                            {
-                                if (!Inventory.instance.IsVariableExist(interactList[num].needItemCode[i]))
-                                {
-                                    isAllItemsInInventory = false;
-                                    break;
-                                }
-                            }
-                            else if (!Inventory.instance.CheckIfItemIsInInventory(interactList[num].needItemCode[i]))
+                    for (int i = 0; i < interactList[num].needItemCode.Count; i++)
+                        if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
+                        {
+                            if (!playerData.IsVariableExist(interactList[num].needItemCode[i]))
                             {
                                 isAllItemsInInventory = false;
                                 break;
                             }
-                    }
-                    else
-                    {
-                        //reverse
-
-                        for (int i = 0; i < interactList[num].needItemCode.Count; i++)
-                            if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
-                            {
-                                if (Inventory.instance.IsVariableExist(interactList[num].needItemCode[i]))
-                                {
-                                    isAllItemsInInventory = false;
-                                    break;
-                                }
-                            }
-                            else if (Inventory.instance.CheckIfItemIsInInventory(interactList[num].needItemCode[i]))
-                            {
-                                isAllItemsInInventory = false;
-                                break;
-                            }
-                    }
-                }
+                        }
+                        else if (!playerData.IsItemExist(interactList[num].needItemCode[i]))
+                        {
+                            isAllItemsInInventory = false;
+                            break;
+                        }
 
                 if (isAllItemsInInventory)
                 {
@@ -121,7 +103,7 @@ public class InteractableObject : MonoBehaviour
     {
         isClose = true;
         for (int i = 0; i < interactList[currentInteractIndex].varNameOrCodeToAdd.Count; i++)
-            Inventory.instance.AddVariable(interactList[currentInteractIndex].varNameOrCodeToAdd[i]);
+            playerData.AddVariable(interactList[currentInteractIndex].varNameOrCodeToAdd[i]);
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
@@ -139,7 +121,7 @@ public class InteractableObject : MonoBehaviour
                 interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
-                //  Debug.Log("PUZZLE MINIGAME START");
+                Debug.Log("PUZZLE MINIGAME START" + name);
                 PlayerMovement.instance.ChangeCanMove(false);
                 if (interactList[currentInteractIndex].objToEnable2 != null)
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);

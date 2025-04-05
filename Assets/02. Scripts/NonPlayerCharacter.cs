@@ -21,15 +21,24 @@ public class NonPlayerCharacter : MovingFootPrint
         if (collision.CompareTag("Player")) convObj.SetActive(true);
     }
 
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) convObj.SetActive(false);
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && !DialogueManager.instance.isPlayingDialogue) convObj.SetActive(true);
+    }
+
     public void StartConversation(string ID)
     {
-        if (!convObj.activeInHierarchy) return;
+        if (!convObj.activeInHierarchy)
+        {
+            Debug.Log("ConvObj is not active. return.");
+            return;
+        }
+
         Debug.Log("StartConversation | 말 걸음: " + ID);
         DialogueManager.instance.StartDialogueInManager(ID);
         // dialogueContent.StartDialogueInManager(ID);

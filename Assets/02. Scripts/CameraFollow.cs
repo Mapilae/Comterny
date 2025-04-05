@@ -193,19 +193,19 @@ public class CameraFollow : MonoBehaviour
     private IEnumerator SmoothMove(Vector3 targetPos, bool isX, bool isY, float duration)
     {
         isCoroutineRunning = true;
-        var startPosition = transform.position;
+        Vector3 startPosition = transform.position;
 
-        var elapsedTime = 0f;
+        float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             if (this == null) yield break;
             elapsedTime += Time.deltaTime;
-            var t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
+            float t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
 
-            var newX = isX ? Mathf.Lerp(startPosition.x, targetPos.x, t) : startPosition.x;
-            var newY = isY ? Mathf.Lerp(startPosition.y, targetPos.y, t) : startPosition.y;
-            var newZ = startPosition.z; // Z축은 그대로 유지
+            float newX = isX ? Mathf.Lerp(startPosition.x, targetPos.x, t) : startPosition.x;
+            float newY = isY ? Mathf.Lerp(startPosition.y, targetPos.y, t) : startPosition.y;
+            float newZ = startPosition.z; // Z축은 그대로 유지
 
             transform.position = new Vector3(newX, newY, newZ);
             yield return null;
@@ -223,28 +223,28 @@ public class CameraFollow : MonoBehaviour
     private IEnumerator SmoothMoveTrans(bool isFreezeMode, bool isXNoMove, bool isYNoMove, float duration)
     {
         isCoroutineRunning = true;
-        var startOffset = transform.position; // - player.transform.position;
-        var elapsedTime = 0f;
+        Vector3 startOffset = transform.position; // - player.transform.position;
+        float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             //if (this == null) yield break;
             elapsedTime += Time.deltaTime;
             // 현재 위치의 상대적 오프셋
-            var t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
+            float t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
             startOffset = transform.position;
 
             // 매 프레임마다 startOffset을 갱신하며 보간 수행
-            var newX = isXNoMove ? startOffset.x : Mathf.Lerp(startOffset.x, player.transform.position.x, t);
-            var newY = isYNoMove ? startOffset.y : Mathf.Lerp(startOffset.y, player.transform.position.y, t);
-            var newZ = startOffset.z; // Z축은 그대로 유지
+            float newX = isXNoMove ? startOffset.x : Mathf.Lerp(startOffset.x, player.transform.position.x, t);
+            float newY = isYNoMove ? startOffset.y : Mathf.Lerp(startOffset.y, player.transform.position.y, t);
+            float newZ = startOffset.z; // Z축은 그대로 유지
 
             transform.position = new Vector3(newX, newY, newZ);
-            Debug.Log(transform.position.y + "+ repeat: " + t);
+//            Debug.Log(transform.position.y + "+ repeat: " + t);
             yield return null;
         }
 
-        Debug.Log("repeat: Finish");
+        //      Debug.Log("repeat: Finish");
         // 최종 위치 보정
         transform.position = new Vector3(
             isXNoMove ? startOffset.x : player.transform.position.x,

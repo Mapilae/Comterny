@@ -19,16 +19,23 @@ public class ItemGet : MonoBehaviour
     public List<string> varNameOrCodeToAdd;
     private Item item;
 
+    private PlayerData playerData;
+
     /// <summary>
     ///     아이템을 줍기 전, 줍고, 주운 후를 처리하는 코드.
     /// </summary>
     private SpriteRenderer sprRender;
 
+    private void Awake()
+    {
+        playerData = GameObject.FindGameObjectWithTag("PlayerData").GetComponent<PlayerData>();
+    }
+
     private void Start()
     {
         sprRender = GetComponent<SpriteRenderer>();
 
-        item = Inventory.instance.varHolder.FindItem(itemID);
+        item = playerData.GetItemFromID(itemID);
     }
 
     private void Update()
@@ -36,9 +43,9 @@ public class ItemGet : MonoBehaviour
         if (!canUse) return;
         if (isClose && PlayerMovement.isSpace)
         {
-            PlayerMovement.IsSpaceFalse();
+            PlayerMovement.instance.IsSpaceFalse(0.5f);
             Debug.Log("Item picked up: " + item.itemName);
-            Inventory.instance.AddItemInInventory(item);
+            playerData.AddItem(item.itemID);
             objToEnable.SetActive(false);
 
             if (msgToDialogue != "")
@@ -48,7 +55,7 @@ public class ItemGet : MonoBehaviour
             }
 
             canUse = false;
-            for (var i = 0; i < varNameOrCodeToAdd.Count; i++) Inventory.instance.AddVariable(varNameOrCodeToAdd[i]);
+            for (int i = 0; i < varNameOrCodeToAdd.Count; i++) playerData.AddVariable(varNameOrCodeToAdd[i]);
             if (!sprToChange.Equals(null)) sprRender.sprite = sprToChange;
             else gameObject.SetActive(false);
         }

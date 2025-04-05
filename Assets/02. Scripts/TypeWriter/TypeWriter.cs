@@ -2,37 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TypeWriter : MonoBehaviour
 {
-    public struct Word
-    {
-        public string word;
-        public string cmd;
-    }
+    [Header("Sentence")] public string name_ch;
 
-    [Header("Sentence")]
-    public string name_ch;
-    public string sentence;//ÀüÃ¼ Å¸ÀÌÇÎÇØ¾ßÇÏ´Â ¹®Àå
-    public string current;//ÇöÀç Å¸ÀÌÇÎ ÁßÀÎ ¹®Àå
-    public List<Word> currentWord = new List<Word>();
+    public string sentence; //ï¿½ï¿½Ã¼ Å¸ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public string current; //ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    [Header("Type Setting")]
-    public GameObject dialogue;
+    [Header("Type Setting")] public GameObject dialogue;
+
     public TMP_Text content;
     public DialogueManager dialogueManager;
 
     public float autoDelay = 1.0f;
-    public bool isTyping = false;
+    public bool isTyping;
+    public List<Word> currentWord = new();
 
 
-
-    void UpdateWordList()
+    private void UpdateWordList()
     {
         for (int i = 0; i < sentence.Length; i++)
         {
-
             /*if (!sentence[i].Equals("<"))
             {
                 Word w = new Word();
@@ -43,7 +34,7 @@ public class TypeWriter : MonoBehaviour
             else {
                 string tmp_cmd = sentence.Substring(i, sentence[i+1].Equals("/")?i+6:i + 5);
                 if (tmp_cmd.Equals("<slow>")) {
-                    
+
                 }
             }*/
         }
@@ -51,21 +42,16 @@ public class TypeWriter : MonoBehaviour
 
     public void StartTyping(string sentence, string name_ch)
     {
-
-
         StopCoroutine("Typing");
 
         this.sentence = sentence;
         this.name_ch = name_ch;
 
-        if (name_ch.Equals("·£¼¶¿þ¾î"))
-        {
+        if (name_ch.Equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"))
             content.color = new Color(1, 0, 0);
-        }
         else content.color = Color.white;
 
         StartCoroutine("Typing");
-
     }
 
 
@@ -74,69 +60,56 @@ public class TypeWriter : MonoBehaviour
         if (sentence.Contains("<skip>")) return;
         StopCoroutine("Typing");
 
-        current = this.sentence;
+        current = sentence;
 
         content.text = current;
         isTyping = false;
     }
 
-    IEnumerator Typing()
+    private IEnumerator Typing()
     {
+        float waitTime = 0.07f; //ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (name_ch.Equals("ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½")) waitTime = 0.02f;
+        else if (name_ch.Equals("ï¿½ï¿½")) waitTime = 0.2f;
 
-        float waitTime = 0.07f; //ÄÄÆÄÀÏ·¯, À¯Àú, ·£¼¶¿þ¾î
-        if (name_ch.Equals("ÇÁ·Î¼¼¼­")) waitTime = 0.02f;
-        else if (name_ch.Equals("·¥")) waitTime = 0.2f;
-
-        WaitForSeconds wait = new WaitForSeconds(waitTime);
+        WaitForSeconds wait = new(waitTime);
         isTyping = true;
         current = "";
-        bool isSkip = false;
 
 
-
-
-        if (name_ch.Equals("·¥") || name_ch.Equals("ÇÁ·Î¼¼¼­"))
+        if (name_ch.Equals("ï¿½ï¿½") || name_ch.Equals("ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½"))
         {
-            string[] words = sentence.Split(' '); // ¹®ÀåÀ» °ø¹é ±âÁØÀ¸·Î ´Ü¾î ¹è¿­·Î ºÐ¸®
+            string[] words = sentence.Split(' '); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¾ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½Ð¸ï¿½
 
             for (int i = 0; i < words.Length; i++)
             {
                 while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
-                {
                     yield return wait;
-                }
 
                 string processedWord = "";
-                int visibleCharCount = 0; // ½ÇÁ¦ º¸ÀÌ´Â ±ÛÀÚ ¼ö (ÅÂ±× Á¦¿Ü)
+                int visibleCharCount = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½)
                 bool inTag = false;
 
-                // ÅÂ±×¸¦ Á¦¿ÜÇÑ ½ÇÁ¦ ±ÛÀÚ ¼ö ¼¼±â
+                // ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 foreach (char c in words[i])
                 {
-                    if (c == '<') inTag = true; // ÅÂ±× ½ÃÀÛ
-                    if (!inTag) visibleCharCount++; // ÅÂ±×°¡ ¾Æ´Ò ¶§¸¸ Ä«¿îÆ® Áõ°¡
-                    if (c == '>') inTag = false; // ÅÂ±× Á¾·á
+                    if (c == '<') inTag = true; // ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½
+                    if (!inTag) visibleCharCount++; // ï¿½Â±×°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+                    if (c == '>') inTag = false; // ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-                    processedWord += c; // ¸ðµç ¹®ÀÚ(ÅÂ±× Æ÷ÇÔ)¸¦ ÀúÀå
+                    processedWord += c; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½Â±ï¿½ ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 }
 
                 current += processedWord;
                 content.text = current;
 
-                // ½ÇÁ¦ º¸ÀÌ´Â ±ÛÀÚ ¼ö°¡ 4ÃÊ°úÀÌ¸é Áï½Ã Ãâ·Â
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 4ï¿½Ê°ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 if (visibleCharCount > 4)
-                {
                     yield return wait;
-                }
                 else
-                {
                     yield return new WaitForSeconds(waitTime);
-                }
 
-                if (i < words.Length - 1)
-                {
-                    current += " "; // ´Ü¾î »çÀÌ¿¡ °ø¹é Ãß°¡
-                }
+                if (i < words.Length - 1) current += " "; // ï¿½Ü¾ï¿½ ï¿½ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
             }
         }
         else
@@ -144,25 +117,15 @@ public class TypeWriter : MonoBehaviour
             for (int i = 0; i < sentence.Length; i++)
             {
                 while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
-                {
                     yield return wait;
-                }
 
                 if (sentence[i].Equals('<'))
                 {
-                    if (sentence[i..(i + 6)].Equals("<skip>"))
-                    { //<skip>
-                        isSkip = true;
-                        break; // ÀÌ ¸ðµç for¹®¿¡¼­ ¹þ¾î³²
-                    }
-                    else
-                    {
-                        strInt stri = SkipBracket(sentence, current, i);
-                        current = stri.str;
-                        i = stri.iNum;
+                    strInt stri = SkipBracket(sentence, current, i);
+                    current = stri.str;
+                    i = stri.iNum;
 
-                        content.text = current;
-                    }
+                    content.text = current;
 
                     yield return wait;
                 }
@@ -177,20 +140,7 @@ public class TypeWriter : MonoBehaviour
         yield return null;
     }
 
-
-    struct strInt
-    {
-        public string str;
-        public int iNum;
-
-        public strInt(string str, int iNum)
-        {
-            this.str = str;
-            this.iNum = iNum;
-        }
-    }
-
-    strInt SkipBracket(string sentence, string current, int index)
+    private strInt SkipBracket(string sentence, string current, int index)
     {
         //for (; !sentence[index].Equals('>'); index++)
 
@@ -206,5 +156,22 @@ public class TypeWriter : MonoBehaviour
         return new strInt(current, index);
     }
 
+    public struct Word
+    {
+        public string word;
+        public string cmd;
+    }
 
+
+    private struct strInt
+    {
+        public readonly string str;
+        public readonly int iNum;
+
+        public strInt(string str, int iNum)
+        {
+            this.str = str;
+            this.iNum = iNum;
+        }
+    }
 }

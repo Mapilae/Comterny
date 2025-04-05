@@ -79,10 +79,16 @@ public class PlayerMovement : MovingFootPrint
         isSpace = isButtonClicked;
     }
 
-    public static void IsSpaceFalse()
+    public void IsSpaceFalse(float delay)
+    {
+        Invoke("IsSpaceFalseDelay", delay);
+    }
+
+    private void IsSpaceFalseDelay()
     {
         isSpace = false;
     }
+
 
     public void SetIfRunning(bool isRunning)
     {
@@ -93,7 +99,7 @@ public class PlayerMovement : MovingFootPrint
 
     private Vector2 GetInput()
     {
-        var inputVec = Vector2.zero;
+        Vector2 inputVec = Vector2.zero;
 #if UNITY_ANDROID
         //모바일인 경우
         inputVec.x = fixedJoystick.Horizontal;

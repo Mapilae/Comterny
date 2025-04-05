@@ -9,6 +9,8 @@ TagManager:
   - SoundManager
   - CameraLimit
   - Mobile
+  - PlayerData
+  - LogicGatePiece
   layers:
   - Default
   - TransparentFX

@@ -34,16 +34,14 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Others")] public TypeWriter typeWriter;
 
+    public bool isPlayingDialogue;
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;
 
-    private bool hasUnderletter = false;
     private Inventory inventory;
-    private bool isMiniOn = false;
 
     private Vector3[] standingDftPos = new Vector3[3];
-    private float startDelaySecond;
 
 
     private void Awake()
@@ -113,7 +111,7 @@ public class DialogueManager : MonoBehaviour
         standingImg.StandingAlpha(true);
         crtIndex = 0;
         dialogWhole.gameObject.SetActive(true);
-        Debug.Log("다이얼로그 시작: " + dialogueList[0].content);
+        isPlayingDialogue = true;
         ChangeDialogue();
     }
 
@@ -144,6 +142,7 @@ public class DialogueManager : MonoBehaviour
                 dialogWhole.gameObject.SetActive(false);
                 standingImg.StandingAlpha(false);
                 PlayerMovement.instance.ChangeCanMove(true);
+                isPlayingDialogue = false;
                 Debug.Log("종료");
                 return;
             }
@@ -268,7 +267,7 @@ public class DialogueManager : MonoBehaviour
         //Debug.Log("Play again");
         canClickToNext = true;
         dialogWhole.gameObject.SetActive(true);
-        startDelaySecond = 0.0f;
+
         ChangeDialogue();
 
         yield return null;
