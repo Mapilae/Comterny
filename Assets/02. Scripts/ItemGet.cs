@@ -16,7 +16,7 @@ public class ItemGet : MonoBehaviour
     [Header("After Find Item, to do?")] public Sprite sprToChange;
 
     public bool canUse = true; //중복 줍기 방지
-    public List<string> varNameOrCodeToAdd;
+    public List<int> varCodeToAdd;
     private Item item;
 
     private PlayerData playerData;
@@ -51,11 +51,11 @@ public class ItemGet : MonoBehaviour
             if (msgToDialogue != "")
             {
                 DialogueManager.instance.ItemGetDialogue(msgToDialogue);
-                PlayerMovement.instance.canMove = false;
+                PlayerMovement.canMove = false;
             }
 
             canUse = false;
-            for (int i = 0; i < varNameOrCodeToAdd.Count; i++) playerData.AddVariable(varNameOrCodeToAdd[i]);
+            for (int i = 0; i < varCodeToAdd.Count; i++) playerData.AddVariable(varCodeToAdd[i]);
             if (!sprToChange.Equals(null)) sprRender.sprite = sprToChange;
             else gameObject.SetActive(false);
         }

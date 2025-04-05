@@ -214,7 +214,7 @@ MonoBehaviour:
   physicsMovementRelativeTo: {fileID: 0}
   updateTiming: 2
   unscaledTime: 0
-  _animationName: idleForward
+  _animationName: idle
   loop: 1
   timeScale: 1
 --- !u!1 &1894652531610923499
@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 8344087472781060073}
   - component: {fileID: 7897887659413020819}
   - component: {fileID: 3289095322192987446}
+  - component: {fileID: 6111739968363352168}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -332,12 +333,12 @@ MonoBehaviour:
   spineTrans: {fileID: 8713458611944747773}
   moveSpeed: 1.5
   moveSpeed2x: 3
-  canMove: 1
   currentHoldingItem: -1
   currentHoldingImg: {fileID: 8980349406292741657}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+  playSpineAnim: {fileID: 6111739968363352168}
 --- !u!50 &7897887659413020819
 Rigidbody2D:
   serializedVersion: 5
@@ -411,6 +412,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.62835383, y: 0.7876923}
   m_EdgeRadius: 0
+--- !u!114 &6111739968363352168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894652531610923499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba98aec74ac43e478cf4b9312ec954d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skelAnim: {fileID: 2892398374797136879}
 --- !u!1 &6728802314558268554
 GameObject:
   m_ObjectHideFlags: 0

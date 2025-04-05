@@ -56,7 +56,8 @@ public class ChangeLayerOrder : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             for (int i = 0; i < sorts.Length; i++)
-                sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
+                if (sorts[i].sortingGroup.gameObject.activeInHierarchy)
+                    sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
 
             if (objToDisableWhenEnter.Length > 0)
                 foreach (GameObject obj in objToDisableWhenEnter)

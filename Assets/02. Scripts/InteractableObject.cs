@@ -19,7 +19,7 @@ public class InteractableSetting
     public List<int> needItemCode = new();
 
     [Header("After this worked, add variable?")]
-    public List<string> varNameOrCodeToAdd;
+    public List<int> varCodeToAdd;
 
     [Header("for NPC")] public string dialogueID;
 
@@ -77,7 +77,7 @@ public class InteractableObject : MonoBehaviour
 
                 if (isAllItemsInInventory)
                 {
-                    Debug.Log("All items are in inventory. ItemTypeActStart");
+//                    Debug.Log("All items are in inventory. ItemTypeActStart");
                     currentInteractIndex = num;
                     ItemTypeAct();
 
@@ -102,12 +102,13 @@ public class InteractableObject : MonoBehaviour
     private void ItemTypeAct()
     {
         isClose = true;
-        for (int i = 0; i < interactList[currentInteractIndex].varNameOrCodeToAdd.Count; i++)
-            playerData.AddVariable(interactList[currentInteractIndex].varNameOrCodeToAdd[i]);
+
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
                 Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
+                if (DialogueManager.isPlayingDialogue) return;
+                AddVariable();
                 GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
                 break;
 
@@ -122,14 +123,31 @@ public class InteractableObject : MonoBehaviour
                 break;
             case InteractableType.PUZZLE:
                 Debug.Log("PUZZLE MINIGAME START" + name);
-                PlayerMovement.instance.ChangeCanMove(false);
+
                 if (interactList[currentInteractIndex].objToEnable2 != null)
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);
                 if (interactList[currentInteractIndex].objToEnable != null)
+                {
                     interactList[currentInteractIndex].objToEnable.SetActive(true);
+                }
                 else
+                {
                     Debug.Log(name + "이 퍼즐임에도 퍼즐 오브젝트가 비어있습니다! Inspector에서 할당해주세요!");
+
+                    AddVariable();
+                    return;
+                }
+
+                PlayerMovement.instance.ChangeCanMove(false);
                 break;
         }
+
+        AddVariable();
+    }
+
+    public void AddVariable()
+    {
+        for (int i = 0; i < interactList[currentInteractIndex].varCodeToAdd.Count; i++)
+            playerData.AddVariable(interactList[currentInteractIndex].varCodeToAdd[i]);
     }
 }

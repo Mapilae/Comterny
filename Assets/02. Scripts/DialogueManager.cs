@@ -15,6 +15,8 @@ public class DialogueManager : MonoBehaviour
 
     public static float FIXED_HEIGHT = Screen.height; //* 0.45f;
 
+    public static bool isPlayingDialogue;
+
     [Header("Dialogue")] public Canvas uiCanvas;
 
     public List<Cell> dialogueList;
@@ -33,8 +35,6 @@ public class DialogueManager : MonoBehaviour
 
 
     [Header("Others")] public TypeWriter typeWriter;
-
-    public bool isPlayingDialogue;
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;

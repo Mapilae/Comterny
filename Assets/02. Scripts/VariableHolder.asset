@@ -19,6 +19,8 @@ MonoBehaviour:
     varCode: 101
   - varName: readCPUfall
     varCode: 120
+  - varName: readCooler
+    varCode: 121
   - varName: afterPower
     varCode: 122
   allItemList:

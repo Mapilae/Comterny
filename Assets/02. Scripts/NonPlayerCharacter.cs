@@ -28,7 +28,7 @@ public class NonPlayerCharacter : MovingFootPrint
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !DialogueManager.instance.isPlayingDialogue) convObj.SetActive(true);
+        if (collision.CompareTag("Player") && !DialogueManager.isPlayingDialogue) convObj.SetActive(true);
     }
 
     public void StartConversation(string ID)
@@ -39,8 +39,11 @@ public class NonPlayerCharacter : MovingFootPrint
             return;
         }
 
+        if (ID.Equals("")) return;
+
         Debug.Log("StartConversation | 말 걸음: " + ID);
         DialogueManager.instance.StartDialogueInManager(ID);
+        PlayerMovement.canMove = false;
         // dialogueContent.StartDialogueInManager(ID);
         convObj.SetActive(false);
     }

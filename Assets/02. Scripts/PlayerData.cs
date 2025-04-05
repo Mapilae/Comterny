@@ -46,11 +46,11 @@ public class PlayerData : MonoBehaviour
             if (varCode == variables[i])
             {
                 isTrue = true;
-                Debug.Log("true::" + varCode);
+
                 break;
             }
 
-        Debug.Log("is Variable Exist : " + varCode + " :: " + isTrue);
+        // Debug.Log("is Variable Exist : " + varCode + " :: " + isTrue);
         return isTrue;
     }
 
@@ -63,32 +63,27 @@ public class PlayerData : MonoBehaviour
             if (itemID == variables[i])
             {
                 isTrue = true;
-                Debug.Log("true::" + itemID);
+
                 break;
             }
 
-        Debug.Log("is Item Exist : " + itemID + " :: " + isTrue);
+        //  Debug.Log("is Item Exist : " + itemID + " :: " + isTrue);
         return isTrue;
     }
 
-    public void AddVariable(string varNameOrCode)
+    public void AddVariable(int varCodeToAdd)
     {
-        string[] vstr = varHolder.FindVariableStr(varNameOrCode);
+        //string[] vstr = varHolder.FindVariableStr(varCodeToAdd);
 
-        int newVar = int.Parse(vstr[1]);
+        //int newVar = int.Parse(vstr[1]);
 
         if (!variables.Count.Equals(0))
-        {
-            if (IsVariableExist(int.Parse(vstr[1])))
-                Debug.Log("varName " + vstr[0] + " and varCode " + vstr[1] +
-                          " already exist, so did not add var");
-            else Debug.Log("변수 등록: " + vstr[1]);
-            return;
-        }
+            if (IsVariableExist(varCodeToAdd))
+                //                Debug.Log("varName " + varCodeToAdd + " and varCode " + varCodeToAdd +" already exist, so did not add var");
+                return;
 
-        Debug.Log("varList.Count = " + variables.Count);
-
-        variables.Add(newVar);
+        // Debug.Log("변수 등록: " + varCodeToAdd);
+        variables.Add(varCodeToAdd);
     }
 
     public Item GetItemFromIndex(int index)
@@ -103,15 +98,15 @@ public class PlayerData : MonoBehaviour
 
     public void AddItem(int itemID)
     {
-        if (!variables.Count.Equals(0))
-        {
+        if (!items.Count.Equals(0))
             if (IsItemExist(itemID))
+            {
                 Debug.Log("itemID " + itemID +
                           " already exist, so did not add in items");
-            else Debug.Log("변수 등록: " + itemID);
-            return;
-        }
+                return;
+            }
 
+        //Debug.Log("변수 등록: " + itemID);
         items.Add(itemID);
         Inventory.instance.UpdateInventory();
     }
