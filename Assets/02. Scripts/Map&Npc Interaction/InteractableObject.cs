@@ -110,6 +110,12 @@ public class InteractableObject : MonoBehaviour
                 if (DialogueManager.isPlayingDialogue) return;
                 AddVariable();
                 GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
+
+                if (interactList[currentInteractIndex].objToEnable2 != null)
+                    interactList[currentInteractIndex].objToEnable2.SetActive(true);
+                if (interactList[currentInteractIndex].objToEnable != null)
+                    interactList[currentInteractIndex].objToEnable.SetActive(true);
+                interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item

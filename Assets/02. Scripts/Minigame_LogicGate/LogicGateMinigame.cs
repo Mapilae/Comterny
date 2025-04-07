@@ -11,7 +11,8 @@ public class LogicGateMinigame : MonoBehaviour
 
     [Header("After")] public Volume volume;
     public VolumeProfile volumeProfile;
-    public GameObject objToDisable;
+    public GameObject[] objToDisable;
+    public GameObject[] objToEnable;
     public FanSpinning fanSpin;
 
     // public List<LogicGateOne> gates = new();
@@ -58,7 +59,13 @@ public class LogicGateMinigame : MonoBehaviour
         canUse = false;
         volume.profile = volumeProfile;
 
-        if (objToDisable != null) objToDisable.SetActive(false);
+        if (objToDisable.Length > 0)
+            for (int i = 0; i < objToDisable.Length; i++)
+                objToDisable[i].SetActive(false);
+        if (objToEnable.Length > 0)
+            for (int i = 0; i < objToEnable.Length; i++)
+                objToEnable[i].SetActive(true);
+        
         if (fanSpin != null) fanSpin.PlaySpinPan(true);
         Invoke("CloseThis", 3f);
         //for (int i = 0; i < inputs.Length; i++) inputs[i].EndPass();

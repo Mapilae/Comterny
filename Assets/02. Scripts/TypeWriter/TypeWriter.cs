@@ -47,7 +47,7 @@ public class TypeWriter : MonoBehaviour
         this.sentence = sentence;
         this.name_ch = name_ch;
 
-        if (name_ch.Equals("��������"))
+        if (name_ch.Equals("랜섬웨어"))
             content.color = new Color(1, 0, 0);
         else content.color = Color.white;
 
@@ -68,18 +68,19 @@ public class TypeWriter : MonoBehaviour
 
     private IEnumerator Typing()
     {
-        float waitTime = 0.07f; //�����Ϸ�, ����, ��������
-        if (name_ch.Equals("���μ���")) waitTime = 0.02f;
-        else if (name_ch.Equals("��")) waitTime = 0.2f;
+        float waitTime = 0.07f;
+        if (name_ch.Equals("프로세서")) waitTime = 0.04f;
+        else if (name_ch.Equals("램")) waitTime = 0.2f;
 
         WaitForSeconds wait = new(waitTime);
         isTyping = true;
         current = "";
 
 
-        if (name_ch.Equals("��") || name_ch.Equals("���μ���"))
+        if (name_ch.Equals("램") || name_ch.Equals("프로세서"))
         {
-            string[] words = sentence.Split(' '); // ������ ���� �������� �ܾ� �迭�� �и�
+            //단어 단위로 말하게 함
+            string[] words = sentence.Split(' ');
 
             for (int i = 0; i < words.Length; i++)
             {
@@ -87,33 +88,32 @@ public class TypeWriter : MonoBehaviour
                     yield return wait;
 
                 string processedWord = "";
-                int visibleCharCount = 0; // ���� ���̴� ���� �� (�±� ����)
+                int visibleCharCount = 0;
                 bool inTag = false;
 
-                // �±׸� ������ ���� ���� �� ����
                 foreach (char c in words[i])
                 {
-                    if (c == '<') inTag = true; // �±� ����
-                    if (!inTag) visibleCharCount++; // �±װ� �ƴ� ���� ī��Ʈ ����
-                    if (c == '>') inTag = false; // �±� ����
+                    if (c == '<') inTag = true;
+                    if (!inTag) visibleCharCount++;
+                    if (c == '>') inTag = false;
 
-                    processedWord += c; // ��� ����(�±� ����)�� ����
+                    processedWord += c;
                 }
 
                 current += processedWord;
                 content.text = current;
 
-                // ���� ���̴� ���� ���� 4�ʰ��̸� ��� ���
                 if (visibleCharCount > 4)
                     yield return wait;
                 else
                     yield return new WaitForSeconds(waitTime);
 
-                if (i < words.Length - 1) current += " "; // �ܾ� ���̿� ���� �߰�
+                if (i < words.Length - 1) current += " ";
             }
         }
         else
         {
+            //문자 단위로 말하게 함
             for (int i = 0; i < sentence.Length; i++)
             {
                 while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
