@@ -9,6 +9,10 @@ public class Inventory : MonoBehaviour
 
     //public VariableHolder varHolder;
     //public List<VariableIntStr> varList = new();
+    
+    /**
+     * itemHoldParent는 유니티에서 SideBarInv를 지칭한다.
+     */
     public Transform itemHoldParent;
 
     //public List<Item> currentItems;
@@ -18,9 +22,14 @@ public class Inventory : MonoBehaviour
 
     public TMP_Text itemInfoNameText;
     public TMP_Text itemInfoDescText;
+    /**
+     * itemHoldList itemHoldParent의 자식 오브젝트를 관리하는 리스트
+     */
     private List<Image> itemHoldList;
     private PlayerData playerData;
-
+    
+    // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
+    // 
     private void Awake()
     {
         instance = this;
@@ -29,6 +38,7 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        // 
         MakeList();
         UpdateInventory();
     }
@@ -70,7 +80,12 @@ public class Inventory : MonoBehaviour
     {
         itemInfoRect.gameObject.SetActive(false);
     }
-
+    /*
+     플레이어 데이터 안에있는 데이터를 이중 포문을 사용하여 가져온다
+     가져온 데이터를 itemHoldList에 넣는다
+     ItemGet 함수가 addItem을 호출하고
+     addItem이 실행되면 인벤토리 전체를 업데이트한다.
+    */
     public void UpdateInventory()
     {
         for (int i = 0; i < itemHoldList.Count; i++)
@@ -87,11 +102,18 @@ public class Inventory : MonoBehaviour
             }
     }
 
-
+    /**
+     * MakeList() 함수는 itemHoldParent의 자식(아이템 전체를 관리하는 오브젝트)
+     * 개수만큼 반복문을 돌려서 아이템 홀드 리스트의 추가한다.
+     */
     private void MakeList()
     {
         itemHoldList = new List<Image>();
         for (int i = 0; i < itemHoldParent.childCount; i++)
+            /*
+             * itemHoldParent의 자식 오브젝트 = InvSlotButton
+             * InvSlotButton의 자식 오브젝트 = IconSpr
+             */
             itemHoldList.Add(itemHoldParent.GetChild(i).GetChild(0).GetComponent<Image>());
     }
 }
