@@ -1394,6 +1394,10 @@ MonoBehaviour:
   - {fileID: 7591539663758348868}
   - {fileID: 1564746867484366646}
   - {fileID: 647883946027947331}
+  volume: {fileID: 0}
+  volumeProfile: {fileID: 11400000, guid: 1a95c98a8d0dccf4e9ea61a0cacea690, type: 2}
+  objToDisable: {fileID: 0}
+  fanSpin: {fileID: 0}
   inputValues: 00010100
 --- !u!1 &5924190076779469715
 GameObject:

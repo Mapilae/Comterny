@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class LogicGateMinigame : MonoBehaviour
 {
@@ -7,6 +8,11 @@ public class LogicGateMinigame : MonoBehaviour
     public GameObject thisWhole;
 
     public LogicGateWire[] inputs;
+
+    [Header("After")] public Volume volume;
+    public VolumeProfile volumeProfile;
+    public GameObject objToDisable;
+    public FanSpinning fanSpin;
 
     // public List<LogicGateOne> gates = new();
     public bool[] inputValues;
@@ -33,6 +39,7 @@ public class LogicGateMinigame : MonoBehaviour
     public void CloseThis()
     {
         PlayerMovement.canMove = true;
+
         thisWhole.SetActive(false);
     }
 
@@ -49,9 +56,12 @@ public class LogicGateMinigame : MonoBehaviour
         if (!result) return;
         playerData.AddVariable(varToAdd);
         canUse = false;
-        Invoke("CloseThis", 3f);
+        volume.profile = volumeProfile;
 
-        for (int i = 0; i < inputs.Length; i++) inputs[i].EndPass();
+        if (objToDisable != null) objToDisable.SetActive(false);
+        if (fanSpin != null) fanSpin.PlaySpinPan(true);
+        Invoke("CloseThis", 3f);
+        //for (int i = 0; i < inputs.Length; i++) inputs[i].EndPass();
     }
 
     /*

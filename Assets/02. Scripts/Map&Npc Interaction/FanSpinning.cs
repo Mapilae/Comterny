@@ -5,8 +5,14 @@ public class FanSpinning : MonoBehaviour
 {
     public Transform fanObj;
 
-    private void Start()
+    public void PlaySpinPan(bool isSpin)
     {
+        if (!isSpin)
+        {
+            StopCoroutine(SpinFan());
+            return;
+        }
+
         if (fanObj != null)
             StartCoroutine(SpinFan());
     }
