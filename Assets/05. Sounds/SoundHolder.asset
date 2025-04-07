@@ -12,5 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f5d760170e1154aaeab9bef7d96232, type: 3}
   m_Name: SoundHolder
   m_EditorClassIdentifier: 
-  bgmList: []
+  bgmList:
+  - name: entryToComterny
+    clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
+  - name: 
+    clip: {fileID: 0}
   seList: []
