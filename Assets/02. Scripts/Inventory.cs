@@ -6,62 +6,46 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
-    public VariableHolder varHolder;
-    public List<VariableIntStr> varList = new();
-    public Transform itemHoldParent;
-    public List<Image> itemHoldList;
 
-    public List<Item> currentItems;
+    //public VariableHolder varHolder;
+    //public List<VariableIntStr> varList = new();
+    
+    /**
+     * itemHoldParent는 유니티에서 SideBarInv를 지칭한다.
+     */
+    public Transform itemHoldParent;
+
+    //public List<Item> currentItems;
     public int currentHoldingItemIndex = -1;
 
     [Header("Item Info")] public RectTransform itemInfoRect;
 
     public TMP_Text itemInfoNameText;
     public TMP_Text itemInfoDescText;
-
+    /**
+     * itemHoldList itemHoldParent의 자식 오브젝트를 관리하는 리스트
+     */
+    private List<Image> itemHoldList;
+    private PlayerData playerData;
+    
+    // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
+    // 
     private void Awake()
     {
         instance = this;
+        playerData = GameObject.FindGameObjectWithTag("PlayerData").GetComponent<PlayerData>();
     }
 
     private void Start()
     {
+        // 
         MakeList();
         UpdateInventory();
     }
 
-    public bool IsVariableExist(string varName)
-    {
-        return varList.Exists(x => x.varName == varName);
-    }
-
-    public bool IsVariableExist(int varCode)
-    {
-        return varList.Exists(x => x.varCode == varCode);
-    }
-
-    public void AddVariable(string varNameOrCode)
-    {
-        VariableIntStr newVar;
-        if (int.TryParse(varNameOrCode, out var result))
-            newVar = varHolder.FindVariable(result);
-        else newVar = varHolder.FindVariable(result);
-
-        if (!varList.Count.Equals(0))
-        {
-            if (IsVariableExist(newVar.varCode))
-                Debug.Log("varName " + newVar.varName + " and varCode " + newVar.varCode +
-                          " already exist, so did not add var");
-            return;
-        }
-
-        varList.Add(newVar);
-        Debug.Log("변수 등록: " + varList[varList.Count - 1].varName);
-    }
-
     public void ClickToHoldItem(int index)
     {
-        if (currentItems.Count == 0) return;
+        if (playerData.items.Count == 0) return;
 
         if (currentHoldingItemIndex >= 0)
             itemHoldList[currentHoldingItemIndex].transform.parent.GetComponent<Outline>().enabled = false;
@@ -76,16 +60,19 @@ public class Inventory : MonoBehaviour
         //set outline enabled in its parent img
         itemHoldList[currentHoldingItemIndex].transform.parent.GetComponent<Outline>().enabled = true;
 
+        Item item = playerData.GetItemFromIndex(currentHoldingItemIndex);
 
-        PlayerMovement.instance.HoldItem(currentItems[currentHoldingItemIndex].itemID,
-            currentItems[currentHoldingItemIndex].itemSpr);
+        PlayerMovement.instance.HoldItem(item.itemID,
+            item.itemSpr);
     }
 
     public void EnableItemInfo(int index)
     {
         itemInfoRect.anchoredPosition = new Vector2(itemInfoRect.anchoredPosition.x, -120 - 75 * index);
-        itemInfoNameText.text = currentItems[index].itemName;
-        itemInfoDescText.text = currentItems[index].itemDesc;
+        Item item = playerData.GetItemFromIndex(currentHoldingItemIndex);
+
+        itemInfoNameText.text = item.itemName;
+        itemInfoDescText.text = item.itemDesc;
         itemInfoRect.gameObject.SetActive(true);
     }
 
@@ -93,13 +80,19 @@ public class Inventory : MonoBehaviour
     {
         itemInfoRect.gameObject.SetActive(false);
     }
-
+    /*
+     플레이어 데이터 안에있는 데이터를 이중 포문을 사용하여 가져온다
+     가져온 데이터를 itemHoldList에 넣는다
+     ItemGet 함수가 addItem을 호출하고
+     addItem이 실행되면 인벤토리 전체를 업데이트한다.
+    */
     public void UpdateInventory()
     {
-        for (var i = 0; i < itemHoldList.Count; i++)
-            if (i < currentItems.Count)
+        for (int i = 0; i < itemHoldList.Count; i++)
+            if (i < playerData.items.Count)
             {
-                itemHoldList[i].sprite = currentItems[i].itemSpr;
+                Item item = playerData.GetItemFromIndex(i);
+                itemHoldList[i].sprite = item.itemSpr;
                 itemHoldList[i].transform.parent.gameObject.SetActive(true);
             }
             else
@@ -109,28 +102,18 @@ public class Inventory : MonoBehaviour
             }
     }
 
-
+    /**
+     * MakeList() 함수는 itemHoldParent의 자식(아이템 전체를 관리하는 오브젝트)
+     * 개수만큼 반복문을 돌려서 아이템 홀드 리스트의 추가한다.
+     */
     private void MakeList()
     {
         itemHoldList = new List<Image>();
-        for (var i = 0; i < itemHoldParent.childCount; i++)
+        for (int i = 0; i < itemHoldParent.childCount; i++)
+            /*
+             * itemHoldParent의 자식 오브젝트 = InvSlotButton
+             * InvSlotButton의 자식 오브젝트 = IconSpr
+             */
             itemHoldList.Add(itemHoldParent.GetChild(i).GetChild(0).GetComponent<Image>());
-
-        varList = new List<VariableIntStr>();
-    }
-
-    public void AddItemInInventory(Item item)
-    {
-        currentItems.Add(item);
-        UpdateInventory();
-    }
-
-    public bool CheckIfItemIsInInventory(int itemID)
-    {
-        foreach (var item in currentItems)
-            if (item.itemID == itemID)
-                return true;
-
-        return false;
     }
 }
