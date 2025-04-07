@@ -2,45 +2,43 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LodingScene : MonoBehaviour
 {
-    /** 불러올 씬의 이름 */
+    /**
+     * 불러올 씬의 이름
+     */
     public string LoadSceneName;
 
     /**
-     * 씬을 변화 시킬 버튼 임시로 Button으로 설정 했고 버튼 함수를
-    바탕으로 구현 하거나 LoadSceneAsync를 명시적으로 실행*/
+     * * 씬을 변화 시킬 버튼 임시로 Button으로 설정 했고 버튼 함수를
+     * 바탕으로 구현 하거나 LoadSceneAsync를 명시적으로 실행
+     */
     public GameObject Button;
 
     /**
      * 로딩 씬을 비동기로 로드할 때 사용할 텍스트 오브젝트
     */
-
-    [Header("How Loading은 TextMeshPro로 설정해야 합니다 Text를 얼마나 로딩하는지로 바꿉니다.")]
-    public GameObject HowLoding;
+    public TMP_Text HowLoading;
 
     /**
      * 비동기 로딩을 위한 코루틴
-     *
      */
-    IEnumerator LoadSceneAsync()
+    private IEnumerator LoadSceneAsync()
     {
-
         string LoadingSessionName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
         // 로딩 씬을 비동기로 로드
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         while (!asyncLoad.isDone)
         {
-            HowLoding.GetComponent<TextMeshProUGUI>().text = asyncLoad.progress.ToString();
+            HowLoading.text = asyncLoad.progress.ToString();
             yield return null;
         }
     }
 
-    IEnumerator LoadSceneAsync(GameObject text)
+    private IEnumerator LoadSceneAsync(GameObject text)
     {
-        string LoadingSessionName = LoadSceneName == "" ? "Third" : LoadSceneName;
+        string LoadingSessionName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
         // 로딩 씬을 비동기로 로드
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         while (!asyncLoad.isDone)
@@ -48,9 +46,7 @@ public class LodingScene : MonoBehaviour
             text.GetComponent<TextMeshProUGUI>().text = asyncLoad.progress.ToString();
             yield return null;
         }
-        
     }
-
 
 
     /**
@@ -62,5 +58,4 @@ public class LodingScene : MonoBehaviour
     {
         StartCoroutine(LoadSceneAsync(text));
     }
-
 }

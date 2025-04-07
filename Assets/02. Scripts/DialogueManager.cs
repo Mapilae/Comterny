@@ -183,6 +183,11 @@ public class DialogueManager : MonoBehaviour
                 // Debug.Log("ġȯ ��: " + content);
             }
 
+            content = content.Replace("<red>", "<color=red>");
+            content = content.Replace("</red>", "</color>");
+
+            content = content.Replace("<small>", "<size=50%>");
+            content = content.Replace("</small>", "</size>");
 
             typeWriter.StartTyping(content, nameTxt.text); //(int)currentBlock.block[index].name_ch
 
