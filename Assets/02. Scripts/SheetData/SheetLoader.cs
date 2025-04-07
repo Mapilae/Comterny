@@ -17,6 +17,9 @@ public class SheetLoader : MonoBehaviour
     public static bool isLoading;
     public SheetData sheetData;
 
+    [Header("처음 시작할 때 자동실행할 다이얼로그가 있는 경우")]
+    public string startDialogueStr;
+
     private string currentId = "";
     private string strSheetData;
 
@@ -110,6 +113,12 @@ public class SheetLoader : MonoBehaviour
             dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
         else
             Debug.Log("DialogueManager is null!");
+        if (!startDialogueStr.Equals(""))
+        {
+            Debug.Log("Auto StartDialogue " + startDialogueStr);
+            DialogueManager.instance.StartDialogueInManager(startDialogueStr);
+            PlayerMovement.canMove = false;
+        }
     }
 
     private Cell MakeCell(string[] columns)

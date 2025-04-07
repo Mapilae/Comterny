@@ -74,6 +74,7 @@ public class LogicGateOne : MonoBehaviour
             isConnected = -1;
             SetGateColorAndPass(GateType.NONE);
             wire.transform.parent.gameObject.SetActive(isForNot);
+            wire.enabled = isForNot;
             for (int i = 0; i < output.wireImg.Count; i++) output.wireImg[i].color = Color.white;
         }
     }
@@ -184,6 +185,7 @@ public class LogicGateOne : MonoBehaviour
         wire.color = value ? Color.yellow : Color.white;
         bool isActive = (isForNot && gateType == GateType.NONE) || !isConnected.Equals(1);
         wire.transform.parent.gameObject.SetActive(isActive);
+        wire.enabled = isForNot;
 
         if (isActive)
         {

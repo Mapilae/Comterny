@@ -115,17 +115,17 @@ public class InteractableObject : MonoBehaviour
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);
                 if (interactList[currentInteractIndex].objToEnable != null)
                     interactList[currentInteractIndex].objToEnable.SetActive(true);
-                interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
+                if (interactList[currentInteractIndex].objToDisable != null) interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item
                 // Debug.Log("SELF DOOR");
-                interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
+                interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
 
             case InteractableType.AUTODOOR: //When Player have the item(no need to hold)
                 // Debug.Log("AUTO DOOR");
-                interactList[currentInteractIndex].objToDisable.gameObject.gameObject.SetActive(false);
+                interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
                 Debug.Log("PUZZLE MINIGAME START" + name);

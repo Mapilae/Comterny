@@ -155,6 +155,7 @@ public class DialogueManager : MonoBehaviour
             //if(�������)string content =content_ENG
 
             string content = dialogueList[crtIndex].content;
+            // nameTxt.transform.parent.gameObject.SetActive(!dialogueList[crtIndex].name.Equals(""));
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
             standingImg.image.sprite =
                 sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
