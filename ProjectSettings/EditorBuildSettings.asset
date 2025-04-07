@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/BusStop.unity
     guid: efe1298391e91634fb06da3e1f1d3576
+  - enabled: 1
+    path: Assets/01. Scenes/unity Sence Connet Test/Third Scene.unity
+    guid: 1fce03f804fdb4b3e9e6b099e3117e05
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
