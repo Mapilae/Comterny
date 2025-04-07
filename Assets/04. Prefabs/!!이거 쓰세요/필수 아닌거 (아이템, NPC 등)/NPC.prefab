@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2545001741022085194}
   - component: {fileID: 6031014609228861021}
   - component: {fileID: 8391466068683864633}
-  - component: {fileID: 4065050787556762257}
   - component: {fileID: 959973888554898507}
   - component: {fileID: 3123256497045867628}
   m_Layer: 0
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 794280212828718961}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.5, y: -11.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -109,26 +108,7 @@ MonoBehaviour:
   footprintObj: {fileID: 0}
   footPos: []
   characterName: "\uB7A8"
-  dialogueContent: {fileID: 4065050787556762257}
   convObj: {fileID: 1840569882743803576}
---- !u!114 &4065050787556762257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794280212828718961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52e3d27a9b6c24d4884553b3a4583eff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprManager: {fileID: 11400000, guid: af77fe92cac18994bb32303a9f117630, type: 2}
-  containers:
-  - id: "\uCEF4\uD30C\uC77C\uB7EC\uCCAB\uB9CC\uB0A8"
-    dialogue: []
-  - id: "\uD14C\uC2A4\uD2B8"
-    dialogue: []
 --- !u!114 &959973888554898507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,17 +124,18 @@ MonoBehaviour:
   interactList:
   - interactableType: 0
     needItemCode: 00000000
-    reverseNeedItem: 0
-    varNameOrCodeToAdd:
-    - test1
+    varCodeToAdd: 
     dialogueID: "\uD14C\uC2A4\uD2B8"
     objToEnable: {fileID: 0}
+    objToEnable2: {fileID: 0}
+    objToDisable: {fileID: 0}
   - interactableType: 0
     needItemCode: 
-    reverseNeedItem: 0
-    varNameOrCodeToAdd: []
+    varCodeToAdd: 
     dialogueID: "\uCEF4\uD30C\uC77C\uB7EC\uCCAB\uB9CC\uB0A8"
     objToEnable: {fileID: 0}
+    objToEnable2: {fileID: 0}
+    objToDisable: {fileID: 0}
   isClose: 0
 --- !u!58 &3123256497045867628
 CircleCollider2D:
@@ -191,7 +172,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 2
+  m_Radius: 0.5
 --- !u!1 &1840569882743803576
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,8 +199,8 @@ Transform:
   m_GameObject: {fileID: 1840569882743803576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.55, y: 0.55, z: 0}
-  m_LocalScale: {x: 0.32206193, y: 0.2915678, z: 1}
+  m_LocalPosition: {x: 0.4, y: 0.45, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2545001741022085194}

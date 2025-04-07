@@ -9,6 +9,8 @@ TagManager:
   - SoundManager
   - CameraLimit
   - Mobile
+  - PlayerData
+  - LogicGatePiece
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Collision
   - NoPostProcessing
   - PostProcessingOnly
-  - 
+  - FrontLayer
   - 
   - 
   - 
@@ -45,6 +47,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: FrontRightLayer
+    uniqueID: 4248594755
     locked: 0
   - name: NoPostProcessing
     uniqueID: 2777454313

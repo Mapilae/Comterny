@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,9 +15,11 @@ public class DialogueManager : MonoBehaviour
 
     public static float FIXED_HEIGHT = Screen.height; //* 0.45f;
 
+    public static bool isPlayingDialogue;
+
     [Header("Dialogue")] public Canvas uiCanvas;
 
-    public List<Dialogue> dialogueList;
+    public List<Cell> dialogueList;
     public int crtIndex;
 
     public GameObject dialogueWholeObj;
@@ -30,21 +31,17 @@ public class DialogueManager : MonoBehaviour
 
     public SoundManager soundManager;
     public StandingSpriteManager sprManager;
-    public Image standingImg;
+    public StandingAnim standingImg;
 
 
     [Header("Others")] public TypeWriter typeWriter;
-
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;
 
-    private bool hasUnderletter = false;
     private Inventory inventory;
-    private bool isMiniOn = false;
 
     private Vector3[] standingDftPos = new Vector3[3];
-    private float startDelaySecond;
 
 
     private void Awake()
@@ -61,13 +58,6 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            isViewPause = !isViewPause;
-
-            uiCanvas.enabled = !isViewPause;
-        }
-
         if (isPause || isViewPause) return;
 
         if (dialogWhole.gameObject.activeInHierarchy)
@@ -101,9 +91,9 @@ public class DialogueManager : MonoBehaviour
 
     public void ItemGetDialogue(string msg)
     {
-        var dialogue = new List<Dialogue>
+        List<Cell> dialogue = new()
         {
-            new("", msg, null)
+            new Cell("", 0, msg)
         };
         StartDialogue(dialogue);
     }
@@ -114,14 +104,14 @@ public class DialogueManager : MonoBehaviour
         contentTrans = contentTxt.GetComponent<RectTransform>();
     }
 
-    public void StartDialogue(List<Dialogue> dialogue)
+    public void StartDialogue(List<Cell> dialogue)
     {
-        dialogueList = new List<Dialogue>();
+        dialogueList = new List<Cell>();
         dialogueList = dialogue;
-        standingImg.enabled = true;
+        standingImg.StandingAlpha(true);
         crtIndex = 0;
         dialogWhole.gameObject.SetActive(true);
-        Debug.Log("다이얼로그 시작: " + dialogueList[0].content);
+        isPlayingDialogue = true;
         ChangeDialogue();
     }
 
@@ -150,8 +140,9 @@ public class DialogueManager : MonoBehaviour
             if (dialogueList.Count <= crtIndex)
             {
                 dialogWhole.gameObject.SetActive(false);
-                standingImg.enabled = false;
+                standingImg.StandingAlpha(false);
                 PlayerMovement.instance.ChangeCanMove(true);
+                isPlayingDialogue = false;
                 Debug.Log("종료");
                 return;
             }
@@ -163,25 +154,26 @@ public class DialogueManager : MonoBehaviour
             //  }
             //if(�������)string content =content_ENG
 
-            var content = dialogueList[crtIndex].content;
-            nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].charName);
-            standingImg.sprite = dialogueList[crtIndex].sprite;
-            standingImg.enabled = standingImg.sprite != null;
+            string content = dialogueList[crtIndex].content;
+            nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
+            standingImg.image.sprite =
+                sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
+            standingImg.image.enabled = standingImg.image.sprite != null;
 
 
             if (content.Contains("{"))
             {
                 // Debug.Log("ġȯ ��: " + content);
 
-                var regex = new Regex(@"\{(.*?)\}");
+                Regex regex = new(@"\{(.*?)\}");
                 content = regex.Replace(content, match =>
                 {
-                    var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
+                    string key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
                     // Debug.Log($"ġȯ �õ�: {key}");
 
                     if (key.Equals("Player")) return PlayerMovement.playerName;
                     // PlayerPrefs���� �� ��������
-                    var value = PlayerPrefs.GetString(key, "null");
+                    string value = PlayerPrefs.GetString(key, "null");
                     // Debug.Log($"PlayerPrefs���� ������ ��: {value}");
 
 
@@ -263,72 +255,7 @@ public class DialogueManager : MonoBehaviour
 
     private void DisableSprite()
     {
-        standingImg.enabled = false;
-    }
-
-    private void ChangeSprite()
-    {
-        /*string[] standing = sheetData.storyBlock[crtBranch].block[crtPage].standing;
-        //  bool isNoName = currentBlock.block[index].isNoName;
-        Color gray = new Color32(163, 164, 168, 255);
-        // Debug.Log("focusOn: " + focusOn);
-        //StandingSpriteManager���� ��������Ʈ�� ã�ƿ�. (ĳ �̸�, �� ���� �Ķ���ͷ� �ʿ�.)
-
-
-        for (int i = 0; i < standingImg.Length; i++)
-        {
-            //string[] spr1 = standing[0].Split('_');
-            //if (spr1.Length <= 1)
-            //    spr1 = new string[] { "", "" };
-            //Sprite spr = sprManager.FindSprite(spr1[0], spr1[1]);
-
-            string[] spl = standing[i].Split('_');
-            if (spl.Length <= 1)
-                spl = new string[] { "", "" };
-
-            Sprite spr = sprManager.FindSprite(spl[0], spl[1]);
-
-            standingImg[i].sprite = spr;
-            standingImg[i].color = (focusOn == i) ? Color.white : gray;
-            standingImg[i].enabled = (spr != null && !isMiniOn);
-
-            if (minigameState.Equals(1) && i.Equals(1))
-            {
-                currentMinigame.GetComponent<Minigame_Phone>().ChangeStandingImg(spr, focusOn == 1);
-                standingImg[i].enabled = false;
-            }
-
-        }
-
-        //2�� �ִ� ��� �߰����� �̵���Ű��
-        if (standingImg[1].enabled && standingImg[0].enabled && !standingImg[2].enabled)
-        {
-            standingImg[1].transform.parent.localPosition = new Vector3(3.2f, standingImg[1].transform.parent.localPosition.y, standingImg[1].transform.parent.localPosition.z);
-            standingImg[0].transform.parent.localPosition = new Vector3(-3.2f, standingImg[0].transform.parent.localPosition.y, standingImg[0].transform.parent.localPosition.z);
-
-        }
-        else if (standingImg[1].enabled && standingImg[2].enabled && !standingImg[0].enabled)
-        {
-            standingImg[2].transform.parent.localPosition = new Vector3(3.2f, standingImg[2].transform.parent.localPosition.y, standingImg[2].transform.parent.localPosition.z);
-            standingImg[1].transform.parent.localPosition = new Vector3(-3.2f, standingImg[1].transform.parent.localPosition.y, standingImg[1].transform.parent.localPosition.z);
-
-        }
-        else
-        {
-            //compare with default position
-            for (int i = 0; i < standingImg.Length; i++)
-            {
-                if (standingImg[i].enabled)
-                {
-                    if (standingImg[i].transform.parent.localPosition != standingDftPos[i])
-                    {
-                        standingImg[i].transform.parent.localPosition = standingDftPos[i];
-                    }
-                }
-            }
-        }
-
-        */
+        standingImg.StandingAlpha(false);
     }
 
 
@@ -340,9 +267,27 @@ public class DialogueManager : MonoBehaviour
         //Debug.Log("Play again");
         canClickToNext = true;
         dialogWhole.gameObject.SetActive(true);
-        startDelaySecond = 0.0f;
+
         ChangeDialogue();
 
+        yield return null;
+    }
+
+    public void StartDialogueInManager(string idName)
+    {
+        StartCoroutine(IEStartDialogue(idName));
+    }
+
+    private IEnumerator IEStartDialogue(string idName)
+    {
+        //if (!isLoaded) LoadDialogueFromSheetData();
+        //Debug.Log("Start Dialogue waiting.");
+        //WaitUntil waitUntil = new(() => isLoaded);
+        //yield return waitUntil;
+        //Debug.Log("Start Dialogue waiting end.");
+
+        int index = SheetData.instance.block.FindIndex(x => x.id == idName);
+        instance.StartDialogue(SheetData.instance.block[index].cells);
         yield return null;
     }
 }

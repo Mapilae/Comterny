@@ -1,5 +1,6 @@
 기획서 링크 : https://docs.google.com/document/d/1XNY8ATNEtwMKyMukeV8BUeJsLT2HTG19R69q0W4weGI/edit?tab=t.0
-
+유니티 모듈 : 데스크탑,모바일 꼭 설치해야함
+시나리오 링크 : https://docs.google.com/spreadsheets/d/156fvxlO_H1pA03kz_f6NPqZxSZ7FuM6Qk09v6qHuyzM/edit?gid=0#gid=0
 # Comterny
 
 **버전:** 1.0  

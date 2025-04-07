@@ -639,8 +639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerOrderDft: 4
-  layerOrderEnter: 51
+  sorts:
+  - sortingGroup: {fileID: 260027922}
+    layerOrderDft: 4
+    layerOrderEnter: 51
   objToEnableWhenEnter:
   - {fileID: 383979895}
   - {fileID: 909706516}
@@ -1035,8 +1037,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerOrderDft: 4
-  layerOrderEnter: 51
+  sorts:
+  - sortingGroup: {fileID: 344486589}
+    layerOrderDft: 4
+    layerOrderEnter: 51
   objToEnableWhenEnter:
   - {fileID: 958903990}
   objToDisableWhenEnter:
@@ -1303,9 +1307,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1051085509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1410, y: -540.23285}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &365767894
@@ -8411,7 +8415,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978564995}
-  - component: {fileID: 978564996}
   - component: {fileID: 978564997}
   m_Layer: 0
   m_Name: Map
@@ -8458,18 +8461,6 @@ Transform:
   - {fileID: 737597385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &978564996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978564994}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b5e072d7f7414d40bb8b0adb5457115, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &978564997
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9400,9 +9391,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1051085509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -539.71655}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1275, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114727892
@@ -9708,6 +9699,63 @@ Transform:
   - {fileID: 262460581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1176481668
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2547033471184035080, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7894423424552813283, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
+      propertyPath: m_Name
+      value: PlayerData
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
 --- !u!1 &1177569589
 GameObject:
   m_ObjectHideFlags: 0
@@ -10057,9 +10105,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1051085509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -540.23285}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1319406369
@@ -10286,8 +10334,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerOrderDft: 51
-  layerOrderEnter: 4
+  sorts:
+  - sortingGroup: {fileID: 1335852960}
+    layerOrderDft: 51
+    layerOrderEnter: 49
   objToEnableWhenEnter: []
   objToDisableWhenEnter: []
   colliderToEnableWhenEnter: []
@@ -10729,8 +10779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerOrderDft: 0
-  layerOrderEnter: 0
+  sorts: []
   objToEnableWhenEnter:
   - {fileID: 766077742}
   objToDisableWhenEnter:
@@ -10994,6 +11043,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
+    - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11400,9 +11457,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1051085509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1622.5, y: -539.71655}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 1200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1785407583
@@ -11534,8 +11591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerOrderDft: 0
-  layerOrderEnter: 0
+  sorts: []
   objToEnableWhenEnter:
   - {fileID: 54186102}
   objToDisableWhenEnter: []
@@ -11774,8 +11830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerOrderDft: 0
-  layerOrderEnter: 0
+  sorts: []
   objToEnableWhenEnter:
   - {fileID: 2075086008}
   objToDisableWhenEnter:
@@ -12575,3 +12630,4 @@ SceneRoots:
   - {fileID: 1123702712}
   - {fileID: 545013550}
   - {fileID: 3021622012509993746}
+  - {fileID: 1176481668}
