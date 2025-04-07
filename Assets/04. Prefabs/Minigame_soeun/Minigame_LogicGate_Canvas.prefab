@@ -582,6 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigame: {fileID: 8321632615054157903}
   gateType: 3
   logicGateOne: {fileID: 0}
 --- !u!114 &1397599304962275266
@@ -915,6 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigame: {fileID: 8321632615054157903}
   gateType: 1
   logicGateOne: {fileID: 0}
 --- !u!114 &2826777748260726987
@@ -1385,6 +1387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab7a28ce7e108354dba81cb5c01f83ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  varToAdd: 124
   thisWhole: {fileID: 35427581414709315}
   inputs:
   - {fileID: 5905256782351321665}
@@ -1695,6 +1698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigame: {fileID: 8321632615054157903}
   gateType: 1
   logicGateOne: {fileID: 0}
 --- !u!114 &8185510339541950418
@@ -2569,6 +2573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigame: {fileID: 8321632615054157903}
   gateType: 2
   logicGateOne: {fileID: 0}
 --- !u!114 &4369040658906417391
@@ -3341,9 +3346,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8321632615054157903}
     - target: {fileID: 6323101730766720473, guid: b2ef8efdb792c704f8bb39641eb4872c, type: 3}
+      propertyPath: preGates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323101730766720473, guid: b2ef8efdb792c704f8bb39641eb4872c, type: 3}
       propertyPath: inputGate.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6323101730766720473, guid: b2ef8efdb792c704f8bb39641eb4872c, type: 3}
+      propertyPath: 'preGates.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5314025873186147039}
+    - target: {fileID: 6323101730766720473, guid: b2ef8efdb792c704f8bb39641eb4872c, type: 3}
+      propertyPath: 'preGates.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4618760010491144850}
     - target: {fileID: 6323101730766720473, guid: b2ef8efdb792c704f8bb39641eb4872c, type: 3}
       propertyPath: 'inputGate.Array.data[0]'
       value: 

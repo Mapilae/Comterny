@@ -18,12 +18,14 @@ public class LogicGateOne : MonoBehaviour
     public GateType gateType;
     public bool isForNot;
     public LogicGateWire[] inputGate;
+    public LogicGateOne[] preGates;
 
     public LogicGateWire output;
 
     public LogicGateMinigame logicGateMinigame;
     public Image wire;
     public LogicGatePiece logicGatePiece;
+    public int isConnected;
     private Image backImg; //OR게이트일때 hide되면서 전선 보이게함
     private bool isCoroutineRunning;
 
@@ -35,6 +37,7 @@ public class LogicGateOne : MonoBehaviour
 
     private void Start()
     {
+        isConnected = -1;
         SetGateColor(gateType);
     }
 
@@ -46,7 +49,6 @@ public class LogicGateOne : MonoBehaviour
 
             return;
         }
-
 
         if (isEnter && !isPlaced)
         {
@@ -62,7 +64,6 @@ public class LogicGateOne : MonoBehaviour
                 SetPiecePosition(piece);
             }
         }
-
         else if (!isEnter)
         {
             if (piece != logicGatePiece) return;
@@ -70,7 +71,10 @@ public class LogicGateOne : MonoBehaviour
             piece.logicGateOne = null;
             logicGatePiece = null;
             isPlaced = false;
+            isConnected = -1;
             SetGateColorAndPass(GateType.NONE);
+            wire.transform.parent.gameObject.SetActive(isForNot);
+            for (int i = 0; i < output.wireImg.Count; i++) output.wireImg[i].color = Color.white;
         }
     }
 
@@ -79,6 +83,8 @@ public class LogicGateOne : MonoBehaviour
         logicGatePiece = piece;
         isPlaced = true;
         piece.gameObject.transform.position = transform.position;
+        isConnected = 1;
+
         SetGateColorAndPass(logicGatePiece.gateType);
     }
 
@@ -118,7 +124,7 @@ public class LogicGateOne : MonoBehaviour
     private void SetGateColorAndPass(GateType newGateType)
     {
         SetGateColor(newGateType);
-        PassGate();
+        logicGateMinigame.StartTest();
         //logicGateMinigame.StartTest();
     }
 
@@ -148,19 +154,35 @@ public class LogicGateOne : MonoBehaviour
                 break;
             case GateType.NOT:
 
-                value = !inputGate[0].value;
+                //value = logicGateMinigame.CheckGates() && inputGate[0].value;
+                value = CheckPregates() && !inputGate[0].value;
+
                 break;
         }
 
-        if (!isCoroutineRunning)
-            StartCoroutine("ThisWireDelay", value);
+        if (isCoroutineRunning) StopCoroutine("ThisWireDelay");
+        StartCoroutine("ThisWireDelay", value);
+    }
+
+    public bool CheckPregates()
+    {
+        if (preGates.Length == 0) return true;
+        bool isTrue = true;
+        for (int i = 0; i < preGates.Length; i++)
+            if (preGates[i].isConnected.Equals(-1))
+            {
+                isTrue = false;
+                break;
+            }
+
+        return isTrue;
     }
 
     private IEnumerator ThisWireDelay(bool value)
     {
         isCoroutineRunning = true;
         wire.color = value ? Color.yellow : Color.white;
-        bool isActive = isForNot && gateType == GateType.NONE;
+        bool isActive = (isForNot && gateType == GateType.NONE) || !isConnected.Equals(1);
         wire.transform.parent.gameObject.SetActive(isActive);
 
         if (isActive)
@@ -187,5 +209,13 @@ public class LogicGateOne : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         output.PassWire(value);
         isCoroutineRunning = false;
+    }
+
+    public void EndPass()
+    {
+        wire.transform.parent.gameObject.SetActive(true);
+        backImg.enabled = false;
+        GetComponent<Image>().enabled = false;
+        output.EndPass();
     }
 }

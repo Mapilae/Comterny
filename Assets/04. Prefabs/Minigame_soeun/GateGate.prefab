@@ -127,7 +127,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2632663009420550986}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -398,10 +398,12 @@ MonoBehaviour:
   gateType: 0
   isForNot: 0
   inputGate: []
+  preGates: []
   output: {fileID: 0}
   logicGateMinigame: {fileID: 0}
   wire: {fileID: 307872777666576723}
   logicGatePiece: {fileID: 0}
+  isConnected: 0
 --- !u!61 &2158874271347765600
 BoxCollider2D:
   m_ObjectHideFlags: 0

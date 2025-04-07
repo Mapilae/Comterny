@@ -15,6 +15,7 @@ public class LogicGateWire : MonoBehaviour
     }
 
     public WireType wireType;
+
     public bool value;
     public LogicGateOne nextGate;
 
@@ -79,5 +80,11 @@ public class LogicGateWire : MonoBehaviour
         if (wireType != WireType.OUTPUT) nextGate.PassGate();
         else logicGateMinigame.EndTest(value);
         yield return null;
+    }
+
+    public void EndPass()
+    {
+        if (wireType != WireType.OUTPUT) nextGate.EndPass();
+        else return;
     }
 }

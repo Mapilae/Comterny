@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
 {
+    public LogicGateMinigame minigame;
     public LogicGateOne.GateType gateType;
     public LogicGateOne logicGateOne;
     private bool isStay;
@@ -50,12 +51,14 @@ public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!LogicGateMinigame.canUse) return;
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (logicGateOne != null) logicGateOne.LogicGatePieceChange(this, isStay);
+        // minigame.CheckGates();
     }
 
 
