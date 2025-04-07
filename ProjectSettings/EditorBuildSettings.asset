@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/unity Sence Connet Test/Third Scene.unity
     guid: 1fce03f804fdb4b3e9e6b099e3117e05
+  - enabled: 1
+    path: Assets/01. Scenes/minigame2.unity
+    guid: 8f4d62900cb1e7b4f806b2037a965d14
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

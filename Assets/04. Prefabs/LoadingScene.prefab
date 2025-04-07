@@ -48,6 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2096f3f2475ef427ba471cf8649e577c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadSceneName: BusStop
+  LoadSceneName: minigame2
   Button: {fileID: 0}
   HowLoding: {fileID: 0}

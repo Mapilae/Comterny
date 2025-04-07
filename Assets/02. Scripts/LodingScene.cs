@@ -1,17 +1,21 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 public class LodingScene : MonoBehaviour
 {
     /** 불러올 씬의 이름 */
+    [Header("불러올 씬의 이름을 적어주세요 씬이름이 중복 될 수도 있습니다 빌드 설정을 해주세요")]
     public string LoadSceneName;
 
     /**
      * 씬을 변화 시킬 버튼 임시로 Button으로 설정 했고 버튼 함수를
     바탕으로 구현 하거나 LoadSceneAsync를 명시적으로 실행*/
+    [Header("버튼을 클릭하면 씬이 바뀝니다 Button 오브젝트는 Button컴포넌트가 필요합니다.")]
     public GameObject Button;
 
     /**
@@ -25,6 +29,11 @@ public class LodingScene : MonoBehaviour
      * 비동기 로딩을 위한 코루틴
      *
      */
+    private void Start()
+    {
+        Button.GetComponent<Button>().onClick.AddListener(ClickButton);
+     }
+
     IEnumerator LoadSceneAsync()
     {
 
@@ -40,7 +49,7 @@ public class LodingScene : MonoBehaviour
 
     IEnumerator LoadSceneAsync(GameObject text)
     {
-        string LoadingSessionName = LoadSceneName == "" ? "Third" : LoadSceneName;
+        string LoadingSessionName = LoadSceneName == "" ? "ThirdScene" : LoadSceneName;
         // 로딩 씬을 비동기로 로드
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         while (!asyncLoad.isDone)
@@ -61,6 +70,11 @@ public class LodingScene : MonoBehaviour
     public void ClickButton(GameObject text)
     {
         StartCoroutine(LoadSceneAsync(text));
+    }
+    public void ClickButton()
+    {
+        StartCoroutine(LoadSceneAsync(HowLoding));
+        
     }
 
 }
