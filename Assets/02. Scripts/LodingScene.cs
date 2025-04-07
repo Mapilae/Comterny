@@ -28,7 +28,7 @@ public class LodingScene : MonoBehaviour
     IEnumerator LoadSceneAsync()
     {
 
-        string LoadingSessionName = LoadSceneName == "" ? "Third" : LoadSceneName;
+        string LoadingSessionName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
         // 로딩 씬을 비동기로 로드
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         while (!asyncLoad.isDone)
