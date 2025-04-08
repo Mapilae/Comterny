@@ -518,6 +518,7 @@ GameObject:
   - component: {fileID: 1523977708916510431}
   - component: {fileID: 913717036568531235}
   - component: {fileID: 1940941801016105532}
+  - component: {fileID: 4657467988251913923}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: DialogueManager
@@ -656,6 +657,20 @@ MonoBehaviour:
   isPause: 0
   isViewPause: 0
   canClickToNext: 1
+--- !u!114 &4657467988251913923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6762961763993943129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be66b9c9c9f0b744d8194211d41aa307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumePrefab: {fileID: 0}
+  prefab: {fileID: 0}
 --- !u!1 &7286217162163115503
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +977,7 @@ GameObject:
   - component: {fileID: 6726458560499922179}
   - component: {fileID: 609185405699796520}
   - component: {fileID: 5898171876768846321}
+  - component: {fileID: 6035104324260047024}
   m_Layer: 5
   m_Name: StandingImg
   m_TagString: Untagged
@@ -1039,6 +1055,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 0}
+--- !u!95 &6035104324260047024
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328885929235521933}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8470347691099729769
 GameObject:
   m_ObjectHideFlags: 0

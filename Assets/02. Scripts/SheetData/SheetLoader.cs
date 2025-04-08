@@ -42,7 +42,7 @@ public class SheetLoader : MonoBehaviour
 
     private IEnumerator LoadSheetOnStart()
     {
-        string sheetURL = url + "&range=A2:D";
+        string sheetURL = url + "&range=A2:E";
         using (UnityWebRequest www = UnityWebRequest.Get(sheetURL))
         {
             yield return www.SendWebRequest();
@@ -127,9 +127,9 @@ public class SheetLoader : MonoBehaviour
 
         Cell block;
         if (int.TryParse(columns[1], out int standingNum))
-            block = new Cell(columns[2], standingNum, columns[3]);
+            block = new Cell(columns[2], standingNum, columns[3], columns[4]);
         else
-            block = new Cell(columns[2], 0, columns[3]);
+            block = new Cell(columns[2], 0, columns[3], columns[4]);
 
         return block;
     }

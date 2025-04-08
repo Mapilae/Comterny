@@ -27,13 +27,14 @@ public class Cell
     public string name;
     public int standingNum;
     [TextArea] public string content;
+    public string cmd;
 
-
-    public Cell(string name, int standingNum, string content)
+    public Cell(string name, int standingNum, string content, string cmd)
     {
         this.name = name;
         this.standingNum = standingNum;
         this.content = content;
+        this.cmd = cmd;
     }
 }
 

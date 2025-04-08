@@ -38,6 +38,7 @@ public class DialogueManager : MonoBehaviour
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;
+    private DirectingManager dirManager;
 
     private Inventory inventory;
 
@@ -53,6 +54,7 @@ public class DialogueManager : MonoBehaviour
     {
         //        StartDialogueManager();
         //set standingDftPos
+        dirManager = GetComponent<DirectingManager>();
     }
 
 
@@ -93,7 +95,7 @@ public class DialogueManager : MonoBehaviour
     {
         List<Cell> dialogue = new()
         {
-            new Cell("", 0, msg)
+            new Cell("", 0, msg, "")
         };
         StartDialogue(dialogue);
     }
@@ -195,6 +197,7 @@ public class DialogueManager : MonoBehaviour
 
             typeWriter.StartTyping(content, nameTxt.text); //(int)currentBlock.block[index].name_ch
 
+            dirManager.RunCMD(dialogueList[crtIndex].cmd);
 
             //ChangeSprite();
 
