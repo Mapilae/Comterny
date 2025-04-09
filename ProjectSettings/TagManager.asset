@@ -2,8 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - DialogueManager
+  - FootPrint
+  - SoundManager
+  - CameraLimit
+  - Mobile
+  - PlayerData
+  - LogicGatePiece
+  - LogicGate
   layers:
   - Default
   - TransparentFX
@@ -11,10 +19,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Collision
+  - NoPostProcessing
+  - PostProcessingOnly
+  - FrontLayer
   - 
   - 
   - 
@@ -41,3 +49,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: FrontRightLayer
+    uniqueID: 4248594755
+    locked: 0
+  - name: NoPostProcessing
+    uniqueID: 2777454313
+    locked: 0
+  m_RenderingLayers:
+  - Default

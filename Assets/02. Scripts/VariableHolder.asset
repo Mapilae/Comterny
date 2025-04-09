@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a3dba37d2eeff4d9f8455004a94c2c, type: 3}
+  m_Name: VariableHolder
+  m_EditorClassIdentifier: 
+  allVariableList:
+  - varName: test0
+    varCode: 100
+  - varName: test1
+    varCode: 101
+  - varName: readCPUfall
+    varCode: 120
+  - varName: readCooler
+    varCode: 121
+  - varName: afterPower
+    varCode: 122
+  allItemList:
+  - itemID: 0
+    itemName: "\uC544\uC774\uD15C\uC774\uB984"
+    itemDesc: "\uC544\uC774\uD15C\uC124\uBA85"
+    itemSpr: {fileID: 21300000, guid: d08d14a2969b743b1a8b14dc46e0e8fa, type: 3}
+  - itemID: 1
+    itemName: "\uBB3C\uCEF5"
+    itemDesc: "\uADF8\uB0E5 \uBB3C"
+    itemSpr: {fileID: 21300000, guid: 5b54b64aa03a6418fa2cf8b50928ceb9, type: 3}
