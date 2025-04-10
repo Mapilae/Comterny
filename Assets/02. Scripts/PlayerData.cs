@@ -15,6 +15,8 @@ public class PlayerData : MonoBehaviour
     // - 데이터 추가
     // - 특정 데이터가 존재하는지 비교
 
+    public static PlayerData instance;
+    
     [Header("Current Info")] public int crtStage;
 
     public List<int> items;
@@ -23,12 +25,28 @@ public class PlayerData : MonoBehaviour
     [Space] public string version;
 
     public string playerName;
-
+    public int difficulty; //난이도. 0: Easy, 1: 컴공모드
+    
     [Header("ETC")] public VariableHolder varHolder;
 
+    public void SetDifficulty(int diff)
+    {
+        difficulty = diff;
+        //SAVE
+        //Debug.Log("Player Difficulty Set: " + diff);
+    }
+    
+    public void SetName(string newName)
+    {
+        playerName = newName;
+        //SAVE
+    }
+    
+    
     private void Awake()
     {
         DontDestroyOnLoad(this);
+        instance = this;
     }
 
     public void ChangeCrtStage(int stageNum)
@@ -71,6 +89,7 @@ public class PlayerData : MonoBehaviour
         return isTrue;
     }
 
+    //리스트에 변수 추가해줌
     public void AddVariable(int varCodeToAdd)
     {
         //string[] vstr = varHolder.FindVariableStr(varCodeToAdd);
