@@ -11,6 +11,7 @@ TagManager:
   - Mobile
   - PlayerData
   - LogicGatePiece
+  - LogicGate
   layers:
   - Default
   - TransparentFX

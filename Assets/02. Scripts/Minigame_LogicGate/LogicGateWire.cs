@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,46 +15,76 @@ public class LogicGateWire : MonoBehaviour
     }
 
     public WireType wireType;
+
     public bool value;
     public LogicGateOne nextGate;
 
     [Header("If Output F")] public LogicGateMinigame logicGateMinigame;
     public List<Image> wireImg;
 
-    private void Start()
-    {
-        GetWireImage();
-    }
-
     public void GetWireImage()
     {
-        wireImg.Add(GetComponent<Image>());
-        if (transform.childCount > 0)
-            for (int i = 0; i < transform.childCount; i++)
+        if (wireImg.Count != 0) return;
+
+        if (transform.childCount > 1)
+            for (int i = 1; i < transform.childCount; i++)
             {
-                Image img = transform.GetChild(i).GetComponent<Image>();
+                if (transform.GetChild(i).childCount == 0) Debug.Log(transform.name + " dont have child");
+
+                Image img = transform.GetChild(i).GetChild(0).GetComponent<Image>();
                 if (img != null)
                     wireImg.Add(img);
             }
+
+        wireImg.Add(transform.GetChild(0).GetComponent<Image>());
     }
 
-    public void PassWire()
+    public void PassWire(bool newValue)
     {
-        SetWire();
-        if (wireType != WireType.OUTPUT) nextGate.PassGate();
-        else logicGateMinigame.EndTest(value);
+        StartCoroutine(PassWireDelay(newValue));
     }
 
     private void SetWire()
     {
         if (wireImg.Count == 0) GetWireImage();
         for (int i = 0; i < wireImg.Count; i++)
+        {
+            wireImg[i].fillAmount = 0;
             wireImg[i].color = value ? Color.yellow : Color.white;
+        }
     }
 
-    public void ResetWire()
+    private IEnumerator PassWireDelay(bool newValue)
     {
-        value = false;
+        value = newValue;
         SetWire();
+
+        if (newValue)
+        {
+            for (int i = 0; i < wireImg.Count; i++)
+            {
+                float time = 0;
+
+                while (time < 1)
+                {
+                    float add = Time.deltaTime;
+                    time += add * 2f;
+                    wireImg[i].fillAmount = time;
+                    yield return new WaitForSeconds(add);
+                }
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        if (wireType != WireType.OUTPUT) nextGate.PassGate();
+        else logicGateMinigame.EndTest(value);
+        yield return null;
+    }
+
+    public void EndPass()
+    {
+        if (wireType != WireType.OUTPUT) nextGate.EndPass();
+        else return;
     }
 }

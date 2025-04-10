@@ -38,6 +38,7 @@ public class DialogueManager : MonoBehaviour
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;
+    private DirectingManager dirManager;
 
     private Inventory inventory;
 
@@ -53,6 +54,7 @@ public class DialogueManager : MonoBehaviour
     {
         //        StartDialogueManager();
         //set standingDftPos
+        dirManager = GetComponent<DirectingManager>();
     }
 
 
@@ -93,7 +95,7 @@ public class DialogueManager : MonoBehaviour
     {
         List<Cell> dialogue = new()
         {
-            new Cell("", 0, msg)
+            new Cell("", 0, msg, "")
         };
         StartDialogue(dialogue);
     }
@@ -155,6 +157,7 @@ public class DialogueManager : MonoBehaviour
             //if(�������)string content =content_ENG
 
             string content = dialogueList[crtIndex].content;
+            // nameTxt.transform.parent.gameObject.SetActive(!dialogueList[crtIndex].name.Equals(""));
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
             standingImg.image.sprite =
                 sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
@@ -183,9 +186,18 @@ public class DialogueManager : MonoBehaviour
                 // Debug.Log("ġȯ ��: " + content);
             }
 
+            content = content.Replace("<red>", "<color=red>");
+            content = content.Replace("</red>", "</color>");
+
+            content = content.Replace("<small>", "<size=70%>");
+            content = content.Replace("</small>", "</size>");
+
+            content = content.Replace("<big>", "<size=130%>");
+            content = content.Replace("</big>", "</size>");
 
             typeWriter.StartTyping(content, nameTxt.text); //(int)currentBlock.block[index].name_ch
 
+            dirManager.RunCMD(dialogueList[crtIndex].cmd);
 
             //ChangeSprite();
 

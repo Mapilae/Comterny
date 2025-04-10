@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -8,12 +7,21 @@ using Button = UnityEngine.UI.Button;
 
 public class LodingScene : MonoBehaviour
 {
+    public static LodingScene instance;
+    
+    /**
+     * 불러올 씬의 이름
+     */
     /** 불러올 씬의 이름 */
     [Header("불러올 씬의 이름을 적어주세요 씬이름이 중복 될 수도 있습니다 빌드 설정을 해주세요")]
     public string LoadSceneName;
 
     /**
-     * 씬을 변화 시킬 버튼 임시로 Button으로 설정 했고 버튼 함수를
+     * * 씬을 변화 시킬 버튼 임시로 Button으로 설정 했고 버튼 함수를
+     * 바탕으로 구현 하거나 LoadSceneAsync를 명시적으로 실행
+     */
+    
+    /* 씬을 변화 시킬 버튼 임시로 Button으로 설정 했고 버튼 함수를
     바탕으로 구현 하거나 LoadSceneAsync를 명시적으로 실행*/
     [Header("버튼을 클릭하면 씬이 바뀝니다 Button 오브젝트는 Button컴포넌트가 필요합니다.")]
     public GameObject Button;
@@ -21,40 +29,51 @@ public class LodingScene : MonoBehaviour
     /**
      * 로딩 씬을 비동기로 로드할 때 사용할 텍스트 오브젝트
     */
+    public TMP_Text HowLoading;
 
-    [Header("How Loading은 TextMeshPro로 설정해야 합니다 Text를 얼마나 로딩하는지로 바꿉니다.")]
-    public GameObject HowLoding;
+    public Image fill;
 
     /**
      * 비동기 로딩을 위한 코루틴
-     *
      */
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         Button.GetComponent<Button>().onClick.AddListener(ClickButton);
      }
 
-    IEnumerator LoadSceneAsync()
+    public void LoadScene()
     {
-
+        this.transform.GetChild(0).gameObject.SetActive(true);
+        StartCoroutine(LoadSceneAsync());
+    }
+    
+    private IEnumerator LoadSceneAsync()
+    {
         string LoadingSessionName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
         // 로딩 씬을 비동기로 로드
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         while (!asyncLoad.isDone)
         {
-            HowLoding.GetComponent<TextMeshProUGUI>().text = asyncLoad.progress.ToString();
+            HowLoading.text = asyncLoad.progress+"%";
+            fill.fillAmount = asyncLoad.progress;
             yield return null;
         }
     }
 
-    IEnumerator LoadSceneAsync(GameObject text)
+    private IEnumerator LoadSceneAsync(GameObject text)
     {
-        string LoadingSessionName = LoadSceneName == "" ? "ThirdScene" : LoadSceneName;
+        string LoadingSessionName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
         // 로딩 씬을 비동기로 로드
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         while (!asyncLoad.isDone)
         {
-            text.GetComponent<TextMeshProUGUI>().text = asyncLoad.progress.ToString();
+            text.GetComponent<TMP_Text>().text = asyncLoad.progress+"%";
+            fill.fillAmount = asyncLoad.progress;
             yield return null;
         }
         
@@ -73,7 +92,7 @@ public class LodingScene : MonoBehaviour
     }
     public void ClickButton()
     {
-        StartCoroutine(LoadSceneAsync(HowLoding));
+        StartCoroutine(LoadSceneAsync(HowLoading.gameObject));
         
     }
 

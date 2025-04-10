@@ -17,6 +17,9 @@ public class SheetLoader : MonoBehaviour
     public static bool isLoading;
     public SheetData sheetData;
 
+    [Header("처음 시작할 때 자동실행할 다이얼로그가 있는 경우")]
+    public string startDialogueStr;
+
     private string currentId = "";
     private string strSheetData;
 
@@ -39,7 +42,7 @@ public class SheetLoader : MonoBehaviour
 
     private IEnumerator LoadSheetOnStart()
     {
-        string sheetURL = url + "&range=A2:D";
+        string sheetURL = url + "&range=A2:E";
         using (UnityWebRequest www = UnityWebRequest.Get(sheetURL))
         {
             yield return www.SendWebRequest();
@@ -110,6 +113,12 @@ public class SheetLoader : MonoBehaviour
             dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
         else
             Debug.Log("DialogueManager is null!");
+        if (!startDialogueStr.Equals(""))
+        {
+            Debug.Log("Auto StartDialogue " + startDialogueStr);
+            DialogueManager.instance.StartDialogueInManager(startDialogueStr);
+            PlayerMovement.canMove = false;
+        }
     }
 
     private Cell MakeCell(string[] columns)
@@ -118,9 +127,9 @@ public class SheetLoader : MonoBehaviour
 
         Cell block;
         if (int.TryParse(columns[1], out int standingNum))
-            block = new Cell(columns[2], standingNum, columns[3]);
+            block = new Cell(columns[2], standingNum, columns[3], columns[4]);
         else
-            block = new Cell(columns[2], 0, columns[3]);
+            block = new Cell(columns[2], 0, columns[3], columns[4]);
 
         return block;
     }
