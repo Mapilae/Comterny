@@ -94,6 +94,7 @@ public class LodingScene : MonoBehaviour
         {
             text.GetComponent<TMP_Text>().text = asyncLoad.progress+"%";
             fill.fillAmount = asyncLoad.progress;
+           // fill.material
             yield return null;
         }
         
