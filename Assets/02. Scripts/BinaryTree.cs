@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 // 각각의 노드를 구성하는 기본적인 정보를 가지는 클래스
 [Serializable]
-public class NodeBlock
+public partial class NodeBlock
 {
     public GameObject vertexObj;
     public List<GameObject> adjustArrows;
