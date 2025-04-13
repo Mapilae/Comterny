@@ -12,6 +12,7 @@ TagManager:
   - PlayerData
   - LogicGatePiece
   - LogicGate
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - NoPostProcessing
   - PostProcessingOnly
   - FrontLayer
-  - 
-  - 
+  - Collision2
+  - NPC Pass
   - 
   - 
   - 

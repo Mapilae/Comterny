@@ -30,7 +30,7 @@ public class ChangeLayerOrder : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")||other.CompareTag("NPC"))
         {
             if (sorts != null)
                 for (int i = 0; i < sorts.Length; i++)
@@ -53,7 +53,7 @@ public class ChangeLayerOrder : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")||other.CompareTag("NPC"))
         {
             for (int i = 0; i < sorts.Length; i++)
                 if (sorts[i].sortingGroup.gameObject.activeInHierarchy)

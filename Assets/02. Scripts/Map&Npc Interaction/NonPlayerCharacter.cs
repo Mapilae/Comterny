@@ -12,27 +12,28 @@ public class NonPlayerCharacter : MovingFootPrint
     {
         if (convObj == null)
             convObj = transform.GetChild(0).gameObject;
-        convObj.SetActive(false);
+        if(convObj!=null) convObj.SetActive(false);
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) convObj.SetActive(true);
+        
+        if (collision.CompareTag("Player")) if(convObj!=null)convObj.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) convObj.SetActive(false);
+        if (collision.CompareTag("Player")) if(convObj!=null)convObj.SetActive(false);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !DialogueManager.isPlayingDialogue) convObj.SetActive(true);
+        if (collision.CompareTag("Player") && !DialogueManager.isPlayingDialogue) if(convObj!=null)convObj.SetActive(true);
     }
 
     public void StartConversation(string ID)
-    {
+    {if(convObj!=null)
         if (!convObj.activeInHierarchy)
         {
             Debug.Log("ConvObj is not active. return.");
@@ -45,6 +46,6 @@ public class NonPlayerCharacter : MovingFootPrint
         DialogueManager.instance.StartDialogueInManager(ID);
         PlayerMovement.canMove = false;
         // dialogueContent.StartDialogueInManager(ID);
-        convObj.SetActive(false);
+        if(convObj!=null)convObj.SetActive(false);
     }
 }
