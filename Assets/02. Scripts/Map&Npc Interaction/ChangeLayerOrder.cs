@@ -30,47 +30,54 @@ public class ChangeLayerOrder : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")||other.CompareTag("NPC"))
-        {
-            if (sorts != null)
-                for (int i = 0; i < sorts.Length; i++)
-                    sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderEnter;
-            Debug.Log("sort order changed!");
-            if (objToDisableWhenEnter.Length > 0)
-                foreach (GameObject obj in objToDisableWhenEnter)
-                    obj.SetActive(false);
-            if (objToEnableWhenEnter.Length > 0)
-                foreach (GameObject obj in objToEnableWhenEnter)
-                    obj.SetActive(true);
-            if (colliderToEnableWhenEnter.Length > 0)
-                foreach (Collider2D obj in colliderToEnableWhenEnter)
-                    obj.enabled = true;
-            if (colliderToDisableWhenEnter.Length > 0)
-                foreach (Collider2D obj in colliderToDisableWhenEnter)
-                    obj.enabled = false;
-        }
+        SetSorting(other, true);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        SetSorting(other, true);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player")||other.CompareTag("NPC"))
-        {
-            for (int i = 0; i < sorts.Length; i++)
-                if (sorts[i].sortingGroup.gameObject.activeInHierarchy)
-                    sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
-
-            if (objToDisableWhenEnter.Length > 0)
-                foreach (GameObject obj in objToDisableWhenEnter)
-                    obj.SetActive(true);
-            if (objToEnableWhenEnter.Length > 0)
-                foreach (GameObject obj in objToEnableWhenEnter)
-                    obj.SetActive(false);
-            if (colliderToEnableWhenEnter.Length > 0)
-                foreach (Collider2D obj in colliderToEnableWhenEnter)
-                    obj.enabled = false;
-            if (colliderToDisableWhenEnter.Length > 0)
-                foreach (Collider2D obj in colliderToDisableWhenEnter)
-                    obj.enabled = true;
-        }
+        
+            SetSorting(other, false);
     }
+    void SetSorting(Collider2D other, bool isEnter)
+     {
+         if (other.CompareTag("Player")||other.CompareTag("NPC"))
+         {
+             if (isEnter)
+             {
+                 if (sorts != null)
+                 {
+                    for (int i = 0; i < sorts.Length; i++)
+                     sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderEnter;
+                 }
+
+             }
+             else
+             {
+                 for (int i = 0; i < sorts.Length; i++)
+                        if (sorts[i].sortingGroup.gameObject.activeInHierarchy)
+                            sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
+             }
+             if(other.CompareTag("Player")){
+                 if (objToDisableWhenEnter.Length > 0)
+                     foreach (GameObject obj in objToDisableWhenEnter)
+                         obj.SetActive(!isEnter);
+                 if (objToEnableWhenEnter.Length > 0)
+                     foreach (GameObject obj in objToEnableWhenEnter)
+                         obj.SetActive(isEnter);
+                 if (colliderToEnableWhenEnter.Length > 0)
+                     foreach (Collider2D obj in colliderToEnableWhenEnter)
+                         obj.enabled = isEnter;
+                 if (colliderToDisableWhenEnter.Length > 0)
+                     foreach (Collider2D obj in colliderToDisableWhenEnter)
+                         obj.enabled = !isEnter;
+                 
+             }
+         }
+     }
 }
+
