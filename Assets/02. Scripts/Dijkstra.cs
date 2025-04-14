@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 // 에초에 틀렸을 때 초기화 버튼을 만들어 다 활성화 되어야 하고
 // 버튼을 누를 때마다 리스트에 값을 하나씩 추가한다
@@ -11,44 +12,42 @@ using UnityEngine;
 public class Dijkstra : MonoBehaviour
 {
     public List<NodeBlock> nodeBlocks = new();
-    public bool neverClick = true;
+    private bool neverClick = true;
+    
+    private List<int> correctList = new List<int>(){1,3,5,7} ;
+    public List<int> clickList = new();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {   /*
-        for (var i = 0; i < binaryNodes.Count; i++)
-        {
-            var node = binaryNodes[i];
-            Debug.Log(node.objNode.transform.position);
-        }*/
-    }
-
-    public void CreateNode(int index)
+    public void ResetNodeBlocks()
     {
+        foreach (var nodeBlock in nodeBlocks)
+        {
+            nodeBlock.vertexObj.SetActive(true);
+
+        }
+
+        neverClick = true;
     }
+
     // 순서대로 클릭 하고 4번 이상 클릭 하면 초기화 되게함
     public void imgClick(int index)
     {
         //코드 추가 가이드: 정점을 1개만 제거하도록 4,5,6번 원중 하나를 지웠으면 나머지 원은 눌러도 삭제 안되는 코드 추가 필요
-
-        Debug.Log(index);
-        if ((index == 4 || index == 5 || index == 6) && neverClick)
+        if (neverClick)
         {
-            
-            neverClick = false;
-            Debug.Log("성공!!!!!!");
-            foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
-            nodeBlocks[index - 1].vertexObj.SetActive(false);
-            
-        }
-        else
-        {
-            foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
+            Debug.Log(index);
 
+            // foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
+            clickList.Add(index);
             nodeBlocks[index - 1].vertexObj.SetActive(false);
-            Debug.Log("실패!!!!!!!");
+            if (clickList.SequenceEqual(correctList))
+            {
+                Debug.Log("성공!!!!!!");
+                neverClick = false;
+            }
+            Debug.Log(clickList.Count);
+            
         }
     }
+}
 
     // Update is called once per frame
-}
