@@ -4,6 +4,10 @@ using UnityEngine.EventSystems;
 
 public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
 {
+    
+    [Header(("Item Info"))]
+    public int itemID;
+    [Header("Minigame Info")]
     public LogicGateMinigame minigame;
     public LogicGateOne.GateType gateType;
     public LogicGateOne logicGateOne;

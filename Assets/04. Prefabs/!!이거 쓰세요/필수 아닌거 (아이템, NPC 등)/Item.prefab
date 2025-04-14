@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 5b54b64aa03a6418fa2cf8b50928ceb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e9138fcb770f047bfb113899ebe9a049, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,13 +128,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.3923077, y: 0.4430769}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 0.3923077, y: 0.4430769}
   m_EdgeRadius: 0
 --- !u!114 &2221864739970846407
 MonoBehaviour:
@@ -148,14 +148,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27190463ce9d6d45b894b12aeb5185d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemID: 0
+  itemID: 10
   isClose: 0
   objToEnable: {fileID: 598745475560908158}
-  msgToDialogue: "\uC544\uC774\uD15C\uC744 \uC5BB\uC5C8\uB2E4."
-  sprToChange: {fileID: 21300104, guid: 61bda409e13a345bcb9e55db18b42f74, type: 3}
+  msgToDialogue: "AND \uAC8C\uC774\uD2B8\uB97C \uC5BB\uC5C8\uB2E4. \uC804\uB825 \uC7A5\uCE58\uC5D0
+    \uC5F0\uACB0\uD558\uB294\uB370 \uC0AC\uC6A9\uD560 \uC218 \uC788\uC744 \uAC83
+    \uAC19\uB2E4."
+  sprToChange: {fileID: 0}
   canUse: 1
-  varNameOrCodeToAdd:
-  - 100
+  varCodeToAdd: 
 --- !u!1001 &5011557262435860371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,6 +208,10 @@ PrefabInstance:
     - target: {fileID: 5603475268299299565, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
       propertyPath: m_Name
       value: Guide Star
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603475268299299565, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

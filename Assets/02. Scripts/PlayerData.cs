@@ -78,7 +78,7 @@ public class PlayerData : MonoBehaviour
 
 
         for (int i = 0; i < items.Count; i++)
-            if (itemID == variables[i])
+            if (itemID == items[i])
             {
                 isTrue = true;
 
@@ -92,23 +92,27 @@ public class PlayerData : MonoBehaviour
     //리스트에 변수 추가해줌
     public void AddVariable(int varCodeToAdd)
     {
-        //string[] vstr = varHolder.FindVariableStr(varCodeToAdd);
+        if (varCodeToAdd < 100)
+        {
+            if(!IsItemExist(varCodeToAdd))
+                items.Add(varCodeToAdd);
+        }
+        else{
+            if (!variables.Count.Equals(0))
+                if (IsVariableExist(varCodeToAdd))
+                    //                Debug.Log("varName " + varCodeToAdd + " and varCode " + varCodeToAdd +" already exist, so did not add var");
+                    return;
 
-        //int newVar = int.Parse(vstr[1]);
-
-        if (!variables.Count.Equals(0))
-            if (IsVariableExist(varCodeToAdd))
-                //                Debug.Log("varName " + varCodeToAdd + " and varCode " + varCodeToAdd +" already exist, so did not add var");
-                return;
-
-        // Debug.Log("변수 등록: " + varCodeToAdd);
-        variables.Add(varCodeToAdd);
+            // Debug.Log("변수 등록: " + varCodeToAdd);
+            variables.Add(varCodeToAdd);
+        }
     }
 
-    public Item GetItemFromIndex(int index)
-    {
-        return varHolder.FindItem(items[index]);
-    }
+    // public Item GetItemFromIndex(int index)
+    // {
+    //     
+    //     return varHolder.FindItem(items[index]);
+    // }
 
     public Item GetItemFromID(int itemID)
     {

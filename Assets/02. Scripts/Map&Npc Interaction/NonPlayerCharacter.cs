@@ -33,7 +33,9 @@ public class NonPlayerCharacter : MovingFootPrint
     }
 
     public void StartConversation(string ID)
-    {if(convObj!=null)
+    {
+        if(ID.Equals(""))return;
+        if(convObj!=null)
         if (!convObj.activeInHierarchy)
         {
             Debug.Log("ConvObj is not active. return.");

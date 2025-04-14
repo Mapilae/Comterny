@@ -15,6 +15,7 @@ public class LogicGateOne : MonoBehaviour
         NOT
     }
 
+    [Header("Gate Settings")]
     public GateType gateType;
     public bool isForNot;
     public LogicGateWire[] inputGate;

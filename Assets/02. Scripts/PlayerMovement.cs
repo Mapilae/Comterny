@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MovingFootPrint
 {
@@ -12,7 +13,7 @@ public class PlayerMovement : MovingFootPrint
     public float moveSpeed2x = 5f;
 
     public int currentHoldingItem = -1; //-1: no item holding, else: item code
-    public SpriteRenderer currentHoldingImg;
+    public Image currentHoldingImg;
 
     public LayerMask obstacleLayer;
     public PlaySpineAnim playSpineAnim;

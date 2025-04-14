@@ -511,7 +511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &730141204848292904
 RectTransform:
   m_ObjectHideFlags: 0
@@ -582,6 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 13
   minigame: {fileID: 8321632615054157903}
   gateType: 3
   logicGateOne: {fileID: 0}
@@ -845,7 +846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4918054000391778815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -916,6 +917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 11
   minigame: {fileID: 8321632615054157903}
   gateType: 1
   logicGateOne: {fileID: 0}
@@ -1546,8 +1548,14 @@ MonoBehaviour:
   objToDisable:
   - {fileID: 7902880373117722763}
   objToEnable: []
+  colToDisable: {fileID: 0}
   fanSpin: {fileID: 0}
   inputValues: 00010100
+  itemIDList:
+  - {fileID: 3115250304266537462}
+  - {fileID: 6810791236587374617}
+  - {fileID: 371099572560534906}
+  - {fileID: 6158232584867495791}
 --- !u!1 &5924190076779469715
 GameObject:
   m_ObjectHideFlags: 0
@@ -1780,7 +1788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8406399343312049660
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1851,6 +1859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 10
   minigame: {fileID: 8321632615054157903}
   gateType: 1
   logicGateOne: {fileID: 0}
@@ -2717,7 +2726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3912411302667854459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2788,6 +2797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72349315350dadc4dbe4521742c0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: 12
   minigame: {fileID: 8321632615054157903}
   gateType: 2
   logicGateOne: {fileID: 0}

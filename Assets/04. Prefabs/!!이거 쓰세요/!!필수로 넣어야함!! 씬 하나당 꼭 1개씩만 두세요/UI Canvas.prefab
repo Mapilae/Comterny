@@ -624,11 +624,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cde86cb5d38e2a4caef93a4114b1a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  varHolder: {fileID: 0}
   itemHoldParent: {fileID: 7769389792050649574}
   currentHoldingItemIndex: -1
   itemInfoRect: {fileID: 2023384565216112581}
   itemInfoNameText: {fileID: 4938844053796661877}
   itemInfoDescText: {fileID: 8637399042995878367}
+  itemHoldList: []
 --- !u!114 &1940941801016105532
 MonoBehaviour:
   m_ObjectHideFlags: 0

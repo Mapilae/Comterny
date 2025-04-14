@@ -32,3 +32,23 @@ MonoBehaviour:
     itemName: "\uBB3C\uCEF5"
     itemDesc: "\uADF8\uB0E5 \uBB3C"
     itemSpr: {fileID: 21300000, guid: 5b54b64aa03a6418fa2cf8b50928ceb9, type: 3}
+  - itemID: 10
+    itemName: "AND\uAC8C\uC774\uD2B8"
+    itemDesc: "AND \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uB450 \uC785\uB825
+      \uBAA8\uB450 1\uC778 \uACBD\uC6B0 1\uC744 \uCD9C\uB825\uD55C\uB2E4."
+    itemSpr: {fileID: 21300000, guid: f49ed5a9d0a53634f8abf7d80bf496a5, type: 3}
+  - itemID: 11
+    itemName: "AND\uAC8C\uC774\uD2B8"
+    itemDesc: "AND \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uB450 \uC785\uB825
+      \uBAA8\uB450 1\uC778 \uACBD\uC6B0 1\uC744 \uCD9C\uB825\uD55C\uB2E4."
+    itemSpr: {fileID: 21300000, guid: f49ed5a9d0a53634f8abf7d80bf496a5, type: 3}
+  - itemID: 12
+    itemName: "OR\uAC8C\uC774\uD2B8"
+    itemDesc: "OR \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uB450 \uC785\uB825
+      \uC911 \uD558\uB098\uB77C\uB3C4 1\uC778 \uACBD\uC6B0 1\uC744 \uCD9C\uB825\uD55C\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 1f09f981c33eb764f8c1140377e484e1, type: 3}
+  - itemID: 13
+    itemName: "NOT\uAC8C\uC774\uD2B8"
+    itemDesc: "NOT \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uC785\uB825 \uAC12\uC744
+      \uBC18\uC804\uD558\uC5EC \uCD9C\uB825\uD558\uB294 \uC5ED\uD560\uC744 \uD55C\uB2E4."
+    itemSpr: {fileID: 21300000, guid: b146a0f35156f5b4f9f184cc2e958945, type: 3}

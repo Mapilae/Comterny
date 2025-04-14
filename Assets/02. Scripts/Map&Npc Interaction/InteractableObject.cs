@@ -154,6 +154,11 @@ public class InteractableObject : MonoBehaviour
     public void AddVariable()
     {
         for (int i = 0; i < interactList[currentInteractIndex].varCodeToAdd.Count; i++)
-            playerData.AddVariable(interactList[currentInteractIndex].varCodeToAdd[i]);
+            if(interactList[currentInteractIndex].varCodeToAdd[i] >= 100)
+                playerData.AddVariable(interactList[currentInteractIndex].varCodeToAdd[i]);
+            else
+            {
+                playerData.AddItem(interactList[currentInteractIndex].varCodeToAdd[i]);
+            }
     }
 }

@@ -1,8 +1,12 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class LogicGateMinigame : MonoBehaviour
 {
+    
     public static bool canUse = true;
     public int varToAdd = 124;
     public GameObject thisWhole;
@@ -13,12 +17,17 @@ public class LogicGateMinigame : MonoBehaviour
     public VolumeProfile volumeProfile;
     public GameObject[] objToDisable;
     public GameObject[] objToEnable;
+    public Collider2D colToDisable;
     public FanSpinning fanSpin;
 
     // public List<LogicGateOne> gates = new();
     public bool[] inputValues;
     private bool isConnectedAll;
     private PlayerData playerData;
+
+    [Header("Item ID List")]
+    public List<LogicGatePiece> itemIDList;
+    
 
     private void Start()
     {
@@ -35,6 +44,7 @@ public class LogicGateMinigame : MonoBehaviour
     private void OnEnable()
     {
         StartTest();
+        Inventory.instance.anything = this.gameObject;
     }
 
     public void CloseThis()
@@ -65,6 +75,8 @@ public class LogicGateMinigame : MonoBehaviour
         if (objToEnable.Length > 0)
             for (int i = 0; i < objToEnable.Length; i++)
                 objToEnable[i].SetActive(true);
+        if(colToDisable!=null)
+            colToDisable.enabled = false;
         
         if (fanSpin != null) fanSpin.PlaySpinPan(true);
         Invoke("CloseThis", 3f);
@@ -86,4 +98,41 @@ public class LogicGateMinigame : MonoBehaviour
         this.isConnectedAll = isConnectedAll;
         return isConnectedAll;
     }*/
+    
+
+    public void InventoryToReal(int invItemID)
+    {
+        for (int i = 0; i < itemIDList.Count; i++)
+        {
+            if (itemIDList[i].itemID.Equals(invItemID))
+            {
+               itemIDList[i].gameObject.SetActive(true);
+               Debug.Log(itemIDList[i].itemID+" set true");
+                PieceEnabledAnimation(itemIDList[i].GetComponent<RectTransform>());
+               PlayerMovement.instance.UnholdItem();
+               break;
+            }
+            
+        }
+    }
+    
+    void PieceEnabledAnimation(RectTransform rect)
+    {
+        StartCoroutine(IEPieceEnabledAnimation(rect));
+    }
+
+    IEnumerator IEPieceEnabledAnimation(RectTransform rect)
+    {
+        float time = 0;
+        while (time < 1)
+        {
+            time += Time.deltaTime*5f;
+            rect.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, time);
+            yield return null;
+        }
+        rect.localScale = Vector3.one;
+        yield return null;
+        
+    }
+    
 }
