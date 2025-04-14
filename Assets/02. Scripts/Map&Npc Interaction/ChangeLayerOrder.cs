@@ -45,7 +45,7 @@ public class ChangeLayerOrder : MonoBehaviour
     }
     void SetSorting(Collider2D other, bool isEnter)
      {
-         if (other.CompareTag("Player")||other.CompareTag("NPC"))
+         if (other.CompareTag("Player")||other.CompareTag("NPC Follow"))
          {
              if (isEnter)
              {

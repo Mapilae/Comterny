@@ -143,7 +143,8 @@ public class PlayerMovement : MovingFootPrint
     {
         canMove = canMoveb;
         if (!canMoveb)
-            playSpineAnim.SetAnim("idle", true);
+            StopMoving();
+        else rb.WakeUp();
     }
 
     public void UnholdItem()
@@ -158,5 +159,14 @@ public class PlayerMovement : MovingFootPrint
         currentHoldingItem = holdItem;
         currentHoldingImg.sprite = holdSpr;
         currentHoldingImg.enabled = true;
+    }
+
+    public void StopMoving()
+    {
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0;
+        rb.linearVelocity = Vector2.zero;
+        rb.Sleep();
+        playSpineAnim.SetAnim("idle", true);
     }
 }

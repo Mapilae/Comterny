@@ -143,9 +143,10 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogWhole.gameObject.SetActive(false);
                 standingImg.StandingAlpha(false);
-                PlayerMovement.instance.ChangeCanMove(true);
+                
                 isPlayingDialogue = false;
                 Debug.Log("종료");
+                PlayerMovement.instance.ChangeCanMove(true);
                 return;
             }
 
@@ -287,6 +288,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogueInManager(string idName)
     {
+        
         StartCoroutine(IEStartDialogue(idName));
     }
 
@@ -300,6 +302,8 @@ public class DialogueManager : MonoBehaviour
 
         int index = SheetData.instance.block.FindIndex(x => x.id == idName);
         instance.StartDialogue(SheetData.instance.block[index].cells);
+        
+        PlayerMovement.instance.ChangeCanMove(false);
         yield return null;
-    }
+    } 
 }
