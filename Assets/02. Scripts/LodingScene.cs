@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
 
 public class LodingScene : MonoBehaviour
 {
@@ -54,8 +53,9 @@ public class LodingScene : MonoBehaviour
 
     private void Start()
     {
-        Button.GetComponent<Button>().onClick.AddListener(ClickButton);
-     }
+        if(Button!=null)
+            Button.GetComponent<Button>().onClick.AddListener(ClickButton);
+    }
     
     public void LoadScene(string sceneName)
     {
