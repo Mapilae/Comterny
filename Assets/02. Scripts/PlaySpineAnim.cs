@@ -19,7 +19,7 @@ public class PlaySpineAnim : MonoBehaviour
     public void SetAnim(string animName, bool isLoop)
     {
         if (skelAnim.AnimationName.Equals(animName)) return;
-        Debug.Log("Change Animation To : " + animName);
+        //Debug.Log("Change Animation To : " + animName);
         animState.SetAnimation(0, animName, isLoop);
     }
 }

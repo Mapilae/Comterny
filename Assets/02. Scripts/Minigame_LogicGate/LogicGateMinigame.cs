@@ -44,13 +44,17 @@ public class LogicGateMinigame : MonoBehaviour
     private void OnEnable()
     {
         StartTest();
+        PlayerMovement.canMove = false;
         Inventory.instance.anything = this.gameObject;
+        Pause.instance.SetCurrentPuzzle(this.gameObject);
     }
 
     public void CloseThis()
     {
         PlayerMovement.canMove = true;
-
+        Inventory.instance.anything = null;
+        Pause.instance.SetCurrentPuzzle(null);
+        StopAllCoroutines();
         thisWhole.SetActive(false);
     }
 

@@ -56,6 +56,12 @@ public class LodingScene : MonoBehaviour
     {
         Button.GetComponent<Button>().onClick.AddListener(ClickButton);
      }
+    
+    public void LoadScene(string sceneName)
+    {
+        LoadSceneName = sceneName;
+        LoadScene();
+    }
 
     public void LoadScene()
     {
@@ -75,7 +81,7 @@ public class LodingScene : MonoBehaviour
         {
             fill.fillAmount = asyncLoad.progress;
             time++;
-            Debug.Log(time);
+            //Debug.Log(time);
             charSD.rotation = Quaternion.Euler(0,0,time%2==0?-5:5);
             yield return null;
         }

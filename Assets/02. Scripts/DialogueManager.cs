@@ -157,7 +157,7 @@ public class DialogueManager : MonoBehaviour
             //  }
             //if(�������)string content =content_ENG
 
-            string content = dialogueList[crtIndex].content;
+            string content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
             // nameTxt.transform.parent.gameObject.SetActive(!dialogueList[crtIndex].name.Equals(""));
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
             standingImg.image.sprite =
@@ -218,7 +218,21 @@ public class DialogueManager : MonoBehaviour
 
         return current;
     }
+    
+    private string ChangeIfPlayerNameIncluded(string current)
+    {
+        if (PlayerMovement.playerName.Equals("유저 디버그")) return current;
+        
+        if (current.Contains("유저")||current.Contains("디버그")) //name=User Debug
+        {
+            current=current.Replace("유저 디버그", PlayerMovement.playerName);
+            current=current.Replace("유저", PlayerMovement.playerName);
+            current=current.Replace("디버그", PlayerMovement.playerName);
+            return current;
+        }
 
+        return current;
+    }
 
     private void WhenLastPage()
     {

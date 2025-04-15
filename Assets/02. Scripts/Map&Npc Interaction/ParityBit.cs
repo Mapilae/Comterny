@@ -18,6 +18,22 @@ public class ParityBlock
 public class ParityBit : MonoBehaviour
 {
     public List<ParityBlock>  parityBlocks = new List<ParityBlock>();
+    public GameObject closeABtn;
+    
+    private void OnEnable()
+    {
+        PlayerMovement.canMove = false;
+        Pause.instance.SetCurrentPuzzle(this.gameObject);
+        ResetParity();
+    }
+
+    public void Close()
+    {
+        PlayerMovement.canMove = true;
+        Pause.instance.SetCurrentPuzzle(null);
+        gameObject.SetActive(false);
+    }
+    
     
     public void CreateParity(int index)
     {
@@ -152,10 +168,19 @@ public class ParityBit : MonoBehaviour
 
     public void EndGame()
     {
-        Debug.Log("패리티비트 클리어!");
+        //Debug.Log("패리티비트 클리어!");
         for(int i=0;i<parityBlocks.Count;i++)
             parityBlocks[i].objBtn.interactable = false;
-       
+        PlayerData.instance.AddVariable(135);
+        StartCoroutine(EndClose());
+    }
+
+    IEnumerator EndClose()
+    {
+        closeABtn.SetActive(false);
+        Debug.Log("Close Parity Bit Minigame...");
+        yield return new WaitForSeconds(2.5f);
+        Close();
     }
 
     bool CheckIfFinished()
@@ -170,8 +195,4 @@ public class ParityBit : MonoBehaviour
         return true;
     }
 
-    private void Start()
-    {
-        ResetParity();
-    }
 }

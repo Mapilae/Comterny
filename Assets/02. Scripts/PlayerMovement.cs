@@ -66,6 +66,7 @@ public class PlayerMovement : MovingFootPrint
     private void FixedUpdate()
     {
         if (!canMove) return;
+        
         rb.linearVelocity = input * moveSpeed;
 
         if (input.x != 0)

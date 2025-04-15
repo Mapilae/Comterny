@@ -106,7 +106,7 @@ public class InteractableObject : MonoBehaviour
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
-                Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
+                //Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
                 if (DialogueManager.isPlayingDialogue) return;
                 AddVariable();
                 GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
@@ -128,7 +128,7 @@ public class InteractableObject : MonoBehaviour
                 interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
-                Debug.Log("PUZZLE MINIGAME START" + name);
+                //Debug.Log("PUZZLE MINIGAME START" + name);
 
                 if (interactList[currentInteractIndex].objToEnable2 != null)
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);

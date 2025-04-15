@@ -38,7 +38,7 @@ public class NonPlayerCharacter : MovingFootPrint
         if(convObj!=null)
         if (!convObj.activeInHierarchy)
         {
-            Debug.Log("ConvObj is not active. return.");
+//            Debug.Log("ConvObj is not active. return.");
             return;
         }
 
