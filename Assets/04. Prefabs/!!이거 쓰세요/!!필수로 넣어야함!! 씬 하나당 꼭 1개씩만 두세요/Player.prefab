@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6792e8ff545df084d86d02b436030270, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 297a3992cf033ce409b927de0f766c79, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 6459740d5eafa45de908641e081561f2, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -321,7 +321,7 @@ MonoBehaviour:
   - {fileID: 6269506037415709884}
   spineTrans: {fileID: 8713458611944747773}
   moveSpeed: 1.5
-  moveSpeed2x: 3
+  moveSpeed2x: 2.75
   currentHoldingItem: -1
   currentHoldingImg: {fileID: 7062667117170879193}
   obstacleLayer:

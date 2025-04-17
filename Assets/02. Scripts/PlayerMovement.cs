@@ -82,7 +82,7 @@ public class PlayerMovement : MovingFootPrint
         }
         else
         {
-            if (isRunning)
+            if (!isRunning)//걷고 있는 경우
                 playSpineAnim.SetAnim("walk", true);
             else
                 playSpineAnim.SetAnim("run", true);
