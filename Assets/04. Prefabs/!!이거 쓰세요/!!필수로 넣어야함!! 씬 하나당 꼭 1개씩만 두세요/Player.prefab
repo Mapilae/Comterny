@@ -411,12 +411,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d97b2ea7484c6af4e9e1371d9920c95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playSpineAnim: {fileID: 6111739968363352168}
   isWalking: 0
   rb: {fileID: 7897887659413020819}
   footprintObj: {fileID: 0}
   footPos:
   - {fileID: 7999936904777632537}
   - {fileID: 6269506037415709884}
+  concreteSound: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
+  brickSound: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
+  tileSound: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
+  RayStart: {fileID: 8713458611944747773}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  currentGround: 
   spineTrans: {fileID: 8713458611944747773}
   moveSpeed: 1.5
   moveSpeed2x: 2.75
@@ -425,7 +434,6 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
-  playSpineAnim: {fileID: 6111739968363352168}
 --- !u!50 &7897887659413020819
 Rigidbody2D:
   serializedVersion: 5

@@ -20,7 +20,7 @@ public class PlaySpineAnim : MonoBehaviour
     public float randomPitchOffset = 0.1f;
 
     Spine.EventData eventData;
-
+    private int groundType = -1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -50,6 +50,14 @@ public class PlaySpineAnim : MonoBehaviour
         audioSource.pitch = basePitch + Random.Range(-randomPitchOffset, randomPitchOffset);
         audioSource.clip = audioClip;
         audioSource.Play();
+    }
+
+    public void SetAudioClip(AudioClip audioClip, int groundType)
+    {
+        if (this.groundType==groundType) return;
+        this.audioClip = audioClip;
+        this.groundType = groundType;
+        Debug.Log("changed!"+this.groundType);
     }
     
 }

@@ -16,7 +16,7 @@ public class PlayerMovement : MovingFootPrint
     public Image currentHoldingImg;
 
     public LayerMask obstacleLayer;
-    public PlaySpineAnim playSpineAnim;
+    
     private readonly bool isMoving = false;
 
     private FixedJoystick fixedJoystick;
@@ -48,6 +48,7 @@ public class PlayerMovement : MovingFootPrint
     private void Update()
     {
         if (isMoving) return;
+        FootStep();
 #if UNITY_EDITOR
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
             SetIfRunning(true);

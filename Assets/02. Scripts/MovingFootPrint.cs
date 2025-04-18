@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MovingFootPrint : MonoBehaviour
 {
+    public PlaySpineAnim playSpineAnim;
+    
+    [Header("MovingFootPrint")]
     public bool isWalking;
     public Rigidbody2D rb;
     public GameObject footprintObj;
@@ -12,6 +17,42 @@ public class MovingFootPrint : MonoBehaviour
     private int footIsLeft = 0;
     private List<GameObject> footPrintList = new List<GameObject>();
     private int poolIndex = 0;
+    [Space]
+    public AudioClip concreteSound;
+    public AudioClip brickSound;
+    public AudioClip tileSound;
+    RaycastHit2D hit;
+    public Transform RayStart;
+    float range=0.5f;
+    public LayerMask layerMask;
+[Space]
+    public string currentGround = "";
+    
+    public void FootStep()
+    {
+        Debug.DrawRay(RayStart.position, RayStart.transform.up*range*-1, Color.green);
+        hit = Physics2D.Raycast(RayStart.position, Vector2.down, range, layerMask);
+        if (hit.collider.CompareTag("concrete"))
+        {
+            currentGround = "concrete";
+            playSpineAnim.SetAudioClip(concreteSound, 0);
+        }
+        else if (hit.collider.CompareTag("brick"))
+        {
+            currentGround = "brick";
+            playSpineAnim.SetAudioClip(brickSound, 1);
+        }
+        else if (hit.collider.CompareTag("tile"))
+        {
+            currentGround = "tile";
+            playSpineAnim.SetAudioClip(tileSound, 2);
+        }
+        else
+        {
+            currentGround = "none";
+            playSpineAnim.SetAudioClip(concreteSound, 3);
+        }
+    }
 
     private void InitializeFootprintPool()
     {

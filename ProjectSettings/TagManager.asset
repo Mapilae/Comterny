@@ -14,11 +14,13 @@ TagManager:
   - LogicGate
   - NPC
   - NPC Follow
+  - concrete
+  - brick
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Collision
