@@ -143,7 +143,7 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogWhole.gameObject.SetActive(false);
                 standingImg.StandingAlpha(false);
-                
+
                 isPlayingDialogue = false;
                 Debug.Log("종료");
                 PlayerMovement.instance.ChangeCanMove(true);
@@ -157,7 +157,7 @@ public class DialogueManager : MonoBehaviour
             //  }
             //if(�������)string content =content_ENG
 
-            string content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
+            var content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
             // nameTxt.transform.parent.gameObject.SetActive(!dialogueList[crtIndex].name.Equals(""));
             nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
             standingImg.image.sprite =
@@ -172,12 +172,12 @@ public class DialogueManager : MonoBehaviour
                 Regex regex = new(@"\{(.*?)\}");
                 content = regex.Replace(content, match =>
                 {
-                    string key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
+                    var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
                     // Debug.Log($"ġȯ �õ�: {key}");
 
-                    if (key.Equals("Player")) return PlayerMovement.playerName;
+                    if (key.Equals("Player")) return PlayerData.playerName;
                     // PlayerPrefs���� �� ��������
-                    string value = PlayerPrefs.GetString(key, "null");
+                    var value = PlayerPrefs.GetString(key, "null");
                     // Debug.Log($"PlayerPrefs���� ������ ��: {value}");
 
 
@@ -212,22 +212,22 @@ public class DialogueManager : MonoBehaviour
     {
         if (current.Equals("유저 디버그")) //name=User Debug
         {
-            if (PlayerMovement.playerName.Equals("유저 디버그")) return current; //name=User Debug
-            return PlayerMovement.playerName;
+            if (PlayerData.playerName.Equals("유저 디버그")) return current; //name=User Debug
+            return PlayerData.playerName;
         }
 
         return current;
     }
-    
+
     private string ChangeIfPlayerNameIncluded(string current)
     {
-        if (PlayerMovement.playerName.Equals("유저 디버그")) return current;
-        
-        if (current.Contains("유저")||current.Contains("디버그")) //name=User Debug
+        if (PlayerData.playerName.Equals("유저 디버그")) return current;
+
+        if (current.Contains("유저") || current.Contains("디버그")) //name=User Debug
         {
-            current=current.Replace("유저 디버그", PlayerMovement.playerName);
-            current=current.Replace("유저", PlayerMovement.playerName);
-            current=current.Replace("디버그", PlayerMovement.playerName);
+            current = current.Replace("유저 디버그", PlayerData.playerName);
+            current = current.Replace("유저", PlayerData.playerName);
+            current = current.Replace("디버그", PlayerData.playerName);
             return current;
         }
 
@@ -302,7 +302,6 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogueInManager(string idName)
     {
-        
         StartCoroutine(IEStartDialogue(idName));
     }
 
@@ -314,10 +313,10 @@ public class DialogueManager : MonoBehaviour
         //yield return waitUntil;
         //Debug.Log("Start Dialogue waiting end.");
 
-        int index = SheetData.instance.block.FindIndex(x => x.id == idName);
+        var index = SheetData.instance.block.FindIndex(x => x.id == idName);
         instance.StartDialogue(SheetData.instance.block[index].cells);
-        
+
         PlayerMovement.instance.ChangeCanMove(false);
         yield return null;
-    } 
+    }
 }

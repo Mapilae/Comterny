@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class PlayerNameSet : MonoBehaviour
@@ -12,6 +13,9 @@ public class PlayerNameSet : MonoBehaviour
    
     public TMP_Text dateText;
     public GameObject nextTab;
+    
+    [Header("Difficulty")]
+    int currentDifficulty=-1;
     
     private void Start()
     {
@@ -47,10 +51,39 @@ public class PlayerNameSet : MonoBehaviour
     
     public void SetDifficulty(int diff)
     {
-        PlayerData.instance.SetDifficulty(diff);
-        Debug.Log("Player Difficulty Set: " + diff);
-        
-        LodingScene.instance.LoadScene();
+        if(currentDifficulty==diff){
+            PlayerData.instance.SetDifficulty(diff);
+            Debug.Log("Player Difficulty Set: " + diff);
+            
+            LodingScene.instance.LoadScene();
+            
+        }
+        else
+        {
+            currentDifficulty=diff;
+            
+        }
     }
-    
+
+    public void ButtonPopUp(Button button)
+    {
+        if (!button.interactable) return;
+        button.GetComponent<RectTransform>().localScale = Vector3.one*1.4f;
+        Transform parent = button.transform.parent;
+        button.transform.parent = transform;
+        button.transform.parent = parent;
+    }
+
+    public void ButtonNormal(Button button)
+    {
+        if (!button.interactable) return;
+        button.GetComponent<RectTransform>().localScale = Vector3.one;
+        
+    }
+
+    public void SetCurrentDifficulty(int diff)
+    {
+        currentDifficulty=diff;
+    }
+
 }

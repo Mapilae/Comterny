@@ -5,7 +5,7 @@ public class PlayerMovement : MovingFootPrint
 {
     public static bool isSpace;
     public static PlayerMovement instance;
-    public static string playerName = "유저 디버그";
+    
     public static bool canMove = true;
     public Transform spineTrans;
 

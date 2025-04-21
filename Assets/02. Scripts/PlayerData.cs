@@ -24,7 +24,7 @@ public class PlayerData : MonoBehaviour
 
     [Space] public string version;
 
-    public string playerName;
+    public static string playerName="유저 디버그";
     public int difficulty; //난이도. 0: Easy, 1: 컴공모드
     
     [Header("ETC")] public VariableHolder varHolder;

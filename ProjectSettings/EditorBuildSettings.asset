@@ -17,11 +17,20 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/BusStop.unity
     guid: efe1298391e91634fb06da3e1f1d3576
+  - enabled: 1
+    path: Assets/01. Scenes/Soeuns/CentralProcessingDept.unity
+    guid: acf8928fb04eaa94083202c1cbe73e9f
   - enabled: 0
     path: Assets/01. Scenes/unity Sence Connet Test/Third Scene.unity
     guid: 1fce03f804fdb4b3e9e6b099e3117e05
   - enabled: 0
     path: Assets/01. Scenes/unity Sence Connet Test/Second Scene.unity
     guid: c69f81f61d57346abae95e18ba449cc5
+  - enabled: 1
+    path: Assets/01. Scenes/Soeuns/MemoryDept.unity
+    guid: 56443c572d94946ef973f1ce9ff578b3
+  - enabled: 1
+    path: Assets/01. Scenes/Soeuns/SystemSoftware.unity
+    guid: ef0de1f28b79fd64a90fd6a1601bfa04
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
