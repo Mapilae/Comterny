@@ -60,7 +60,7 @@ public class SheetLoader : MonoBehaviour
 
     private void DisplayText()
     {
-        Debug.Log(strSheetData);
+//        Debug.Log(strSheetData);
     }
 
     public void LoadInSheetData()

@@ -57,7 +57,7 @@ public class PlaySpineAnim : MonoBehaviour
         if (this.groundType==groundType) return;
         this.audioClip = audioClip;
         this.groundType = groundType;
-        Debug.Log("changed!"+this.groundType);
+       // Debug.Log("changed!"+this.groundType);
     }
     
 }

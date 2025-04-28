@@ -1,129 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
-/*
-public class CameraFollow : MonoBehaviour
-{
-    public Transform player; // 플레이어의 Transform
-    public Vector2 minPosition; // 카메라가 이동할 최소 위치
-    public Vector2 maxPosition; // 카메라가 이동할 최대 위치
-    public float smoothSpeed = 0.125f; // 카메라 이동 부드러움 정도
-    public string limitTag = "CameraLimit"; // 카메라 제한 태그
-    public LayerMask limitLayer; // 카메라 제한 레이어
-
-    private Vector3 targetPosition;
-    private bool limitX = false;
-    private bool limitY = false;
-
-    void FixedUpdate()
-    {
-        if (player == null) return;
-
-        // 목표 위치 계산
-        targetPosition = new Vector3(
-            limitX ? transform.position.x : player.position.x,
-            limitY ? transform.position.y : player.position.y,
-            transform.position.z
-        );
-
-        // 충돌 체크 및 제한 적용
-        ApplyCameraLimits();
-
-        // 부드럽게 이동
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed);
-    }
-
-    void ApplyCameraLimits()
-    {
-        // 특정 레이어 또는 태그가 있는 오브젝트에 닿으면 제한 적용
-        Collider2D limitCollider = Physics2D.OverlapPoint(player.position, limitLayer);
-        if (limitCollider != null || HasTaggedObjectNearby())
-        {
-            Vector3 limitPos = limitCollider != null
-                ? limitCollider.transform.position
-                : GetClosestTaggedObject().position;
-
-            // 오른쪽 제한 감지
-            if (player.position.x > limitPos.x) limitX = true;
-
-            // 아래쪽 제한 감지
-            if (player.position.y < limitPos.y) limitY = true;
-        }
-        else
-        {
-            limitX = false;
-            limitY = false;
-        }
-    }
-
-    bool HasTaggedObjectNearby()
-    {
-        return GetClosestTaggedObject() != null;
-    }
-
-    Transform GetClosestTaggedObject()
-    {
-        GameObject[] limitObjects = GameObject.FindGameObjectsWithTag(limitTag);
-        Transform closest = null;
-        float minDist = Mathf.Infinity;
-
-        foreach (GameObject obj in limitObjects)
-        {
-            float dist = Vector2.Distance(obj.transform.position, player.position);
-            if (dist < 2.0f && dist < minDist)
-            {
-                minDist = dist;
-                closest = obj.transform;
-            }
-        }
-
-        return closest;
-    }
-
-    public LayerMask targetLayer;
-    public Camera mainCamera;
-
-    private void Start()
-    {
-        mainCamera=Camera.main;
-    }
-
-    void Update()
-    {
-        Image[] images = FindObjectsOfType<Image>(); // UI Image 찾기
-
-        foreach (Image image in images)
-        {
-            if (((1 << image.gameObject.layer) & targetLayer) != 0) // Layer 체크
-            {
-                if (IsVisible(image.rectTransform))
-                {
-                    Debug.Log($"{image.gameObject.name}가 보이고 있어요!");
-                }
-            }
-        }
-    }
-    public CameraTrigger trigger;
-    bool IsVisible(RectTransform rectTransform)
-    {
-        Vector3[] worldCorners = new Vector3[4];
-        rectTransform.GetWorldCorners(worldCorners); // UI 요소의 월드 좌표 가져오기
-
-        foreach (Vector3 corner in worldCorners)
-        {
-            Vector3 screenPoint = mainCamera.WorldToScreenPoint(corner);
-            if (screenPoint.z > 0 &&
-                screenPoint.x > 0 && screenPoint.x < Screen.width &&
-                screenPoint.y > 0 && screenPoint.y < Screen.height)
-            {
-                return true; // 하나라도 카메라 화면 안에 있으면 보이는 것
-            }
-        }
-        return false;
-    }
-}
-*/
-
+using UnityEngine.Serialization;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -136,13 +13,13 @@ public class CameraFollow : MonoBehaviour
     public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 부드러운 이동 곡선
 
 
-    public bool isFixed;
-    public bool _isXFixed;
-    public bool _isYFixed;
+    public bool isXFixed;
+    public bool isYFixed;
 
-    public bool isFreezed;
     public bool isXFreezed;
     public bool isYFreezed;
+    
+    Transform cam;
 
     private float _timeX;
     private float _timeY;
@@ -159,102 +36,119 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        targetPosition = transform.position;
-        if (!_isXFixed && !isXFreezed) targetPosition.x = player.position.x;
-        if (!_isYFixed && !isYFreezed) targetPosition.y = player.position.y;
-
-        transform.position = targetPosition;
+        if (!isXFixed && !isXFreezed) targetPosition.x = player.position.x;
+        else targetPosition.x = transform.position.x;
+        if (!isYFixed && !isYFreezed) targetPosition.y = player.position.y;
+        else targetPosition.y= transform.position.y;
+        
+        if(!isCoroutineRunning) transform.position = targetPosition;
     }
 
     public void ResetPosition(bool isFreezeMode)
     {
         if (!isFreezeMode)
         {
-            isFixed = false;
-            _isXFixed = false;
-            _isYFixed = false;
+            isXFixed = false;
+            isYFixed = false;
         }
-        // if (isCoroutineRunning) StopAllCoroutines();
 
-        StartCoroutine(SmoothMoveTrans(isFreezeMode, isXFreezed || _isXFixed,
-            isYFreezed || _isYFixed,
-            cDuration));
+        StartFollowPlayer(!(isXFreezed || isXFixed),!(isYFreezed || isYFixed), cDuration);
     }
 
     public void MoveToTarget(Vector3 targetVec, bool isX, bool isY)
     {
-        // if (isCoroutineRunning) StopAllCoroutines();
-        isFixed = isX || isY;
-        _isXFixed = isX;
-        _isYFixed = isY;
-        StartCoroutine(SmoothMove(targetVec, isX, isY, cDuration));
+        isXFixed = isX;
+        isYFixed = isY;
+        StartSmoothMove(targetVec, isX, isY, cDuration);
     }
 
-    private IEnumerator SmoothMove(Vector3 targetPos, bool isX, bool isY, float duration)
+    private Vector3 currentTarget;
+    private Coroutine moveCoroutine;
+    private bool targetIsPlayer;
+    
+        /// <summary>
+    /// 부드러운 이동 시작 함수
+    /// </summary>
+    /// <param name="targetPos">이동할 목표 위치</param>
+    /// <param name="isXMove">X축 이동 허용 여부</param>
+    /// <param name="isYMove">Y축 이동 허용 여부</param>
+    /// <param name="duration">이동에 걸리는 시간</param>
+    public void StartSmoothMove(Vector3 targetPos, bool isXMove = true, bool isYMove = true, float duration = 1f, bool isPlayer=false)
+    {
+        
+        targetIsPlayer = isPlayer;
+        if(!targetIsPlayer)currentTarget = targetPos;
+        
+        if (isCoroutineRunning)
+        {StopCoroutine(moveCoroutine);
+            
+        }
+        moveCoroutine = StartCoroutine(SmoothMoveRoutine(isXMove, isYMove, duration));
+        
+    }
+
+    /// <summary>
+    /// 플레이어를 따라가는 부드러운 이동 시작
+    /// (player.position을 목표로 설정)
+    /// </summary>
+    public void StartFollowPlayer(bool isXMove = true, bool isYMove = true, float duration = 1f)
+    {
+        if (player == null)
+        {
+            Debug.LogWarning("플레이어가 할당되지 않았습니다.");
+            return;
+        }
+
+        StartSmoothMove(player.position, isXMove, isYMove, duration, true);
+    }
+
+    private IEnumerator SmoothMoveRoutine(bool isXMove, bool isYMove, float duration)
     {
         isCoroutineRunning = true;
-        Vector3 startPosition = transform.position;
 
+        Vector3 startPos = transform.position;
+        Vector3 targetNow=targetIsPlayer?player.position:currentTarget;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
             if (this == null) yield break;
-            elapsedTime += Time.deltaTime;
-            float t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
+            // 매 프레임 최신 target 반영
+             targetNow = targetIsPlayer?player.position:currentTarget;
 
-            float newX = isX ? Mathf.Lerp(startPosition.x, targetPos.x, t) : startPosition.x;
-            float newY = isY ? Mathf.Lerp(startPosition.y, targetPos.y, t) : startPosition.y;
-            float newZ = startPosition.z; // Z축은 그대로 유지
+            elapsedTime += Time.deltaTime;
+            float t = easeCurve.Evaluate(elapsedTime / duration);
+
+           
+            float newX = isXMove ? Mathf.Lerp(startPos.x, targetNow.x, t) : startPos.x;
+            float newY = isYMove ? Mathf.Lerp(startPos.y, targetNow.y, t) : startPos.y;
+            float newZ = startPos.z; // Z는 고정
 
             transform.position = new Vector3(newX, newY, newZ);
+
+            bool isXReached = isXMove ? Mathf.Abs(transform.position.x - targetNow.x) < 0.05f : true;
+            bool isYReached = isYMove ? Mathf.Abs(transform.position.y - targetNow.y) < 0.05f : true;
+
+            if (isXReached && isYReached)
+            {
+                
+                break;
+            }
+
+
             yield return null;
         }
 
         // 최종 위치 보정
         transform.position = new Vector3(
-            isX ? targetPos.x : startPosition.x,
-            isY ? targetPos.y : startPosition.y,
-            startPosition.z
-        );
-        isCoroutineRunning = false;
-    }
-
-    private IEnumerator SmoothMoveTrans(bool isFreezeMode, bool isXNoMove, bool isYNoMove, float duration)
-    {
-        isCoroutineRunning = true;
-        Vector3 startOffset = transform.position; // - player.transform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            //if (this == null) yield break;
-            elapsedTime += Time.deltaTime;
-            // 현재 위치의 상대적 오프셋
-            float t = easeCurve.Evaluate(elapsedTime / duration); // 부드러운 이동 적용
-            startOffset = transform.position;
-
-            // 매 프레임마다 startOffset을 갱신하며 보간 수행
-            float newX = isXNoMove ? startOffset.x : Mathf.Lerp(startOffset.x, player.transform.position.x, t);
-            float newY = isYNoMove ? startOffset.y : Mathf.Lerp(startOffset.y, player.transform.position.y, t);
-            float newZ = startOffset.z; // Z축은 그대로 유지
-
-            transform.position = new Vector3(newX, newY, newZ);
-//            Debug.Log(transform.position.y + "+ repeat: " + t);
-            yield return null;
-        }
-
-        //      Debug.Log("repeat: Finish");
-        // 최종 위치 보정
-        transform.position = new Vector3(
-            isXNoMove ? startOffset.x : player.transform.position.x,
-            isYNoMove ? startOffset.y : player.transform.position.y,
-            startOffset.z
+            isXMove ? targetNow.x : transform.position.x,
+            isYMove ? targetNow.y : transform.position.y,
+            transform.position.z
         );
 
         isCoroutineRunning = false;
+        moveCoroutine = null;
     }
-
 
     public void FreezeMove(bool isX, bool isY)
     {
@@ -262,7 +156,6 @@ public class CameraFollow : MonoBehaviour
         if (isY) isYFreezed = true;
         Debug.Log("Freeze move: " + isXFreezed + ", " + isYFreezed);
 
-        isFreezed = true;
     }
 
 
@@ -272,7 +165,6 @@ public class CameraFollow : MonoBehaviour
         if (isY) isYFreezed = false;
         Debug.Log("unfreeze move: " + isXFreezed + ", " + isYFreezed);
 
-        isFreezed = isXFreezed || isYFreezed;
-        //ResetPosition(true);
+        ResetPosition(true);
     }
 }
