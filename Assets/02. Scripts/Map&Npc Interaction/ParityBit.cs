@@ -19,6 +19,8 @@ public class ParityBit : MonoBehaviour
 {
     public List<ParityBlock>  parityBlocks = new List<ParityBlock>();
     public GameObject closeABtn;
+
+    [Header("Potal")] public Animator anim;
     
     private void OnEnable()
     {
@@ -119,6 +121,7 @@ public class ParityBit : MonoBehaviour
             code[5] = '1';
             parityCount++;
         }
+        
 
         if (isParityRight)
             code[3]=parityCount%2==0?'0':'1';
@@ -169,6 +172,7 @@ public class ParityBit : MonoBehaviour
     public void EndGame()
     {
         //Debug.Log("패리티비트 클리어!");
+       
         for(int i=0;i<parityBlocks.Count;i++)
             parityBlocks[i].objBtn.interactable = false;
         PlayerData.instance.AddVariable(135);
@@ -180,6 +184,8 @@ public class ParityBit : MonoBehaviour
         closeABtn.SetActive(false);
         Debug.Log("Close Parity Bit Minigame...");
         yield return new WaitForSeconds(2.5f);
+        anim.SetTrigger("Success");
+        CPUWarp.canWarp = true;
         Close();
     }
 
