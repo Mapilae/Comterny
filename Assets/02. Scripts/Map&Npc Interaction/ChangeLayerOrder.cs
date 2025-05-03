@@ -19,6 +19,8 @@ public class SortClass
 
 public class ChangeLayerOrder : MonoBehaviour
 {
+    [Header("변경이 영구적인지 여부")] public bool isPermanent; //변경이 영구적인가
+
     public SortClass[] sorts;
 
     public GameObject[] objToEnableWhenEnter;
@@ -33,51 +35,65 @@ public class ChangeLayerOrder : MonoBehaviour
         SetSorting(other, true);
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        SetSorting(other, false);
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         SetSorting(other, true);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void SetSorting(Collider2D other, bool isEnter)
     {
-        
-            SetSorting(other, false);
+        if (!gameObject.activeInHierarchy) return;
+
+        if (other.CompareTag("Player") || other.CompareTag("NPC Follow"))
+        {
+            if (isEnter)
+            {
+                if (sorts != null)
+                    for (var i = 0; i < sorts.Length; i++)
+                        sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderEnter;
+            }
+            else
+            {
+                for (var i = 0; i < sorts.Length; i++)
+                    if (sorts[i].sortingGroup.gameObject.activeInHierarchy)
+                        sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
+            }
+
+            if (other.CompareTag("Player"))
+            {
+                if (objToDisableWhenEnter.Length > 0)
+                {
+                    foreach (var obj in objToDisableWhenEnter) obj.SetActive(!isEnter);
+
+                    if (isPermanent) objToDisableWhenEnter = null;
+                }
+
+                if (objToEnableWhenEnter.Length > 0)
+                {
+                    foreach (var obj in objToEnableWhenEnter)
+                        obj.SetActive(isEnter);
+                    if (isPermanent) objToEnableWhenEnter = null;
+                }
+
+                if (colliderToEnableWhenEnter.Length > 0)
+                {
+                    foreach (var obj in colliderToEnableWhenEnter)
+                        obj.enabled = isEnter;
+                    if (isPermanent) colliderToEnableWhenEnter = null;
+                }
+
+                if (colliderToDisableWhenEnter.Length > 0)
+                {
+                    foreach (var obj in colliderToDisableWhenEnter)
+                        obj.enabled = !isEnter;
+                    if (isPermanent) colliderToDisableWhenEnter = null;
+                }
+            }
+        }
     }
-    void SetSorting(Collider2D other, bool isEnter)
-     {
-         if (other.CompareTag("Player")||other.CompareTag("NPC Follow"))
-         {
-             if (isEnter)
-             {
-                 if (sorts != null)
-                 {
-                    for (int i = 0; i < sorts.Length; i++)
-                     sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderEnter;
-                 }
-
-             }
-             else
-             {
-                 for (int i = 0; i < sorts.Length; i++)
-                        if (sorts[i].sortingGroup.gameObject.activeInHierarchy)
-                            sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
-             }
-             if(other.CompareTag("Player")){
-                 if (objToDisableWhenEnter.Length > 0)
-                     foreach (GameObject obj in objToDisableWhenEnter)
-                         obj.SetActive(!isEnter);
-                 if (objToEnableWhenEnter.Length > 0)
-                     foreach (GameObject obj in objToEnableWhenEnter)
-                         obj.SetActive(isEnter);
-                 if (colliderToEnableWhenEnter.Length > 0)
-                     foreach (Collider2D obj in colliderToEnableWhenEnter)
-                         obj.enabled = isEnter;
-                 if (colliderToDisableWhenEnter.Length > 0)
-                     foreach (Collider2D obj in colliderToDisableWhenEnter)
-                         obj.enabled = !isEnter;
-                 
-             }
-         }
-     }
 }
-

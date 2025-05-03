@@ -121,10 +121,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3105170606090187103}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2168803233527563742}
+        m_TargetAssemblyTypeName: BinaryAdditionPuzzle, Assembly-CSharp
+        m_MethodName: CloseTab
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -885,6 +885,7 @@ MonoBehaviour:
   - {fileID: 6675888344259071877}
   submitButton: {fileID: 1135582443091586153}
   varToAdd: 142
+  colToDisable: {fileID: 0}
 --- !u!1 &3492083096404874177
 GameObject:
   m_ObjectHideFlags: 0

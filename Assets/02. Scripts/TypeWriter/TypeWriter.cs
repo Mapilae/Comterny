@@ -19,10 +19,17 @@ public class TypeWriter : MonoBehaviour
     public bool isTyping;
     public List<Word> currentWord = new();
 
+    private Color defaultColor;
+
+    private void OnEnable()
+    {
+        defaultColor = content.color;
+    }
+
 
     private void UpdateWordList()
     {
-        for (int i = 0; i < sentence.Length; i++)
+        for (var i = 0; i < sentence.Length; i++)
         {
             /*if (!sentence[i].Equals("<"))
             {
@@ -49,7 +56,7 @@ public class TypeWriter : MonoBehaviour
 
         if (name_ch.Equals("랜섬웨어"))
             content.color = new Color(1, 0, 0);
-        else content.color = Color.white;
+        else content.color = defaultColor;
 
         StartCoroutine("Typing");
     }
@@ -68,7 +75,7 @@ public class TypeWriter : MonoBehaviour
 
     private IEnumerator Typing()
     {
-        float waitTime = 0.07f;
+        var waitTime = 0.07f;
         if (name_ch.Equals("프로세서")) waitTime = 0.04f;
         else if (name_ch.Equals("램")) waitTime = 0.2f;
 
@@ -80,18 +87,18 @@ public class TypeWriter : MonoBehaviour
         if (name_ch.Equals("램") || name_ch.Equals("프로세서"))
         {
             //단어 단위로 말하게 함
-            string[] words = sentence.Split(' ');
+            var words = sentence.Split(' ');
 
-            for (int i = 0; i < words.Length; i++)
+            for (var i = 0; i < words.Length; i++)
             {
-                while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
-                    yield return wait;
+                if (dialogueManager != null)
+                    while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
+                        yield return wait;
+                var processedWord = "";
+                var visibleCharCount = 0;
+                var inTag = false;
 
-                string processedWord = "";
-                int visibleCharCount = 0;
-                bool inTag = false;
-
-                foreach (char c in words[i])
+                foreach (var c in words[i])
                 {
                     if (c == '<') inTag = true;
                     if (!inTag) visibleCharCount++;
@@ -114,14 +121,15 @@ public class TypeWriter : MonoBehaviour
         else
         {
             //문자 단위로 말하게 함
-            for (int i = 0; i < sentence.Length; i++)
+            for (var i = 0; i < sentence.Length; i++)
             {
-                while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
-                    yield return wait;
+                if (dialogueManager != null)
+                    while (dialogueManager.isPause || dialogueManager.isViewPause || !dialogue.activeInHierarchy)
+                        yield return wait;
 
                 if (sentence[i].Equals('<'))
                 {
-                    strInt stri = SkipBracket(sentence, current, i);
+                    var stri = SkipBracket(sentence, current, i);
                     current = stri.str;
                     i = stri.iNum;
 
@@ -130,7 +138,7 @@ public class TypeWriter : MonoBehaviour
                     yield return wait;
                 }
 
-                current += sentence[i];
+                if (i < sentence.Length) current += sentence[i];
                 content.text = current;
                 yield return wait;
             }

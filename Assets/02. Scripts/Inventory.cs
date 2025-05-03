@@ -1,36 +1,16 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 public class Inventory : MonoBehaviour
 {
-    [System.Serializable]
-    public class ItemHolder
-    {
-        public Image image;
-        public int itemID;
-
-        public ItemHolder(Image image, int itemID)
-        {
-            this.image = image;
-            this.itemID = itemID;
-        }
-
-        public ItemHolder(Image image)
-        {
-            this.image = image;
-            itemID = -1;
-        }
-    }
-
     public static Inventory instance;
 
     public VariableHolder varHolder;
     //public List<VariableIntStr> varList = new();
-    
+
     /**
      * itemHoldParent는 유니티에서 SideBarInv를 지칭한다.
      */
@@ -43,14 +23,15 @@ public class Inventory : MonoBehaviour
 
     public TMP_Text itemInfoNameText;
     public TMP_Text itemInfoDescText;
+
     /**
      * itemHoldList itemHoldParent의 자식 오브젝트를 관리하는 리스트
      */
     public List<ItemHolder> itemHoldList;
-    private PlayerData playerData;
 
     public GameObject anything;
-    
+    private PlayerData playerData;
+
     // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
     // 
     private void Awake()
@@ -61,7 +42,6 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-       
         UpdateInventory();
     }
 
@@ -83,7 +63,7 @@ public class Inventory : MonoBehaviour
         //set outline enabled in its parent img
         itemHoldList[currentHoldingItemIndex].image.transform.parent.GetComponent<Outline>().enabled = true;
 
-        Item item = playerData.GetItemFromID(itemHoldList[currentHoldingItemIndex].itemID);
+        var item = playerData.GetItemFromID(itemHoldList[currentHoldingItemIndex].itemID);
 
         PlayerMovement.instance.HoldItem(item.itemID,
             item.itemSpr);
@@ -93,8 +73,8 @@ public class Inventory : MonoBehaviour
     public void EnableItemInfo(int index)
     {
         itemInfoRect.anchoredPosition = new Vector2(itemInfoRect.anchoredPosition.x, -120 - 75 * index);
-        Item item = playerData.GetItemFromID(itemHoldList[index].itemID);
-        
+        var item = playerData.GetItemFromID(itemHoldList[index].itemID);
+
         if (item == null) return;
         itemInfoNameText.text = item.itemName;
         itemInfoDescText.text = item.itemDesc;
@@ -105,6 +85,7 @@ public class Inventory : MonoBehaviour
     {
         itemInfoRect.gameObject.SetActive(false);
     }
+
     /*
      플레이어 데이터 안에있는 데이터를 이중 포문을 사용하여 가져온다
      가져온 데이터를 itemHoldList에 넣는다
@@ -113,15 +94,15 @@ public class Inventory : MonoBehaviour
     */
     public void UpdateInventory()
     {
-        if(itemHoldList==null)MakeList();
-        else if(itemHoldList.Count==0)
+        if (itemHoldList == null) MakeList();
+        else if (itemHoldList.Count == 0)
             MakeList();
-        for (int i = 0; i < itemHoldList.Count; i++)
+        for (var i = 0; i < itemHoldList.Count; i++)
             if (i < playerData.items.Count)
             {
-                Item item = playerData.GetItemFromID(playerData.items[i]);
+                var item = playerData.GetItemFromID(playerData.items[i]);
                 itemHoldList[i].image.sprite = item.itemSpr;
-                itemHoldList[i].itemID= item.itemID;
+                itemHoldList[i].itemID = item.itemID;
                 itemHoldList[i].image.transform.parent.gameObject.SetActive(true);
             }
             else
@@ -139,17 +120,17 @@ public class Inventory : MonoBehaviour
     private void MakeList()
     {
         itemHoldList = new List<ItemHolder>();
-        for (int i = 0; i < itemHoldParent.childCount; i++)
+        for (var i = 0; i < itemHoldParent.childCount; i++)
             /*
              * itemHoldParent의 자식 오브젝트 = InvSlotButton
              * InvSlotButton의 자식 오브젝트 = IconSpr
              */
             itemHoldList.Add(new ItemHolder(itemHoldParent.GetChild(i).GetChild(0).GetComponent<Image>()));
     }
-    
+
     public bool CheckItemIsInInventory(int itemID)
     {
-        for (int i = 0; i < itemHoldList.Count; i++)
+        for (var i = 0; i < itemHoldList.Count; i++)
             if (itemHoldList[i].itemID.Equals(itemID))
                 return true;
 
@@ -158,22 +139,36 @@ public class Inventory : MonoBehaviour
 
     public ItemHolder GetItemFromID(int itemID)
     {
-        for (int i = 0; i < playerData.items.Count; i++)
+        for (var i = 0; i < playerData.items.Count; i++)
             if (itemHoldList[i].itemID.Equals(itemID))
                 return itemHoldList[i];
 
         return null;
     }
 
-    void UseAnythingObj()
+    private void UseAnythingObj()
     {
         if (anything == null) return;
         if (anything.GetComponent<LogicGateMinigame>())
-        {
             anything.GetComponent<LogicGateMinigame>().InventoryToReal(itemHoldList[currentHoldingItemIndex].itemID);
-        }
-        
     }
-    
 
+    [Serializable]
+    public class ItemHolder
+    {
+        public Image image;
+        public int itemID;
+
+        public ItemHolder(Image image, int itemID)
+        {
+            this.image = image;
+            this.itemID = itemID;
+        }
+
+        public ItemHolder(Image image)
+        {
+            this.image = image;
+            itemID = -1;
+        }
+    }
 }

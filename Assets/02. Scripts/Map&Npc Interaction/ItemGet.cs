@@ -46,7 +46,7 @@ public class ItemGet : MonoBehaviour
             PlayerMovement.instance.IsSpaceFalse(0.5f);
             Debug.Log("Item picked up: " + item.itemName);
             playerData.AddItem(item.itemID);
-            objToEnable.SetActive(false);
+            if (objToEnable != null) objToEnable.SetActive(false);
 
             if (msgToDialogue != "")
             {
@@ -55,7 +55,7 @@ public class ItemGet : MonoBehaviour
             }
 
             canUse = false;
-            for (int i = 0; i < varCodeToAdd.Count; i++) playerData.AddVariable(varCodeToAdd[i]);
+            for (var i = 0; i < varCodeToAdd.Count; i++) playerData.AddVariable(varCodeToAdd[i]);
             if (!sprToChange.Equals(null)) sprRender.sprite = sprToChange;
             else gameObject.SetActive(false);
         }
@@ -67,7 +67,7 @@ public class ItemGet : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isClose = true;
-            objToEnable.SetActive(true);
+            if (objToEnable != null) objToEnable.SetActive(true);
         }
     }
 
@@ -76,7 +76,7 @@ public class ItemGet : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isClose = false;
-            objToEnable.SetActive(false);
+            if (objToEnable != null) objToEnable.SetActive(false);
         }
     }
 }

@@ -1616,7 +1616,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1696,10 +1696,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8577141507476112306}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 785170009158086564}
+        m_TargetAssemblyTypeName: DecimalToBinaryPuzzle, Assembly-CSharp
+        m_MethodName: CloseTab
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1841,6 +1841,10 @@ MonoBehaviour:
   resultText: {fileID: 1366014377272081125}
   PuzzlePanel: {fileID: 8577141507476112306}
   varToAdd: 141
+  guideText: {fileID: 0}
+  chatBallon: {fileID: 0}
+  chatBallonTextToChange: 
+  repeatTime: 0
 --- !u!222 &1731369505836068795
 CanvasRenderer:
   m_ObjectHideFlags: 0

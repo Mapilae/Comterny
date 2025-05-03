@@ -25,11 +25,11 @@ public class Block
 public class Cell
 {
     public string name;
-    public int standingNum;
+    public string standingNum;
     [TextArea] public string content;
     public string cmd;
 
-    public Cell(string name, int standingNum, string content, string cmd)
+    public Cell(string name, string standingNum, string content, string cmd)
     {
         this.name = name;
         this.standingNum = standingNum;
@@ -68,7 +68,7 @@ public class SheetData : MonoBehaviour
             return -1;
         }
 
-        for (int i = 0; i < block.Count; i++)
+        for (var i = 0; i < block.Count; i++)
             if (block[i].id.Equals(id))
                 return i;
 

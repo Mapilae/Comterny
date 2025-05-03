@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;   
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-[System.Serializable]
+[Serializable]
 public class ParityBlock
 {
     public string parityCode;
@@ -17,15 +18,16 @@ public class ParityBlock
 
 public class ParityBit : MonoBehaviour
 {
-    public List<ParityBlock>  parityBlocks = new List<ParityBlock>();
+    public List<ParityBlock> parityBlocks = new();
     public GameObject closeABtn;
 
     [Header("Potal")] public Animator anim;
-    
+
+    //varToAdd=135
     private void OnEnable()
     {
         PlayerMovement.canMove = false;
-        Pause.instance.SetCurrentPuzzle(this.gameObject);
+        Pause.instance.SetCurrentPuzzle(gameObject);
         ResetParity();
     }
 
@@ -35,30 +37,28 @@ public class ParityBit : MonoBehaviour
         Pause.instance.SetCurrentPuzzle(null);
         gameObject.SetActive(false);
     }
-    
-    
+
+
     public void CreateParity(int index)
     {
-        int rand = Random.Range(0, 2);
+        var rand = Random.Range(0, 2);
         parityBlocks[index].isParityRight = rand == 0;
 
         bool isSolo;
         string code;
-        int loopCount = 0; // 추가: 루프 제한용 카운터
+        var loopCount = 0; // 추가: 루프 제한용 카운터
 
         do
         {
             isSolo = true;
             code = CreateParityCode(Random.Range(0, 128), parityBlocks[index].isParityRight);
 
-            for (int i = 0; i < parityBlocks.Count; i++)
-            {
+            for (var i = 0; i < parityBlocks.Count; i++)
                 if (i != index && code.Equals(parityBlocks[i].parityCode))
                 {
                     isSolo = false;
                     break;
                 }
-            }
 
             loopCount++;
             if (loopCount > 50) // 50번 넘게 반복되면 강제 탈출
@@ -66,7 +66,6 @@ public class ParityBit : MonoBehaviour
                 Debug.LogWarning("CreateParity() 무한 루프 방지: 강제 탈출");
                 break;
             }
-
         } while (!isSolo);
 
         parityBlocks[index].bitText.text = parityBlocks[index].parityCode = code;
@@ -74,69 +73,74 @@ public class ParityBit : MonoBehaviour
     }
 
 
-    string CreateParityCode(int randInt, bool isParityRight)
+    private string CreateParityCode(int randInt, bool isParityRight)
     {
-        char[] code= "00000000".ToCharArray();
-        
-        int parityCount = 0;
-        
+        var code = "00000000".ToCharArray();
+
+        var parityCount = 0;
+
         if (randInt / 64 > 1)
         {
             code[1] = '1';
             randInt -= 64;
             parityCount++;
         }
+
         if (randInt / 32 > 1)
         {
             code[0] = '1';
             randInt -= 32;
             parityCount++;
         }
+
         if (randInt / 16 > 1)
         {
             code[2] = '1';
             randInt -= 16;
             parityCount++;
         }
+
         if (randInt / 8 > 1)
         {
             code[4] = '1';
             randInt -= 8;
             parityCount++;
         }
+
         if (randInt / 4 > 1)
         {
             code[7] = '1';
             randInt -= 4;
             parityCount++;
         }
+
         if (randInt / 2 > 1)
         {
             code[6] = '1';
             randInt -= 2;
             parityCount++;
         }
+
         if (randInt / 1 > 1)
         {
             code[5] = '1';
             parityCount++;
         }
-        
+
 
         if (isParityRight)
-            code[3]=parityCount%2==0?'0':'1';
+            code[3] = parityCount % 2 == 0 ? '0' : '1';
         else
-            code[3]=parityCount%2==0?'1':'0';
+            code[3] = parityCount % 2 == 0 ? '1' : '0';
 
         return code.ArrayToString();
     }
 
     public void ResetParity()
     {
-  
-        for (int i = 0; i < parityBlocks.Count; i++)
+        for (var i = 0; i < parityBlocks.Count; i++)
         {
-            parityBlocks[i].obj=parityBlocks[i].objBtn.gameObject;
+            parityBlocks[i].obj = parityBlocks[i].objBtn.gameObject;
             CreateParity(i);
             parityBlocks[i].objBtn.interactable = true;
         }
@@ -145,41 +149,33 @@ public class ParityBit : MonoBehaviour
     public void ParityCheck(int index)
     {
         if (parityBlocks[index].isParityRight)
-        { 
             ResetParity();
-        }
         else
-        {
             StartCoroutine(AnotherBlock(index));
-        }
     }
 
-    IEnumerator AnotherBlock(int index)
+    private IEnumerator AnotherBlock(int index)
     {
         parityBlocks[index].obj.SetActive(false);
         CreateParity(index);
         yield return new WaitForSeconds(1f);
         if (CheckIfFinished())
-        {
             EndGame();
-        }
         else
-        {
             Debug.Log("Not finished");
-        }
     }
 
     public void EndGame()
     {
         //Debug.Log("패리티비트 클리어!");
-       
-        for(int i=0;i<parityBlocks.Count;i++)
+
+        for (var i = 0; i < parityBlocks.Count; i++)
             parityBlocks[i].objBtn.interactable = false;
         PlayerData.instance.AddVariable(135);
         StartCoroutine(EndClose());
     }
 
-    IEnumerator EndClose()
+    private IEnumerator EndClose()
     {
         closeABtn.SetActive(false);
         Debug.Log("Close Parity Bit Minigame...");
@@ -189,16 +185,12 @@ public class ParityBit : MonoBehaviour
         Close();
     }
 
-    bool CheckIfFinished()
+    private bool CheckIfFinished()
     {
-        for (int i = 0; i < parityBlocks.Count; i++)
-        {
+        for (var i = 0; i < parityBlocks.Count; i++)
             if (!parityBlocks[i].isParityRight)
-            {
                 return false;
-            }
-        }
+
         return true;
     }
-
 }

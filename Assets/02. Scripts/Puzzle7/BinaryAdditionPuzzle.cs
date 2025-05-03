@@ -30,6 +30,16 @@ public class BinaryAdditionPuzzle : MonoBehaviour
         submitButton.onClick.AddListener(SubmitAnswer);
     }
 
+    private void OnEnable()
+    {
+        Pause.instance.SetCurrentPuzzle(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Pause.instance.SetCurrentPuzzle(null);
+    }
+
     private void GenerateQuestion()
     {
         int num1, num2;
@@ -73,10 +83,7 @@ public class BinaryAdditionPuzzle : MonoBehaviour
         if (userBinary == correctBinary)
         {
             resultText.text = "정답입니다!";
-            PlayerData.instance.AddVariable(varToAdd);
-            PlayerMovement.instance.ChangeCanMove(true);
-            if (colToDisable != null) colToDisable.enabled = false;
-            StartCoroutine(ClosePuzzleAfterDelay());
+            Success();
         }
         else
         {
@@ -85,6 +92,14 @@ public class BinaryAdditionPuzzle : MonoBehaviour
         }
 
         Debug.Log("SubmitAnswer() 호출됨");
+    }
+
+    public void Success()
+    {
+        PlayerData.instance.AddVariable(varToAdd);
+        PlayerMovement.instance.ChangeCanMove(true);
+        if (colToDisable != null) colToDisable.enabled = false;
+        StartCoroutine(ClosePuzzleAfterDelay());
     }
 
     public void SetToggleText(int index)
@@ -104,6 +119,12 @@ public class BinaryAdditionPuzzle : MonoBehaviour
     {
         puzzlePanel.SetActive(false);
         resultText.text = "";
+    }
+
+    public void CloseTab()
+    {
+        PlayerMovement.instance.ChangeCanMove(true);
+        gameObject.SetActive(false);
     }
 
     private IEnumerator ClosePuzzleAfterDelay()

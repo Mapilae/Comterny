@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 10
   isClose: 0
-  objToEnable: {fileID: 598745475560908158}
+  objToEnable: {fileID: 0}
   msgToDialogue: "AND \uAC8C\uC774\uD2B8\uB97C \uC5BB\uC5C8\uB2E4. \uC804\uB825 \uC7A5\uCE58\uC5D0
     \uC5F0\uACB0\uD558\uB294\uB370 \uC0AC\uC6A9\uD560 \uC218 \uC788\uC744 \uAC83
     \uAC19\uB2E4."
@@ -211,18 +211,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5603475268299299565, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
---- !u!1 &598745475560908158 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5603475268299299565, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
-  m_PrefabInstance: {fileID: 5011557262435860371}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7404617554418542098 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2544213454357109121, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}

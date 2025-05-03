@@ -26,6 +26,7 @@ public class InteractableSetting
     [Header("for PUZZLE")] public GameObject objToEnable; //미니게임 퍼즐 오브젝트.
 
     public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
+    public GameObject[] objToEnableOther; //미니게임 퍼즐 오브젝트.
 
     [Header("for SelfDoor and AutoDoor")] public GameObject objToDisable;
 }
@@ -117,6 +118,10 @@ public class InteractableObject : MonoBehaviour
 
                 if (interactList[currentInteractIndex].objToEnable2 != null)
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);
+                if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
+                    foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
+                        obj.SetActive(true);
+
                 if (interactList[currentInteractIndex].objToEnable != null)
                     interactList[currentInteractIndex].objToEnable.SetActive(true);
                 if (interactList[currentInteractIndex].objToDisable != null)
@@ -140,6 +145,9 @@ public class InteractableObject : MonoBehaviour
 
                 if (interactList[currentInteractIndex].objToEnable2 != null)
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);
+                if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
+                    foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
+                        obj.SetActive(true);
                 if (interactList[currentInteractIndex].objToEnable != null)
                 {
                     interactList[currentInteractIndex].objToEnable.SetActive(true);

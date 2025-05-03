@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2892398374797136879}
   - component: {fileID: 5885341074659925537}
   m_Layer: 0
-  m_Name: Spine GameObject (skeleton)
+  m_Name: Spine GameObject (skeleton) (2D/Sprite-Lit)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,9 +119,11 @@ MonoBehaviour:
   calculateTangents: 0
   maskInteraction: 0
   maskMaterials:
-    materialsMaskDisabled: []
+    materialsMaskDisabled:
+    - {fileID: 2100000, guid: 556263e2abf2eda4580254b5b30a5b24, type: 2}
     materialsInsideMask: []
-    materialsOutsideMask: []
+    materialsOutsideMask:
+    - {fileID: 2100000, guid: 3697a949c1a8cdd49ba2dd80e0981872, type: 2}
   disableRenderingOnOverride: 1
   physicsPositionInheritanceFactor: {x: 1, y: 1}
   physicsRotationInheritanceFactor: 1

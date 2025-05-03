@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -42,8 +43,8 @@ public class SheetLoader : MonoBehaviour
 
     private IEnumerator LoadSheetOnStart()
     {
-        string sheetURL = url + "&range=A2:E";
-        using (UnityWebRequest www = UnityWebRequest.Get(sheetURL))
+        var sheetURL = url + "&range=A2:E&nocache=" + DateTime.UtcNow.Ticks;
+        using (var www = UnityWebRequest.Get(sheetURL))
         {
             yield return www.SendWebRequest();
 
@@ -65,13 +66,13 @@ public class SheetLoader : MonoBehaviour
 
     public void LoadInSheetData()
     {
-        string[] rows = strSheetData.Split('\n');
-        for (int i = 0; i < rows.Length; i++)
+        var rows = strSheetData.Split('\n');
+        for (var i = 0; i < rows.Length; i++)
         {
             // 0=ID   1=StandingNum   2=Name   3=Dialogue
 
-            string[] columns = rows[i].Replace("\r", "").Split('\t');
-            string id = columns[0];
+            var columns = rows[i].Replace("\r", "").Split('\t');
+            var id = columns[0];
 
             // �迭 ���� Ȯ��
             if (columns.Length < 4)
@@ -90,7 +91,7 @@ public class SheetLoader : MonoBehaviour
                 Block block = new(id);
 
                 sheetData.AddBlock(block);
-                Cell cell = MakeCell(columns);
+                var cell = MakeCell(columns);
                 //block.AddCell(cell);
                 sheetData.AddCell(id, cell);
                 currentId = id;
@@ -99,7 +100,7 @@ public class SheetLoader : MonoBehaviour
             {
                 //{ //���� branch��
                 id = currentId;
-                Cell cell = MakeCell(columns);
+                var cell = MakeCell(columns);
                 sheetData.AddCell(id, cell);
                 //}
                 //else continue; //�ּ�. ó��X, ��ŵ
@@ -108,7 +109,7 @@ public class SheetLoader : MonoBehaviour
 
         isLoading = false;
         currentId = "";
-        GameObject dialogueManagerObj = GameObject.FindGameObjectWithTag("DialogueManager");
+        var dialogueManagerObj = GameObject.FindGameObjectWithTag("DialogueManager");
         if (dialogueManagerObj != null)
             dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
         else
@@ -126,10 +127,10 @@ public class SheetLoader : MonoBehaviour
         // 0=ID   1=StandingNum   2=Name   3=Dialogue
 
         Cell block;
-        if (int.TryParse(columns[1], out int standingNum))
-            block = new Cell(columns[2], standingNum, columns[3], columns[4]);
+        if (columns[1].Equals(""))
+            block = new Cell(columns[2], "0", columns[3], columns[4]);
         else
-            block = new Cell(columns[2], 0, columns[3], columns[4]);
+            block = new Cell(columns[2], columns[1], columns[3], columns[4]);
 
         return block;
     }

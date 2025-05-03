@@ -16,18 +16,32 @@ public class PlayerData : MonoBehaviour
     // - 특정 데이터가 존재하는지 비교
 
     public static PlayerData instance;
-    
+
+    public static string playerName = "유저 디버그";
+
     [Header("Current Info")] public int crtStage;
 
     public List<int> items;
     public List<int> variables;
 
     [Space] public string version;
-
-    public static string playerName="유저 디버그";
     public int difficulty; //난이도. 0: Easy, 1: 컴공모드
-    
+
     [Header("ETC")] public VariableHolder varHolder;
+
+
+    private void Awake()
+    {
+        if (instance != this && instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+    }
 
     public void SetDifficulty(int diff)
     {
@@ -35,18 +49,11 @@ public class PlayerData : MonoBehaviour
         //SAVE
         //Debug.Log("Player Difficulty Set: " + diff);
     }
-    
+
     public void SetName(string newName)
     {
         playerName = newName;
         //SAVE
-    }
-    
-    
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-        instance = this;
     }
 
     public void ChangeCrtStage(int stageNum)
@@ -57,10 +64,10 @@ public class PlayerData : MonoBehaviour
 
     public bool IsVariableExist(int varCode)
     {
-        bool isTrue = false; // = varList.Exists(x => x.varCode == varCode);
+        var isTrue = false; // = varList.Exists(x => x.varCode == varCode);
 
 
-        for (int i = 0; i < variables.Count; i++)
+        for (var i = 0; i < variables.Count; i++)
             if (varCode == variables[i])
             {
                 isTrue = true;
@@ -74,10 +81,10 @@ public class PlayerData : MonoBehaviour
 
     public bool IsItemExist(int itemID)
     {
-        bool isTrue = false; // = varList.Exists(x => x.varCode == varCode);
+        var isTrue = false; // = varList.Exists(x => x.varCode == varCode);
 
 
-        for (int i = 0; i < items.Count; i++)
+        for (var i = 0; i < items.Count; i++)
             if (itemID == items[i])
             {
                 isTrue = true;
@@ -96,7 +103,8 @@ public class PlayerData : MonoBehaviour
         {
             AddItem(varCodeToAdd);
         }
-        else{
+        else
+        {
             if (!variables.Count.Equals(0))
                 if (IsVariableExist(varCodeToAdd))
                     //                Debug.Log("varName " + varCodeToAdd + " and varCode " + varCodeToAdd +" already exist, so did not add var");
@@ -113,12 +121,13 @@ public class PlayerData : MonoBehaviour
         {
             RemoveItem(varCodeToRemove);
         }
-        else{
+        else
+        {
             if (!variables.Count.Equals(0))
                 if (IsVariableExist(varCodeToRemove))
-                   return;
+                    return;
 
-            
+
             variables.Remove(varCodeToRemove);
         }
     }
@@ -153,16 +162,16 @@ public class PlayerData : MonoBehaviour
     {
         if (!items.Count.Equals(0))
             if (IsItemExist(itemID))
-            { 
+            {
                 items.Remove(itemID);
                 Inventory.instance.UpdateInventory();
-               
+                Inventory.instance.DisableItemInfo();
+
                 return;
             }
+
         Debug.Log("itemID " + itemID +
-                          " is not exist, so did not remove from items");
+                  " is not exist, so did not remove from items");
         //Debug.Log("변수 등록: " + itemID);
-       
-        
     }
 }

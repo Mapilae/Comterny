@@ -18,6 +18,10 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     public GameObject PuzzlePanel;
 
     [Header("When Success")] public int varToAdd;
+    public TMP_Text guideText;
+    public ChatBallon chatBallon;
+    public string chatBallonTextToChange;
+    public int repeatTime;
 
     private int correctAnswer;
 
@@ -26,6 +30,24 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     {
         GenerateQuestion();
     }
+
+    private void OnEnable()
+    {
+        Pause.instance.SetCurrentPuzzle(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Pause.instance.SetCurrentPuzzle(null);
+    }
+
+    public void CloseTab()
+    {
+        PlayerMovement.instance.ChangeCanMove(true);
+
+        gameObject.SetActive(false);
+    }
+
 
     private void GenerateQuestion()
     {
@@ -63,9 +85,7 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         {
             Debug.Log("정답!");
             resultText.text = "정답입니다!";
-            PlayerData.instance.AddVariable(varToAdd);
-            PlayerMovement.instance.ChangeCanMove(true);
-            StartCoroutine(ClosePuzzleAfterDelay());
+            Success();
         }
         else
         {
@@ -82,10 +102,20 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         }
     }
 
+    public void Success()
+    {
+        PlayerData.instance.AddVariable(varToAdd);
+        guideText.text = "컴파일러 대리";
+        PlayerMovement.instance.ChangeCanMove(true);
+        if (chatBallon != null) chatBallon.ChangeBallonText(chatBallonTextToChange, repeatTime);
+        StartCoroutine(ClosePuzzleAfterDelay());
+    }
+
     // 1초 후 퀴즈 끄기
     private IEnumerator ClosePuzzleAfterDelay()
     {
         yield return new WaitForSeconds(1f);
+
         PuzzlePanel.SetActive(false);
         resultText.text = ""; // 문구 초기화
     }

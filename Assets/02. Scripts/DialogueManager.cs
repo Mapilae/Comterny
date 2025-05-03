@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -38,6 +39,10 @@ public class DialogueManager : MonoBehaviour
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;
+    public Button skipButton;
+    [Header("CHOICE")] public GameObject choiceWholeObj;
+    public GameObject[] choiceObjs;
+    public string[] choiceCMD;
     private DirectingManager dirManager;
 
     private Inventory inventory;
@@ -95,7 +100,7 @@ public class DialogueManager : MonoBehaviour
     {
         List<Cell> dialogue = new()
         {
-            new Cell("", 0, msg, "")
+            new Cell("", "0", msg, "")
         };
         StartDialogue(dialogue);
     }
@@ -292,6 +297,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (typeWriter.isTyping) typeWriter.StopTyping(); //타이핑중인 경우 강제종료(삭제되었음에도 이전꺼가 끝까지 타이핑되는 버그 제거 위함)
         ClearDialogue(null);
+        skipButton.interactable = false;
+        skipButton.interactable = true;
         dialogWhole.gameObject.SetActive(false);
         standingImg.StandingAlpha(false);
 
@@ -318,6 +325,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogueInManager(string idName)
     {
+        PlayerMovement.canMove = false;
         StartCoroutine(IEStartDialogue(idName));
     }
 
@@ -329,10 +337,33 @@ public class DialogueManager : MonoBehaviour
         //yield return waitUntil;
         //Debug.Log("Start Dialogue waiting end.");
 
-        var index = SheetData.instance.block.FindIndex(x => x.id == idName);
-        instance.StartDialogue(SheetData.instance.block[index].cells);
+        var cells = LoadCellsFromSheetData(idName);
+        instance.StartDialogue(cells);
 
         PlayerMovement.instance.ChangeCanMove(false);
         yield return null;
     }
+
+    public List<Cell> LoadCellsFromSheetData(string idName)
+    {
+        var index = SheetData.instance.block.FindIndex(x => x.id == idName);
+        return SheetData.instance.block[index].cells;
+    }
+
+
+    #region CHOICE
+
+    public void StartChoice()
+    {
+        choiceWholeObj.SetActive(true);
+        //choice개수에 따라 choiceObjs 활성화하기
+    }
+
+    public void OnChoiceButtonClicked(int index)
+    {
+        Debug.Log("choice : " + choiceCMD[index]);
+        choiceWholeObj.SetActive(false);
+    }
+
+    #endregion
 }
