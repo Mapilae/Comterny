@@ -108,13 +108,21 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(List<Cell> dialogue)
     {
-        dialogueList = new List<Cell>();
-        dialogueList = dialogue;
+        ClearDialogue(dialogue);
         standingImg.StandingAlpha(true);
-        crtIndex = 0;
         dialogWhole.gameObject.SetActive(true);
         isPlayingDialogue = true;
+        PlayerMovement.instance.ChangeCanMove(false);
         ChangeDialogue();
+    }
+
+    private void ClearDialogue(List<Cell> dialogue)
+    {
+        //다이얼로그를 초기상태로 초기화
+        dialogueList = new List<Cell>();
+        dialogueList = dialogue;
+
+        crtIndex = 0;
     }
 
 
@@ -141,12 +149,7 @@ public class DialogueManager : MonoBehaviour
         {
             if (dialogueList.Count <= crtIndex)
             {
-                dialogWhole.gameObject.SetActive(false);
-                standingImg.StandingAlpha(false);
-
-                isPlayingDialogue = false;
-                Debug.Log("종료");
-                PlayerMovement.instance.ChangeCanMove(true);
+                EndDialogue();
                 return;
             }
 
@@ -283,6 +286,19 @@ public class DialogueManager : MonoBehaviour
     private void DisableSprite()
     {
         standingImg.StandingAlpha(false);
+    }
+
+    public void EndDialogue()
+    {
+        if (typeWriter.isTyping) typeWriter.StopTyping(); //타이핑중인 경우 강제종료(삭제되었음에도 이전꺼가 끝까지 타이핑되는 버그 제거 위함)
+        ClearDialogue(null);
+        dialogWhole.gameObject.SetActive(false);
+        standingImg.StandingAlpha(false);
+
+        isPlayingDialogue = false;
+        Debug.Log("종료");
+
+        PlayerMovement.instance.ChangeCanMove(true);
     }
 
 

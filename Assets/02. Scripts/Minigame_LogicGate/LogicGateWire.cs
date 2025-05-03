@@ -41,6 +41,7 @@ public class LogicGateWire : MonoBehaviour
 
     public void PassWire(bool newValue)
     {
+        if(this.gameObject.activeInHierarchy)
         StartCoroutine(PassWireDelay(newValue));
     }
 

@@ -17,8 +17,6 @@ public class PlayerMovement : MovingFootPrint
 
     public LayerMask obstacleLayer;
     
-    private readonly bool isMoving = false;
-
     private FixedJoystick fixedJoystick;
     private Vector2 input;
     private bool isRunning;
@@ -47,9 +45,12 @@ public class PlayerMovement : MovingFootPrint
 
     private void Update()
     {
-        if (isMoving) return;
-        FootStep();
+        //if (isMoving) return;
+        FootStep();//MovingFootPrint: 바닥 환경에 따라 발소리 나게함
+        
+        
 #if UNITY_EDITOR
+        //달리기 탐지 목적(걷는WASD와는 관련 없음)
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
             SetIfRunning(true);
         else
@@ -58,10 +59,15 @@ public class PlayerMovement : MovingFootPrint
 #endif
 
 
-        if (canMove)
-            input = GetInput();
-        else
+        if (canMove){
+            input = GetInput();//WASD가 클릭되고 있거나, 조이스틱이 사용되고 있는지 그 값
+           
+        }
+        else{
             input = Vector2.zero;
+        }
+        
+        
     }
 
     private void FixedUpdate()
@@ -92,7 +98,7 @@ public class PlayerMovement : MovingFootPrint
 
     public void SetIsSpace(bool isButtonClicked)
     {
-        if (!canMove) return;
+        if (!canMove||isWalking) return;
         isSpace = isButtonClicked;
     }
 
@@ -168,7 +174,9 @@ public class PlayerMovement : MovingFootPrint
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0;
         rb.linearVelocity = Vector2.zero;
+        
         rb.Sleep();
+        
         playSpineAnim.SetAnim("idle", true);
     }
 }

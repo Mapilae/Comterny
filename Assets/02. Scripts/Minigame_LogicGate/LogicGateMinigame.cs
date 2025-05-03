@@ -70,6 +70,12 @@ public class LogicGateMinigame : MonoBehaviour
     {
         if (!result) return;
         playerData.AddVariable(varToAdd);
+        //---만약 스킵한 경우 대비---
+        playerData.RemoveVariable(11);//소지중인 AND게이트1번 삭제
+        playerData.RemoveVariable(12);//AND게이트2번 삭제
+        playerData.RemoveVariable(13);//OR게이트 삭제
+        playerData.RemoveVariable(14);//NOT게이트 삭제
+        //--------
         canUse = false;
         volume.profile = volumeProfile;
 
@@ -113,7 +119,11 @@ public class LogicGateMinigame : MonoBehaviour
                itemIDList[i].gameObject.SetActive(true);
                Debug.Log(itemIDList[i].itemID+" set true");
                 PieceEnabledAnimation(itemIDList[i].GetComponent<RectTransform>());
+                playerData.RemoveVariable(invItemID);//소지중인 게이트 삭제
                PlayerMovement.instance.UnholdItem();
+               
+               
+               
                break;
             }
             

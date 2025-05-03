@@ -83,6 +83,7 @@ public class CameraFollow : MonoBehaviour
         {StopCoroutine(moveCoroutine);
             
         }
+        if(this.gameObject.activeInHierarchy)
         moveCoroutine = StartCoroutine(SmoothMoveRoutine(isXMove, isYMove, duration));
         
     }

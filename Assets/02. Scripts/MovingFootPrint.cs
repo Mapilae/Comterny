@@ -32,6 +32,7 @@ public class MovingFootPrint : MonoBehaviour
     {
         Debug.DrawRay(RayStart.position, RayStart.transform.up*range*-1, Color.green);
         hit = Physics2D.Raycast(RayStart.position, Vector2.down, range, layerMask);
+        if (hit.collider == null) return;
         if (hit.collider.CompareTag("concrete"))
         {
             currentGround = "concrete";

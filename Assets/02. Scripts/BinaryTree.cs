@@ -12,6 +12,7 @@ public class TreeNode
     public GameObject realBranch;
     [HideInInspector]public GameObject parent;
     private float currentScale = 0f;
+
     
     public void SetActive(bool active)
     {
@@ -42,6 +43,11 @@ public class BinaryTree : MonoBehaviour
 
     public Transform pointer;
     public TMP_Text treeGuideTxt;
+
+    [Header("When Success")]
+    public int varToAdd=0;
+
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -95,6 +101,7 @@ public class BinaryTree : MonoBehaviour
         anim.SetTrigger("Success");
         treeGuideTxt.text = "이진트리";
         //변수 추가
+        PlayerData.instance.AddVariable(varToAdd);
         Invoke("DisableThis", 3f);
         
     }

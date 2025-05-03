@@ -8597,7 +8597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7167000235795618275, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: m_text
-      value: "\uC804\uB825 \uACF5\uAE09 \uC7A5\uCE58"
+      value: "\uC6CC\uD504 \uC81C\uC5B4\uD310"
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.size

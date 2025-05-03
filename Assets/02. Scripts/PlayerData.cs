@@ -94,8 +94,7 @@ public class PlayerData : MonoBehaviour
     {
         if (varCodeToAdd < 100)
         {
-            if(!IsItemExist(varCodeToAdd))
-                items.Add(varCodeToAdd);
+            AddItem(varCodeToAdd);
         }
         else{
             if (!variables.Count.Equals(0))
@@ -105,6 +104,22 @@ public class PlayerData : MonoBehaviour
 
             // Debug.Log("변수 등록: " + varCodeToAdd);
             variables.Add(varCodeToAdd);
+        }
+    }
+
+    public void RemoveVariable(int varCodeToRemove)
+    {
+        if (varCodeToRemove < 100)
+        {
+            RemoveItem(varCodeToRemove);
+        }
+        else{
+            if (!variables.Count.Equals(0))
+                if (IsVariableExist(varCodeToRemove))
+                   return;
+
+            
+            variables.Remove(varCodeToRemove);
         }
     }
 
@@ -132,5 +147,22 @@ public class PlayerData : MonoBehaviour
         //Debug.Log("변수 등록: " + itemID);
         items.Add(itemID);
         Inventory.instance.UpdateInventory();
+    }
+
+    public void RemoveItem(int itemID)
+    {
+        if (!items.Count.Equals(0))
+            if (IsItemExist(itemID))
+            { 
+                items.Remove(itemID);
+                Inventory.instance.UpdateInventory();
+               
+                return;
+            }
+        Debug.Log("itemID " + itemID +
+                          " is not exist, so did not remove from items");
+        //Debug.Log("변수 등록: " + itemID);
+       
+        
     }
 }

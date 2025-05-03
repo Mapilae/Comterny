@@ -2881,6 +2881,7 @@ MonoBehaviour:
   barrier: {fileID: 4091882958325592652}
   pointer: {fileID: 7683999401180439241}
   treeGuideTxt: {fileID: 0}
+  varToAdd: 114
 --- !u!1 &7755520878993635954
 GameObject:
   m_ObjectHideFlags: 0
