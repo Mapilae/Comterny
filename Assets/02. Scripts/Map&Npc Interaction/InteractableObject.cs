@@ -50,17 +50,18 @@ public class InteractableObject : MonoBehaviour
 
     private void Update()
     {
+        //플레이어가 근접 상태에서 + 스페이스바를 눌렀거나 or AUTODOOR인경우 실행
         if (isClose && PlayerMovement.isSpace)
         {
             isClose = false;
             PlayerMovement.instance.IsSpaceFalse(0.5f);
             //Debug.Log("Interacted with: " + gameObject.name);
             currentInteractIndex = -1;
-            for (int num = 0; num < interactList.Count; num++)
+            for (var num = 0; num < interactList.Count; num++)
             {
-                bool isAllItemsInInventory = true;
+                var isAllItemsInInventory = true;
                 if (interactList[num].needItemCode.Count > 0)
-                    for (int i = 0; i < interactList[num].needItemCode.Count; i++)
+                    for (var i = 0; i < interactList[num].needItemCode.Count; i++)
                         if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
                         {
                             if (!playerData.IsVariableExist(interactList[num].needItemCode[i]))
@@ -96,13 +97,16 @@ public class InteractableObject : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) isClose = true;
+        //AUTO DOOR인경우 자동으로 문 열리도록하기
+        //if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODOOR))
+        //   ItemTypeAct();
     }
 
 
     private void ItemTypeAct()
     {
         isClose = true;
-
+        if (interactList.Count == 0) return;
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
@@ -115,17 +119,21 @@ public class InteractableObject : MonoBehaviour
                     interactList[currentInteractIndex].objToEnable2.SetActive(true);
                 if (interactList[currentInteractIndex].objToEnable != null)
                     interactList[currentInteractIndex].objToEnable.SetActive(true);
-                if (interactList[currentInteractIndex].objToDisable != null) interactList[currentInteractIndex].objToDisable.SetActive(false);
+                if (interactList[currentInteractIndex].objToDisable != null)
+                    interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item
                 // Debug.Log("SELF DOOR");
+
                 interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
 
             case InteractableType.AUTODOOR: //When Player have the item(no need to hold)
                 // Debug.Log("AUTO DOOR");
-                interactList[currentInteractIndex].objToDisable.SetActive(false);
+                //GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
+                if (interactList[currentInteractIndex].objToDisable != null)
+                    interactList[currentInteractIndex].objToDisable.SetActive(false);
                 break;
             case InteractableType.PUZZLE:
                 //Debug.Log("PUZZLE MINIGAME START" + name);
@@ -153,12 +161,10 @@ public class InteractableObject : MonoBehaviour
 
     public void AddVariable()
     {
-        for (int i = 0; i < interactList[currentInteractIndex].varCodeToAdd.Count; i++)
-            if(interactList[currentInteractIndex].varCodeToAdd[i] >= 100)
+        for (var i = 0; i < interactList[currentInteractIndex].varCodeToAdd.Count; i++)
+            if (interactList[currentInteractIndex].varCodeToAdd[i] >= 100)
                 playerData.AddVariable(interactList[currentInteractIndex].varCodeToAdd[i]);
             else
-            {
                 playerData.AddItem(interactList[currentInteractIndex].varCodeToAdd[i]);
-            }
     }
 }

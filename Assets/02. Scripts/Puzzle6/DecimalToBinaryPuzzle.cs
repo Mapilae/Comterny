@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
-using System.Collections; // ← 코루틴 사용을 위해 추가
+using Random = UnityEngine.Random;
+
+// ← 코루틴 사용을 위해 추가
 
 public class DecimalToBinaryPuzzle : MonoBehaviour
 {
@@ -14,49 +17,54 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     public TextMeshProUGUI resultText;
     public GameObject PuzzlePanel;
 
+    [Header("When Success")] public int varToAdd;
+
     private int correctAnswer;
 
-    void Start()
+
+    private void Start()
     {
         GenerateQuestion();
     }
 
-    void GenerateQuestion()
+    private void GenerateQuestion()
     {
-        int number = UnityEngine.Random.Range(1, 256); // 1~255
+        var number = Random.Range(1, 256); // 1~255
         correctAnswer = number;
-        string binaryAnswer = System.Convert.ToString(number, 2);
+        var binaryAnswer = Convert.ToString(number, 2);
         decimalNumberText.text = number.ToString();
 
         // 보기 배열 생성
-        string[] choices = new string[4];
-        int correctIndex = UnityEngine.Random.Range(0, 4);
+        var choices = new string[4];
+        var correctIndex = Random.Range(0, 4);
         choices[correctIndex] = binaryAnswer;
 
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             if (i == correctIndex) continue;
-            int wrong = UnityEngine.Random.Range(1, 256);
-            while (wrong == number) wrong = UnityEngine.Random.Range(1, 256);
-            choices[i] = System.Convert.ToString(wrong, 2);
+            var wrong = Random.Range(1, 256);
+            while (wrong == number) wrong = Random.Range(1, 256);
+            choices[i] = Convert.ToString(wrong, 2);
         }
 
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
-            int index = i; // 캡처 변수
+            var index = i; // 캡처 변수
             answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i];
             answerButtons[i].onClick.RemoveAllListeners();
             answerButtons[i].onClick.AddListener(() => CheckAnswer(choices[index]));
         }
     }
 
-    void CheckAnswer(string selected)
+    private void CheckAnswer(string selected)
     {
-        string correct = System.Convert.ToString(correctAnswer, 2);
+        var correct = Convert.ToString(correctAnswer, 2);
         if (selected == correct)
         {
             Debug.Log("정답!");
             resultText.text = "정답입니다!";
+            PlayerData.instance.AddVariable(varToAdd);
+            PlayerMovement.instance.ChangeCanMove(true);
             StartCoroutine(ClosePuzzleAfterDelay());
         }
         else
@@ -65,19 +73,17 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
             resultText.text = "오답입니다!";
 
             // 선택된 버튼을 찾아서 흔들기 실행
-            for (int i = 0; i < answerButtons.Length; i++)
-            {
+            for (var i = 0; i < answerButtons.Length; i++)
                 if (answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text == selected)
                 {
                     StartCoroutine(ShakeButton(answerButtons[i]));
                     break;
                 }
-            }
         }
     }
 
     // 1초 후 퀴즈 끄기
-    IEnumerator ClosePuzzleAfterDelay()
+    private IEnumerator ClosePuzzleAfterDelay()
     {
         yield return new WaitForSeconds(1f);
         PuzzlePanel.SetActive(false);
@@ -85,18 +91,18 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     }
 
     // 버튼 흔들기 효과
-    IEnumerator ShakeButton(Button button)
+    private IEnumerator ShakeButton(Button button)
     {
-        RectTransform rect = button.GetComponent<RectTransform>();
+        var rect = button.GetComponent<RectTransform>();
         Vector3 originalPos = rect.anchoredPosition;
 
-        float duration = 0.3f;
-        float elapsed = 0f;
-        float magnitude = 5f;
+        var duration = 0.3f;
+        var elapsed = 0f;
+        var magnitude = 5f;
 
         while (elapsed < duration)
         {
-            float x = UnityEngine.Random.Range(-1f, 1f) * magnitude;
+            var x = Random.Range(-1f, 1f) * magnitude;
             rect.anchoredPosition = originalPos + new Vector3(x, 0, 0);
 
             elapsed += Time.deltaTime;
