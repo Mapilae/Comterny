@@ -45,6 +45,7 @@ public class ChatBallon : NonPlayerCharacter
         text.text = "";
         typeWriter = GetComponent<TypeWriter>();
 
+        if (!gameObject.activeInHierarchy) return;
         StartCoroutine("WaitStartConversation");
     }
 

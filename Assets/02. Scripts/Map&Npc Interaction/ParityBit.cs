@@ -41,8 +41,8 @@ public class ParityBit : MonoBehaviour
 
     public void CreateParity(int index)
     {
-        var rand = Random.Range(0, 3);
-        parityBlocks[index].isParityRight = rand != 0; //패리티 에러났을 확률 33.3%
+        var rand = Random.Range(0, 5); //0,1,2,3,4
+        parityBlocks[index].isParityRight = rand >= 2; //패리티 에러났을 확률 40%
 
         bool isSolo;
         string code;

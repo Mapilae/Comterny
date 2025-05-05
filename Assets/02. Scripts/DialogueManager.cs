@@ -379,7 +379,18 @@ public class DialogueManager : MonoBehaviour
     public void StartChoice()
     {
         choiceWholeObj.SetActive(true);
-        //choice개수에 따라 choiceObjs 활성화하기
+        //choice 값들 텍스트 등으로 접근하여 반영하기
+        StartCoroutine(IEChoiceEnable(0)); //선택지 개수를 파라미터로 넘기기
+    }
+
+    private IEnumerator IEChoiceEnable(int choiceCount)
+    {
+        //choice개수에 따라 choiceObjs 텀을 두고 활성화하기
+        for (var i = 0; i < choiceCount; i++)
+        {
+            choiceObjs[i].SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void OnChoiceButtonClicked(int index)

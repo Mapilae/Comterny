@@ -66,28 +66,28 @@ public class ChangeLayerOrder : MonoBehaviour
 
             if (other.CompareTag("Player"))
             {
-                if (objToDisableWhenEnter.Length > 0)
+                if (objToDisableWhenEnter != null)
                 {
                     foreach (var obj in objToDisableWhenEnter) obj.SetActive(!isEnter);
 
                     if (isPermanent) objToDisableWhenEnter = null;
                 }
 
-                if (objToEnableWhenEnter.Length > 0)
+                if (objToEnableWhenEnter != null)
                 {
                     foreach (var obj in objToEnableWhenEnter)
                         obj.SetActive(isEnter);
                     if (isPermanent) objToEnableWhenEnter = null;
                 }
 
-                if (colliderToEnableWhenEnter.Length > 0)
+                if (colliderToEnableWhenEnter != null)
                 {
                     foreach (var obj in colliderToEnableWhenEnter)
                         obj.enabled = isEnter;
                     if (isPermanent) colliderToEnableWhenEnter = null;
                 }
 
-                if (colliderToDisableWhenEnter.Length > 0)
+                if (colliderToDisableWhenEnter != null)
                 {
                     foreach (var obj in colliderToDisableWhenEnter)
                         obj.enabled = !isEnter;

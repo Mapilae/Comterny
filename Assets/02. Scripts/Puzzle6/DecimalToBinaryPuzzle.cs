@@ -22,9 +22,9 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     public ChatBallon chatBallon;
     public string chatBallonTextToChange;
     public int repeatTime;
+    public GameObject objToDisable;
 
     private int correctAnswer;
-
 
     private void Start()
     {
@@ -104,6 +104,7 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
 
     public void Success()
     {
+        if (objToDisable != null) objToDisable.gameObject.SetActive(false);
         PlayerData.instance.AddVariable(varToAdd);
         guideText.text = "컴파일러 대리";
         PlayerMovement.instance.ChangeCanMove(true);
