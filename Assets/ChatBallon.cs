@@ -19,7 +19,7 @@ public class ChatBallon : NonPlayerCharacter
     private void Start()
     {
         maxPreferredWidth = ballonMid.rect.width;
-        OnStartDefaultSetting();
+        //OnStartDefaultSetting();
         StartConversation();
     }
 

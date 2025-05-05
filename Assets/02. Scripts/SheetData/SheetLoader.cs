@@ -21,9 +21,10 @@ public class SheetLoader : MonoBehaviour
     [Header("처음 시작할 때 자동실행할 다이얼로그가 있는 경우")]
     public string startDialogueStr;
 
+    [Header("Error MSG")] public GameObject errorObj;
+
     private string currentId = "";
     private string strSheetData;
-
 
     private void Awake()
     {
@@ -32,6 +33,12 @@ public class SheetLoader : MonoBehaviour
 
     private void Start()
     {
+        StartLoadSheet();
+    }
+
+    public void OnErrorObjButtonClick()
+    {
+        errorObj.SetActive(false);
         StartLoadSheet();
     }
 
@@ -48,8 +55,21 @@ public class SheetLoader : MonoBehaviour
         {
             yield return www.SendWebRequest();
 
-            if (www.isDone) strSheetData = www.downloadHandler.text;
-            else Debug.Log("Error: " + www.error);
+            /*if (www.isDone) strSheetData = www.downloadHandler.text;
+            else
+            {
+                Debug.Log("Error: " + www.error);
+                errorObj.SetActive(true);
+            }*/
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Error: " + www.error);
+                errorObj.SetActive(true);
+                yield break; // 코루틴 종료
+            }
+
+            strSheetData = www.downloadHandler.text;
         }
 
         isLoading = true;

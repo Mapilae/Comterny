@@ -166,8 +166,13 @@ public class DialogueManager : MonoBehaviour
             //if(�������)string content =content_ENG
 
             var content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
-            // nameTxt.transform.parent.gameObject.SetActive(!dialogueList[crtIndex].name.Equals(""));
-            nameTxt.text = ChangeIfPlayerName(dialogueList[crtIndex].name);
+            var strName = ChangeIfPlayerName(dialogueList[crtIndex].name);
+
+
+            nameTxt.text = strName;
+            nameTxt.transform.parent.gameObject.SetActive(!strName.Equals(""));
+
+
             standingImg.image.sprite =
                 sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
             standingImg.image.enabled = standingImg.image.sprite != null;
@@ -175,24 +180,14 @@ public class DialogueManager : MonoBehaviour
 
             if (content.Contains("{"))
             {
-                // Debug.Log("ġȯ ��: " + content);
-
                 Regex regex = new(@"\{(.*?)\}");
                 content = regex.Replace(content, match =>
                 {
                     var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
-                    // Debug.Log($"ġȯ �õ�: {key}");
-
                     if (key.Equals("Player")) return PlayerData.playerName;
-                    // PlayerPrefs���� �� ��������
                     var value = PlayerPrefs.GetString(key, "null");
-                    // Debug.Log($"PlayerPrefs���� ������ ��: {value}");
-
-
                     return value;
                 });
-
-                // Debug.Log("ġȯ ��: " + content);
             }
 
             content = content.Replace("<red>", "<color=red>");
@@ -204,7 +199,10 @@ public class DialogueManager : MonoBehaviour
             content = content.Replace("<big>", "<size=130%>");
             content = content.Replace("</big>", "</size>");
 
-            typeWriter.StartTyping(content, nameTxt.text); //(int)currentBlock.block[index].name_ch
+            content = content.Replace("<b>", "<b><color=orange>");
+            content = content.Replace("</b>", "</color></b>");
+
+            typeWriter.StartTyping(content, dialogueList[crtIndex].name); //(int)currentBlock.block[index].name_ch
 
             dirManager.RunCMD(dialogueList[crtIndex].cmd);
 

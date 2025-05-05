@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class ParityBlock
 {
     public string parityCode;
-    public bool isParityRight;
+    public bool isParityRight; //올바른 패리티인지 여부. false인경우 눌러야하는 버튼이 됨.
     public Button objBtn;
     [HideInInspector] public GameObject obj;
     public TMP_Text bitText;
@@ -41,8 +41,8 @@ public class ParityBit : MonoBehaviour
 
     public void CreateParity(int index)
     {
-        var rand = Random.Range(0, 2);
-        parityBlocks[index].isParityRight = rand == 0;
+        var rand = Random.Range(0, 3);
+        parityBlocks[index].isParityRight = rand != 0; //패리티 에러났을 확률 33.3%
 
         bool isSolo;
         string code;

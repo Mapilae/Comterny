@@ -8115,7 +8115,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.6784616, y: 1.9753846}
+    oldSize: {x: 1.6784616, y: 1.9755685}
     newSize: {x: 1.6784616, y: 1.9753846}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -12010,7 +12010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2064171371
 Transform:
   m_ObjectHideFlags: 0
@@ -12841,10 +12841,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6002957179724949590, guid: b7335868de194f249af527d047e21abc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7335868de194f249af527d047e21abc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -4,11 +4,10 @@ using UnityEngine.EventSystems;
 
 public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    
-    [Header(("Item Info"))]
-    public int itemID;
-    [Header("Minigame Info")]
-    public LogicGateMinigame minigame;
+    [Header("Item Info")] public int itemID;
+    public Transform holder;
+    [Header("Minigame Info")] public LogicGateMinigame minigame;
+
     public LogicGateOne.GateType gateType;
     public LogicGateOne logicGateOne;
     private bool isStay;
@@ -17,9 +16,9 @@ public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private TMP_Text text;
 
-    private void Start()
+    private void OnEnable()
     {
-        SetGateColor();
+        StartSetting();
     }
 
 
@@ -56,6 +55,7 @@ public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         if (!LogicGateMinigame.canUse) return;
+        if (transform.parent != minigame.transform) transform.parent = minigame.transform;
         transform.position = eventData.position;
     }
 
@@ -63,6 +63,13 @@ public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (logicGateOne != null) logicGateOne.LogicGatePieceChange(this, isStay);
         // minigame.CheckGates();
+    }
+
+    private void StartSetting()
+    {
+        transform.parent = minigame.transform;
+        transform.parent = holder;
+        SetGateColor();
     }
 
 

@@ -11,7 +11,6 @@ public class TypeWriter : MonoBehaviour
     public string current; //���� Ÿ���� ���� ����
 
     [Header("Type Setting")] public GameObject dialogue;
-
     public TMP_Text content;
     public DialogueManager dialogueManager;
 
@@ -57,6 +56,7 @@ public class TypeWriter : MonoBehaviour
         if (name_ch.Equals("랜섬웨어"))
             content.color = new Color(1, 0, 0);
         else content.color = defaultColor;
+
 
         StartCoroutine("Typing");
     }
