@@ -30,6 +30,7 @@ public class Inventory : MonoBehaviour
     public List<ItemHolder> itemHoldList;
 
     public GameObject anything;
+    private int holdingItemCount;
     private PlayerData playerData;
 
     // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
@@ -45,6 +46,18 @@ public class Inventory : MonoBehaviour
         UpdateInventory();
     }
 
+    public void HoldLastIndexItem()
+    {
+        //가장 마지막으로 얻은 아이템 들기. 아이템 획득시 뜨는 다이얼로그 하기 위한 목적.
+        ClickToHoldItem(holdingItemCount - 1);
+        Debug.Log("holded last item");
+    }
+
+    public void UnholdItem()
+    {
+        ClickToHoldItem(-1);
+    }
+
     public void ClickToHoldItem(int index)
     {
         if (playerData.items.Count == 0) return;
@@ -52,7 +65,7 @@ public class Inventory : MonoBehaviour
         //이전에 클릭했던 인덱스 아웃라인 끄기
         if (currentHoldingItemIndex >= 0)
             itemHoldList[currentHoldingItemIndex].image.transform.parent.GetComponent<Outline>().enabled = false;
-        if (currentHoldingItemIndex.Equals(index))
+        if (currentHoldingItemIndex.Equals(index) || index.Equals(-1))
         {
             currentHoldingItemIndex = -1;
             PlayerMovement.instance.UnholdItem();
@@ -97,6 +110,8 @@ public class Inventory : MonoBehaviour
         if (itemHoldList == null) MakeList();
         else if (itemHoldList.Count == 0)
             MakeList();
+
+        holdingItemCount = 0;
         for (var i = 0; i < itemHoldList.Count; i++)
             if (i < playerData.items.Count)
             {
@@ -104,6 +119,7 @@ public class Inventory : MonoBehaviour
                 itemHoldList[i].image.sprite = item.itemSpr;
                 itemHoldList[i].itemID = item.itemID;
                 itemHoldList[i].image.transform.parent.gameObject.SetActive(true);
+                holdingItemCount++;
             }
             else
             {

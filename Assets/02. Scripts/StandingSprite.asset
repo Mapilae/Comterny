@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9a0e10e359a034c9ea00452c7d15c4, type: 3}
   m_Name: StandingSprite
   m_EditorClassIdentifier: 
+  nullSprite: {fileID: -4298056599330406823, guid: ac291c9b811d7e84a902d15a51610253, type: 3}
   userSpr:
   - name: 
     sprite: {fileID: -4298056599330406823, guid: ac291c9b811d7e84a902d15a51610253, type: 3}

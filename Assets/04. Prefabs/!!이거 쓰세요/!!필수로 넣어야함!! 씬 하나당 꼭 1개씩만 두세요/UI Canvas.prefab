@@ -1774,7 +1774,6 @@ MonoBehaviour:
   sentence: 
   current: 
   dialogue: {fileID: 696027867733042739}
-  nameObj: {fileID: 3552926770406750504}
   content: {fileID: 3435263463190429381}
   dialogueManager: {fileID: 1940941801016105532}
   autoDelay: 1

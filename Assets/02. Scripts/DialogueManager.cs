@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
     private Inventory inventory;
 
     private Vector3[] standingDftPos = new Vector3[3];
-
+    private currentState state;
 
     private void Awake()
     {
@@ -102,6 +102,8 @@ public class DialogueManager : MonoBehaviour
         {
             new Cell("", "0", msg, "")
         };
+        Inventory.instance.HoldLastIndexItem();
+        state = currentState.ITEM;
         StartDialogue(dialogue);
     }
 
@@ -113,6 +115,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(List<Cell> dialogue)
     {
+        MobileUI.instance.HideThis(true);
         ClearDialogue(dialogue);
         standingImg.StandingAlpha(true);
         dialogWhole.gameObject.SetActive(true);
@@ -149,69 +152,68 @@ public class DialogueManager : MonoBehaviour
         if (typeWriter.isTyping)
         {
             typeWriter.StopTyping();
+            return;
         }
-        else
+
+        if (dialogueList == null || dialogueList.Count <= crtIndex)
         {
-            if (dialogueList.Count <= crtIndex)
-            {
-                EndDialogue();
-                return;
-            }
-
-
-            // if (sheetData.storyBlock[crtBranch].block[crtPage].se != null)
-            //  {
-            // SoundManager.instance.PlaySound(sheetData.storyBlock[crtBranch].block[crtPage].se, sheetData.storyBlock[crtBranch].block[crtPage].seSubtitle);
-            //  }
-            //if(�������)string content =content_ENG
-
-            var content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
-            var strName = ChangeIfPlayerName(dialogueList[crtIndex].name);
-
-
-            nameTxt.text = strName;
-            nameTxt.transform.parent.gameObject.SetActive(!strName.Equals(""));
-
-
-            standingImg.image.sprite =
-                sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
-            standingImg.image.enabled = standingImg.image.sprite != null;
-
-
-            if (content.Contains("{"))
-            {
-                Regex regex = new(@"\{(.*?)\}");
-                content = regex.Replace(content, match =>
-                {
-                    var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
-                    if (key.Equals("Player")) return PlayerData.playerName;
-                    var value = PlayerPrefs.GetString(key, "null");
-                    return value;
-                });
-            }
-
-            content = content.Replace("<red>", "<color=red>");
-            content = content.Replace("</red>", "</color>");
-
-            content = content.Replace("<small>", "<size=70%>");
-            content = content.Replace("</small>", "</size>");
-
-            content = content.Replace("<big>", "<size=130%>");
-            content = content.Replace("</big>", "</size>");
-
-            content = content.Replace("<b>", "<b><color=orange>");
-            content = content.Replace("</b>", "</color></b>");
-
-            typeWriter.StartTyping(content, dialogueList[crtIndex].name); //(int)currentBlock.block[index].name_ch
-
-            dirManager.RunCMD(dialogueList[crtIndex].cmd);
-
-            //ChangeSprite();
-
-            // if (index >= currentBlock.block.Count) isNoNext = true;
-            //else isNoNext = false;
-            crtIndex++;
+            EndDialogue();
+            return;
         }
+
+
+        // if (sheetData.storyBlock[crtBranch].block[crtPage].se != null)
+        //  {
+        // SoundManager.instance.PlaySound(sheetData.storyBlock[crtBranch].block[crtPage].se, sheetData.storyBlock[crtBranch].block[crtPage].seSubtitle);
+        //  }
+        //if(�������)string content =content_ENG
+
+        var content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
+        var strName = ChangeIfPlayerName(dialogueList[crtIndex].name);
+
+
+        nameTxt.text = strName;
+        nameTxt.transform.parent.gameObject.SetActive(!strName.Equals(""));
+
+
+        standingImg.image.sprite =
+            sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
+        standingImg.image.enabled = standingImg.image.sprite != null;
+
+
+        if (content.Contains("{"))
+        {
+            Regex regex = new(@"\{(.*?)\}");
+            content = regex.Replace(content, match =>
+            {
+                var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
+                if (key.Equals("Player")) return PlayerData.playerName;
+                var value = PlayerPrefs.GetString(key, "null");
+                return value;
+            });
+        }
+
+        content = content.Replace("<red>", "<color=red>");
+        content = content.Replace("</red>", "</color>");
+
+        content = content.Replace("<small>", "<size=70%>");
+        content = content.Replace("</small>", "</size>");
+
+        content = content.Replace("<big>", "<size=130%>");
+        content = content.Replace("</big>", "</size>");
+
+        content = content.Replace("<b>", "<b><color=orange>");
+        content = content.Replace("</b>", "</color></b>");
+
+        typeWriter.StartTyping(content, dialogueList[crtIndex].name); //(int)currentBlock.block[index].name_ch
+
+        dirManager.RunCMD(dialogueList[crtIndex].cmd);
+
+        //ChangeSprite();
+
+        // if (index >= currentBlock.block.Count) isNoNext = true;
+        //else isNoNext = false;
+        crtIndex++;
     }
 
     private string ChangeIfPlayerName(string current)
@@ -297,13 +299,8 @@ public class DialogueManager : MonoBehaviour
         ClearDialogue(null);
         skipButton.interactable = false;
         skipButton.interactable = true;
-        dialogWhole.gameObject.SetActive(false);
-        standingImg.StandingAlpha(false);
 
-        isPlayingDialogue = false;
-        Debug.Log("종료");
-
-        PlayerMovement.instance.ChangeCanMove(true);
+        StartCoroutine(IEEndDialogue());
     }
 
 
@@ -327,6 +324,28 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(IEStartDialogue(idName));
     }
 
+    private IEnumerator IEEndDialogue()
+    {
+        standingImg.StandingAlpha(false);
+        dialogWhole.SetTrigger("end");
+        yield return new WaitForSeconds(0.3f);
+
+        isPlayingDialogue = false;
+
+
+        MobileUI.instance.HideThis(false);
+
+
+        if (state.Equals(currentState.ITEM))
+        {
+            Inventory.instance.UnholdItem();
+            state = currentState.DIALOGUE;
+        }
+
+        PlayerMovement.instance.ChangeCanMove(true);
+        dialogWhole.gameObject.SetActive(false);
+    }
+
     private IEnumerator IEStartDialogue(string idName)
     {
         //if (!isLoaded) LoadDialogueFromSheetData();
@@ -346,6 +365,12 @@ public class DialogueManager : MonoBehaviour
     {
         var index = SheetData.instance.block.FindIndex(x => x.id == idName);
         return SheetData.instance.block[index].cells;
+    }
+
+    private enum currentState
+    {
+        DIALOGUE,
+        ITEM
     }
 
 

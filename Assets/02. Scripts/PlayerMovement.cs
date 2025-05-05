@@ -5,7 +5,7 @@ public class PlayerMovement : MovingFootPrint
 {
     public static bool isSpace;
     public static PlayerMovement instance;
-    
+
     public static bool canMove = true;
     public Transform spineTrans;
 
@@ -16,7 +16,7 @@ public class PlayerMovement : MovingFootPrint
     public Image currentHoldingImg;
 
     public LayerMask obstacleLayer;
-    
+
     private FixedJoystick fixedJoystick;
     private Vector2 input;
     private bool isRunning;
@@ -46,9 +46,9 @@ public class PlayerMovement : MovingFootPrint
     private void Update()
     {
         //if (isMoving) return;
-        FootStep();//MovingFootPrint: 바닥 환경에 따라 발소리 나게함
-        
-        
+        FootStep(); //MovingFootPrint: 바닥 환경에 따라 발소리 나게함
+
+
 #if UNITY_EDITOR
         //달리기 탐지 목적(걷는WASD와는 관련 없음)
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
@@ -59,21 +59,16 @@ public class PlayerMovement : MovingFootPrint
 #endif
 
 
-        if (canMove){
-            input = GetInput();//WASD가 클릭되고 있거나, 조이스틱이 사용되고 있는지 그 값
-           
-        }
-        else{
+        if (canMove)
+            input = GetInput(); //WASD가 클릭되고 있거나, 조이스틱이 사용되고 있는지 그 값
+        else
             input = Vector2.zero;
-        }
-        
-        
     }
 
     private void FixedUpdate()
     {
         if (!canMove) return;
-        
+
         rb.linearVelocity = input * moveSpeed;
 
         if (input.x != 0)
@@ -89,7 +84,7 @@ public class PlayerMovement : MovingFootPrint
         }
         else
         {
-            if (!isRunning)//걷고 있는 경우
+            if (!isRunning) //걷고 있는 경우
                 playSpineAnim.SetAnim("walk", true);
             else
                 playSpineAnim.SetAnim("run", true);
@@ -98,7 +93,7 @@ public class PlayerMovement : MovingFootPrint
 
     public void SetIsSpace(bool isButtonClicked)
     {
-        if (!canMove||isWalking) return;
+        if (!canMove || isWalking) return;
         isSpace = isButtonClicked;
     }
 
@@ -130,7 +125,7 @@ public class PlayerMovement : MovingFootPrint
 
     private Vector2 GetInput()
     {
-        Vector2 inputVec = Vector2.zero;
+        var inputVec = Vector2.zero;
 #if UNITY_ANDROID
         //모바일인 경우
         inputVec.x = fixedJoystick.Horizontal;
@@ -159,14 +154,14 @@ public class PlayerMovement : MovingFootPrint
     {
         currentHoldingItem = -1;
         currentHoldingImg.sprite = null;
-        currentHoldingImg.enabled = false;
+        currentHoldingImg.gameObject.SetActive(false);
     }
 
     public void HoldItem(int holdItem, Sprite holdSpr)
     {
         currentHoldingItem = holdItem;
         currentHoldingImg.sprite = holdSpr;
-        currentHoldingImg.enabled = true;
+        currentHoldingImg.gameObject.SetActive(true);
     }
 
     public void StopMoving()
@@ -174,9 +169,9 @@ public class PlayerMovement : MovingFootPrint
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0;
         rb.linearVelocity = Vector2.zero;
-        
+
         rb.Sleep();
-        
+
         playSpineAnim.SetAnim("idle", true);
     }
 }

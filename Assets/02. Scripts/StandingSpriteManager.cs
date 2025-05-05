@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StandingSprite")]
 public class StandingSpriteManager : ScriptableObject
 {
+    public Sprite nullSprite;
     public List<CharacterSpr> userSpr;
     public List<CharacterSpr> ramSpr;
     public List<CharacterSpr> processorSpr;
@@ -14,7 +15,7 @@ public class StandingSpriteManager : ScriptableObject
 
     public Sprite FindSprite(string chName, string standingNum)
     {
-        if (chName.Equals("")) return null;
+        if (chName.Equals("")) return nullSprite;
 
         if (standingNum.Contains(':'))
         {
@@ -62,7 +63,7 @@ public class StandingSpriteManager : ScriptableObject
                  break;
          }*/
 
-        if (sprListWhole == null) return null;
+        if (sprListWhole == null) return nullSprite;
         if (standingNum.Equals("")) standingNum = "0";
 
         var spr = sprListWhole[int.Parse(standingNum)].sprite;

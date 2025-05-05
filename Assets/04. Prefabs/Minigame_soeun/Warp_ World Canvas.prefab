@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 9167796874151761952}
   - component: {fileID: 5300588747538517397}
   - component: {fileID: 1335778702768155650}
+  - component: {fileID: 5875319397053047280}
   m_Layer: 5
   m_Name: Warp_ World Canvas
   m_TagString: Untagged
@@ -547,6 +548,36 @@ MonoBehaviour:
     objToEnableOther: []
     objToDisable: {fileID: 2893453468091940641}
   isClose: 0
+--- !u!114 &5875319397053047280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528165490934387313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9c5b0092f955147a107030e363f7b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSpineAnim: {fileID: 0}
+  isWalking: 0
+  rb: {fileID: 0}
+  footprintObj: {fileID: 0}
+  footPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  concreteSound: {fileID: 0}
+  brickSound: {fileID: 0}
+  tileSound: {fileID: 0}
+  RayStart: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  currentGround: 
+  characterName: 
+  isAutoPlay: 0
+  autoPlayID: 
 --- !u!1 &5277299743679284865
 GameObject:
   m_ObjectHideFlags: 0
