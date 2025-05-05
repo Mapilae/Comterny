@@ -1346,6 +1346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts:
   - sortingGroup: {fileID: 260027922}
     layerOrderDft: 4
@@ -1395,7 +1396,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.298, y: 1.096}
+    oldSize: {x: 1.2993709, y: 1.0960001}
     newSize: {x: 0.25, y: 1.044}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1790,7 +1791,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.25, y: 1.044}
+    oldSize: {x: 0.25026405, y: 1.044}
     newSize: {x: 0.25, y: 1.044}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1822,6 +1823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts:
   - sortingGroup: {fileID: 344486589}
     layerOrderDft: 4
@@ -1963,7 +1965,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.552, y: 0.752}
+    oldSize: {x: 2.552, y: 0.75264066}
     newSize: {x: 2.552, y: 0.752}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -8711,7 +8713,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.236, y: 2.138}
+    oldSize: {x: 2.2362738, y: 2.138}
     newSize: {x: 2.236, y: 2.138}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -12186,7 +12188,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.384, y: 1.098}
+    oldSize: {x: 0.384, y: 1.0983686}
     newSize: {x: 0.384, y: 1.098}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -12206,6 +12208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts:
   - sortingGroup: {fileID: 1335852960}
     layerOrderDft: 51
@@ -12734,6 +12737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts: []
   objToEnableWhenEnter:
   - {fileID: 766077742}
@@ -13968,6 +13972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts:
   - sortingGroup: {fileID: 795790923}
     layerOrderDft: 51
@@ -14024,6 +14029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts: []
   objToEnableWhenEnter:
   - {fileID: 54186102}
@@ -14299,7 +14305,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.494, y: 1.162}
+    oldSize: {x: 2.4945242, y: 1.162}
     newSize: {x: 12.47, y: 5.81}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -14353,6 +14359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d30f0709afed14a897b68122bae044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPermanent: 0
   sorts: []
   objToEnableWhenEnter:
   - {fileID: 2075086008}

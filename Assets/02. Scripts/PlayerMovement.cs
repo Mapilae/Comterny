@@ -130,7 +130,7 @@ public class PlayerMovement : MovingFootPrint
         //모바일인 경우
         inputVec.x = fixedJoystick.Horizontal;
         inputVec.y = fixedJoystick.Vertical;
-        Debug.Log(inputVec.x + ",  " + inputVec.y);
+        // Debug.Log(inputVec.x + ",  " + inputVec.y);
         return inputVec;
 #endif
 #if UNITY_EDITOR
