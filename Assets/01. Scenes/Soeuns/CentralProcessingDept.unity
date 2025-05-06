@@ -10655,7 +10655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6361679616973126440, guid: f7f51ad7036d5ea49b00d711931b59dc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -30.44397
+      value: -30.443848
       objectReference: {fileID: 0}
     - target: {fileID: 6762961763993943129, guid: f7f51ad7036d5ea49b00d711931b59dc, type: 3}
       propertyPath: m_Name
@@ -10858,6 +10858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 7f000000
@@ -11837,6 +11838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 3
   interactList:
   - interactableType: 0
     needItemCode: 7c000000
@@ -12078,6 +12080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 7e000000

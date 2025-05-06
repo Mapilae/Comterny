@@ -16,6 +16,8 @@ TagManager:
   - NPC Follow
   - concrete
   - brick
+  - trashEmpty
+  - trashFull
   layers:
   - Default
   - TransparentFX

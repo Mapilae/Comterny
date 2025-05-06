@@ -60,7 +60,7 @@ public class ChangeLayerOrder : MonoBehaviour
             else
             {
                 for (var i = 0; i < sorts.Length; i++)
-                    if (sorts[i].sortingGroup.gameObject.activeInHierarchy)
+                    if (sorts[i] != null && sorts[i].sortingGroup.gameObject.activeInHierarchy)
                         sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
             }
 

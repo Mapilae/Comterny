@@ -5,8 +5,9 @@ using UnityEngine;
 [Serializable]
 public class VariableIntStr
 {
-    public string varName;
     public int varCode = 100;
+
+    public string varName;
 
     public VariableIntStr(string varName, int varCode)
     {
@@ -24,9 +25,10 @@ public class VariableIntStr
 [Serializable]
 public class Item
 {
-    [Header("about items")] public int itemID;
+    public int itemID;
 
-    public string itemName;
+    [Header("about items")] public string itemName;
+
     [TextArea] public string itemDesc;
     public Sprite itemSpr;
 }
@@ -54,7 +56,7 @@ public class VariableHolder : ScriptableObject
 
     public string[] FindVariableStr(string varName)
     {
-        VariableIntStr vstr = allVariableList.Find(x => x.varName == varName);
+        var vstr = allVariableList.Find(x => x.varName == varName);
         string[] newstr = { vstr.varName, vstr.varCode.ToString() };
         return newstr;
     }

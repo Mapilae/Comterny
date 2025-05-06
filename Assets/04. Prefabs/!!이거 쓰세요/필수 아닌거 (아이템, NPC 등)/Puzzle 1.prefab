@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 3
   interactList:
   - interactableType: 3
     needItemCode: 78000000
@@ -276,6 +277,7 @@ MonoBehaviour:
     dialogueID: 
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 4180523414095922148}
+    objToEnableOther: []
     objToDisable: {fileID: 0}
   isClose: 0
 --- !u!114 &564024265899838904
@@ -290,12 +292,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9c5b0092f955147a107030e363f7b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playSpineAnim: {fileID: 0}
   isWalking: 0
   rb: {fileID: 0}
   footprintObj: {fileID: 0}
   footPos: []
+  concreteSound: {fileID: 0}
+  brickSound: {fileID: 0}
+  tileSound: {fileID: 0}
+  RayStart: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  currentGround: 
   characterName: "\uC81C\uC5B4\uD310"
-  convObj: {fileID: 1975643641905169730}
+  isAutoPlay: 0
+  autoPlayID: 
 --- !u!1001 &6244643844364623791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,11 +385,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
---- !u!1 &1975643641905169730 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5603475268299299565, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}
-  m_PrefabInstance: {fileID: 6244643844364623791}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8495955852230346286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2544213454357109121, guid: fd5e03d07ab49a242a8c9cb8cbf7b019, type: 3}

@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
-    public VariableHolder varHolder;
+    // public VariableHolder varHolder;
     //public List<VariableIntStr> varList = new();
 
     /**

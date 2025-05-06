@@ -18,13 +18,13 @@ MonoBehaviour:
     sprite: {fileID: -4298056599330406823, guid: ac291c9b811d7e84a902d15a51610253, type: 3}
   ramSpr:
   - name: "\uC2A4\uD0E0\uB529\uC774\uB984\uBA54\uBAA8"
-    sprite: {fileID: 21300000, guid: b1536f7ece392bf43af6221f61893ff5, type: 3}
+    sprite: {fileID: 21300000, guid: c2b65b16d6b85824d9c76f2c14fcaaa5, type: 3}
   processorSpr:
   - name: 
-    sprite: {fileID: 21300000, guid: 0c0a028498b4cff418fed3127fbd92c2, type: 3}
+    sprite: {fileID: 21300000, guid: a4d282b7fbd59db4cbcbf76079dd3745, type: 3}
   compilerSpr:
   - name: 
-    sprite: {fileID: 21300000, guid: 5976dc7a9aea05743abc9aa3336d0674, type: 3}
+    sprite: {fileID: 21300000, guid: 3eb8f724184816e4f98caf9214bc4e1c, type: 3}
   ransomwareSpr:
   - name: 
-    sprite: {fileID: 21300000, guid: 783132cad09f0b046983a1357d3f95f8, type: 3}
+    sprite: {fileID: 21300000, guid: 5c68e8258f7daf341a83ac1984bf8c22, type: 3}

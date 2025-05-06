@@ -68,6 +68,7 @@ public class ItemGet : MonoBehaviour
         {
             isClose = true;
             if (objToEnable != null) objToEnable.SetActive(true);
+            MobileUI.instance.SetIconImage(InteractableType.ITEM);
         }
     }
 
@@ -77,6 +78,7 @@ public class ItemGet : MonoBehaviour
         {
             isClose = false;
             if (objToEnable != null) objToEnable.SetActive(false);
+            MobileUI.instance.NothingClose();
         }
     }
 }

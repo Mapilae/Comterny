@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 public class DirectingManager : MonoBehaviour
 {
     public Volume volumePrefab;
+    [Header("CHOICE")] public GameObject choiceWholeObj;
+    public choice[] choices;
 
     [Header("Other")] public GameObject prefab;
 
@@ -18,6 +23,7 @@ public class DirectingManager : MonoBehaviour
     private GameObject standings;
 
     private Animator stands;
+
 
     private void Start()
     {
@@ -39,10 +45,10 @@ public class DirectingManager : MonoBehaviour
     public void RunCMD(string cmd)
     {
         if (cmd.Equals("")) return;
-        string[] args = cmd.Split(';');
-        for (int i = 0; i < args.Length; i++)
+        var args = cmd.Split(';');
+        for (var i = 0; i < args.Length; i++)
         {
-            string[] spl = args[i].Split('_');
+            var spl = args[i].Split('_');
             if (spl.Length >= 2) RunCMDOne(spl[0], spl[1]);
             else RunCMDOne(spl[0], "");
         }
@@ -52,6 +58,16 @@ public class DirectingManager : MonoBehaviour
     {
         switch (cmd)
         {
+            case "close":
+                //다이얼로그 종료
+                dialogueManager.EndDialogue();
+                break;
+            case "move":
+                dialogueManager.StartDialogueInManager(next);
+                break;
+            case "CHOICE": //CHOICE_2
+                ChoiceMode(next);
+                break;
             case "sdturn":
                 //sdturn_leftright
                 TurnStanding();
@@ -62,13 +78,26 @@ public class DirectingManager : MonoBehaviour
                 ChangeVolume(next);
 
                 break;
+            case "open":
+                //특정 오브젝트의 태그를 검색하여 그것을 활성화 함(단일이어야함!) 다이얼로그는 자동으로 종료함. (close와 동일)
+                dialogueManager.EndDialogue();
+                EnableObject(next, true);
+                break;
+            case "enable":
+                //특정 오브젝트의 태그를 검색하여 그것을 활성화 함(단일이어야함!)
+                EnableObject(next, true);
+                break;
+            case "disable":
+                //특정 오브젝트의 태그를 검색하여 그것을 비활성화 함(단일이어야함!)
+                EnableObject(next, false);
+                break;
             case "shake": //���ĵ� ����
                 StandingShake(0);
                 break;
             case "flinch": //���ĵ� ����
                 StandingFlinch(0);
                 break;
-            case "stretch":
+            /*case "stretch":
                 //���ĵ� �ø���, ��ǰ, ������ ��.
                 if (next.Contains("left")) StandingStretch(0);
                 if (next.Contains("center")) StandingStretch(1);
@@ -162,6 +191,7 @@ public class DirectingManager : MonoBehaviour
                 if (next.Contains("center")) StandingComeClose(1, 2);
                 if (next.Contains("right")) StandingComeClose(2, 2);
                 break;
+            */
             case "bgm":
                 Debug.Log("bgm : " + next);
                 if (next.Equals("stop"))
@@ -235,6 +265,67 @@ public class DirectingManager : MonoBehaviour
         }
     }
 
+    #region CMD
+
+    private void EnableObject(string tag, bool isEnable)
+    {
+        var obj = GameObjectManager.instance.FindGameObjectWithTag(tag);
+        if (obj != null) obj.SetActive(isEnable);
+    }
+
+    #endregion
+
+    [Serializable]
+    public struct choice
+    {
+        public GameObject obj;
+        public TMP_Text text;
+        public string cmd;
+    }
+
+
+    #region CHOICE
+
+    private void ChoiceMode(string next)
+    {
+        var count = int.Parse(next);
+
+        choiceWholeObj.SetActive(true);
+        foreach (var obj in choices)
+            obj.obj.SetActive(false);
+        //choice 값들 텍스트 등으로 접근하여 반영하기
+        StartCoroutine(IEChoiceEnable(count)); //선택지 개수를 파라미터로 넘기기
+    }
+
+    private IEnumerator IEChoiceEnable(int choiceCount)
+    {
+        //choice개수에 따라 choiceObjs 텀을 두고 활성화하기
+        for (var i = 0; i < choiceCount; i++)
+        {
+            yield return new WaitForSeconds(0.2f);
+            choices[i].obj.SetActive(true);
+            //crtIndex는 dialogueManager에서 RunCMD 실행후 ++되어서 0.2초가 지난 이 시점에서는 기존보다 +1된상태로 있기 때문에
+            //crtIndex+i로 하였다. (버그)
+            choices[i].text.text = dialogueManager.dialogueList[dialogueManager.crtIndex + i].content;
+            choices[i].cmd = dialogueManager.dialogueList[dialogueManager.crtIndex + i].cmd;
+            // Debug.Log(i + "'s crtIndex: " + (dialogueManager.crtIndex + i));
+        }
+
+        dialogueManager.canClickToNext = false;
+    }
+
+    public void OnChoiceButtonClicked(int index)
+    {
+        Debug.Log("choice : " + choices[index].cmd);
+
+        choiceWholeObj.SetActive(false);
+        dialogueManager.canClickToNext = true;
+        RunCMD(choices[index].cmd);
+    }
+
+    #endregion
+
+
     #region Standing
 
     private void StandingStretch(int index)
@@ -249,11 +340,11 @@ public class DirectingManager : MonoBehaviour
         65f 1.1
         85f 1
         */
-        float size = 1f;
-        Vector3 scale = stands.transform.localScale;
+        var size = 1f;
+        var scale = stands.transform.localScale;
         WaitForSeconds wait = new(0.1f);
 
-        for (int i = 0; i < 17; i++)
+        for (var i = 0; i < 17; i++)
         {
             stands.transform.parent.localScale = new Vector3(scale.x, scale.y * size, scale.z);
             if (i <= 9)
@@ -297,12 +388,12 @@ public class DirectingManager : MonoBehaviour
         pos y0
         scale y1
          */
-        Vector3 scale = stands.transform.parent.localScale;
-        Vector3 pos = stands.transform.parent.position;
+        var scale = stands.transform.parent.localScale;
+        var pos = stands.transform.parent.position;
         WaitForSeconds wait = new(0.05f);
         float scaleToAdd = 0, posToAdd = 0;
 
-        for (int i = 0; i < 21; i++)
+        for (var i = 0; i < 21; i++)
         {
             stands.transform.parent.position = new Vector3(pos.x, pos.y + posToAdd, pos.z);
             stands.transform.parent.localScale = new Vector3(scale.x, scale.y + scaleToAdd, scale.z);
@@ -340,11 +431,11 @@ public class DirectingManager : MonoBehaviour
         pos y0
         scale y1
          */
-        Vector3 scale = stands.transform.parent.localScale;
-        Vector3 pos = stands.transform.parent.position;
+        var scale = stands.transform.parent.localScale;
+        var pos = stands.transform.parent.position;
         WaitForSeconds wait = new(0.05f);
         float scaleToAdd = 0, posToAdd = 0;
-        for (int i = 0; i < 18; i++)
+        for (var i = 0; i < 18; i++)
         {
             stands.transform.parent.position = new Vector3(pos.x, pos.y + posToAdd, pos.z);
             stands.transform.parent.localScale = new Vector3(scale.x, scale.y + scaleToAdd, scale.z);
@@ -370,7 +461,7 @@ public class DirectingManager : MonoBehaviour
     {
         stands.transform.parent.position = dftpos;
         stands.SetTrigger("clear");
-        Vector3 scale = Vector3.one;
+        var scale = Vector3.one;
         stands.transform.parent.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
     }
 
@@ -427,9 +518,9 @@ public class DirectingManager : MonoBehaviour
 
     private IEnumerator StandFlip(int index)
     {
-        Vector3 scale = stands.transform.parent.localScale;
-        float elapsed = scale.x;
-        float delta = 5f;
+        var scale = stands.transform.parent.localScale;
+        var elapsed = scale.x;
+        var delta = 5f;
 
         if (scale.x > 0)
             //1 --> -1
@@ -456,7 +547,7 @@ public class DirectingManager : MonoBehaviour
 
     public void StandingComeClose(int index, int level)
     {
-        int isMinus = stands.transform.parent.localScale.x > 0 ? 1 : -1;
+        var isMinus = stands.transform.parent.localScale.x > 0 ? 1 : -1;
         Vector3 dftPos = new(stands.transform.parent.position.x, standingDefaultPos.y,
             stands.transform.parent.position.z);
         switch (level)
@@ -496,8 +587,8 @@ public class DirectingManager : MonoBehaviour
 
         while (elapsed < dur)
         {
-            float x = Random.Range(-1, 1) * mag;
-            float y = Random.Range(-1, 1.5f) * mag;
+            var x = Random.Range(-1, 1) * mag;
+            var y = Random.Range(-1, 1.5f) * mag;
 
             stands.transform.localPosition = new Vector2(originalPos.x + x, originalPos.y + y);
 

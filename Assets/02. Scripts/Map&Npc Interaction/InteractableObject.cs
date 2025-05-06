@@ -8,7 +8,8 @@ public enum InteractableType
     NPC,
     SELFDOOR,
     AUTODOOR,
-    PUZZLE
+    PUZZLE,
+    ITEM //do not use in interactableSetting
 }
 
 [Serializable]
@@ -33,6 +34,8 @@ public class InteractableSetting
 
 public class InteractableObject : MonoBehaviour
 {
+    public InteractableType usualInteractableType;
+
     public List<InteractableSetting> interactList = new();
 
     [Header("true when player is in trigger area")]
@@ -91,13 +94,21 @@ public class InteractableObject : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) isClose = false;
+        if (collision.CompareTag("Player"))
+        {
+            isClose = false;
+            MobileUI.instance.NothingClose();
+        }
     }
 
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) isClose = true;
+        if (collision.CompareTag("Player"))
+        {
+            isClose = true;
+            MobileUI.instance.SetIconImage(usualInteractableType);
+        }
         //AUTO DOOR인경우 자동으로 문 열리도록하기
         //if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODOOR))
         //   ItemTypeAct();
