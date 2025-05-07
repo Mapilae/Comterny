@@ -49,13 +49,19 @@ public class PlayerMovement : MovingFootPrint
         FootStep(); //MovingFootPrint: 바닥 환경에 따라 발소리 나게함
 
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         //달리기 탐지 목적(걷는WASD와는 관련 없음)
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
             SetIfRunning(true);
         else
             SetIfRunning(false);
         if (Input.GetKeyDown(KeyCode.Space)) SetIsSpace(true);
+//#endif
+#if UNITY_ANDROID || UNITY_IOS
+        if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.RUN))
+            SetIfRunning(true);
+        else if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.WALK))
+            SetIfRunning(false);
 #endif
 
 
@@ -131,7 +137,9 @@ public class PlayerMovement : MovingFootPrint
         inputVec.x = fixedJoystick.Horizontal;
         inputVec.y = fixedJoystick.Vertical;
         // Debug.Log(inputVec.x + ",  " + inputVec.y);
+
         return inputVec;
+
 #endif
 #if UNITY_EDITOR
         //PC인 경우

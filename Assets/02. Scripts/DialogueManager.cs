@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -5,6 +6,136 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+
+[Serializable]
+public class Dialogue
+{
+    public Image wholeObj; //Panel
+    public TMP_Text nameTxt;
+    public TMP_Text contentTxt;
+    public Sprite[] sprDialogueFrame;
+    public Material[] matDialogueTxt;
+
+    [Space] public StandingAnim standingImg;
+
+    public Button skipButton;
+    public Animator dialogAnim;
+
+
+    public StandingSpriteManager sprManager;
+    private RectTransform contentTrans;
+    private Image dialogueFrame;
+
+    private bool isFadeOn;
+    private bool isRansomwareVillian;
+
+    public void Init()
+    {
+        contentTrans = contentTxt.GetComponent<RectTransform>();
+        dialogueFrame = dialogAnim.GetComponent<Image>();
+        contentTrans = contentTxt.GetComponent<RectTransform>();
+    }
+
+    public bool IsActive()
+    {
+        return wholeObj != null && wholeObj.gameObject.activeInHierarchy;
+    }
+
+    public void SetActive(bool active)
+    {
+        wholeObj.gameObject.SetActive(active);
+    }
+
+    public void SetStandingImgAlpha(bool isFadeOn)
+    {
+        standingImg.StandingAlpha(isFadeOn);
+        this.isFadeOn = isFadeOn;
+    }
+
+    public void SetNameTxt(string newName)
+    {
+        nameTxt.text = newName.Equals("") ? "" : $"< {newName} >";
+    }
+
+    public void SetStandingImg(string name, string standingNum)
+    {
+        var split = sprManager.StandingNumParse(name, standingNum);
+        name = split[0];
+        standingNum = split[1];
+        var newSprite = sprManager.FindSprite(name, int.Parse(standingNum));
+        standingImg.image.sprite = newSprite;
+        standingImg.image.enabled = standingImg.image.sprite != sprManager.nullSprite;
+
+        if (!isFadeOn && standingImg.image.enabled)
+            SetStandingImgAlpha(true);
+
+        SetFrameColor(name);
+    }
+
+    private void SetFrameColor(string name)
+    {
+        /* 랜섬웨어 '창'과 '이름'을 빨강으로 하기(폰트말고)
+        테두리
+        디버그: 5937F8
+        컴파일러: FFFFFF
+        프로세서: F0D63D
+        램: 31DB6A
+        랜섬웨어(갱생): FF0032
+        랜섬웨어(빌런): 폰트 테두리에 Thickness 0.18f, Dilate 0.1f넣기. (평소는 둘다 0, 0)
+         */
+
+        string hex;
+        var beforeIsRansomwareVillian = isRansomwareVillian;
+        isRansomwareVillian = false;
+        switch (name)
+        {
+            case "유저 디버그":
+                hex = "#5937F8";
+                break;
+            case "램":
+                hex = "#31DB6A";
+                break;
+            case "프로세서": //processor
+                hex = "#F0D63D";
+                break;
+            case "컴파일러":
+                hex = "#FFFFFF";
+                break;
+            case "랜섬웨어빌런":
+                hex = "#FFFFFF";
+                isRansomwareVillian = true;
+                break;
+            case "랜섬웨어":
+                hex = "#FF0032";
+                break;
+            default:
+                hex = "#CCCCCC";
+                break;
+        }
+
+        ColorUtility.TryParseHtmlString(hex, out var fontColor);
+        fontColor.a = 0.85f;
+        dialogueFrame.color = fontColor;
+        nameTxt.color = fontColor;
+
+        if (beforeIsRansomwareVillian ^ isRansomwareVillian)
+        {
+            dialogueFrame.sprite = sprDialogueFrame[isRansomwareVillian ? 1 : 0];
+            contentTxt.fontSharedMaterial = matDialogueTxt[isRansomwareVillian ? 1 : 0];
+        }
+    }
+
+    public void ResetSkipButton()
+    {
+        skipButton.interactable = false;
+        skipButton.interactable = true;
+    }
+
+    public void SetTrigger(string animName)
+    {
+        dialogAnim.SetTrigger(animName);
+    }
+}
 
 public class DialogueManager : MonoBehaviour
 {
@@ -23,23 +154,16 @@ public class DialogueManager : MonoBehaviour
     public List<Cell> dialogueList;
     public int crtIndex;
 
-    public GameObject dialogueWholeObj;
-    public Animator dialogWhole;
-    public TMP_Text nameTxt;
-    public TMP_Text contentTxt;
-    public RectTransform contentTrans;
-    public Volume currentVolumeObj;
+    public Dialogue dialogue;
+
+    [Space] public Volume currentVolumeObj;
 
     public SoundManager soundManager;
-    public StandingSpriteManager sprManager;
-    public StandingAnim standingImg;
-
 
     [Header("Others")] public TypeWriter typeWriter;
     public bool isPause;
     public bool isViewPause;
     public bool canClickToNext = true;
-    public Button skipButton;
 
     private DirectingManager dirManager;
 
@@ -58,6 +182,7 @@ public class DialogueManager : MonoBehaviour
         //        StartDialogueManager();
         //set standingDftPos
         dirManager = GetComponent<DirectingManager>();
+        dialogue.Init();
     }
 
 
@@ -65,7 +190,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (isPause || isViewPause) return;
 
-        if (dialogWhole.gameObject.activeInHierarchy)
+        if (dialogue.IsActive())
             //Spacebar or EnterKey, or Click Between bottom 0~700
             if (canClickToNext && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
                                    (Input.mousePosition.y <= FIXED_HEIGHT && Input.GetMouseButtonDown(0)) ||
@@ -96,27 +221,27 @@ public class DialogueManager : MonoBehaviour
 
     public void ItemGetDialogue(string msg)
     {
-        List<Cell> dialogue = new()
+        List<Cell> dialogueCell = new()
         {
             new Cell("", "0", msg, "")
         };
         Inventory.instance.HoldLastIndexItem();
+        dialogue.wholeObj.enabled = false;
         state = currentState.ITEM;
-        StartDialogue(dialogue);
+        StartDialogue(dialogueCell);
     }
 
     public void StartDialogueManager()
     {
         inventory = uiCanvas.GetComponent<Inventory>();
-        contentTrans = contentTxt.GetComponent<RectTransform>();
     }
 
-    public void StartDialogue(List<Cell> dialogue)
+    public void StartDialogue(List<Cell> dialogueCell)
     {
         MobileUI.instance.HideThis(true);
-        ClearDialogue(dialogue);
-        standingImg.StandingAlpha(true);
-        dialogWhole.gameObject.SetActive(true);
+        ClearDialogue(dialogueCell);
+
+        dialogue.SetActive(true);
         isPlayingDialogue = true;
         PlayerMovement.instance.ChangeCanMove(false);
         ChangeDialogue();
@@ -144,7 +269,7 @@ public class DialogueManager : MonoBehaviour
             //if (currentBlock.se != null) SoundManager.instance.PlaySE(currentBlock.se);
         }*/
 
-        dialogWhole.gameObject.SetActive(true);
+        dialogue.SetActive(true);
 
 
         if (typeWriter.isTyping)
@@ -169,14 +294,8 @@ public class DialogueManager : MonoBehaviour
         var content = ChangeIfPlayerNameIncluded(dialogueList[crtIndex].content);
         var strName = ChangeIfPlayerName(dialogueList[crtIndex].name);
 
-
-        nameTxt.text = strName;
-        nameTxt.transform.parent.gameObject.SetActive(!strName.Equals(""));
-
-
-        standingImg.image.sprite =
-            sprManager.FindSprite(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
-        standingImg.image.enabled = standingImg.image.sprite != null;
+        dialogue.SetNameTxt(strName);
+        dialogue.SetStandingImg(dialogueList[crtIndex].name, dialogueList[crtIndex].standingNum);
 
 
         if (content.Contains("{"))
@@ -288,16 +407,14 @@ public class DialogueManager : MonoBehaviour
 
     private void DisableSprite()
     {
-        standingImg.StandingAlpha(false);
+        dialogue.SetStandingImgAlpha(false);
     }
 
     public void EndDialogue()
     {
         if (typeWriter.isTyping) typeWriter.StopTyping(); //타이핑중인 경우 강제종료(삭제되었음에도 이전꺼가 끝까지 타이핑되는 버그 제거 위함)
         ClearDialogue(null);
-        skipButton.interactable = false;
-        skipButton.interactable = true;
-
+        dialogue.ResetSkipButton();
         StartCoroutine(IEEndDialogue());
     }
 
@@ -305,11 +422,11 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator Delay(float seconds)
     {
         canClickToNext = false;
-        dialogWhole.gameObject.SetActive(false);
+        dialogue.SetActive(false);
         yield return new WaitForSeconds(seconds);
         //Debug.Log("Play again");
         canClickToNext = true;
-        dialogWhole.gameObject.SetActive(true);
+        dialogue.SetActive(true);
 
         ChangeDialogue();
 
@@ -319,13 +436,14 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogueInManager(string idName)
     {
         PlayerMovement.canMove = false;
+        dialogue.wholeObj.enabled = true;
         StartCoroutine(IEStartDialogue(idName));
     }
 
     private IEnumerator IEEndDialogue()
     {
-        standingImg.StandingAlpha(false);
-        dialogWhole.SetTrigger("end");
+        dialogue.SetStandingImgAlpha(false);
+        dialogue.SetTrigger("end");
         yield return new WaitForSeconds(0.3f);
 
         isPlayingDialogue = false;
@@ -341,7 +459,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         PlayerMovement.instance.ChangeCanMove(true);
-        dialogWhole.gameObject.SetActive(false);
+        dialogue.SetActive(false);
     }
 
     private IEnumerator IEStartDialogue(string idName)

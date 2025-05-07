@@ -7,6 +7,7 @@ public class MobileUI : MonoBehaviour
 
     public Image itemButtonImg;
     public Sprite[] buttonIcon;
+    public Sprite nullSprite;
     private Canvas canvas;
     private PlayerMovement playerMovement;
 
@@ -52,6 +53,6 @@ public class MobileUI : MonoBehaviour
 
     public void NothingClose()
     {
-        itemButtonImg.sprite = null;
+        itemButtonImg.sprite = nullSprite;
     }
 }

@@ -16,7 +16,7 @@ public class DirectingManager : MonoBehaviour
     private Camera cam;
 
     private Vector3 dftpos;
-    private Animator dialogue;
+    private Animator dialogueAnim;
     private DialogueManager dialogueManager;
 
     private Vector3 standingDefaultPos;
@@ -28,11 +28,12 @@ public class DirectingManager : MonoBehaviour
     private void Start()
     {
         dialogueManager = GetComponent<DialogueManager>();
-        dialogue = dialogueManager.dialogWhole;
-        standings = dialogueManager.standingImg.gameObject;
+        dialogueAnim = dialogueManager.dialogue.dialogAnim;
+        standings = dialogueManager.dialogue.standingImg.gameObject;
         stands = standings.GetComponent<Animator>();
         dftpos = stands.transform.parent.position;
         cam = Camera.main;
+
         // SetDefaultPos();
     }
 

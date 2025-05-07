@@ -8,7 +8,7 @@ public class StandingAnim : MonoBehaviour
     private float maskAmount;
     private Material mat;
 
-    private void Start()
+    private void Awake()
     {
         image = GetComponent<Image>();
         mat = new Material(image.material); // 새 인스턴스 생성
@@ -17,6 +17,7 @@ public class StandingAnim : MonoBehaviour
 
     public void StandingAlpha(bool isFadeOn)
     {
+        if (!gameObject.activeInHierarchy) return;
         if (image.sprite == null)
         {
             image.enabled = false;
@@ -29,12 +30,12 @@ public class StandingAnim : MonoBehaviour
     private IEnumerator StandingAlphaRoutine(bool isOn)
     {
         image.enabled = true;
-        int isOnMask = isOn ? 1 : -1;
+        var isOnMask = isOn ? 1 : -1;
         maskAmount = isOn ? 0 : 1;
 
         while (true)
         {
-            maskAmount += isOnMask * Time.deltaTime * 2f;
+            maskAmount += isOnMask * Time.deltaTime * 3f;
             mat.SetFloat("_AlphaFloat", maskAmount);
 
             if (isOn && maskAmount >= 1) break;

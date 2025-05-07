@@ -53,9 +53,9 @@ public class TypeWriter : MonoBehaviour
         this.sentence = sentence;
         this.name_ch = name_ch;
 
-        if (name_ch.Equals("랜섬웨어"))
-            content.color = new Color(1, 0, 0);
-        else content.color = defaultColor;
+        //if (name_ch.Equals("랜섬웨어"))
+        //    content.color = new Color(1, 0, 0);
+        //else content.color = defaultColor;
 
 
         StartCoroutine("Typing");

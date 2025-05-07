@@ -12,17 +12,19 @@ public class StandingSpriteManager : ScriptableObject
     public List<CharacterSpr> compilerSpr;
     public List<CharacterSpr> ransomwareSpr;
 
+    public string[] StandingNumParse(string chName, string standingNum)
+    {
+        if (standingNum.Contains(':')) return standingNum.Split(':');
 
-    public Sprite FindSprite(string chName, string standingNum)
+        return new[]
+        {
+            chName, standingNum
+        };
+    }
+
+    public Sprite FindSprite(string chName, int standingNum)
     {
         if (chName.Equals("")) return nullSprite;
-
-        if (standingNum.Contains(':'))
-        {
-            var split = standingNum.Split(':');
-            chName = split[0];
-            standingNum = split[1];
-        }
 
         List<CharacterSpr> sprListWhole;
 
@@ -41,6 +43,7 @@ public class StandingSpriteManager : ScriptableObject
                 sprListWhole = compilerSpr;
                 break;
             case "랜섬웨어":
+            case "랜섬웨어빌런":
                 sprListWhole = ransomwareSpr;
                 break;
 
@@ -64,9 +67,9 @@ public class StandingSpriteManager : ScriptableObject
          }*/
 
         if (sprListWhole == null) return nullSprite;
-        if (standingNum.Equals("")) standingNum = "0";
+        if (standingNum.Equals("")) standingNum = 0;
 
-        var spr = sprListWhole[int.Parse(standingNum)].sprite;
+        var spr = sprListWhole[standingNum].sprite;
 
         return spr;
     }
