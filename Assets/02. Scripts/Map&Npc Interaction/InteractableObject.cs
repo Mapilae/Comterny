@@ -24,11 +24,12 @@ public class InteractableSetting
 
     [Header("for NPC")] public string dialogueID;
 
-    [Header("for PUZZLE")] public GameObject objToEnable; //미니게임 퍼즐 오브젝트.
+    [Header("for PUZZLE")] public GameObject registerToInventory;
+    public GameObject objToEnable; //미니게임 퍼즐 오브젝트.
 
     public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
     public GameObject[] objToEnableOther; //미니게임 퍼즐 오브젝트.
-
+    public Canvas canvasToEnable;
     [Header("for SelfDoor and AutoDoor")] public GameObject objToDisable;
 }
 
@@ -159,6 +160,8 @@ public class InteractableObject : MonoBehaviour
                 if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
                     foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
                         obj.SetActive(true);
+                if (interactList[currentInteractIndex].canvasToEnable != null)
+                    interactList[currentInteractIndex].canvasToEnable.enabled = true;
                 if (interactList[currentInteractIndex].objToEnable != null)
                 {
                     interactList[currentInteractIndex].objToEnable.SetActive(true);
@@ -170,6 +173,9 @@ public class InteractableObject : MonoBehaviour
                     AddVariable();
                     return;
                 }
+
+                if (interactList[currentInteractIndex].registerToInventory != null)
+                    Inventory.instance.anything = interactList[currentInteractIndex].registerToInventory;
 
                 PlayerMovement.instance.ChangeCanMove(false);
                 break;

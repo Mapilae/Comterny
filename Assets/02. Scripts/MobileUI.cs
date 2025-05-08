@@ -20,10 +20,10 @@ public class MobileUI : MonoBehaviour
     {
         canvas = gameObject.GetComponent<Canvas>();
 #if UNITY_EDITOR
-        gameObject.SetActive(false);
+        canvas.enabled = false;
 #endif
-#if UNITY_ANDROID
-        gameObject.SetActive(true);
+#if UNITY_ANDROID || UNITY_IOS
+        canvas.enabled = true;
         playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
 #endif
     }
@@ -35,7 +35,9 @@ public class MobileUI : MonoBehaviour
 
     public void HideThis(bool hide)
     {
+#if UNITY_ANDROID || UNITY_IOS
         canvas.enabled = !hide;
+#endif
     }
 
     public void SetIconImage(InteractableType type)

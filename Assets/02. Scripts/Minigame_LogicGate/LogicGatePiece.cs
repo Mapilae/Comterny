@@ -16,7 +16,7 @@ public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private TMP_Text text;
 
-    private void OnEnable()
+    private void Start()
     {
         StartSetting();
     }

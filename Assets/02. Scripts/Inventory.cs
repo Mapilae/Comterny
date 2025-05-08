@@ -65,6 +65,7 @@ public class Inventory : MonoBehaviour
         //이전에 클릭했던 인덱스 아웃라인 끄기
         if (currentHoldingItemIndex >= 0)
             itemHoldList[currentHoldingItemIndex].image.transform.parent.GetComponent<Outline>().enabled = false;
+
         if (currentHoldingItemIndex.Equals(index) || index.Equals(-1))
         {
             currentHoldingItemIndex = -1;

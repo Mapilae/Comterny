@@ -268,14 +268,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 
     dialogueID: "\uAF49\uCC2C\uD734\uC9C0\uD1B5"
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 0}
   isClose: 0
 --- !u!61 &5417724
@@ -1544,14 +1547,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 23000000
     dialogueID: "\uB5A8\uC5B4\uC9C4\uC4F0\uB808\uAE30"
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 299782454}
   isClose: 0
 --- !u!61 &299782459
@@ -2039,22 +2045,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 8d000000
     varCodeToAdd: 
     dialogueID: 
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 0}
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 
     dialogueID: "\uB9D0\uD48D\uC120\uD0D0\uC0C9\uC2DC"
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 1863755071}
   isClose: 0
 --- !u!1 &427601360
@@ -3904,6 +3915,18 @@ PrefabInstance:
       value: 0.44570762
       objectReference: {fileID: 0}
     - target: {fileID: 4217970466263154616, guid: 1acafc79ea56d0b46b6793a4bbda1462, type: 3}
+      propertyPath: m_Color.b
+      value: 0.38714847
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217970466263154616, guid: 1acafc79ea56d0b46b6793a4bbda1462, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6394635
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217970466263154616, guid: 1acafc79ea56d0b46b6793a4bbda1462, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9433962
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217970466263154616, guid: 1acafc79ea56d0b46b6793a4bbda1462, type: 3}
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
@@ -4502,6 +4525,115 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5710176939343494228, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
   m_PrefabInstance: {fileID: 1354786551}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1388641007
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1323347578110551976, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4788757665975722565, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_text
+      value: "\uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4 \uBD80\uC11C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959665352771870134, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_Name
+      value: Map Info Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092905673123585476, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8311243740894227812, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: m_text
+      value: System Software Dept.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
 --- !u!1 &1426437105
 GameObject:
   m_ObjectHideFlags: 0
@@ -5243,6 +5375,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 773083208354887873, guid: b7335868de194f249af527d047e21abc, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1335778702768155650, guid: b7335868de194f249af527d047e21abc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1613388749888981670, guid: b7335868de194f249af527d047e21abc, type: 3}
       propertyPath: m_Color.a
       value: 0
@@ -5262,6 +5402,10 @@ PrefabInstance:
     - target: {fileID: 5300588747538517397, guid: b7335868de194f249af527d047e21abc, type: 3}
       propertyPath: warpState
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5875319397053047280, guid: b7335868de194f249af527d047e21abc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6074423666015018293, guid: b7335868de194f249af527d047e21abc, type: 3}
       propertyPath: m_Pivot.x
@@ -5343,6 +5487,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7744711429192868086, guid: b7335868de194f249af527d047e21abc, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9167796874151761952, guid: b7335868de194f249af527d047e21abc, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -5400,14 +5548,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 
     dialogueID: "\uBE48\uD734\uC9C0\uD1B5"
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 0}
   isClose: 0
 --- !u!61 &1662228483
@@ -6983,14 +7134,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 
     dialogueID: "\uACE0\uC7A5\uB09C\uC2DC\uACC4"
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 402689224}
   isClose: 0
 --- !u!61 &1956436604
@@ -7400,4 +7554,5 @@ SceneRoots:
   - {fileID: 242079379}
   - {fileID: 1186732695}
   - {fileID: 498137090}
+  - {fileID: 1388641007}
   - {fileID: 236245885}

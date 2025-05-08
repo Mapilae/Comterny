@@ -24,11 +24,15 @@ public class ParityBit : MonoBehaviour
     [Header("Potal")] public Animator anim;
 
     //varToAdd=135
+    private void Start()
+    {
+        ResetParity();
+    }
+
     private void OnEnable()
     {
         PlayerMovement.canMove = false;
         Pause.instance.SetCurrentPuzzle(gameObject);
-        ResetParity();
     }
 
     public void Close()

@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 public class LogicGateMinigame : MonoBehaviour
 {
     public static bool canUse = true;
+    public Canvas canvas;
     public int varToAdd = 124;
     public GameObject thisWhole;
 
@@ -45,6 +46,7 @@ public class LogicGateMinigame : MonoBehaviour
         PlayerMovement.canMove = false;
         Inventory.instance.anything = gameObject;
         Pause.instance.SetCurrentPuzzle(gameObject);
+        canvas.enabled = true;
     }
 
     public void CloseThis()
@@ -53,6 +55,12 @@ public class LogicGateMinigame : MonoBehaviour
         Inventory.instance.anything = null;
         Pause.instance.SetCurrentPuzzle(null);
         StopAllCoroutines();
+        canvas.enabled = false;
+    }
+
+    private void DisableThis()
+    {
+        CloseThis();
         thisWhole.SetActive(false);
     }
 
@@ -87,7 +95,7 @@ public class LogicGateMinigame : MonoBehaviour
             colToDisable.enabled = false;
 
         if (fanSpin != null) fanSpin.PlaySpinPan(true);
-        Invoke("CloseThis", 3f);
+        Invoke("DisableThis", 3f);
         //for (int i = 0; i < inputs.Length; i++) inputs[i].EndPass();
     }
 

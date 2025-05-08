@@ -530,22 +530,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 0
   interactList:
   - interactableType: 0
     needItemCode: 87000000
     varCodeToAdd: 
     dialogueID: 
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 0}
   - interactableType: 0
     needItemCode: 82000000
     varCodeToAdd: 
     dialogueID: "\uAEBC\uC9C4\uC6CC\uD504\uD074\uB9AD\uC2DC"
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 2893453468091940641}
   isClose: 0
 --- !u!114 &5875319397053047280
@@ -936,7 +941,7 @@ MonoBehaviour:
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

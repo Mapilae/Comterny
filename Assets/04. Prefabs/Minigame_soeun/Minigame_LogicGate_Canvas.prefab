@@ -1535,6 +1535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab7a28ce7e108354dba81cb5c01f83ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 2518795493486010554}
   varToAdd: 124
   thisWhole: {fileID: 35427581414709315}
   inputs:
