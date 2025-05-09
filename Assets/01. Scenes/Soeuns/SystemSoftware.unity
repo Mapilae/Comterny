@@ -4537,6 +4537,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3800305081440491278, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
+      propertyPath: thisMapIndex
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4788757665975722565, guid: 3f0ce844773a04c4db2246501f53c3b2, type: 3}
       propertyPath: m_text
       value: "\uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4 \uBD80\uC11C"

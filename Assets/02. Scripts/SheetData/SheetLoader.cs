@@ -129,6 +129,10 @@ public class SheetLoader : MonoBehaviour
 
         isLoading = false;
         currentId = "";
+    }
+
+    public void StartDialogue()
+    {
         var dialogueManagerObj = GameObject.FindGameObjectWithTag("DialogueManager");
         if (dialogueManagerObj != null)
             dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
@@ -141,6 +145,7 @@ public class SheetLoader : MonoBehaviour
             PlayerMovement.canMove = false;
         }
     }
+
 
     private Cell MakeCell(string[] columns)
     {

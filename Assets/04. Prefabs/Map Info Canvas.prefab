@@ -25,7 +25,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 479836094020774339}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 181}
+  m_AnchoredPosition: {x: 7.919983, y: 181}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3208837371495393845
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 1972985087346558746}
   - component: {fileID: 7177324864361260238}
   m_Layer: 5
-  m_Name: HW/SW TMP
+  m_Name: Building TMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5044947270537897185}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
@@ -245,7 +245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 256}
+  m_AnchoredPosition: {x: 7.919983, y: 256}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1972985087346558746
@@ -270,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -372,7 +372,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5163938868509003592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
@@ -381,7 +381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 104}
+  m_AnchoredPosition: {x: 7.919983, y: 104}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &702430618322940700
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -496,6 +496,7 @@ GameObject:
   - component: {fileID: 45429501940733001}
   - component: {fileID: 8971331535284692048}
   - component: {fileID: 3800305081440491278}
+  - component: {fileID: 2611898957431446138}
   m_Layer: 5
   m_Name: Map Info Canvas
   m_TagString: Untagged
@@ -602,37 +603,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a594f7294a8bf79439a96ef07418688c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMapIndex: 0
   mapSets:
-  - mapName: "\uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C"
-    mapENG: System Software Dept.
-    mapBuildingType: 1
-    mapBuildingColor: {r: 0, g: 0.12941177, b: 1, a: 1}
-    blackAlpha: 0
-    sprOveray: {fileID: 8090470391442428771, guid: bf10560c8a9d5024eb9c8e925573a508, type: 3}
-  - mapName: "\uC911\uC559\uCC98\uB9AC\uBD80\uC11C"
-    mapENG: Central Processing Dept.
-    mapBuildingType: 0
-    mapBuildingColor: {r: 1, g: 0.85490197, b: 0, a: 1}
-    blackAlpha: 0.77
-    sprOveray: {fileID: 649035699656838524, guid: d1113158bc4fd6844a434417ef7f67a4, type: 3}
-  - mapName: "\uC2DC\uC2A4\uD15C \uBC84\uC2A4 \uC815\uB958\uC7A5"
-    mapENG: System Bus Stop
-    mapBuildingType: 0
-    mapBuildingColor: {r: 1, g: 0, b: 0.64705884, a: 1}
-    blackAlpha: 0.84
-    sprOveray: {fileID: 9040899934200610, guid: 2d3aaa356f8ed474a8a5f7c09e531efe, type: 3}
-  - mapName: "\uC8FC\uAE30\uC5B5\uBD80\uC11C"
-    mapENG: Main Memory Dept.
-    mapBuildingType: 0
-    mapBuildingColor: {r: 0.3254902, g: 1, b: 0, a: 1}
-    blackAlpha: 0.77
-    sprOveray: {fileID: -8951947953648163497, guid: fc6239caf3aee3e4b8fb75750a55195d, type: 3}
   - mapName: "\uCEF4\uD130\uB2C8 \uB85C\uBE44"
     mapENG: Comterny Lobby
     mapBuildingType: 2
     mapBuildingColor: {r: 0, g: 1, b: 0.6431373, a: 1}
     blackAlpha: 0.77
     sprOveray: {fileID: -6165795489080040752, guid: ed8bbe2bb8cd79147837e6cddd5fd12c, type: 3}
+  - mapName: "\uC8FC\uAE30\uC5B5\uBD80\uC11C"
+    mapENG: Main Memory Dept.
+    mapBuildingType: 0
+    mapBuildingColor: {r: 0.3254902, g: 1, b: 0, a: 1}
+    blackAlpha: 0.77
+    sprOveray: {fileID: -8951947953648163497, guid: fc6239caf3aee3e4b8fb75750a55195d, type: 3}
+  - mapName: "\uC2DC\uC2A4\uD15C \uBC84\uC2A4 \uC815\uB958\uC7A5"
+    mapENG: System Bus Stop
+    mapBuildingType: 0
+    mapBuildingColor: {r: 1, g: 0, b: 0.64705884, a: 1}
+    blackAlpha: 0.84
+    sprOveray: {fileID: 9040899934200610, guid: 2d3aaa356f8ed474a8a5f7c09e531efe, type: 3}
+  - mapName: "\uC911\uC559\uCC98\uB9AC\uBD80\uC11C"
+    mapENG: Central Processing Dept.
+    mapBuildingType: 0
+    mapBuildingColor: {r: 1, g: 0.85490197, b: 0, a: 1}
+    blackAlpha: 0.77
+    sprOveray: {fileID: 649035699656838524, guid: d1113158bc4fd6844a434417ef7f67a4, type: 3}
+  - mapName: "\uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C"
+    mapENG: System Software Dept.
+    mapBuildingType: 1
+    mapBuildingColor: {r: 0, g: 0.12941177, b: 1, a: 1}
+    blackAlpha: 0
+    sprOveray: {fileID: 8090470391442428771, guid: bf10560c8a9d5024eb9c8e925573a508, type: 3}
+  mapNameTxt: {fileID: 4788757665975722565}
+  mapENGTxt: {fileID: 8311243740894227812}
+  mapBuildingTypeTxt: {fileID: 7177324864361260238}
+  overlayImg: {fileID: 1039292640619772484}
+  blackAlphaImg: {fileID: 1360279138401348922}
+--- !u!95 &2611898957431446138
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5959665352771870134}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3aaaba1958e828f4cbdf5b5ad96b426e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6353015248890258874
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +673,7 @@ GameObject:
   - component: {fileID: 8897246448284256781}
   - component: {fileID: 5060565779738559243}
   - component: {fileID: 1039292640619772484}
+  - component: {fileID: 1315725886044863}
   m_Layer: 5
   m_Name: OverayGlitch
   m_TagString: Untagged
@@ -668,7 +698,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5060565779738559243
 CanvasRenderer:
@@ -708,3 +738,59 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1315725886044863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353015248890258874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
+    m_PressedColor: {r: 0.5943396, g: 0.28315237, b: 0.28315237, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1039292640619772484}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3800305081440491278}
+        m_TargetAssemblyTypeName: MapOveray, Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
