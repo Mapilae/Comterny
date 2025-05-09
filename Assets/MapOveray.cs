@@ -46,6 +46,7 @@ public class MapOveray : MonoBehaviour
     {
         PlayerMovement.canMove = false;
         anim = GetComponent<Animator>();
+        GetComponent<Canvas>().enabled = true;
         SetMap();
         Glitch();
         Invoke(nameof(DisableThis), 3f); //auto

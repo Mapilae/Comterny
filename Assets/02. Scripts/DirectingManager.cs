@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -91,6 +92,12 @@ public class DirectingManager : MonoBehaviour
             case "disable":
                 //특정 오브젝트의 태그를 검색하여 그것을 비활성화 함(단일이어야함!)
                 EnableObject(next, false);
+                break;
+            case "questGive":
+                AddQuest(next);
+                break;
+            case "questRemove":
+                RemoveQuest(next);
                 break;
             case "shake": //���ĵ� ����
                 StandingShake(0);
@@ -215,6 +222,36 @@ public class DirectingManager : MonoBehaviour
         StartCoroutine(TurnStandingLeftRight());
     }
 
+    public void CheckCmdImportant(List<Cell> dialogueLeft, int startIndex)
+    {
+        //스킵해도 중요한건 실행되게 하는 코드
+        for (var i = startIndex; i < dialogueLeft.Count; i++)
+        {
+            var cmds = GetImportantCmd(dialogueLeft[i].cmd);
+            if (cmds.Equals("")) continue;
+            RunCMD(cmds);
+        }
+    }
+
+    private string GetImportantCmd(string cmds)
+    {
+        var spl = cmds.Split(';');
+        var filtered = new List<string>();
+        for (var i = 0; i < spl.Length; i++)
+            switch (spl[i].Split('_')[0])
+            {
+                case "questGive":
+                    filtered.Add(spl[i]);
+                    break;
+                case "questRemove":
+                    filtered.Add(spl[i]);
+                    break;
+            }
+
+        if (filtered.Count == 0) return "";
+        return string.Join(';', filtered);
+    }
+
     private IEnumerator TurnStandingLeftRight()
     {
         yield return new WaitForSeconds(0.5f);
@@ -266,6 +303,14 @@ public class DirectingManager : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public struct choice
+    {
+        public GameObject obj;
+        public TMP_Text text;
+        public string cmd;
+    }
+
     #region CMD
 
     private void EnableObject(string tag, bool isEnable)
@@ -274,15 +319,17 @@ public class DirectingManager : MonoBehaviour
         if (obj != null) obj.SetActive(isEnable);
     }
 
-    #endregion
-
-    [Serializable]
-    public struct choice
+    private void AddQuest(string quest)
     {
-        public GameObject obj;
-        public TMP_Text text;
-        public string cmd;
+        QuestManager.instance.AddQuest(quest);
     }
+
+    private void RemoveQuest(string quest)
+    {
+        QuestManager.instance.RemoveQuest(quest);
+    }
+
+    #endregion
 
 
     #region CHOICE

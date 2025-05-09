@@ -410,6 +410,12 @@ public class DialogueManager : MonoBehaviour
         dialogue.SetStandingImgAlpha(false);
     }
 
+    public void SkipDialogue()
+    {
+        dirManager.CheckCmdImportant(dialogueList, crtIndex);
+        EndDialogue();
+    }
+
     public void EndDialogue()
     {
         if (typeWriter.isTyping) typeWriter.StopTyping(); //타이핑중인 경우 강제종료(삭제되었음에도 이전꺼가 끝까지 타이핑되는 버그 제거 위함)
