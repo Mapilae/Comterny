@@ -4,10 +4,12 @@ using UnityEngine.UI;
 public class MobileUI : MonoBehaviour
 {
     public static MobileUI instance;
+    private static readonly int IsActive = Animator.StringToHash("isActive");
 
     public Image itemButtonImg;
     public Sprite[] buttonIcon;
     public Sprite nullSprite;
+    private Animator buttonAnim;
     private Canvas canvas;
     private PlayerMovement playerMovement;
 
@@ -19,6 +21,7 @@ public class MobileUI : MonoBehaviour
     private void Start()
     {
         canvas = gameObject.GetComponent<Canvas>();
+        buttonAnim = itemButtonImg.transform.parent.GetComponent<Animator>();
 #if UNITY_EDITOR
         canvas.enabled = false;
 #endif
@@ -42,6 +45,7 @@ public class MobileUI : MonoBehaviour
 
     public void SetIconImage(InteractableType type)
     {
+        buttonAnim.SetBool(IsActive, true);
         switch (type)
         {
             case InteractableType.NPC:
@@ -56,5 +60,6 @@ public class MobileUI : MonoBehaviour
     public void NothingClose()
     {
         itemButtonImg.sprite = nullSprite;
+        buttonAnim.SetBool(IsActive, false);
     }
 }
