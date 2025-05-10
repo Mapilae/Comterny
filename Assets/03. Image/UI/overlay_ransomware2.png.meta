@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      overlay_ransomware2_0: -758645948167391134
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

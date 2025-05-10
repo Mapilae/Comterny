@@ -1693,6 +1693,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1163590003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &305598941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5710176939343494228, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+  m_PrefabInstance: {fileID: 2006078014}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &341205276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,6 +2240,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.2795545, y: 0.51598275}
   m_EdgeRadius: 0
+--- !u!1 &391752297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1547424490806425329, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
+  m_PrefabInstance: {fileID: 1746249348}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &393594088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6827772386910144190, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
@@ -13575,6 +13585,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 736554661354510677, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
+      propertyPath: objToDisable
+      value: 
+      objectReference: {fileID: 1844464054}
+    - target: {fileID: 736554661354510677, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
       propertyPath: treeGuideTxt
       value: 
       objectReference: {fileID: 1997563007}
@@ -13618,6 +13632,10 @@ PrefabInstance:
       propertyPath: vertexObj.Array.data[9].realBranch
       value: 
       objectReference: {fileID: 729911044}
+    - target: {fileID: 3876916225763892850, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
+      propertyPath: objToDisable
+      value: 
+      objectReference: {fileID: 305598941}
     - target: {fileID: 6038717832086850619, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -13698,13 +13716,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7279598639410726127, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7755520878993635954, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
       propertyPath: m_Name
       value: TreePuzzleCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 7755520878993635954, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14918,7 +14940,7 @@ PrefabInstance:
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].objToEnable
       value: 
-      objectReference: {fileID: 2142086770}
+      objectReference: {fileID: 1055173466}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].objToEnable2
       value: 
@@ -14926,6 +14948,10 @@ PrefabInstance:
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].interactableType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].varCodeToAdd.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].needItemCode.Array.size
@@ -14951,6 +14977,14 @@ PrefabInstance:
       propertyPath: 'interactList.Array.data[1].varCodeToAdd.Array.data[0]'
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].objToEnableOther.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: 'interactList.Array.data[0].objToEnableOther.Array.data[0]'
+      value: 
+      objectReference: {fileID: 391752297}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

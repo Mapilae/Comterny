@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      overlay_busstop_0: 2769916535717101313
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

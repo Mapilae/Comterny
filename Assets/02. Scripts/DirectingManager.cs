@@ -224,6 +224,8 @@ public class DirectingManager : MonoBehaviour
 
     public void CheckCmdImportant(List<Cell> dialogueLeft, int startIndex)
     {
+        if (dialogueLeft == null) return;
+        if (startIndex >= dialogueLeft.Count) return;
         //스킵해도 중요한건 실행되게 하는 코드
         for (var i = startIndex; i < dialogueLeft.Count; i++)
         {

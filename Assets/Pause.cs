@@ -52,6 +52,8 @@ public class Pause : MonoBehaviour
         isSkippedOnce = true;
         if (currentPuzzle.GetComponent<BinaryTree>())
             currentPuzzle.GetComponent<BinaryTree>().Success();
+        if (currentPuzzle.GetComponent<DepthFirstSearch>())
+            currentPuzzle.GetComponent<DepthFirstSearch>().Success();
         else if (currentPuzzle.GetComponent<LogicGateMinigame>())
             currentPuzzle.GetComponent<LogicGateMinigame>().EndTest(true);
         else if (currentPuzzle.GetComponent<ParityBit>())

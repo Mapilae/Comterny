@@ -67,23 +67,21 @@ public class Dijkstra : MonoBehaviour
             vertexBlock.vertex.interactable = true;
         }
 
-        for (var i = 0; i < nodeTexts.Count; i++)
-        {
-            weight[i] = Random.Range(1, 6);
-            nodeTexts[i].text = weight[i].ToString();
-        }
+        for (var i = 0; i < nodeTexts.Count; i++) weight[i] = Random.Range(1, 6);
 
-        var sumOf3n4 = weight[3] + weight[4]; //3번과 4번 인덱스 간선의 가중치 합
-        var sumOf5n6 = weight[5] + weight[6]; //5,6번 인덱스 간선의 가중치 합
+        var sumOf3n4 = weight[3] + weight[4]; //3번과 4번 인덱스 간선의 가중치 합 (3->5->7)
+        var sumOf5n6 = weight[5] + weight[6]; //5,6번 인덱스 간선의 가중치 합 (3->4->7)
 
-        if (sumOf3n4 == sumOf5n6)
+        if (sumOf3n4 >= sumOf5n6)
         {
             // 중복된 경우, 재생성
-            weight[3] = weight[4];
+            weight[3] = weight[5];
 
-            weight[5] = weight[6] = Random.Range(2, 6);
-            weight[5] -= 1;
+            weight[4] = weight[6] = Random.Range(2, 6);
+            weight[4] -= 1;
         }
+
+        for (var i = 0; i < nodeTexts.Count; i++) nodeTexts[i].text = weight[i].ToString();
 
         pathText.text = "1";
         clickList.Clear();

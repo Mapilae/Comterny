@@ -1016,6 +1016,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NumToBinaryCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8577141507476112306, guid: 1584da2349196ce45b5732d5da64ab23, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
