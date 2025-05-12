@@ -24,6 +24,7 @@ public class DepthFirstSearch : MonoBehaviour
     private readonly int[] userPathIndexOfBlank = { 4, 6 };
     private int userPathIndex;
     private List<TreeNode> vertexObj = new();
+    public int varToAdd = 115;
 
     private void OnEnable()
     {
@@ -111,6 +112,7 @@ public class DepthFirstSearch : MonoBehaviour
         objToDisable.SetActive(false);
         Debug.Log("성공!");
         binaryTree.Success();
+        PlayerData.instance.AddVariable(varToAdd);
         //버스 오는 animator에 트리거해서 버스오는거 만들기
         //또는 버스 오는 애니메이션 스크립트 작성해서 "버스가 곧 옵니다.." 같은거 만들기
     }

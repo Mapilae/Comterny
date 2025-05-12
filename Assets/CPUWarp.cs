@@ -23,8 +23,7 @@ public class CPUWarp : MonoBehaviour
 
     private void Start()
     {
-        if (warpState.Equals(DftWarpState.ON))
-            GetComponent<Animator>().SetTrigger("WarpIdle");
+        if (warpState.Equals(DftWarpState.ON)) GetComponent<Animator>().SetTrigger("WarpIdle");
     }
 
     private void Update()

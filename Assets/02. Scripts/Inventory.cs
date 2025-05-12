@@ -30,6 +30,8 @@ public class Inventory : MonoBehaviour
     public List<ItemHolder> itemHoldList;
 
     public GameObject anything;
+
+    public Item holdingItem;
     private int holdingItemCount;
     private PlayerData playerData;
 
@@ -39,11 +41,12 @@ public class Inventory : MonoBehaviour
     {
         instance = this;
         playerData = GameObject.FindGameObjectWithTag("PlayerData").GetComponent<PlayerData>();
+        UpdateInventory();
     }
 
     private void Start()
     {
-        UpdateInventory();
+        //  UpdateInventory();
     }
 
     public void HoldLastIndexItem()
@@ -60,8 +63,6 @@ public class Inventory : MonoBehaviour
 
     public void ClickToHoldItem(int index)
     {
-        if (playerData.items.Count == 0) return;
-
         //이전에 클릭했던 인덱스 아웃라인 끄기
         if (currentHoldingItemIndex >= 0)
             itemHoldList[currentHoldingItemIndex].image.transform.parent.GetComponent<Outline>().enabled = false;
@@ -70,8 +71,11 @@ public class Inventory : MonoBehaviour
         {
             currentHoldingItemIndex = -1;
             PlayerMovement.instance.UnholdItem();
+            holdingItem = null;
             return;
         }
+
+        if (playerData.items.Count == 0) return; //위치 변경 금지
 
         currentHoldingItemIndex = index;
         //set outline enabled in its parent img
@@ -81,6 +85,7 @@ public class Inventory : MonoBehaviour
 
         PlayerMovement.instance.HoldItem(item.itemID,
             item.itemSpr);
+        holdingItem = item;
         UseAnythingObj();
     }
 
@@ -92,6 +97,7 @@ public class Inventory : MonoBehaviour
         if (item == null) return;
         itemInfoNameText.text = item.itemName;
         itemInfoDescText.text = item.itemDesc;
+        if (item.canThrowAway) itemInfoDescText.text += "<color=red>*버릴 수 있다.</color>";
         itemInfoRect.gameObject.SetActive(true);
     }
 
@@ -119,6 +125,7 @@ public class Inventory : MonoBehaviour
                 var item = playerData.GetItemFromID(playerData.items[i]);
                 itemHoldList[i].image.sprite = item.itemSpr;
                 itemHoldList[i].itemID = item.itemID;
+                itemHoldList[i].canThrowAway = item.canThrowAway;
                 itemHoldList[i].image.transform.parent.gameObject.SetActive(true);
                 holdingItemCount++;
             }
@@ -126,6 +133,7 @@ public class Inventory : MonoBehaviour
             {
                 itemHoldList[i].image.sprite = null;
                 itemHoldList[i].itemID = -1;
+                itemHoldList[i].canThrowAway = false;
                 itemHoldList[i].image.transform.parent.gameObject.SetActive(false);
             }
     }
@@ -168,6 +176,8 @@ public class Inventory : MonoBehaviour
         if (anything == null) return;
         if (anything.GetComponent<LogicGateMinigame>())
             anything.GetComponent<LogicGateMinigame>().InventoryToReal(itemHoldList[currentHoldingItemIndex].itemID);
+        if (anything.GetComponent<TrashCan>())
+            anything.GetComponent<TrashCan>().CheckIfSomethingThrowable();
     }
 
     [Serializable]
@@ -175,17 +185,20 @@ public class Inventory : MonoBehaviour
     {
         public Image image;
         public int itemID;
+        public bool canThrowAway;
 
-        public ItemHolder(Image image, int itemID)
+        public ItemHolder(Image image, int itemID, bool canThrowAway)
         {
             this.image = image;
             this.itemID = itemID;
+            this.canThrowAway = canThrowAway;
         }
 
         public ItemHolder(Image image)
         {
             this.image = image;
             itemID = -1;
+            canThrowAway = false;
         }
     }
 }

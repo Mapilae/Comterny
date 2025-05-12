@@ -46,16 +46,16 @@ public class ChatBallon : NonPlayerCharacter
         typeWriter = GetComponent<TypeWriter>();
 
         if (!gameObject.activeInHierarchy) return;
-        StartCoroutine("WaitStartConversation");
+        StartCoroutine(nameof(WaitStartConversation));
     }
 
     private IEnumerator WaitStartConversation()
     {
-        yield return new WaitForSeconds(2f);
         isPlaying = true;
+        yield return new WaitForSeconds(2f);
         dialogue = DialogueManager.instance.LoadCellsFromSheetData(autoPlayID);
 
-        StartCoroutine("PlayBallon", repeatTime);
+        StartCoroutine(nameof(PlayBallon), repeatTime);
     }
 
     private IEnumerator PlayBallon(int repeating)
@@ -66,7 +66,7 @@ public class ChatBallon : NonPlayerCharacter
 
         while (true)
         {
-            Debug.Log("currentIndex: " + currentIndex);
+//            Debug.Log("currentIndex: " + currentIndex);
             if (fixRight)
                 beforeSizeX = ballonMid.sizeDelta.x;
 
@@ -88,7 +88,7 @@ public class ChatBallon : NonPlayerCharacter
                 typeWriter.StartTyping(dialogue[currentIndex].content, "");
                 currentIndex++;
 
-                Debug.Log("currentIndex changed!: " + currentIndex);
+//                Debug.Log("currentIndex changed!: " + currentIndex);
             }
 
 

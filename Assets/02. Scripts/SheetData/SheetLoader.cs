@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
 public class SheetLoader : MonoBehaviour
 {
     public static SheetLoader instance;
 
-    // ���̾�α״� ���� �������� ��Ʈ�� �����
-    // ���̾� �α� ������ ���� ĳ���� ���� ������ �ѹ� �ؾ� ����
     private static readonly string url =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
 
@@ -50,7 +49,7 @@ public class SheetLoader : MonoBehaviour
 
     private IEnumerator LoadSheetOnStart()
     {
-        var sheetURL = url + "&range=A2:E&nocache=" + DateTime.UtcNow.Ticks;
+        var sheetURL = url + "&range=A2:F&nocache=" + DateTime.UtcNow.Ticks + Random.Range(0, 100000);
         using (var www = UnityWebRequest.Get(sheetURL))
         {
             yield return www.SendWebRequest();
@@ -89,41 +88,46 @@ public class SheetLoader : MonoBehaviour
         var rows = strSheetData.Split('\n');
         for (var i = 0; i < rows.Length; i++)
         {
-            // 0=ID   1=StandingNum   2=Name   3=Dialogue
+            // 0=ID   1=start_cmd  2=StandingNum   3=Name   4=Dialogue 5=after_cmd
 
             var columns = rows[i].Replace("\r", "").Split('\t');
             var id = columns[0];
 
+            var start_cmd = columns[1];
+            var standingNum = columns[2];
+            var char_name = columns[3];
+            var dialogue = columns[4];
+            var after_cmd = columns[5];
+
             // �迭 ���� Ȯ��
-            if (columns.Length < 4)
+            if (columns.Length < 5)
                 // Debug.LogWarning("�߸��� ������ ����: " + rows[i]);
                 continue; // �����Ͱ� ������ ���� �ǳʶ�
 
-            if (columns[0].Equals(columns[2]) && columns[3].Equals(""))
-                // Debug.Log("�� ���Դϴ�!:" + columns[0] + ", " + columns[1] + ", " + columns[2] + ", " + columns[3]);
+            if (id.Equals(standingNum) && dialogue.Equals(""))
+                // Debug.Log("nothing is in cell!:" + columns[0] + ", " + columns[1] + ", " + columns[2] + ", " + columns[3]);
                 continue;
 
             if (id.Equals("//")) continue;
             if (!id.Equals(""))
             {
-                // 0=ID   1=StandingNum   2=Name   3=Dialogue
+                //new branch
+                // 0=ID   1=start_cmd  2=StandingNum   3=Name   4=Dialogue 5=after_cmd
 
                 Block block = new(id);
 
                 sheetData.AddBlock(block);
-                var cell = MakeCell(columns);
+                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
                 //block.AddCell(cell);
                 sheetData.AddCell(id, cell);
                 currentId = id;
             }
             else
             {
-                //{ //���� branch��
+                //branch already exist
                 id = currentId;
-                var cell = MakeCell(columns);
+                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
                 sheetData.AddCell(id, cell);
-                //}
-                //else continue; //�ּ�. ó��X, ��ŵ
             }
         }
 
@@ -147,15 +151,16 @@ public class SheetLoader : MonoBehaviour
     }
 
 
-    private Cell MakeCell(string[] columns)
+    private Cell MakeCell(string start_cmd, string standingNum, string char_name, string dialogue,
+        string after_cmd)
     {
-        // 0=ID   1=StandingNum   2=Name   3=Dialogue
+        // 0=ID   1=start_cmd  2=StandingNum   3=Name   4=Dialogue  5=after_cmd
 
         Cell block;
-        if (columns[1].Equals(""))
-            block = new Cell(columns[2], "0", columns[3], columns[4]);
+        if (standingNum.Equals("")) //standingNum이 비어있는 경우, 0을 기본값으로 채움.
+            block = new Cell(char_name, "0", dialogue, start_cmd, after_cmd);
         else
-            block = new Cell(columns[2], columns[1], columns[3], columns[4]);
+            block = new Cell(char_name, standingNum, dialogue, start_cmd, after_cmd);
 
         return block;
     }

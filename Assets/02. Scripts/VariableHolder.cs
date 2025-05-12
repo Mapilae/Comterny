@@ -31,6 +31,7 @@ public class Item
 
     [TextArea] public string itemDesc;
     public Sprite itemSpr;
+    public bool canThrowAway; //휴지통에 버릴 수 있는 아이템인지
 }
 
 [CreateAssetMenu(fileName = "VariableHolder", menuName = "ScriptableObjects/VariableHolder", order = 3)]

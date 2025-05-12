@@ -9,13 +9,14 @@ public enum InteractableType
     SELFDOOR,
     AUTODOOR,
     PUZZLE,
-    ITEM //do not use in interactableSetting
+    ITEM, //do not use in interactableSetting
+    AUTODIALOGUE
 }
 
 [Serializable]
 public class InteractableSetting
 {
-    public InteractableType interactableType;
+    public InteractableType interactableType = InteractableType.ITEM;
 
     public List<int> needItemCode = new();
 
@@ -61,36 +62,13 @@ public class InteractableObject : MonoBehaviour
             isClose = false;
             PlayerMovement.instance.IsSpaceFalse(0.5f);
             //Debug.Log("Interacted with: " + gameObject.name);
-            currentInteractIndex = -1;
-            for (var num = 0; num < interactList.Count; num++)
-            {
-                var isAllItemsInInventory = true;
-                if (interactList[num].needItemCode.Count > 0)
-                    for (var i = 0; i < interactList[num].needItemCode.Count; i++)
-                        if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
-                        {
-                            if (!playerData.IsVariableExist(interactList[num].needItemCode[i]))
-                            {
-                                isAllItemsInInventory = false;
-                                break;
-                            }
-                        }
-                        else if (!playerData.IsItemExist(interactList[num].needItemCode[i]))
-                        {
-                            isAllItemsInInventory = false;
-                            break;
-                        }
-
-                if (isAllItemsInInventory)
-                {
-//                    Debug.Log("All items are in inventory. ItemTypeActStart");
-                    currentInteractIndex = num;
-                    ItemTypeAct();
-
-                    return;
-                }
-            }
+            CheckIfInInventory();
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")) AutoDialogue();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -115,6 +93,66 @@ public class InteractableObject : MonoBehaviour
         //   ItemTypeAct();
     }
 
+    private void CheckIfInInventory()
+    {
+        currentInteractIndex = -1;
+        for (var num = 0; num < interactList.Count; num++)
+        {
+            var isAllItemsInInventory = true;
+            if (interactList[num].needItemCode.Count > 0)
+                for (var i = 0; i < interactList[num].needItemCode.Count; i++)
+                    if (interactList[num].needItemCode[i] >= 100) //Variable(not item)
+                    {
+                        if (!playerData.IsVariableExist(interactList[num].needItemCode[i]))
+                        {
+                            isAllItemsInInventory = false;
+                            break;
+                        }
+                    }
+                    else if (!playerData.IsItemExist(interactList[num].needItemCode[i]))
+                    {
+                        isAllItemsInInventory = false;
+                        break;
+                    }
+
+            if (isAllItemsInInventory)
+            {
+//                    Debug.Log("All items are in inventory. ItemTypeActStart");
+                currentInteractIndex = num;
+                ItemTypeAct();
+
+                return;
+            }
+        }
+    }
+
+    private void AutoDialogue()
+    {
+        CheckIfInInventory();
+        if (currentInteractIndex == -1) return;
+        if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODIALOGUE))
+            //AUTODIALOGUE
+            CaseNPC();
+    }
+
+    private void CaseNPC()
+    {
+        //Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
+        if (DialogueManager.isPlayingDialogue) return;
+        AddVariable();
+        GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
+
+        if (interactList[currentInteractIndex].objToEnable2 != null)
+            interactList[currentInteractIndex].objToEnable2.SetActive(true);
+        if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
+            foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
+                obj.SetActive(true);
+
+        if (interactList[currentInteractIndex].objToEnable != null)
+            interactList[currentInteractIndex].objToEnable.SetActive(true);
+        if (interactList[currentInteractIndex].objToDisable != null)
+            interactList[currentInteractIndex].objToDisable.SetActive(false);
+    }
 
     private void ItemTypeAct()
     {
@@ -123,21 +161,7 @@ public class InteractableObject : MonoBehaviour
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
-                //Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
-                if (DialogueManager.isPlayingDialogue) return;
-                AddVariable();
-                GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
-
-                if (interactList[currentInteractIndex].objToEnable2 != null)
-                    interactList[currentInteractIndex].objToEnable2.SetActive(true);
-                if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
-                    foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
-                        obj.SetActive(true);
-
-                if (interactList[currentInteractIndex].objToEnable != null)
-                    interactList[currentInteractIndex].objToEnable.SetActive(true);
-                if (interactList[currentInteractIndex].objToDisable != null)
-                    interactList[currentInteractIndex].objToDisable.SetActive(false);
+                CaseNPC();
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item

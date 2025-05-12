@@ -103,13 +103,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38d4c3a5bd7cee46b24ea2a79f24ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usualInteractableType: 4
   interactList:
   - interactableType: 1
     needItemCode: 00000000
     varCodeToAdd: 
     dialogueID: 
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
+    objToEnableOther: []
+    canvasToEnable: {fileID: 0}
     objToDisable: {fileID: 5276450419264096843}
   isClose: 0
 --- !u!61 &2173799265570150248
@@ -186,7 +190,8 @@ MonoBehaviour:
     m_Bits: 0
   currentGround: 
   characterName: 
-  convObj: {fileID: 0}
+  isAutoPlay: 0
+  autoPlayID: 
 --- !u!1 &5276450419264096843
 GameObject:
   m_ObjectHideFlags: 0

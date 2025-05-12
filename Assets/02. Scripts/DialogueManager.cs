@@ -175,13 +175,14 @@ public class DialogueManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        dirManager = GetComponent<DirectingManager>();
     }
 
     private void Start()
     {
         //        StartDialogueManager();
         //set standingDftPos
-        dirManager = GetComponent<DirectingManager>();
+
         dialogue.Init();
     }
 
@@ -223,7 +224,7 @@ public class DialogueManager : MonoBehaviour
     {
         List<Cell> dialogueCell = new()
         {
-            new Cell("", "0", msg, "")
+            new Cell("", "0", msg, "", "")
         };
         Inventory.instance.HoldLastIndexItem();
         dialogue.wholeObj.enabled = false;
@@ -324,12 +325,20 @@ public class DialogueManager : MonoBehaviour
 
         typeWriter.StartTyping(content, dialogueList[crtIndex].name); //(int)currentBlock.block[index].name_ch
 
-        dirManager.RunCMD(dialogueList[crtIndex].cmd);
+        dirManager.RunCMD(dialogueList[crtIndex].start_cmd);
 
         //ChangeSprite();
 
         // if (index >= currentBlock.block.Count) isNoNext = true;
         //else isNoNext = false;
+        //TypeWriter가 타이핑 이후에 WhenDialogueTypingEnd()를 자동으로 호출하고, 거기서 crtIndex를 1 증가시킴
+    }
+
+    public void WhenDialogueTypingEnd()
+    {
+        if (dirManager != null && dialogueList.Count < crtIndex && dialogueList[crtIndex].after_cmd != "")
+            dirManager.RunCMD(dialogueList[crtIndex].after_cmd);
+//        Debug.Log("WhenDialogueTypingEnd called");
         crtIndex++;
     }
 
@@ -443,7 +452,8 @@ public class DialogueManager : MonoBehaviour
     {
         PlayerMovement.canMove = false;
         dialogue.wholeObj.enabled = true;
-        StartCoroutine(IEStartDialogue(idName));
+        StopCoroutine(nameof(IEStartDialogue));
+        StartCoroutine(nameof(IEStartDialogue), idName);
     }
 
     private IEnumerator IEEndDialogue()
@@ -486,6 +496,7 @@ public class DialogueManager : MonoBehaviour
     public List<Cell> LoadCellsFromSheetData(string idName)
     {
         var index = SheetData.instance.block.FindIndex(x => x.id == idName);
+
         return SheetData.instance.block[index].cells;
     }
 

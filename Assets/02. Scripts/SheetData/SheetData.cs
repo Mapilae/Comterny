@@ -27,14 +27,16 @@ public class Cell
     public string name;
     public string standingNum;
     [TextArea] public string content;
-    public string cmd;
+    public string start_cmd;
+    public string after_cmd;
 
-    public Cell(string name, string standingNum, string content, string cmd)
+    public Cell(string name, string standingNum, string content, string start_cmd, string after_cmd)
     {
         this.name = name;
         this.standingNum = standingNum;
         this.content = content;
-        this.cmd = cmd;
+        this.start_cmd = start_cmd;
+        this.after_cmd = after_cmd;
     }
 }
 
@@ -42,7 +44,7 @@ public class SheetData : MonoBehaviour
 {
     public static SheetData instance;
 
-    [Header("�ó�����")] public List<Block> block;
+    [Header("Scenario data")] public List<Block> block;
 
     private void Awake()
     {
@@ -58,13 +60,13 @@ public class SheetData : MonoBehaviour
     {
         if (block == null)
         {
-            Debug.Log("block�� null�Դϴ�");
+            Debug.Log("block is null");
             return -1;
         }
 
         if (block.Count == 0)
         {
-            Debug.Log("block\ufffd\ufffd \ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd \ufffdʽ\ufffd\ufffdϴ\ufffd!");
+            Debug.Log("block count is 0!");
             return -1;
         }
 
@@ -72,7 +74,7 @@ public class SheetData : MonoBehaviour
             if (block[i].id.Equals(id))
                 return i;
 
-        Debug.Log($"{id}�� �������� �ʽ��ϴ�!");
+        Debug.Log($"{id} found!");
         return -1;
     }
 

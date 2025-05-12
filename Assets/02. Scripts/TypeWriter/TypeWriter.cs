@@ -16,6 +16,8 @@ public class TypeWriter : MonoBehaviour
 
     public float autoDelay = 1.0f;
     public bool isTyping;
+
+    public bool isWhenTypingEndCalled;
     public List<Word> currentWord = new();
 
     private Color defaultColor;
@@ -71,6 +73,7 @@ public class TypeWriter : MonoBehaviour
 
         content.text = current;
         isTyping = false;
+        dialogueManager.WhenDialogueTypingEnd();
     }
 
     private IEnumerator Typing()
@@ -82,6 +85,7 @@ public class TypeWriter : MonoBehaviour
         WaitForSeconds wait = new(waitTime);
         isTyping = true;
         current = "";
+        isWhenTypingEndCalled = false;
 
 
         if (name_ch.Equals("램") || name_ch.Equals("프로세서"))
@@ -145,7 +149,16 @@ public class TypeWriter : MonoBehaviour
         }
 
         isTyping = false;
-        yield return null;
+        WhenDialogueTypingEnd();
+    }
+
+    private void WhenDialogueTypingEnd()
+    {
+        if (!DialogueManager.instance.dialogue.wholeObj.gameObject.activeInHierarchy) return;
+        if (isWhenTypingEndCalled) return;
+        isWhenTypingEndCalled = true;
+        Debug.Log("Typing Ended");
+        DialogueManager.instance.WhenDialogueTypingEnd();
     }
 
     private strInt SkipBracket(string sentence, string current, int index)

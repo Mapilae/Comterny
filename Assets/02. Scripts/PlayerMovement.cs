@@ -162,6 +162,7 @@ public class PlayerMovement : MovingFootPrint
     {
         currentHoldingItem = -1;
         currentHoldingImg.sprite = null;
+        currentHoldingImg.enabled = false;
         currentHoldingImg.gameObject.SetActive(false);
     }
 
@@ -169,6 +170,7 @@ public class PlayerMovement : MovingFootPrint
     {
         currentHoldingItem = holdItem;
         currentHoldingImg.sprite = holdSpr;
+        currentHoldingImg.enabled = true;
         currentHoldingImg.gameObject.SetActive(true);
     }
 

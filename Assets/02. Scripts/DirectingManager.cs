@@ -226,10 +226,14 @@ public class DirectingManager : MonoBehaviour
     {
         if (dialogueLeft == null) return;
         if (startIndex >= dialogueLeft.Count) return;
+        DialogueManager.instance.typeWriter.isWhenTypingEndCalled = true;
         //스킵해도 중요한건 실행되게 하는 코드
-        for (var i = startIndex; i < dialogueLeft.Count; i++)
+        //이미 스킵 상황에서 DialogueManager.EndDialogue()를 호출하면서 TypeWriter.StopTyping()도 같이 호출되므로, currentIndex의 after_cmd는 실행되었을 것이다.
+        //따라서 현재까지의 인덱스는 모두 커맨드가 실행된 것으로 간주하고, 현재+1의 인덱스들만 루프를 돌며 실행하도록 했다.
+        for (var i = startIndex + 1; i < dialogueLeft.Count; i++)
         {
-            var cmds = GetImportantCmd(dialogueLeft[i].cmd);
+            //지나친 start_cmd와 after_cmd를 동시실행시키기
+            var cmds = GetImportantCmd($"{dialogueLeft[i].start_cmd};{dialogueLeft[i].after_cmd}");
             if (cmds.Equals("")) continue;
             RunCMD(cmds);
         }
@@ -240,6 +244,8 @@ public class DirectingManager : MonoBehaviour
         var spl = cmds.Split(';');
         var filtered = new List<string>();
         for (var i = 0; i < spl.Length; i++)
+        {
+            if (spl[i].Equals("")) continue;
             switch (spl[i].Split('_')[0])
             {
                 case "questGive":
@@ -249,6 +255,7 @@ public class DirectingManager : MonoBehaviour
                     filtered.Add(spl[i]);
                     break;
             }
+        }
 
         if (filtered.Count == 0) return "";
         return string.Join(';', filtered);
@@ -344,20 +351,21 @@ public class DirectingManager : MonoBehaviour
         foreach (var obj in choices)
             obj.obj.SetActive(false);
         //choice 값들 텍스트 등으로 접근하여 반영하기
-        StartCoroutine(IEChoiceEnable(count)); //선택지 개수를 파라미터로 넘기기
+        StartCoroutine(IEChoiceEnable(count, dialogueManager.crtIndex)); //선택지 개수를 파라미터로 넘기기
     }
 
-    private IEnumerator IEChoiceEnable(int choiceCount)
+    private IEnumerator IEChoiceEnable(int choiceCount, int crtIndex)
     {
         //choice개수에 따라 choiceObjs 텀을 두고 활성화하기
-        for (var i = 0; i < choiceCount; i++)
+        for (var i = 1; i < choiceCount; i++)
         {
             yield return new WaitForSeconds(0.2f);
             choices[i].obj.SetActive(true);
             //crtIndex는 dialogueManager에서 RunCMD 실행후 ++되어서 0.2초가 지난 이 시점에서는 기존보다 +1된상태로 있기 때문에
             //crtIndex+i로 하였다. (버그)
-            choices[i].text.text = dialogueManager.dialogueList[dialogueManager.crtIndex + i].content;
-            choices[i].cmd = dialogueManager.dialogueList[dialogueManager.crtIndex + i].cmd;
+            Debug.Log(dialogueManager.dialogueList[crtIndex + i].content);
+            choices[i].text.text = dialogueManager.dialogueList[crtIndex + i].content;
+            choices[i].cmd = dialogueManager.dialogueList[crtIndex + i].after_cmd;
             // Debug.Log(i + "'s crtIndex: " + (dialogueManager.crtIndex + i));
         }
 
