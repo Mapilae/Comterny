@@ -24,7 +24,7 @@ public class StandingAnim : MonoBehaviour
             return;
         }
 
-        StartCoroutine("StandingAlphaRoutine", isFadeOn);
+        StartCoroutine(nameof(StandingAlphaRoutine), isFadeOn);
     }
 
     private IEnumerator StandingAlphaRoutine(bool isOn)
@@ -32,6 +32,7 @@ public class StandingAnim : MonoBehaviour
         image.enabled = true;
         var isOnMask = isOn ? 1 : -1;
         maskAmount = isOn ? 0 : 1;
+        image.material = mat;
 
         while (true)
         {
@@ -43,6 +44,7 @@ public class StandingAnim : MonoBehaviour
             yield return null;
         }
 
+        image.material = null;
         image.enabled = isOn;
     }
 }

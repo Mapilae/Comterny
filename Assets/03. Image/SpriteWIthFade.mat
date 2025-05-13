@@ -63,7 +63,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: -2.04
-    - _AlphaFloat: 6.7
+    - _AlphaFloat: 1
     - _ColorMask: 15
     - _EnableExternalAlpha: 0
     - _QueueControl: 0

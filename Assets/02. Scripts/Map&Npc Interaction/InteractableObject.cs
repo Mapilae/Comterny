@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,13 +45,20 @@ public class InteractableObject : MonoBehaviour
     public bool isClose;
 
     [Header("interactList에서 true 조건을 달성한 인덱스")]
-    private int currentInteractIndex;
+    private int currentInteractIndex = -1;
+
+    private bool isCoroutineRunning;
 
     private PlayerData playerData;
 
     private void Awake()
     {
         playerData = GameObject.FindGameObjectWithTag("PlayerData").GetComponent<PlayerData>();
+    }
+
+    private void Start()
+    {
+        CheckIfInInventory(false);
     }
 
 
@@ -62,7 +70,7 @@ public class InteractableObject : MonoBehaviour
             isClose = false;
             PlayerMovement.instance.IsSpaceFalse(0.5f);
             //Debug.Log("Interacted with: " + gameObject.name);
-            CheckIfInInventory();
+            CheckIfInInventory(true);
         }
     }
 
@@ -86,14 +94,33 @@ public class InteractableObject : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isClose = true;
-            MobileUI.instance.SetIconImage(usualInteractableType);
+            if (!isCoroutineRunning) StartCoroutine(nameof(IECheckIfInInventory));
         }
         //AUTO DOOR인경우 자동으로 문 열리도록하기
         //if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODOOR))
         //   ItemTypeAct();
     }
 
-    private void CheckIfInInventory()
+    private IEnumerator IECheckIfInInventory()
+    {
+        isCoroutineRunning = true;
+        while (isClose)
+        {
+            SetMobileUI();
+            yield return new WaitForSecondsRealtime(1f);
+        }
+
+        isCoroutineRunning = false;
+    }
+
+    private void SetMobileUI()
+    {
+        CheckIfInInventory(false);
+        if (currentInteractIndex != -1) MobileUI.instance.SetIconImage(usualInteractableType);
+        else MobileUI.instance.NothingClose();
+    }
+
+    private void CheckIfInInventory(bool isCallAct)
     {
         currentInteractIndex = -1;
         for (var num = 0; num < interactList.Count; num++)
@@ -119,7 +146,7 @@ public class InteractableObject : MonoBehaviour
             {
 //                    Debug.Log("All items are in inventory. ItemTypeActStart");
                 currentInteractIndex = num;
-                ItemTypeAct();
+                if (isCallAct) ItemTypeAct();
 
                 return;
             }
@@ -128,11 +155,12 @@ public class InteractableObject : MonoBehaviour
 
     private void AutoDialogue()
     {
-        CheckIfInInventory();
         if (currentInteractIndex == -1) return;
-        if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODIALOGUE))
-            //AUTODIALOGUE
-            CaseNPC();
+        if (!interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODIALOGUE)) return;
+        CheckIfInInventory(true);
+
+        //AUTODIALOGUE
+        CaseNPC();
     }
 
     private void CaseNPC()
