@@ -28,6 +28,7 @@ public class MapSet
 public class MapOveray : MonoBehaviour
 {
     private static readonly int FadeOut = Animator.StringToHash("FadeOut");
+    public static bool isOFF;
     public int thisMapIndex;
     public List<MapSet> mapSets;
 
@@ -38,7 +39,6 @@ public class MapOveray : MonoBehaviour
     public Image blackAlphaImg;
 
     private Animator anim;
-    private bool isOFF;
 
     private float multiplier = 1f;
 

@@ -104,6 +104,7 @@ public class Dialogue
             case "랜섬웨어빌런":
                 hex = "#FFFFFF";
                 isRansomwareVillian = true;
+                Debug.Log("랜섬웨어빌런");
                 break;
             case "랜섬웨어":
                 hex = "#FF0032";

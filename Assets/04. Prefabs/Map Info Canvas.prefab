@@ -635,6 +635,12 @@ MonoBehaviour:
     mapBuildingColor: {r: 0, g: 0.12941177, b: 1, a: 1}
     blackAlpha: 0
     sprOveray: {fileID: 8090470391442428771, guid: bf10560c8a9d5024eb9c8e925573a508, type: 3}
+  - mapName: "\uC6B4\uC601\uCCB4\uC81C\uBD80\uC11C \uAC00\uB294 \uAE38"
+    mapENG: Way To OS
+    mapBuildingType: 1
+    mapBuildingColor: {r: 1, g: 0, b: 0.9848051, a: 1}
+    blackAlpha: 0
+    sprOveray: {fileID: -8059522443154531533, guid: 5af027c111d26d64a9cb5d5ab0836738, type: 3}
   mapNameTxt: {fileID: 4788757665975722565}
   mapENGTxt: {fileID: 8311243740894227812}
   mapBuildingTypeTxt: {fileID: 7177324864361260238}

@@ -40,14 +40,6 @@ public class Dijkstra : MonoBehaviour
 
     private readonly int[] weight = new int[7];
 
-    /*간선위치 노드위치는 고정 하지만 간선의 길이(가중치는 랜덤한 값으로 한다)
-    문제는 1에서 7까지 가는 경로로 고정하고
-    렌덤한 간선의 가중치 배열 [1,3,4,6,3,2,6] ( 렌덤 range(1,6))
-    배열 값을 프론트에 반영하고 내부적으로 다익을 돌려서 답안을 받는다
-    그후에는 기존과 같다.
-    */
-
-
     private void Start()
     {
         //자동으로 찾아서 할당함
@@ -57,6 +49,18 @@ public class Dijkstra : MonoBehaviour
             nodeTexts.Add(nodeParent.GetChild(i).GetComponent<TMP_Text>());
 
         ResetVertexBlocks();
+    }
+
+    /*간선위치 노드위치는 고정 하지만 간선의 길이(가중치는 랜덤한 값으로 한다)
+    문제는 1에서 7까지 가는 경로로 고정하고
+    렌덤한 간선의 가중치 배열 [1,3,4,6,3,2,6] ( 렌덤 range(1,6))
+    배열 값을 프론트에 반영하고 내부적으로 다익을 돌려서 답안을 받는다
+    그후에는 기존과 같다.
+    */
+
+    private void OnEnable()
+    {
+        Pause.instance.SetCurrentPuzzle(gameObject);
     }
 
     public void ResetVertexBlocks()
@@ -114,6 +118,10 @@ public class Dijkstra : MonoBehaviour
     public void Success()
     {
         Debug.Log("성공!!!!!!");
+        //if (objToDisable != null) objToDisable.gameObject.SetActive(false);
+        // PlayerData.instance.AddVariable(varToAdd);
+        PlayerMovement.instance.ChangeCanMove(true);
+        //StartCoroutine(ClosePuzzleAfterDelay());
     }
 
     public void Fail()

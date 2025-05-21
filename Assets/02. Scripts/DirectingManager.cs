@@ -25,7 +25,6 @@ public class DirectingManager : MonoBehaviour
 
     private Animator stands;
 
-
     private void Start()
     {
         dialogueManager = GetComponent<DialogueManager>();
@@ -356,8 +355,9 @@ public class DirectingManager : MonoBehaviour
 
     private IEnumerator IEChoiceEnable(int choiceCount, int crtIndex)
     {
+        crtIndex++;
         //choice개수에 따라 choiceObjs 텀을 두고 활성화하기
-        for (var i = 1; i < choiceCount; i++)
+        for (var i = 0; i < choiceCount; i++)
         {
             yield return new WaitForSeconds(0.2f);
             choices[i].obj.SetActive(true);

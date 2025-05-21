@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    public static bool doFollowPlayer = true;
     public Transform player; //플레이어 트랜스폼
 
     //SpriteRenderer sprRenderer;
@@ -10,8 +11,6 @@ public class CameraFollow : MonoBehaviour
 
     public float cDuration = 1.0f; // 이동 시간
     public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // 부드러운 이동 곡선
-
-
     public bool isXFixed;
     public bool isYFixed;
 
@@ -39,6 +38,7 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!doFollowPlayer) return;
         if (!isXFixed && !isXFreezed) targetPosition.x = player.position.x;
         else targetPosition.x = transform.position.x;
         if (!isYFixed && !isYFreezed) targetPosition.y = player.position.y;

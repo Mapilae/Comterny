@@ -60,6 +60,6 @@ public class MobileUI : MonoBehaviour
     public void NothingClose()
     {
         itemButtonImg.sprite = nullSprite;
-        buttonAnim.SetBool(IsActive, false);
+        if (buttonAnim != null && buttonAnim.gameObject.activeInHierarchy) buttonAnim.SetBool(IsActive, false);
     }
 }

@@ -7,6 +7,7 @@ public class PlayerMovement : MovingFootPrint
     public static PlayerMovement instance;
 
     public static bool canMove = true;
+    public static bool isCutscene = false;
     public Transform spineTrans;
 
     public float moveSpeed = 5f;
@@ -65,7 +66,7 @@ public class PlayerMovement : MovingFootPrint
 #endif
 
 
-        if (canMove)
+        if (canMove && !isCutscene)
             input = GetInput(); //WASD가 클릭되고 있거나, 조이스틱이 사용되고 있는지 그 값
         else
             input = Vector2.zero;
@@ -73,7 +74,7 @@ public class PlayerMovement : MovingFootPrint
 
     private void FixedUpdate()
     {
-        if (!canMove) return;
+        if (!canMove || isCutscene) return;
 
         rb.linearVelocity = input * moveSpeed;
 
@@ -99,7 +100,7 @@ public class PlayerMovement : MovingFootPrint
 
     public void SetIsSpace(bool isButtonClicked)
     {
-        if (!canMove || isWalking) return;
+        if (!canMove || isWalking || isCutscene) return;
         isSpace = isButtonClicked;
     }
 
