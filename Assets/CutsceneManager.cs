@@ -101,6 +101,9 @@ public class CutsceneManager : MonoBehaviour
         {
             StartCoroutine(MoveTransformWithWaits(moveObj));
             postWaits.Add(moveObj.preWait + moveObj.moveDuration + moveObj.postArrivalWait);
+            var time = moveObj.preWait + moveObj.moveDuration + moveObj.postArrivalWait;
+            if (time > 0f) yield return new WaitForSeconds(time);
+            else yield return null;
         }
 
         // Wait for the maximum total time
@@ -125,8 +128,11 @@ public class CutsceneManager : MonoBehaviour
 
     private IEnumerator MoveTransformWithWaits(MovingTransform moveObj)
     {
+        var isLocal = false;
         if (moveObj.destinationTrans != null)
             moveObj.destination = moveObj.destinationTrans.position;
+        else isLocal = true;
+
         if (moveObj.startTrans != null)
             moveObj.startPos = moveObj.startTrans.position;
         else moveObj.startPos = moveObj.target.position;
@@ -139,17 +145,24 @@ public class CutsceneManager : MonoBehaviour
 
         var start = moveObj.startPos;
         var newPos = moveObj.destination;
-        var end = new Vector3(newPos.x, newPos.y, moveObj.target.position.z);
+        var end = new Vector3(newPos.x, newPos.y, isLocal ? moveObj.target.localPosition.z : moveObj.target.position.z);
         var elapsed = 0f;
 
         while (elapsed < moveObj.moveDuration)
         {
             elapsed += Time.deltaTime;
-            moveObj.target.position = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
+            if (isLocal)
+                moveObj.target.localPosition = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
+            else
+                moveObj.target.position = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
             yield return null;
         }
 
-        moveObj.target.position = end;
+        if (isLocal)
+            moveObj.target.localPosition = end;
+        else
+            moveObj.target.position = end;
+
         currentMidStep++;
         yield return new WaitForSeconds(moveObj.postArrivalWait);
     }

@@ -7663,6 +7663,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6031014609228861021, guid: 9c9aaee7ac0d22d4cb1e270c350fe285, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6031014609228861021, guid: 9c9aaee7ac0d22d4cb1e270c350fe285, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f09d273e35fcb684db6ac208e998ccae, type: 3}
     - target: {fileID: 8391466068683864633, guid: 9c9aaee7ac0d22d4cb1e270c350fe285, type: 3}
       propertyPath: characterName
       value: "\uCEF4\uD30C\uC77C\uB7EC"
