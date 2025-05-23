@@ -24,7 +24,7 @@ public class InteractableSetting
     [Header("After this worked, add variable?")]
     public List<int> varCodeToAdd;
 
-    public string soundToPlay = "";
+
     [Header("for NPC")] public string dialogueID;
 
     [Header("for PUZZLE")] public GameObject registerToInventory;
@@ -33,7 +33,7 @@ public class InteractableSetting
     public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
     public GameObject[] objToEnableOther; //미니게임 퍼즐 오브젝트.
     public Canvas canvasToEnable;
-
+    public string soundToPlay = "";
     [Header("for SelfDoor and AutoDoor")] public GameObject objToDisable;
 }
 
@@ -86,7 +86,9 @@ public class InteractableObject : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isClose = false;
-            MobileUI.instance.NothingClose();
+#if UNITY_ANDROID
+MobileUI.instance.NothingClose();
+#endif
         }
     }
 
@@ -118,8 +120,10 @@ public class InteractableObject : MonoBehaviour
     private void SetMobileUI()
     {
         CheckIfInInventory(false);
+#if UNITY_ANDROID
         if (currentInteractIndex != -1) MobileUI.instance.SetIconImage(usualInteractableType);
         else MobileUI.instance.NothingClose();
+#endif
     }
 
     private void CheckIfInInventory(bool isCallAct)
@@ -168,7 +172,12 @@ public class InteractableObject : MonoBehaviour
     private void CaseNPC()
     {
         //Debug.Log("NPC. Start: " + interactList[currentInteractIndex].dialogueID);
-        if (DialogueManager.isPlayingDialogue) return;
+        if (DialogueManager.isPlayingDialogue)
+        {
+            Debug.Log("dialogue is playing, so returned");
+            return;
+        }
+
         AddVariable();
         GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
 
@@ -189,7 +198,9 @@ public class InteractableObject : MonoBehaviour
         isClose = true;
         if (interactList.Count == 0) return;
         if (interactList[currentInteractIndex].soundToPlay != "")
+            //            Debug.Log("play sound:" + interactList[currentInteractIndex].soundToPlay);
             SoundManager.instance.PlaySound(interactList[currentInteractIndex].soundToPlay);
+
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -21,10 +22,12 @@ public class DepthFirstSearch : MonoBehaviour
     public GameObject hideWhole;
     public TMP_Text failText;
     public GameObject objToDisable;
+    public int varToAdd = 115;
+    public GameObject cutsceneAfterThis;
+
     private readonly int[] userPathIndexOfBlank = { 4, 6 };
     private int userPathIndex;
     private List<TreeNode> vertexObj = new();
-    public int varToAdd = 115;
 
     private void OnEnable()
     {
@@ -95,6 +98,7 @@ public class DepthFirstSearch : MonoBehaviour
             if (i != correctPath.Count - 1) pathText.text += " -> ";
         }
 
+        SoundManager.instance.PlaySound("keyboard");
         if (isFinishedFilling) CheckAnswer();
     }
 
@@ -115,6 +119,14 @@ public class DepthFirstSearch : MonoBehaviour
         PlayerData.instance.AddVariable(varToAdd);
         //버스 오는 animator에 트리거해서 버스오는거 만들기
         //또는 버스 오는 애니메이션 스크립트 작성해서 "버스가 곧 옵니다.." 같은거 만들기
+        StartCoroutine(CutScene());
+    }
+
+    private IEnumerator CutScene()
+    {
+        PlayerMovement.isCutscene = true;
+        yield return new WaitForSeconds(3f);
+        cutsceneAfterThis.SetActive(true);
     }
 
     private void Fail()

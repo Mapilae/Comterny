@@ -9,7 +9,7 @@ public class NonPlayerCharacter : MovingFootPrint
     public string autoPlayID;
     // public DialogueContent dialogueContent;
 
-    private GameObject convObj;
+    //private GameObject convObj;
 
     private void Start()
     {
@@ -20,30 +20,30 @@ public class NonPlayerCharacter : MovingFootPrint
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isAutoPlay) return;
-        if (collision.CompareTag("Player"))
+        /*if (collision.CompareTag("Player"))
             if (convObj != null)
-                convObj.SetActive(true);
+                convObj.SetActive(true);*/
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (isAutoPlay) return;
-        if (collision.CompareTag("Player"))
+        /*if (collision.CompareTag("Player"))
             if (convObj != null)
-                convObj.SetActive(false);
+                convObj.SetActive(false);*/
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (isAutoPlay) return;
-        if (collision.CompareTag("Player") && !DialogueManager.isPlayingDialogue)
+        /*if (collision.CompareTag("Player") && !DialogueManager.isPlayingDialogue)
             if (convObj != null)
-                convObj.SetActive(true);
+                convObj.SetActive(true);*/
     }
 
     public void OnStartDefaultSetting()
     {
-        if (convObj != null) convObj.SetActive(false);
+        //if (convObj != null) convObj.SetActive(false);
 
         if (isAutoPlay) StartConversation(autoPlayID);
     }
@@ -51,17 +51,8 @@ public class NonPlayerCharacter : MovingFootPrint
     public void StartConversation(string ID)
     {
         if (ID.Equals("")) return;
-        if (convObj != null)
-            if (!convObj.activeInHierarchy)
-                //            Debug.Log("ConvObj is not active. return.");
-                return;
-
-        if (ID.Equals("")) return;
 
         Debug.Log("StartConversation | 말 걸음: " + ID);
         DialogueManager.instance.StartDialogueInManager(ID);
-
-        // dialogueContent.StartDialogueInManager(ID);
-        if (convObj != null) convObj.SetActive(false);
     }
 }

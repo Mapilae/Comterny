@@ -92,11 +92,12 @@ public class BinaryAdditionPuzzle : MonoBehaviour
             StartCoroutine(ShakeText(resultText)); // ✅ 흔들림 효과 추가
         }
 
-        Debug.Log("SubmitAnswer() 호출됨");
+        //  Debug.Log("SubmitAnswer() 호출됨");
     }
 
     public void Success()
     {
+        SoundManager.instance.PlaySound("minigame clear");
         PlayerData.instance.AddVariable(varToAdd);
         PlayerMovement.instance.ChangeCanMove(true);
         if (colToDisable != null) colToDisable.enabled = false;
@@ -107,7 +108,7 @@ public class BinaryAdditionPuzzle : MonoBehaviour
     public void SetToggleText(int index)
     {
         var isOn = toggleSwitches[index].isOn;
-
+        SoundManager.instance.PlaySound("switch button");
         toggleLabels[index].text = isOn ? "1" : "0";
 
         if (tipRects.Length > index)

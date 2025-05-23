@@ -153,15 +153,22 @@ public class ParityBit : MonoBehaviour
     public void ParityCheck(int index)
     {
         if (parityBlocks[index].isParityRight)
+        {
+            SoundManager.instance.PlaySound("minigame fail");
             ResetParity();
+        }
         else
+        {
+            SoundManager.instance.PlaySound("signal get");
             StartCoroutine(AnotherBlock(index));
+        }
     }
 
     private IEnumerator AnotherBlock(int index)
     {
         parityBlocks[index].obj.SetActive(false);
         CreateParity(index);
+
         yield return new WaitForSeconds(1f);
         if (CheckIfFinished())
             EndGame();
@@ -185,6 +192,7 @@ public class ParityBit : MonoBehaviour
         Debug.Log("Close Parity Bit Minigame...");
         yield return new WaitForSeconds(2.5f);
         anim.SetTrigger("Success");
+        SoundManager.instance.PlaySound("minigame clear");
         CPUWarp.canWarp = true;
         Close();
     }

@@ -62,8 +62,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 72a1c65c92acd4d4e94d72b2dfaec519, type: 3}
   - name: empty trash
     clip: {fileID: 8300000, guid: 4a5125c01de1a60479b2caa08bc99b75, type: 3}
-  - name: clock
-    clip: {fileID: 8300000, guid: 92872b09ca4ec3944a794e016f4bf688, type: 3}
   - name: item get
     clip: {fileID: 8300000, guid: 8a75e3b481d61a14abc52d6f8e73eba8, type: 3}
   - name: os dead
@@ -75,7 +73,7 @@ MonoBehaviour:
   - name: warp arrived
     clip: {fileID: 8300000, guid: 89102c65bb0f1d04796e709ce7b94b06, type: 3}
   - name: open panel
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 78a3f29d5b2ce3e4d9a2b49dfd299eaf, type: 3}
   - name: unlock
     clip: {fileID: 8300000, guid: 6184299f7d1616640b2f19a58ff7f214, type: 3}
   - name: potal idle
@@ -86,3 +84,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cf855a6998203e24fa225e45a28eaf6e, type: 3}
   - name: walking on concreate
     clip: {fileID: 8300000, guid: 813b7b612a10c1e488b0f2488bdbe1fc, type: 3}
+  - name: clock
+    clip: {fileID: 8300000, guid: 92872b09ca4ec3944a794e016f4bf688, type: 3}

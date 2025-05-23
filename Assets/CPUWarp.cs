@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,6 +74,12 @@ public class CPUWarp : MonoBehaviour
     private void MoveScene()
     {
         //move scene call
+        StartCoroutine(nameof(IEMoveScene));
+    }
+
+    private IEnumerator IEMoveScene()
+    {
+        yield return new WaitForSecondsRealtime(1f);
         LodingScene.instance.LoadScene();
     }
 }

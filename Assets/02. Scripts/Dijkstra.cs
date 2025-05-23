@@ -98,6 +98,7 @@ public class Dijkstra : MonoBehaviour
     {
         Debug.Log(index);
         pathText.text += "→" + index;
+        SoundManager.instance.PlaySound("keyboard");
 
         // foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
         clickList.Add(index);
@@ -122,10 +123,19 @@ public class Dijkstra : MonoBehaviour
         // PlayerData.instance.AddVariable(varToAdd);
         PlayerMovement.instance.ChangeCanMove(true);
         //StartCoroutine(ClosePuzzleAfterDelay());
+        SoundManager.instance.PlaySound("minigame clear");
+        Invoke(nameof(DisableThis), 3f);
     }
 
     public void Fail()
     {
+        SoundManager.instance.PlaySound("minigame fail");
         ResetVertexBlocks();
+    }
+
+    private void DisableThis()
+    {
+        Debug.Log("END");
+        gameObject.SetActive(false);
     }
 }

@@ -124,9 +124,15 @@ public class SoundManager : MonoBehaviour
 
     public void PlayAmbience(AudioClip clip, string subtitle)
     {
+        if (clip == null)
+        {
+            Debug.Log("클립이 null입니다!");
+            return;
+        }
+
         var emptyIndex = -1;
         for (var i = 0; i < ambienceAudio.Count; i++)
-            if (!ambienceAudio[i].isPlaying)
+            if (!ambienceAudio[i].isPlaying || ambienceAudio[i].clip == null)
             {
                 emptyIndex = i;
                 break;
@@ -145,6 +151,7 @@ public class SoundManager : MonoBehaviour
             emptyIndex = ambienceAudio.Count - 1;
         }
 
+        Debug.Log("play amb: " + ambienceAudio[emptyIndex].name);
         ambienceAudio[emptyIndex].clip = clip;
         ambienceAudio[emptyIndex].loop = true;
         ambienceAudio[emptyIndex].Play();
@@ -152,7 +159,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayAmbience(string clipName)
     {
-        var clip = soundHolder.FindSE(name);
+        var clip = soundHolder.FindSE(clipName);
         PlayAmbience(clip, "");
     }
 

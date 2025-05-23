@@ -144,7 +144,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 3289095322192987446}
   - component: {fileID: 6111739968363352168}
   - component: {fileID: 827153660123190845}
+  - component: {fileID: 5165280586319084374}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -489,7 +490,7 @@ MonoBehaviour:
   skelAnim: {fileID: 2892398374797136879}
   eventName: footstep
   audioSource: {fileID: 5885341074659925537}
-  audioClip: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
+  audioClip: {fileID: 8300000, guid: cf855a6998203e24fa225e45a28eaf6e, type: 3}
   basePitch: 1
   randomPitchOffset: 0.1
 --- !u!70 &827153660123190845
@@ -529,6 +530,14 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.21}
   m_Size: {x: 0.5, y: 0.32}
   m_Direction: 1
+--- !u!81 &5165280586319084374
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894652531610923499}
+  m_Enabled: 1
 --- !u!1 &2259531749313231736
 GameObject:
   m_ObjectHideFlags: 0

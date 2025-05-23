@@ -23,6 +23,7 @@ public class MovingTransform
     public float moveDuration = 1f;
     public float postArrivalWait;
     [HideInInspector] public Vector3 startPos;
+    public GameObject objToHide;
 }
 
 
@@ -87,7 +88,10 @@ public class CutsceneManager : MonoBehaviour
 
         // Start Command
         if (!string.IsNullOrEmpty(step.stepStart.dirCmd))
+        {
             Debug.Log($"StartCmd: {step.stepStart.dirCmd}");
+            directingManager.RunCMD(step.stepStart.dirCmd);
+        }
 
         // Trigger animations at start
         foreach (var trigger in step.stepStart.animTriggers)
@@ -128,6 +132,7 @@ public class CutsceneManager : MonoBehaviour
 
     private IEnumerator MoveTransformWithWaits(MovingTransform moveObj)
     {
+        if (moveObj.objToHide != null) moveObj.objToHide.SetActive(false);
         var isLocal = false;
         if (moveObj.destinationTrans != null)
             moveObj.destination = moveObj.destinationTrans.position;

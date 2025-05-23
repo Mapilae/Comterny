@@ -75,6 +75,9 @@ public class LogicGateMinigame : MonoBehaviour
     public void EndTest(bool result)
     {
         if (!result) return;
+        //success
+        SoundManager.instance.PlaySound("minigame clear");
+
         playerData.AddVariable(varToAdd);
         //---만약 스킵한 경우 대비---
         playerData.RemoveVariable(10); //소지중인 AND게이트1번 삭제

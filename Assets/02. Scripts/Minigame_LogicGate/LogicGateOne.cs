@@ -15,8 +15,8 @@ public class LogicGateOne : MonoBehaviour
         NOT
     }
 
-    [Header("Gate Settings")]
-    public GateType gateType;
+    [Header("Gate Settings")] public GateType gateType;
+
     public bool isForNot;
     public LogicGateWire[] inputGate;
     public LogicGateOne[] preGates;
@@ -76,7 +76,7 @@ public class LogicGateOne : MonoBehaviour
             SetGateColorAndPass(GateType.NONE);
             wire.transform.parent.gameObject.SetActive(isForNot);
             wire.enabled = isForNot;
-            for (int i = 0; i < output.wireImg.Count; i++) output.wireImg[i].color = Color.white;
+            for (var i = 0; i < output.wireImg.Count; i++) output.wireImg[i].color = Color.white;
         }
     }
 
@@ -86,8 +86,13 @@ public class LogicGateOne : MonoBehaviour
         isPlaced = true;
         piece.gameObject.transform.position = transform.position;
         isConnected = 1;
-
+        PlaySE("gate piece");
         SetGateColorAndPass(logicGatePiece.gateType);
+    }
+
+    private void PlaySE(string name)
+    {
+        SoundManager.instance.PlaySound(name);
     }
 
     private void SetGateColor(GateType newGateType)
@@ -138,7 +143,7 @@ public class LogicGateOne : MonoBehaviour
             return;
         }
 
-        bool value = true;
+        var value = true;
 
         switch (gateType)
         {
@@ -162,15 +167,15 @@ public class LogicGateOne : MonoBehaviour
                 break;
         }
 
-        if (isCoroutineRunning) StopCoroutine("ThisWireDelay");
-        StartCoroutine("ThisWireDelay", value);
+        if (isCoroutineRunning) StopCoroutine(nameof(ThisWireDelay));
+        StartCoroutine(nameof(ThisWireDelay), value);
     }
 
     public bool CheckPregates()
     {
         if (preGates.Length == 0) return true;
-        bool isTrue = true;
-        for (int i = 0; i < preGates.Length; i++)
+        var isTrue = true;
+        for (var i = 0; i < preGates.Length; i++)
             if (preGates[i].isConnected.Equals(-1))
             {
                 isTrue = false;
@@ -184,7 +189,7 @@ public class LogicGateOne : MonoBehaviour
     {
         isCoroutineRunning = true;
         wire.color = value ? Color.yellow : Color.white;
-        bool isActive = (isForNot && gateType == GateType.NONE) || !isConnected.Equals(1);
+        var isActive = (isForNot && gateType == GateType.NONE) || !isConnected.Equals(1);
         wire.transform.parent.gameObject.SetActive(isActive);
         wire.enabled = isForNot;
 
@@ -197,7 +202,7 @@ public class LogicGateOne : MonoBehaviour
 
                 while (time < 1)
                 {
-                    float add = Time.deltaTime;
+                    var add = Time.deltaTime;
                     time += add * 2f;
                     wire.fillAmount = time;
                     yield return new WaitForSeconds(add);

@@ -11,6 +11,7 @@ public class ChatBallon : NonPlayerCharacter
     public int repeatTime = -1; //-1은 무한반복
 
     public bool fixRight;
+    private AudioSource audioSource;
     private List<Cell> dialogue;
     private bool isPlaying;
     private float maxPreferredWidth;
@@ -21,6 +22,9 @@ public class ChatBallon : NonPlayerCharacter
         maxPreferredWidth = ballonMid.rect.width;
         //OnStartDefaultSetting();
         StartConversation();
+
+        audioSource = transform.GetChild(0).GetComponent<AudioSource>();
+        audioSource.clip = SoundManager.instance.soundHolder.FindSE("bubble");
     }
 
     public void ChangeBallonText(string text, int repeatTime)
@@ -55,6 +59,8 @@ public class ChatBallon : NonPlayerCharacter
         yield return new WaitForSeconds(2f);
         dialogue = DialogueManager.instance.LoadCellsFromSheetData(autoPlayID);
 
+
+        audioSource.Play();
         StartCoroutine(nameof(PlayBallon), repeatTime);
     }
 
@@ -71,7 +77,6 @@ public class ChatBallon : NonPlayerCharacter
                 beforeSizeX = ballonMid.sizeDelta.x;
 
             var size = ballonMid.sizeDelta;
-            SoundManager.instance.PlaySound("bubble");
             size.x = text.preferredWidth < maxPreferredWidth ? text.preferredWidth : maxPreferredWidth;
             ballonMid.sizeDelta = size;
             if (fixRight)
@@ -85,6 +90,8 @@ public class ChatBallon : NonPlayerCharacter
 
                 yield return new WaitForSeconds(1f);
                 ballonMid.gameObject.SetActive(true);
+
+                audioSource.Play();
 
                 typeWriter.StartTyping(dialogue[currentIndex].content, "");
                 currentIndex++;

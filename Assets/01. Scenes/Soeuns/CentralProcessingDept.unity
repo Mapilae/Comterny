@@ -8721,16 +8721,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].objToEnable
       value: 
       objectReference: {fileID: 48501831}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].soundToPlay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].objToEnable
       value: 
-      objectReference: {fileID: 632937818}
+      objectReference: {fileID: 48501831}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].soundToPlay
+      value: open panel
+      objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].objToEnable2
       value: 
@@ -8749,19 +8757,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].varCodeToAdd.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: 'interactList.Array.data[0].needItemCode.Array.data[0]'
-      value: 130
+      value: 132
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: 'interactList.Array.data[1].needItemCode.Array.data[0]'
-      value: 124
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: 'interactList.Array.data[1].varCodeToAdd.Array.data[0]'
-      value: 124
+      value: 132
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9514,14 +9522,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+    - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
+    - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
     - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11147,6 +11163,7 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 0}
   - interactableType: 0
     needItemCode: 82000000
@@ -11157,6 +11174,7 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 364943339}
   isClose: 0
 --- !u!1 &1821023039
@@ -12269,9 +12287,10 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 0}
   - interactableType: 0
-    needItemCode: 79000000
+    needItemCode: 7b000000
     varCodeToAdd: 
     dialogueID: 
     registerToInventory: {fileID: 0}
@@ -12279,16 +12298,18 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 0}
   - interactableType: 0
     needItemCode: 78000000
-    varCodeToAdd: 79000000
+    varCodeToAdd: 7b000000
     dialogueID: "\uACE0\uC7A5\uB09C\uCFE8\uB7EC\uD074\uB9AD\uC2DC"
     registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 1685523959}
   isClose: 0
 --- !u!61 &2018800703
@@ -12522,6 +12543,7 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 685340465}
   - interactableType: 0
     needItemCode: 82000000
@@ -12532,6 +12554,7 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 685340465}
   isClose: 0
 --- !u!61 &2064171374
@@ -12788,16 +12811,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].objToEnable
       value: 
       objectReference: {fileID: 632937818}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].soundToPlay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].objToEnable
       value: 
       objectReference: {fileID: 632937818}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].soundToPlay
+      value: open panel
+      objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].objToEnable2
       value: 
@@ -12807,11 +12838,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 632937821}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].canvasToEnable
+      value: 
+      objectReference: {fileID: 632937821}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].interactableType
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].registerToInventory
+      value: 
+      objectReference: {fileID: 2053985216}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].registerToInventory
       value: 
       objectReference: {fileID: 2053985216}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
@@ -12824,19 +12863,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[1].varCodeToAdd.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: 'interactList.Array.data[0].needItemCode.Array.data[0]'
-      value: 120
+      value: 121
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: 'interactList.Array.data[1].needItemCode.Array.data[0]'
-      value: 124
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: 'interactList.Array.data[1].varCodeToAdd.Array.data[0]'
-      value: 124
+      value: 121
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

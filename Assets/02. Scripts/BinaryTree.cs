@@ -89,6 +89,7 @@ public class BinaryTree : MonoBehaviour
         Debug.Log(index);
         vertexObj[index - 1].SetActive(false);
         barrier.SetActive(true);
+        SoundManager.instance.PlaySound("cut branch");
 
         if ((index == 6 || index == 7 || index == 8) && neverClick)
         {
@@ -117,6 +118,7 @@ public class BinaryTree : MonoBehaviour
     {
         //end animation
         anim.SetTrigger("Success");
+        SoundManager.instance.PlaySound("minigame clear");
 
         if (isUsing)
         {
@@ -139,6 +141,7 @@ public class BinaryTree : MonoBehaviour
     private IEnumerator IEFail(int index)
     {
         anim.SetTrigger("Fail");
+        SoundManager.instance.PlaySound("minigame fail");
         yield return new WaitForSeconds(4.75f);
         //gameObject.transform.GetChild(0).gameObject.SetActive(false);
         if (isUsing)
@@ -160,6 +163,7 @@ public class BinaryTree : MonoBehaviour
 
     public void PointerOn(int index)
     {
+        SoundManager.instance.PlaySound("button pointer");
         pointer.parent = vertexObj[index - 1].text.transform;
         pointer.transform.localPosition = Vector3.zero;
         pointer.gameObject.SetActive(true);

@@ -27,11 +27,11 @@ public class LogicGateWire : MonoBehaviour
         if (wireImg.Count != 0) return;
 
         if (transform.childCount > 1)
-            for (int i = 1; i < transform.childCount; i++)
+            for (var i = 1; i < transform.childCount; i++)
             {
                 if (transform.GetChild(i).childCount == 0) Debug.Log(transform.name + " dont have child");
 
-                Image img = transform.GetChild(i).GetChild(0).GetComponent<Image>();
+                var img = transform.GetChild(i).GetChild(0).GetComponent<Image>();
                 if (img != null)
                     wireImg.Add(img);
             }
@@ -41,14 +41,14 @@ public class LogicGateWire : MonoBehaviour
 
     public void PassWire(bool newValue)
     {
-        if(this.gameObject.activeInHierarchy)
-        StartCoroutine(PassWireDelay(newValue));
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(PassWireDelay(newValue));
     }
 
     private void SetWire()
     {
         if (wireImg.Count == 0) GetWireImage();
-        for (int i = 0; i < wireImg.Count; i++)
+        for (var i = 0; i < wireImg.Count; i++)
         {
             wireImg[i].fillAmount = 0;
             wireImg[i].color = value ? Color.yellow : Color.white;
@@ -62,13 +62,13 @@ public class LogicGateWire : MonoBehaviour
 
         if (newValue)
         {
-            for (int i = 0; i < wireImg.Count; i++)
+            for (var i = 0; i < wireImg.Count; i++)
             {
                 float time = 0;
 
                 while (time < 1)
                 {
-                    float add = Time.deltaTime;
+                    var add = Time.deltaTime;
                     time += add * 2f;
                     wireImg[i].fillAmount = time;
                     yield return new WaitForSeconds(add);
@@ -78,8 +78,11 @@ public class LogicGateWire : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        if (wireType != WireType.OUTPUT) nextGate.PassGate();
-        else logicGateMinigame.EndTest(value);
+        if (wireType != WireType.OUTPUT)
+            nextGate.PassGate();
+        else
+            logicGateMinigame.EndTest(value);
+
         yield return null;
     }
 

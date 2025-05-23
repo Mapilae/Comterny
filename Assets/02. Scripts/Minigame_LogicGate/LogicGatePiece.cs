@@ -69,6 +69,7 @@ public class LogicGatePiece : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         transform.parent = minigame.transform;
         transform.parent = holder;
+        SoundManager.instance.PlaySound("gate piece");
         SetGateColor();
     }
 

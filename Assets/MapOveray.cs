@@ -45,11 +45,12 @@ public class MapOveray : MonoBehaviour
     private void Start()
     {
         PlayerMovement.canMove = false;
+        PlayerMovement.isCutscene = false;
         anim = GetComponent<Animator>();
         GetComponent<Canvas>().enabled = true;
         SetMap();
         Glitch();
-        Invoke(nameof(DisableThis), 3f); //auto
+        StartCoroutine(nameof(IEDisableThis)); //auto
     }
 
     private void SetMap()
@@ -67,6 +68,12 @@ public class MapOveray : MonoBehaviour
     {
         //Button click
         multiplier = 2.5f;
+        DisableThis();
+    }
+
+    private IEnumerator IEDisableThis()
+    {
+        yield return new WaitForSeconds(3f);
         DisableThis();
     }
 

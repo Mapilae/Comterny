@@ -104,6 +104,35 @@ public class DirectingManager : MonoBehaviour
             case "flinch": //���ĵ� ����
                 StandingFlinch(0);
                 break;
+
+            case "bgm":
+                Debug.Log("bgm : " + next);
+                if (next.Equals("stop"))
+                    SoundManager.instance.StopBGM();
+                else if (next.Equals("end")) SoundManager.instance.EndBGM();
+                else if (next.Equals("pause")) SoundManager.instance.PauseBGM();
+                else if (next.Equals("play")) SoundManager.instance.ReplayBGM();
+                else
+                    SoundManager.instance.PlayBGM(next);
+                break;
+            case "se":
+                if (next.Equals("stop")) SoundManager.instance.StopSound();
+                else SoundManager.instance.PlaySound(next);
+                break;
+            case "amb":
+                if (next.Contains("stop:"))
+                    SoundManager.instance.StopAmbience(next.Split(':')[1]); //amb_stop:clock
+                else
+                    SoundManager.instance.PlayAmbience(next);
+                //                    Debug.Log("amb_" + next);
+                break;
+            case "movescene":
+                MoveScene(next);
+                break;
+            case "camshake":
+                CameraShake();
+                break;
+
             /*case "stretch":
                 //���ĵ� �ø���, ��ǰ, ������ ��.
                 if (next.Contains("left")) StandingStretch(0);
@@ -199,25 +228,13 @@ public class DirectingManager : MonoBehaviour
                 if (next.Contains("right")) StandingComeClose(2, 2);
                 break;
             */
-            case "bgm":
-                Debug.Log("bgm : " + next);
-                if (next.Equals("stop"))
-                    SoundManager.instance.StopBGM();
-                else if (next.Equals("end")) SoundManager.instance.EndBGM();
-                else if (next.Equals("pause")) SoundManager.instance.PauseBGM();
-                else if (next.Equals("play")) SoundManager.instance.ReplayBGM();
-                else
-                    SoundManager.instance.PlayBGM(next);
-                break;
-            case "se":
-                if (next.Equals("stop")) SoundManager.instance.StopSound();
-                else SoundManager.instance.PlaySound(next);
-                break;
-            case "amb":
-                if (next.Contains("stop:")) SoundManager.instance.StopAmbience(next.Split(':')[1]); //amb_stop:clock
-                else SoundManager.instance.PlayAmbience(next);
-                break;
         }
+    }
+
+    private void MoveScene(string sceneName)
+    {
+        if (sceneName.Equals("")) LodingScene.instance.LoadScene();
+        else LodingScene.instance.LoadScene(sceneName);
     }
 
     private void TurnStanding()
@@ -634,17 +651,22 @@ public class DirectingManager : MonoBehaviour
 
     public void StandingShake(int index)
     {
-        StartCoroutine(StandShake(0.25f, 0.1f, index));
+        StartCoroutine(ObjShake(stands.transform, 0.25f, 0.1f, null));
     }
 
     public void StandingFlinch(int index)
     {
-        StartCoroutine(StandShake(0.05f, 0.075f, index));
+        StartCoroutine(ObjShake(stands.transform, 0.05f, 0.075f, null));
     }
 
-    private IEnumerator StandShake(float dur, float mag, int index)
+    private IEnumerator ObjShake(Transform target, float dur, float mag, float? delay)
     {
-        Vector2 originalPos = stands.transform.localPosition;
+        var parent = target.parent;
+
+        var obj = Instantiate(new GameObject(), parent).GetComponent<Transform>();
+
+        target.parent = obj;
+        Vector2 originalPos = obj.localPosition;
         float elapsed = 0;
 
         while (elapsed < dur)
@@ -652,14 +674,21 @@ public class DirectingManager : MonoBehaviour
             var x = Random.Range(-1, 1) * mag;
             var y = Random.Range(-1, 1.5f) * mag;
 
-            stands.transform.localPosition = new Vector2(originalPos.x + x, originalPos.y + y);
+            obj.localPosition = new Vector2(originalPos.x + x, originalPos.y + y);
 
             elapsed += Time.deltaTime;
 
-            yield return null;
+            yield return delay;
         }
 
-        stands.transform.localPosition = originalPos;
+        obj.localPosition = originalPos;
+        target.parent = parent;
+        Destroy(obj.gameObject);
+    }
+
+    private void CameraShake()
+    {
+        StartCoroutine(ObjShake(GameObject.FindGameObjectWithTag("MainCamera").transform, 3f, 0.1f, 0.05f));
     }
 
     #endregion

@@ -13,6 +13,7 @@ public class AnimationSoundEffectEvent : MonoBehaviour
 
     public void PlayAmbience(int index)
     {
+        Debug.Log("ambience try:" + gameObject.name);
         //loop 하는 효과음
         SoundManager.instance.PlayAmbience(clips[index]);
     }
