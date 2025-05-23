@@ -385,9 +385,9 @@ MonoBehaviour:
   footPos:
   - {fileID: 7999936904777632537}
   - {fileID: 6269506037415709884}
-  concreteSound: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
-  brickSound: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
-  tileSound: {fileID: 8300000, guid: e885484e1bc99fb47a0ac3f6bfa586b1, type: 3}
+  concreteSound: {fileID: 8300000, guid: 813b7b612a10c1e488b0f2488bdbe1fc, type: 3}
+  brickSound: {fileID: 8300000, guid: cf855a6998203e24fa225e45a28eaf6e, type: 3}
+  tileSound: {fileID: 8300000, guid: cf855a6998203e24fa225e45a28eaf6e, type: 3}
   RayStart: {fileID: 8713458611944747773}
   layerMask:
     serializedVersion: 2

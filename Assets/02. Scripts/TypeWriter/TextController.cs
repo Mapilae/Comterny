@@ -26,7 +26,7 @@ public class TextController : MonoBehaviour
     private System.Random rand = new System.Random();
 
     public bool isTyping = false;
-    float typingDelay=0.01f;//0.01
+    //float typingDelay=0.01f;//0.01
     WaitForSeconds wait = new WaitForSeconds(0.007f);
 
     public bool isFinished = false;

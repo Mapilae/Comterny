@@ -14,9 +14,12 @@ public class SoundManager : MonoBehaviour
 
     public SoundHolder soundHolder;
 
-    public List<AudioClip> voiceClips;
-    public AudioSource typingAudio;
+    //public List<AudioClip> voiceClips;
+    //  public AudioSource typingAudio;
     public AudioSource soundAudio;
+
+    public List<AudioSource> ambienceAudio;
+    //앰비언스와 효과음의 차이는 루프 여부임.
 
     public AudioSource bgmAudio;
 
@@ -57,6 +60,12 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(AudioClip clip, string subtitle)
     {
+        if (soundAudio.isPlaying)
+        {
+            soundAudio.PlayOneShot(clip);
+            return;
+        }
+
         soundAudio.clip = clip;
         soundAudio.Stop();
         soundAudio.Play();
@@ -115,7 +124,38 @@ public class SoundManager : MonoBehaviour
 
     public void PlayAmbience(AudioClip clip, string subtitle)
     {
+        var emptyIndex = -1;
+        for (var i = 0; i < ambienceAudio.Count; i++)
+            if (!ambienceAudio[i].isPlaying)
+            {
+                emptyIndex = i;
+                break;
+            }
+            else if (ambienceAudio[i].clip.name.Equals(clip.name))
+            {
+                //중복되는 것이 이미 재생 중인 경우
+                return;
+            }
+
+        if (emptyIndex == -1)
+        {
+            Debug.Log("자리가 없음! 새 인스턴스 생성합니다.");
+            var newAudio = Instantiate(ambienceAudio[0], ambienceAudio[0].transform.parent);
+            ambienceAudio.Add(newAudio);
+            emptyIndex = ambienceAudio.Count - 1;
+        }
+
+        ambienceAudio[emptyIndex].clip = clip;
+        ambienceAudio[emptyIndex].loop = true;
+        ambienceAudio[emptyIndex].Play();
     }
+
+    public void PlayAmbience(string clipName)
+    {
+        var clip = soundHolder.FindSE(name);
+        PlayAmbience(clip, "");
+    }
+
 
     public void EndBGM()
     {
@@ -148,9 +188,12 @@ public class SoundManager : MonoBehaviour
         bgmAudio.Pause();
     }
 
-    public void StopAmbience()
+    public void StopAmbience(string clipName)
     {
-        //ambSubTxt.text = "[ " + subtitle + " ���� ]";
+        var clip = soundHolder.FindSE(clipName);
+        for (var i = 0; i < ambienceAudio.Count; i++)
+            if (ambienceAudio[i].clip.name.Equals(clip.name))
+                ambienceAudio[i].Stop();
     }
 
 

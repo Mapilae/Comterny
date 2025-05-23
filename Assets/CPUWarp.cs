@@ -45,6 +45,7 @@ public class CPUWarp : MonoBehaviour
                 {
                     waitTimer.fillAmount = 1;
                     isStaying = false;
+                    GetComponent<AnimationSoundEffectEvent>().PlaySound(2); //워프 이동 소리
                     MoveScene();
                 }
             }

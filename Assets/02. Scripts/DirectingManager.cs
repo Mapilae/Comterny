@@ -213,6 +213,10 @@ public class DirectingManager : MonoBehaviour
                 if (next.Equals("stop")) SoundManager.instance.StopSound();
                 else SoundManager.instance.PlaySound(next);
                 break;
+            case "amb":
+                if (next.Contains("stop:")) SoundManager.instance.StopAmbience(next.Split(':')[1]); //amb_stop:clock
+                else SoundManager.instance.PlayAmbience(next);
+                break;
         }
     }
 

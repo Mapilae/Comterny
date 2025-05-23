@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 2186106725695151670}
   - component: {fileID: 9149247730437751159}
   - component: {fileID: 3194539423131694204}
+  - component: {fileID: 1218516439084743856}
   - component: {fileID: 3116301987095554316}
   - component: {fileID: 9167796874151761952}
   - component: {fileID: 5300588747538517397}
@@ -420,6 +421,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1218516439084743856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528165490934387313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f18a3dbe213714f9849218c439466c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - warp on
+  - potal idle
+  - warp move
 --- !u!61 &3116301987095554316
 BoxCollider2D:
   m_ObjectHideFlags: 0

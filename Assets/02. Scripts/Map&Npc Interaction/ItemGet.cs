@@ -55,6 +55,7 @@ public class ItemGet : MonoBehaviour
             }
 
             canUse = false;
+            SoundManager.instance.PlaySound("item get");
             for (var i = 0; i < varCodeToAdd.Count; i++) playerData.AddVariable(varCodeToAdd[i]);
             if (!sprToChange.Equals(null)) sprRender.sprite = sprToChange;
             else gameObject.SetActive(false);

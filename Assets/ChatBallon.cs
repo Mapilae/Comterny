@@ -71,6 +71,7 @@ public class ChatBallon : NonPlayerCharacter
                 beforeSizeX = ballonMid.sizeDelta.x;
 
             var size = ballonMid.sizeDelta;
+            SoundManager.instance.PlaySound("bubble");
             size.x = text.preferredWidth < maxPreferredWidth ? text.preferredWidth : maxPreferredWidth;
             ballonMid.sizeDelta = size;
             if (fixRight)

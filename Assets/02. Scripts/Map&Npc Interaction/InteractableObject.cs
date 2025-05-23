@@ -24,6 +24,7 @@ public class InteractableSetting
     [Header("After this worked, add variable?")]
     public List<int> varCodeToAdd;
 
+    public string soundToPlay = "";
     [Header("for NPC")] public string dialogueID;
 
     [Header("for PUZZLE")] public GameObject registerToInventory;
@@ -32,6 +33,7 @@ public class InteractableSetting
     public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
     public GameObject[] objToEnableOther; //미니게임 퍼즐 오브젝트.
     public Canvas canvasToEnable;
+
     [Header("for SelfDoor and AutoDoor")] public GameObject objToDisable;
 }
 
@@ -186,6 +188,8 @@ public class InteractableObject : MonoBehaviour
     {
         isClose = true;
         if (interactList.Count == 0) return;
+        if (interactList[currentInteractIndex].soundToPlay != "")
+            SoundManager.instance.PlaySound(interactList[currentInteractIndex].soundToPlay);
         switch (interactList[currentInteractIndex].interactableType)
         {
             case InteractableType.NPC:
