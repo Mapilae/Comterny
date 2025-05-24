@@ -337,8 +337,9 @@ public class DialogueManager : MonoBehaviour
 
     public void WhenDialogueTypingEnd()
     {
-        if (dirManager != null && dialogueList.Count < crtIndex && dialogueList[crtIndex].after_cmd != "")
-            dirManager.RunCMD(dialogueList[crtIndex].after_cmd);
+        if (dirManager != null && dialogueList.Count > 0 && dialogueList.Count < crtIndex)
+            if (dialogueList[crtIndex].after_cmd != "")
+                dirManager.RunCMD(dialogueList[crtIndex].after_cmd);
 //        Debug.Log("WhenDialogueTypingEnd called");
         crtIndex++;
     }

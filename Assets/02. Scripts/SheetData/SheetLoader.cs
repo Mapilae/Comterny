@@ -144,7 +144,7 @@ public class SheetLoader : MonoBehaviour
             Debug.Log("DialogueManager is null!");
         if (!startDialogueStr.Equals(""))
         {
-            Debug.Log("Auto StartDialogue " + startDialogueStr);
+//            Debug.Log("Auto StartDialogue " + startDialogueStr);
             DialogueManager.instance.StartDialogueInManager(startDialogueStr);
             PlayerMovement.canMove = false;
         }

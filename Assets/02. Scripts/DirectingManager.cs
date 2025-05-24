@@ -651,44 +651,122 @@ public class DirectingManager : MonoBehaviour
 
     public void StandingShake(int index)
     {
-        StartCoroutine(ObjShake(stands.transform, 0.25f, 0.1f, null));
+        StartCoroutine(ShakeUI(stands.GetComponent<RectTransform>(), 0.4f, 7f));
     }
 
     public void StandingFlinch(int index)
     {
-        StartCoroutine(ObjShake(stands.transform, 0.05f, 0.075f, null));
+        StartCoroutine(ShakeUI(stands.GetComponent<RectTransform>(), 0.1f, 5f));
     }
 
-    private IEnumerator ObjShake(Transform target, float dur, float mag, float? delay)
+    public IEnumerator ShakeTransform(Transform target, float duration, float magnitude, float? delay = null,
+        bool useTempParent = false)
     {
-        var parent = target.parent;
+        var originalParent = target.parent;
+        var originalSiblingIndex = target.GetSiblingIndex();
+        var originalPosition = target.localPosition;
 
-        var obj = Instantiate(new GameObject(), parent).GetComponent<Transform>();
+        var shakeTransform = target;
+        Transform tempParent = null;
 
-        target.parent = obj;
-        Vector2 originalPos = obj.localPosition;
-        float elapsed = 0;
-
-        while (elapsed < dur)
+        if (useTempParent)
         {
-            var x = Random.Range(-1, 1) * mag;
-            var y = Random.Range(-1, 1.5f) * mag;
+            tempParent = new GameObject("TempShakeParent").transform;
+            tempParent.SetParent(originalParent, true);
+            tempParent.SetSiblingIndex(originalSiblingIndex);
+            tempParent.localPosition = originalPosition;
+            tempParent.localRotation = Quaternion.identity;
+            tempParent.localScale = Vector3.one;
 
-            obj.localPosition = new Vector2(originalPos.x + x, originalPos.y + y);
+            target.SetParent(tempParent, true);
+            target.localPosition = Vector3.zero;
 
-            elapsed += Time.deltaTime;
-
-            yield return delay;
+            shakeTransform = tempParent;
         }
 
-        obj.localPosition = originalPos;
-        target.parent = parent;
-        Destroy(obj.gameObject);
+        var elapsed = 0f;
+        while (elapsed < duration)
+        {
+            var x = Random.Range(-1f, 1f) * magnitude;
+            var y = Random.Range(-1f, 1f) * magnitude;
+
+            shakeTransform.localPosition = new Vector3(x, y, shakeTransform.localPosition.z);
+
+            elapsed += Time.deltaTime;
+            yield return delay ?? null;
+        }
+
+        shakeTransform.localPosition = Vector3.zero;
+
+        if (useTempParent)
+        {
+            target.SetParent(originalParent, true);
+            target.SetSiblingIndex(originalSiblingIndex);
+            target.localPosition = originalPosition;
+
+            Destroy(tempParent.gameObject);
+        }
     }
+
+    public IEnumerator ShakeUI(RectTransform target, float duration, float magnitude, float? delay = null,
+        bool useTempParent = false)
+    {
+        var originalParent = target.parent;
+        var originalSiblingIndex = target.GetSiblingIndex();
+        var originalAnchoredPosition = target.anchoredPosition;
+
+        var shakeTarget = target;
+        RectTransform tempParent = null;
+
+        if (useTempParent)
+        {
+            var tempGO = new GameObject("TempShakeParent", typeof(RectTransform));
+            tempParent = tempGO.GetComponent<RectTransform>();
+
+            tempParent.SetParent(originalParent, false);
+            tempParent.SetSiblingIndex(originalSiblingIndex);
+
+            tempParent.anchorMin = target.anchorMin;
+            tempParent.anchorMax = target.anchorMax;
+            tempParent.pivot = target.pivot;
+            tempParent.sizeDelta = target.sizeDelta;
+            tempParent.anchoredPosition = target.anchoredPosition;
+
+            target.SetParent(tempParent, false);
+            target.anchoredPosition = Vector2.zero;
+
+            shakeTarget = tempParent;
+        }
+
+        var elapsed = 0f;
+        var basePos = shakeTarget.anchoredPosition;
+        while (elapsed < duration)
+        {
+            var x = Random.Range(-1f, 1f) * magnitude;
+            var y = Random.Range(-1f, 1f) * magnitude;
+
+            shakeTarget.anchoredPosition = basePos + new Vector2(x, y);
+
+            elapsed += Time.deltaTime;
+            yield return delay ?? null;
+        }
+
+        shakeTarget.anchoredPosition = basePos;
+
+        if (useTempParent)
+        {
+            target.SetParent(originalParent, false);
+            target.SetSiblingIndex(originalSiblingIndex);
+            target.anchoredPosition = originalAnchoredPosition;
+
+            Destroy(tempParent.gameObject);
+        }
+    }
+
 
     private void CameraShake()
     {
-        StartCoroutine(ObjShake(GameObject.FindGameObjectWithTag("MainCamera").transform, 3f, 0.1f, 0.05f));
+        StartCoroutine(ShakeTransform(GameObject.FindGameObjectWithTag("MainCamera").transform, 3f, 0.1f, 0.05f, true));
     }
 
     #endregion

@@ -151,7 +151,7 @@ public class SoundManager : MonoBehaviour
             emptyIndex = ambienceAudio.Count - 1;
         }
 
-        Debug.Log("play amb: " + ambienceAudio[emptyIndex].name);
+        Debug.Log("play amb track: " + ambienceAudio[emptyIndex].name);
         ambienceAudio[emptyIndex].clip = clip;
         ambienceAudio[emptyIndex].loop = true;
         ambienceAudio[emptyIndex].Play();

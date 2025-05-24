@@ -81,6 +81,12 @@ public class Pause : MonoBehaviour
     public void GoToMainMenu()
     {
         //버튼에서 사용함
+        SaveData.instance.Save();
         LodingScene.instance.LoadScene("MainMenu");
+    }
+
+    public void ResetSaveData()
+    {
+        SaveData.instance.ResetData();
     }
 }

@@ -51,6 +51,7 @@ public class MapOveray : MonoBehaviour
         SetMap();
         Glitch();
         StartCoroutine(nameof(IEDisableThis)); //auto
+        PlayerData.instance.crtStage = thisMapIndex;
     }
 
     private void SetMap()
@@ -122,6 +123,7 @@ public class MapOveray : MonoBehaviour
         overlayImg.rectTransform.anchoredPosition = Vector2.zero;
         PlayerMovement.canMove = true;
         SheetLoader.instance.StartDialogue();
+        isOFF = false;
         gameObject.SetActive(false);
     }
 }

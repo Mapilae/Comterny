@@ -77,7 +77,7 @@ MonoBehaviour:
   - name: unlock
     clip: {fileID: 8300000, guid: 6184299f7d1616640b2f19a58ff7f214, type: 3}
   - name: potal idle
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9ee2ddfc24f27644185007ef997f5b64, type: 3}
   - name: catch bug
     clip: {fileID: 8300000, guid: 184ae6268eb7f7a41b835c9579afa050, type: 3}
   - name: walking on wood

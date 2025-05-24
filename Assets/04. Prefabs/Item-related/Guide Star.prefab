@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 519171609056900686}
   - component: {fileID: 2633545000668014832}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 1480421049775515751}
   - component: {fileID: 4258903915854357810}
   - component: {fileID: 3881859613382133324}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2544213454357109121}
   - component: {fileID: 1247139787561520446}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Guide Star
   m_TagString: Untagged
   m_Icon: {fileID: 0}

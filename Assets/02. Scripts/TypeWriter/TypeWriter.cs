@@ -73,7 +73,7 @@ public class TypeWriter : MonoBehaviour
 
         content.text = current;
         isTyping = false;
-        dialogueManager.WhenDialogueTypingEnd();
+        DialogueManager.instance.WhenDialogueTypingEnd();
     }
 
     private IEnumerator Typing()

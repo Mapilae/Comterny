@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerData : MonoBehaviour
@@ -41,6 +42,15 @@ public class PlayerData : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this);
         }
+    }
+
+    public void SetData(LoadedDatas datas)
+    {
+        crtStage = datas.crtStage;
+        difficulty = datas.difficulty;
+        variables = datas.variables.ToList();
+        items = datas.items.ToList();
+        playerName = datas.playerName;
     }
 
     public void SetDifficulty(int diff)

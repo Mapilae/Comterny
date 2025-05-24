@@ -1454,6 +1454,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &241453093 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1940941801016105532, guid: f7f51ad7036d5ea49b00d711931b59dc, type: 3}
+  m_PrefabInstance: {fileID: 973199628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a4d2963dd7eed4eb69fffd5e19cf9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &242079377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,7 +2541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff789178afae524a8fb2ce8fe210378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playSpineAnim: {fileID: 0}
+  playSpineAnim: {fileID: 2014437595}
   isWalking: 0
   rb: {fileID: 0}
   footprintObj: {fileID: 0}
@@ -2567,9 +2578,9 @@ MonoBehaviour:
   name_ch: 
   sentence: 
   current: 
-  dialogue: {fileID: 0}
+  dialogue: {fileID: 315208522}
   content: {fileID: 340791872}
-  dialogueManager: {fileID: 0}
+  dialogueManager: {fileID: 241453093}
   autoDelay: 1
   isTyping: 0
   isWhenTypingEndCalled: 0
@@ -5143,16 +5154,28 @@ PrefabInstance:
       value: SoundManager
       objectReference: {fileID: 0}
     - target: {fileID: 2540658635556737007, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: ambienceAudio.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2540658635556737007, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: 'ambienceAudio.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1866420306}
+    - target: {fileID: 2540658635556737007, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: 'ambienceAudio.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1314737637}
+    - target: {fileID: 2540658635556737007, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+      propertyPath: 'ambienceAudio.Array.data[2]'
       value: 
       objectReference: {fileID: 885357696}
     - target: {fileID: 2540658635556737007, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
-      propertyPath: 'ambienceAudio.Array.data[1]'
+      propertyPath: 'ambienceAudio.Array.data[3]'
       value: 
       objectReference: {fileID: 1402604439}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Resource
@@ -5403,6 +5426,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!82 &1314737637 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 145802654183779730, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+  m_PrefabInstance: {fileID: 1281142622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1354786551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7817,6 +7845,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4989231872987762536, guid: f5bd4e7f303bc2f46b05bf398223c15b, type: 3}
   m_PrefabInstance: {fileID: 1863755070}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1866420306 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6343531402309365795, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
+  m_PrefabInstance: {fileID: 1281142622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1875326060
 GameObject:
   m_ObjectHideFlags: 0
@@ -8504,6 +8537,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.24233687, y: 0.9507175}
   m_EdgeRadius: 0
+--- !u!114 &2014437595 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6111739968363352168, guid: 18dfd69cc12470c4e9c771acae6ef3a9, type: 3}
+  m_PrefabInstance: {fileID: 117677838}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba98aec74ac43e478cf4b9312ec954d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2032752800
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,15 +87,35 @@ public class PlayerMovement : MovingFootPrint
         CheckIfWalking();
         if (!isWalking)
         {
-            playSpineAnim.SetAnim("idle", true);
+            PlayerSpineAnimIdle();
         }
         else
         {
             if (!isRunning) //걷고 있는 경우
-                playSpineAnim.SetAnim("walk", true);
+                PlayerSpineAnimWalk();
             else
-                playSpineAnim.SetAnim("run", true);
+                PlayerSpineAnimRun();
         }
+    }
+
+    public void SetPlayerLookingDirection(bool isLookingRight)
+    {
+        playSpineAnim.transform.localScale = isLookingRight ? new Vector3(-1, 1, 1) : Vector3.one;
+    }
+
+    public void PlayerSpineAnimIdle()
+    {
+        playSpineAnim.SetAnim("idle", true);
+    }
+
+    public void PlayerSpineAnimWalk()
+    {
+        playSpineAnim.SetAnim("walk", true);
+    }
+
+    public void PlayerSpineAnimRun()
+    {
+        playSpineAnim.SetAnim("run", true);
     }
 
     public void SetIsSpace(bool isButtonClicked)

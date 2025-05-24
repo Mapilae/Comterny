@@ -13,6 +13,8 @@ public class ChatBallon : NonPlayerCharacter
     public bool fixRight;
     private AudioSource audioSource;
     private List<Cell> dialogue;
+
+    private bool isLoaded;
     private bool isPlaying;
     private float maxPreferredWidth;
     private TypeWriter typeWriter;
@@ -21,21 +23,26 @@ public class ChatBallon : NonPlayerCharacter
     {
         maxPreferredWidth = ballonMid.rect.width;
         //OnStartDefaultSetting();
-        StartConversation();
-
         audioSource = transform.GetChild(0).GetComponent<AudioSource>();
         audioSource.clip = SoundManager.instance.soundHolder.FindSE("bubble");
+        StartConversation();
     }
 
     public void ChangeBallonText(string text, int repeatTime)
     {
         autoPlayID = text;
         this.repeatTime = repeatTime;
+
+        StartCoroutine(IEChangeBallonText());
+    }
+
+    private IEnumerator IEChangeBallonText()
+    {
+        yield return new WaitUntil(() => isLoaded);
+
         if (isPlaying)
-        {
-            StopAllCoroutines();
-            if (typeWriter.isTyping) typeWriter.StopTyping();
-        }
+            //
+            StopCoroutine(nameof(PlayBallon));
 
         StartConversation();
     }
@@ -48,7 +55,7 @@ public class ChatBallon : NonPlayerCharacter
         ballonMid.gameObject.SetActive(false);
         text.text = "";
         typeWriter = GetComponent<TypeWriter>();
-
+        //if (typeWriter.isTyping) typeWriter.StopTyping();
         if (!gameObject.activeInHierarchy) return;
         StartCoroutine(nameof(WaitStartConversation));
     }
@@ -62,6 +69,7 @@ public class ChatBallon : NonPlayerCharacter
 
         audioSource.Play();
         StartCoroutine(nameof(PlayBallon), repeatTime);
+        isLoaded = true;
     }
 
     private IEnumerator PlayBallon(int repeating)

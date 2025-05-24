@@ -9524,7 +9524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Resource
@@ -10863,6 +10863,10 @@ PrefabInstance:
       propertyPath: currentVolumeObj
       value: 
       objectReference: {fileID: 2108561845}
+    - target: {fileID: 4511652353791865559, guid: f7f51ad7036d5ea49b00d711931b59dc, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4518860894229177556, guid: f7f51ad7036d5ea49b00d711931b59dc, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -83.47705

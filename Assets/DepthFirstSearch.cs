@@ -24,6 +24,7 @@ public class DepthFirstSearch : MonoBehaviour
     public GameObject objToDisable;
     public int varToAdd = 115;
     public GameObject cutsceneAfterThis;
+    public GameObject cutsceneNotification;
 
     private readonly int[] userPathIndexOfBlank = { 4, 6 };
     private int userPathIndex;
@@ -125,7 +126,8 @@ public class DepthFirstSearch : MonoBehaviour
     private IEnumerator CutScene()
     {
         PlayerMovement.isCutscene = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
+        cutsceneNotification.SetActive(true);
         cutsceneAfterThis.SetActive(true);
     }
 

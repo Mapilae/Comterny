@@ -56,7 +56,7 @@ public class CutsceneManager : MonoBehaviour
     public List<CutsceneStep> steps;
     private DirectingManager directingManager;
 
-    private void Start()
+    private void OnEnable()
     {
         directingManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DirectingManager>();
         if (steps == null) return;
@@ -70,6 +70,7 @@ public class CutsceneManager : MonoBehaviour
         yield return new WaitUntil(() => MapOveray.isOFF);
 
         currentStep = 0;
+        ExcludeLayerInCamera(true);
         StartCoroutine(RunStep(currentStep));
     }
 
@@ -80,6 +81,7 @@ public class CutsceneManager : MonoBehaviour
             //end ALL
             CameraFollow.doFollowPlayer = true;
             PlayerMovement.isCutscene = false;
+            ExcludeLayerInCamera(false);
             yield break;
         }
 
@@ -153,6 +155,14 @@ public class CutsceneManager : MonoBehaviour
         var end = new Vector3(newPos.x, newPos.y, isLocal ? moveObj.target.localPosition.z : moveObj.target.position.z);
         var elapsed = 0f;
 
+        if (moveObj.target.GetComponent<PlayerMovement>() && moveObj.moveDuration > 0f)
+        {
+            var dist = end.x - start.x;
+            PlayerMovement.instance.PlayerSpineAnimWalk();
+            if (dist != 0f)
+                PlayerMovement.instance.SetPlayerLookingDirection(dist > 0);
+        }
+
         while (elapsed < moveObj.moveDuration)
         {
             elapsed += Time.deltaTime;
@@ -167,8 +177,35 @@ public class CutsceneManager : MonoBehaviour
             moveObj.target.localPosition = end;
         else
             moveObj.target.position = end;
+        if (moveObj.target.GetComponent<PlayerMovement>())
+            PlayerMovement.instance.PlayerSpineAnimIdle();
 
         currentMidStep++;
         yield return new WaitForSeconds(moveObj.postArrivalWait);
+    }
+
+    private void ExcludeLayerInCamera(bool isExcluded)
+    {
+        // 특정 카메라 참조 (예: Main Camera)
+        var cam = Camera.main;
+
+        // "Guide Star" 레이어의 레이어 번호를 가져옴
+        var guideStarLayer = LayerMask.NameToLayer("Guide Star");
+
+        if (!isExcluded)
+        {
+            // 모든 레이어를 렌더링하도록 설정 (Everything)
+            cam.cullingMask = ~0;
+        }
+        else
+        {
+            // guideStarLayer가 유효한 경우에만 마스크에서 제외
+            if (guideStarLayer >= 0)
+                // 1 << guideStarLayer 는 해당 레이어의 비트 마스크
+                // ~ 연산자를 사용해 해당 비트를 0으로 만들어 제외
+                cam.cullingMask &= ~(1 << guideStarLayer);
+            else
+                Debug.LogWarning("레이어 'Guide Star'를 찾을 수 없습니다. 레이어 이름이 정확한지 확인하세요.");
+        }
     }
 }

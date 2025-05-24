@@ -25,14 +25,12 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     public GameObject objToDisable;
 
     private int correctAnswer;
+    private bool isOpened;
 
-    private void Start()
-    {
-        GenerateQuestion();
-    }
 
     private void OnEnable()
     {
+        GenerateQuestion();
         Pause.instance.SetCurrentPuzzle(gameObject);
     }
 
@@ -51,6 +49,8 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
 
     private void GenerateQuestion()
     {
+        if (isOpened) return;
+        isOpened = true;
         var number = Random.Range(1, 256); // 1~255
         correctAnswer = number;
         var binaryAnswer = Convert.ToString(number, 2);
