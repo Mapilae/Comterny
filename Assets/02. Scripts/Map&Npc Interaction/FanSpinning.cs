@@ -5,7 +5,19 @@ public class FanSpinning : MonoBehaviour
 {
     public Transform fanObj;
 
-    public void PlaySpinPan(bool isSpin)
+
+    public void StartSpin()
+    {
+        GetComponent<Animator>().SetTrigger("StartSpin");
+    }
+
+    public void PlaySpinFan()
+    {
+        //Animation Trigger
+        PlaySpinPan(true);
+    }
+
+    private void PlaySpinPan(bool isSpin)
     {
         if (!isSpin)
         {
@@ -19,6 +31,7 @@ public class FanSpinning : MonoBehaviour
 
     private IEnumerator SpinFan()
     {
+        GetComponent<Animator>().enabled = false;
         while (true)
         {
             fanObj.Rotate(Vector3.forward * 1000f * Time.deltaTime);

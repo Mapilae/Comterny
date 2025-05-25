@@ -97,7 +97,7 @@ public class LogicGateMinigame : MonoBehaviour
         if (colToDisable != null)
             colToDisable.enabled = false;
 
-        if (fanSpin != null) fanSpin.PlaySpinPan(true);
+        if (fanSpin != null) fanSpin.StartSpin();
         Invoke("DisableThis", 3f);
         //for (int i = 0; i < inputs.Length; i++) inputs[i].EndPass();
     }

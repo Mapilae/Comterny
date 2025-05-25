@@ -8239,6 +8239,7 @@ GameObject:
   - component: {fileID: 734053558}
   - component: {fileID: 734053557}
   - component: {fileID: 734053561}
+  - component: {fileID: 734053562}
   m_Layer: 0
   m_Name: "4-1\uCFE8\uB7EC\uBCF8\uCCB4_0"
   m_TagString: Untagged
@@ -8399,6 +8400,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.6784616, y: 1.6856978}
   m_EdgeRadius: 0
+--- !u!114 &734053562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734053556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f18a3dbe213714f9849218c439466c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - cpu cooler
 --- !u!1 &749718157
 GameObject:
   m_ObjectHideFlags: 0
@@ -9529,11 +9544,11 @@ PrefabInstance:
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
+      objectReference: {fileID: 8300000, guid: eb9edf98d570bc24e90a2cc00b4cec92, type: 3}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: e1c93fdea84228d41942a0555ee80f69, type: 3}
+      objectReference: {fileID: 8300000, guid: eb9edf98d570bc24e90a2cc00b4cec92, type: 3}
     - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -12282,17 +12297,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usualInteractableType: 3
   interactList:
-  - interactableType: 0
-    needItemCode: 7c000000
-    varCodeToAdd: 
-    dialogueID: 
-    registerToInventory: {fileID: 0}
-    objToEnable: {fileID: 0}
-    objToEnable2: {fileID: 0}
-    objToEnableOther: []
-    canvasToEnable: {fileID: 0}
-    soundToPlay: 
-    objToDisable: {fileID: 0}
   - interactableType: 0
     needItemCode: 7b000000
     varCodeToAdd: 
