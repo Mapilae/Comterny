@@ -95,6 +95,9 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     {
         successText.text = "성공입니다!";
         successText.gameObject.SetActive(true);
+        PlayerData.instance.AddVariable(141);
+        PlayerMovement.canMove = true;
+        PlayerMovement.instance.ChangeCanMove(true);
         StartCoroutine(ClosePuzzleAfterDelay());
     }
 

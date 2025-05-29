@@ -24,7 +24,7 @@ public class ChatBallon : NonPlayerCharacter
         maxPreferredWidth = ballonMid.rect.width;
         //OnStartDefaultSetting();
         audioSource = transform.GetChild(0).GetComponent<AudioSource>();
-        audioSource.clip = SoundManager.instance.soundHolder.FindSE("bubble");
+if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolder.FindSE("bubble");
         StartConversation();
     }
 

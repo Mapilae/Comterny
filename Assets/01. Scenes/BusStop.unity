@@ -9608,7 +9608,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &838476976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9639,6 +9639,7 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
       - target: {fileID: 1777613671}
         startTrans: {fileID: 0}
         destinationTrans: {fileID: 1973036599}
@@ -9648,6 +9649,7 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: 
       animTriggers:
@@ -9668,6 +9670,7 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
       - target: {fileID: 1777613671}
         startTrans: {fileID: 0}
         destinationTrans: {fileID: 1973036599}
@@ -9677,6 +9680,7 @@ MonoBehaviour:
         postArrivalWait: 0.5
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 663750703}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: 
       animTriggers:
@@ -9697,6 +9701,7 @@ MonoBehaviour:
         postArrivalWait: 2
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: movescene_
       animTriggers: []
@@ -13249,7 +13254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1428011246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13280,6 +13285,7 @@ MonoBehaviour:
         postArrivalWait: 0.5
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
       - target: {fileID: 1369699554}
         startTrans: {fileID: 1113618237}
         destinationTrans: {fileID: 0}
@@ -13289,6 +13295,7 @@ MonoBehaviour:
         postArrivalWait: 0.5
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: "move_\uBC84\uC815\uCC98\uC74C\uB3C4\uCC29"
       animTriggers: []
@@ -13307,6 +13314,7 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: 
       animTriggers: []
