@@ -24,6 +24,7 @@ public class MovingTransform
     public float postArrivalWait;
     [HideInInspector] public Vector3 startPos;
     public GameObject objToHide;
+    public GameObject objToEnable;
 }
 
 
@@ -71,6 +72,7 @@ public class CutsceneManager : MonoBehaviour
 
         currentStep = 0;
         ExcludeLayerInCamera(true);
+        directingManager.LetterboxOn();
         StartCoroutine(RunStep(currentStep));
     }
 
@@ -82,6 +84,7 @@ public class CutsceneManager : MonoBehaviour
             CameraFollow.doFollowPlayer = true;
             PlayerMovement.isCutscene = false;
             ExcludeLayerInCamera(false);
+            directingManager.LetterboxOff();
             yield break;
         }
 
@@ -135,6 +138,7 @@ public class CutsceneManager : MonoBehaviour
     private IEnumerator MoveTransformWithWaits(MovingTransform moveObj)
     {
         if (moveObj.objToHide != null) moveObj.objToHide.SetActive(false);
+        if (moveObj.objToEnable != null) moveObj.objToEnable.SetActive(true);
         var isLocal = false;
         if (moveObj.destinationTrans != null)
             moveObj.destination = moveObj.destinationTrans.position;

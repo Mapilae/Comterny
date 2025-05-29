@@ -17,18 +17,22 @@ public class DirectingManager : MonoBehaviour
     private Camera cam;
 
     private Vector3 dftpos;
-    private Animator dialogueAnim;
+    public Animator letterboxAnim;
+    private Animator panelAnim;
+    public bool isLetterboxOn = false; //letterbox on/off
     private DialogueManager dialogueManager;
 
     private Vector3 standingDefaultPos;
     private GameObject standings;
 
     private Animator stands;
+    
+    
 
     private void Start()
     {
         dialogueManager = GetComponent<DialogueManager>();
-        dialogueAnim = dialogueManager.dialogue.dialogAnim;
+        panelAnim = dialogueManager.dialogue.wholeObj.GetComponent<Animator>();
         standings = dialogueManager.dialogue.standingImg.gameObject;
         stands = standings.GetComponent<Animator>();
         dftpos = stands.transform.parent.position;
@@ -281,6 +285,23 @@ public class DirectingManager : MonoBehaviour
         return string.Join(';', filtered);
     }
 
+    public void LetterboxOn()
+    {
+        if (isLetterboxOn) return;
+        isLetterboxOn = true;
+        letterboxAnim.SetTrigger("letterboxOn");
+        panelAnim.SetTrigger("letterboxOn");
+    }
+    
+    public void LetterboxOff()
+    {
+        if (!isLetterboxOn) return;
+        isLetterboxOn = false;
+        letterboxAnim.SetTrigger("letterboxOff");
+        panelAnim.SetTrigger("letterboxOff");
+    }
+
+    
     private IEnumerator TurnStandingLeftRight()
     {
         yield return new WaitForSeconds(0.5f);

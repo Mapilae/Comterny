@@ -1224,6 +1224,84 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1019364073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019364075}
+  - component: {fileID: 1019364074}
+  m_Layer: 0
+  m_Name: block
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!61 &1019364074
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019364073}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 5, y: 5}
+  m_EdgeRadius: 0
+--- !u!4 &1019364075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019364073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1351832099 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7723320986090178953, guid: a086d3d93ed89a241a5f5168eda09299, type: 3}
@@ -2473,6 +2551,7 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
       - target: {fileID: 879801250}
         startTrans: {fileID: 0}
         destinationTrans: {fileID: 2086659321}
@@ -2482,6 +2561,7 @@ MonoBehaviour:
         postArrivalWait: 0.5
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: "move_\uB79C\uC12C\uC6E8\uC5B4\uBAA8\uB2C8\uD130\uD68C\uC7A5\uB2D8\uD611\uBC15"
       animTriggers: []
@@ -2502,6 +2582,7 @@ MonoBehaviour:
         postArrivalWait: 2.5
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: "move_\uB79C\uC12C\uC6E8\uC5B4\uBAA8\uB2C8\uD130\uD68C\uC7A5\uB2D8\uD30C\uC77C\uAE68\uC9D0"
       animTriggers: []
@@ -2520,6 +2601,7 @@ MonoBehaviour:
         postArrivalWait: 2
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
     stepEnd:
       dirCmd: 
       animTriggers: []
@@ -2538,6 +2620,7 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 0}
       - target: {fileID: 1351832099}
         startTrans: {fileID: 0}
         destinationTrans: {fileID: 1602158990}
@@ -2547,6 +2630,7 @@ MonoBehaviour:
         postArrivalWait: 1
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 0}
+        objToEnable: {fileID: 1019364073}
     stepEnd:
       dirCmd: "move_OS\uBD80\uC11C\uBC14\uB2E5\uBB34\uB108\uC9C4\uB4A4"
       animTriggers: []
@@ -2580,6 +2664,7 @@ SceneRoots:
   - {fileID: 359893101}
   - {fileID: 2120359765}
   - {fileID: 1494262867}
+  - {fileID: 1019364075}
   - {fileID: 1719395213}
   - {fileID: 984916020}
   - {fileID: 231263921}
