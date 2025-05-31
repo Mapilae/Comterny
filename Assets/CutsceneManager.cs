@@ -60,20 +60,42 @@ public class CutsceneManager : MonoBehaviour
     private void OnEnable()
     {
         directingManager = GameObject.FindGameObjectWithTag("DialogueManager").GetComponent<DirectingManager>();
-        if (steps == null) return;
-        if (steps.Count == 0) return; //비어있는 경우 시작 안함
+        if (steps == null)
+        {
+            Debug.Log("steop is null");
+            return;
+        }
+        if (steps.Count == 0) {
+            Debug.Log("steps is empty");
+            return; //비어있는 경우 시작 안함
+        }
         PlayerMovement.isCutscene = true;
+        StopAllCoroutines();
         StartCoroutine(StepStart());
     }
 
     private IEnumerator StepStart()
     {
-        yield return new WaitUntil(() => MapOveray.isOFF);
-
+        if (MapOveray.instance.gameObject.activeInHierarchy&&!MapOveray.isOFF){
+            Debug.Log("MapOveray is ON, waiting for it to turn OFF");
+            yield return new WaitUntil(() => MapOveray.isOFF);}
+        else
+            yield return null;
         currentStep = 0;
-        ExcludeLayerInCamera(true);
+        currentMidStep = 0;
+        MobileUI.instance.HideThis(true);
+        CameraFollow.instance.ExcludeLayerInCamera(true);
         directingManager.LetterboxOn();
         StartCoroutine(RunStep(currentStep));
+    }
+
+    private void EndCutscene()
+    {
+        CameraFollow.doFollowPlayer = true;
+        PlayerMovement.isCutscene = false;
+        CameraFollow.instance.ExcludeLayerInCamera(false);
+        MobileUI.instance.HideThis(false);
+        directingManager.LetterboxOff();
     }
 
     private IEnumerator RunStep(int stepIndex)
@@ -81,10 +103,9 @@ public class CutsceneManager : MonoBehaviour
         if (stepIndex >= steps.Count)
         {
             //end ALL
-            CameraFollow.doFollowPlayer = true;
-            PlayerMovement.isCutscene = false;
-            ExcludeLayerInCamera(false);
-            directingManager.LetterboxOff();
+            EndCutscene();
+            yield return new WaitForSeconds(1.5f);
+            this.gameObject.SetActive(false);
             yield break;
         }
 
@@ -164,7 +185,7 @@ public class CutsceneManager : MonoBehaviour
             var dist = end.x - start.x;
             PlayerMovement.instance.PlayerSpineAnimWalk();
             if (dist != 0f)
-                PlayerMovement.instance.SetPlayerLookingDirection(dist > 0);
+                PlayerMovement.instance.SetPlayerLookingDirection(dist < 0);
         }
 
         while (elapsed < moveObj.moveDuration)
@@ -181,35 +202,14 @@ public class CutsceneManager : MonoBehaviour
             moveObj.target.localPosition = end;
         else
             moveObj.target.position = end;
-        if (moveObj.target.GetComponent<PlayerMovement>())
-            PlayerMovement.instance.PlayerSpineAnimIdle();
+        if (moveObj.target.GetComponent<PlayerMovement>()){
+            PlayerMovement.instance.StopMoving();
+            
+        }
 
         currentMidStep++;
         yield return new WaitForSeconds(moveObj.postArrivalWait);
     }
 
-    private void ExcludeLayerInCamera(bool isExcluded)
-    {
-        // 특정 카메라 참조 (예: Main Camera)
-        var cam = Camera.main;
-
-        // "Guide Star" 레이어의 레이어 번호를 가져옴
-        var guideStarLayer = LayerMask.NameToLayer("Guide Star");
-
-        if (!isExcluded)
-        {
-            // 모든 레이어를 렌더링하도록 설정 (Everything)
-            cam.cullingMask = ~0;
-        }
-        else
-        {
-            // guideStarLayer가 유효한 경우에만 마스크에서 제외
-            if (guideStarLayer >= 0)
-                // 1 << guideStarLayer 는 해당 레이어의 비트 마스크
-                // ~ 연산자를 사용해 해당 비트를 0으로 만들어 제외
-                cam.cullingMask &= ~(1 << guideStarLayer);
-            else
-                Debug.LogWarning("레이어 'Guide Star'를 찾을 수 없습니다. 레이어 이름이 정확한지 확인하세요.");
-        }
-    }
+    
 }

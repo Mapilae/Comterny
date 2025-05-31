@@ -11,6 +11,8 @@ public class Pause : MonoBehaviour
     public GameObject pauseMenu;
 
     public Button skipBtn;
+    
+    public Slider bgmSlider;
 
     [Header("Current Puzzle Minigame(for skip)")]
     public GameObject currentPuzzle;
@@ -66,6 +68,14 @@ public class Pause : MonoBehaviour
         OpenPauseMenu();
     }
 
+    public void ChangeBGMVolume()
+    {
+        //슬라이더에서 사용함
+        //Debug.Log("BGM Volume Changed: " + value);
+        float value = bgmSlider.value;
+        SoundManager.instance.ChangeBGMVolume(value);
+    }
+    
     public void OpenPauseMenu()
     {
         //button click or key press

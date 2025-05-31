@@ -17,7 +17,7 @@ public class LogicGateMinigame : MonoBehaviour
     public GameObject[] objToDisable;
     public GameObject[] objToEnable;
     public Collider2D colToDisable;
-    public FanSpinning fanSpin;
+//    public FanSpinning fanSpin;
 
     // public List<LogicGateOne> gates = new();
     public bool[] inputValues;
@@ -97,8 +97,8 @@ public class LogicGateMinigame : MonoBehaviour
         if (colToDisable != null)
             colToDisable.enabled = false;
 
-        if (fanSpin != null) fanSpin.StartSpin();
-        Invoke("DisableThis", 3f);
+        //if (fanSpin != null) fanSpin.StartSpin();
+        Invoke("DisableThis", 2f);
         //for (int i = 0; i < inputs.Length; i++) inputs[i].EndPass();
     }
 

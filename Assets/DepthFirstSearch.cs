@@ -19,14 +19,14 @@ public class DepthFirstSearch : MonoBehaviour
 
     public List<int> correctPath = new() { 1, 2, 4, 5, 9, 10, 3, 67, 78 };
 
-    public GameObject hideWhole;
+    //public GameObject hideWhole;
     public TMP_Text failText;
     public GameObject objToDisable;
     public int varToAdd = 115;
     public GameObject cutsceneAfterThis;
     public GameObject cutsceneNotification;
 
-    private readonly int[] userPathIndexOfBlank = { 4, 6 };
+    private readonly int[] userPathIndexOfBlank = { 1, 4, 6 }; //2 9 3
     private int userPathIndex;
     private List<TreeNode> vertexObj = new();
 
@@ -72,7 +72,7 @@ public class DepthFirstSearch : MonoBehaviour
 
     private void ResetPath()
     {
-        userPath[4] = userPath[6] = -1;
+        userPath[1] = userPath[4] = userPath[6] = -1;
         userPathIndex = 0;
         SetPathText();
     }
@@ -113,7 +113,7 @@ public class DepthFirstSearch : MonoBehaviour
 
     public void Success()
     {
-        hideWhole.SetActive(false);
+        //hideWhole.SetActive(false);
         objToDisable.SetActive(false);
         Debug.Log("성공!");
         binaryTree.Success();

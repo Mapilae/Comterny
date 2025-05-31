@@ -2496,7 +2496,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 258.5193, y: 1.9474125}
+  m_Offset: {x: 247.41763, y: -22.275772}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2506,7 +2506,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 132.45056, y: 119.79227}
+  m_Size: {x: 154.65388, y: 168.23865}
   m_EdgeRadius: 0
 --- !u!114 &424414348
 MonoBehaviour:
@@ -2664,7 +2664,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1792531375221238124, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
       propertyPath: variables.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1792531375221238124, guid: de7fc68b03bc508409a7d26fdad1f993, type: 3}
       propertyPath: 'variables.Array.data[0]'
@@ -3201,16 +3201,48 @@ PrefabInstance:
       value: "\uBCF4\uC548 \uC7A5\uCE58"
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].objToEnable
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].objToEnable
       value: 
       objectReference: {fileID: 749703405}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
-      propertyPath: interactList.Array.data[0].needItemCode.Array.size
+      propertyPath: interactList.Array.data[0].objToDisable
+      value: 
+      objectReference: {fileID: 709634841}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].objToEnable2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].objToEnable2
+      value: 
+      objectReference: {fileID: 709634842}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].interactableType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].interactableType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].needItemCode.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].varCodeToAdd.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: 'interactList.Array.data[0].needItemCode.Array.data[0]'
+      value: 142
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3223,6 +3255,11 @@ PrefabInstance:
 --- !u!1 &709634841 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5710176939343494228, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+  m_PrefabInstance: {fileID: 709634840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &709634842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4180523414095922148, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
   m_PrefabInstance: {fileID: 709634840}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &726268293
@@ -3786,7 +3823,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5390,16 +5427,48 @@ PrefabInstance:
       value: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED \uC7A5\uCE58"
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].objToEnable
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].objToEnable
       value: 
       objectReference: {fileID: 1434384444}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
-      propertyPath: interactList.Array.data[0].needItemCode.Array.size
+      propertyPath: interactList.Array.data[0].objToDisable
+      value: 
+      objectReference: {fileID: 1354786553}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].objToEnable2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].objToEnable2
+      value: 
+      objectReference: {fileID: 1354786552}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].interactableType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[1].interactableType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: interactList.Array.data[0].needItemCode.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
       propertyPath: interactList.Array.data[0].varCodeToAdd.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174832701999009260, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+      propertyPath: 'interactList.Array.data[0].needItemCode.Array.data[0]'
+      value: 141
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5409,6 +5478,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+--- !u!1 &1354786552 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4180523414095922148, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+  m_PrefabInstance: {fileID: 1354786551}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1354786553 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5710176939343494228, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
+  m_PrefabInstance: {fileID: 1354786551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1388641007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7660,7 +7739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4989231872987762536, guid: f5bd4e7f303bc2f46b05bf398223c15b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 225
+      value: 201.5
       objectReference: {fileID: 0}
     - target: {fileID: 4989231872987762536, guid: f5bd4e7f303bc2f46b05bf398223c15b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8964,6 +9043,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5067466733334592812, guid: 289123f538bb44b3c9cd2888334e9871, type: 3}
+      propertyPath: chatBallon
+      value: 
+      objectReference: {fileID: 424414345}
     - target: {fileID: 8638774053769522592, guid: 289123f538bb44b3c9cd2888334e9871, type: 3}
       propertyPath: m_Name
       value: NumToBinaryCanvas Variant

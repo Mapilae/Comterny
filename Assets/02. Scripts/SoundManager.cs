@@ -27,6 +27,12 @@ public class SoundManager : MonoBehaviour
 
     private readonly float bgmVolume = 0.4f;
 
+    public void ChangeBGMVolume(float value)
+    {
+        
+            bgmAudio.volume = value;
+        
+    }
 
     private void Awake()
     {

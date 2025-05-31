@@ -31,7 +31,7 @@ public class MapOveray : MonoBehaviour
     public static bool isOFF;
     public int thisMapIndex;
     public List<MapSet> mapSets;
-
+    public static MapOveray instance;
     public TMP_Text mapNameTxt;
     public TMP_Text mapENGTxt;
     public TMP_Text mapBuildingTypeTxt;
@@ -41,6 +41,12 @@ public class MapOveray : MonoBehaviour
     private Animator anim;
 
     private float multiplier = 1f;
+
+
+    private void Awake()
+    {
+        instance= this;
+    }
 
     private void Start()
     {

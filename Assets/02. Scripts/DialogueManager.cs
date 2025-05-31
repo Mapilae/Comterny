@@ -242,7 +242,7 @@ public class DialogueManager : MonoBehaviour
     {
         MobileUI.instance.HideThis(true);
         ClearDialogue(dialogueCell);
-
+        CameraFollow.instance.ExcludeLayerInCamera(true);
         dialogue.SetActive(true);
         isPlayingDialogue = true;
         PlayerMovement.instance.ChangeCanMove(false);
@@ -432,6 +432,7 @@ public class DialogueManager : MonoBehaviour
         if (typeWriter.isTyping) typeWriter.StopTyping(); //타이핑중인 경우 강제종료(삭제되었음에도 이전꺼가 끝까지 타이핑되는 버그 제거 위함)
         ClearDialogue(null);
         dialogue.ResetSkipButton();
+        
         StartCoroutine(IEEndDialogue());
     }
 
@@ -467,8 +468,11 @@ public class DialogueManager : MonoBehaviour
         isPlayingDialogue = false;
 
 
-        MobileUI.instance.HideThis(false);
-
+       
+        if (!PlayerMovement.isCutscene)
+        { MobileUI.instance.HideThis(false);
+            CameraFollow.instance.ExcludeLayerInCamera(false);
+        }
 
         if (state.Equals(currentState.ITEM))
         {

@@ -12,7 +12,9 @@ public class MobileUI : MonoBehaviour
     private Animator buttonAnim;
     private Canvas canvas;
     private PlayerMovement playerMovement;
-
+    public GameObject mobileOnlyObj;
+    public GameObject pcObj; //space bar guide
+    
     private void Awake()
     {
         instance = this;
@@ -23,10 +25,14 @@ public class MobileUI : MonoBehaviour
         canvas = gameObject.GetComponent<Canvas>();
         buttonAnim = itemButtonImg.transform.parent.GetComponent<Animator>();
 #if UNITY_EDITOR
-        canvas.enabled = false;
+        //canvas.enabled = false;
+        mobileOnlyObj.SetActive(false);
+        pcObj.SetActive(true);
 #endif
 #if UNITY_ANDROID || UNITY_IOS
-        canvas.enabled = true;
+        mobileOnlyObj.SetActive(true);
+        pcObj.SetActive(false);
+        //canvas.enabled = true;
         playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
 #endif
     }
@@ -38,9 +44,9 @@ public class MobileUI : MonoBehaviour
 
     public void HideThis(bool hide)
     {
-#if UNITY_ANDROID || UNITY_IOS
         canvas.enabled = !hide;
-#endif
+        // mobileOnlyObj.SetActive(!hide);
+    
     }
 
     public void SetIconImage(InteractableType type)

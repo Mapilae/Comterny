@@ -16,7 +16,15 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
     public GameObject puzzlePanel;                          // 퍼즐 전체 패널
 
     private int targetNumber;
+    
+    public ChatBallon chatBallon; // 대화 풍선
 
+    
+    public void ClosePuzzle()
+    {
+        puzzlePanel.SetActive(false);
+        PlayerMovement.instance.ChangeCanMove(true);
+    }
     void Start()
     {
         GenerateQuestion();
@@ -32,7 +40,7 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
 
     void GenerateQuestion()
     {
-        targetNumber = UnityEngine.Random.Range(1, 256); // 1~255
+        targetNumber = UnityEngine.Random.Range(1, 32); // 1~255 --> 1~31로 변경
         decimalNumberText.text = targetNumber.ToString();
         successText.gameObject.SetActive(false);
     }
@@ -96,8 +104,8 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         successText.text = "성공입니다!";
         successText.gameObject.SetActive(true);
         PlayerData.instance.AddVariable(141);
-        PlayerMovement.canMove = true;
         PlayerMovement.instance.ChangeCanMove(true);
+        chatBallon.ChangeBallonText("컴파일러번역한뒤", 2);
         StartCoroutine(ClosePuzzleAfterDelay());
     }
 
