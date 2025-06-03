@@ -13,7 +13,8 @@ public enum InteractableType
     ITEM, //do not use in interactableSetting
     AUTODIALOGUE,
     NOTHING,
-    SEARCH //same as NPC but no chatting icon
+    SEARCH, //same as NPC but no chatting icon
+    BUGFLY //버그 npc 인경우
 }
 
 [Serializable]
@@ -256,6 +257,11 @@ MobileUI.instance.NothingClose();
                 break;
             case InteractableType.AUTODIALOGUE:
                 InteractiveThings();
+                break;
+            
+            case InteractableType.BUGFLY:
+                InteractiveThings();
+                //player anim changeS
                 break;
             
         }

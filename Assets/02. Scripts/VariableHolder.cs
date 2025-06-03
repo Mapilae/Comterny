@@ -69,6 +69,7 @@ public class VariableHolder : ScriptableObject
 
     public Item FindItem(int itemID)
     {
+        //if any error happens, check if variableHolder has same itemID more than one (중복 아이디가 있는 경우 못찾음)
         return allItemList.Find(x => x.itemID == itemID);
     }
 }

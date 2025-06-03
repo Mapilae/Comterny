@@ -156,20 +156,20 @@ public class PlayerData : MonoBehaviour
     public void AddItem(int itemID)
     {
         if (!items.Count.Equals(0)){
-            /*원래는 중복 허용 안했으나 중복 허용하도록 변경.
+            //원래는 중복 허용 안했으나 중복 허용하도록 변경.
              if (IsItemExist(itemID))
             {
                 Debug.Log("itemID " + itemID +
-                          " already exist, so did not add in items");
-                return;
-            }*/
+                          " already exist. but its okay");
+                //return;
+            }
         }
         //Debug.Log("변수 등록: " + itemID);
         items.Add(itemID);
         Inventory.instance.UpdateInventory();
     }
 
-    public void RemoveItem(int itemID)
+    public bool RemoveItem(int itemID)
     {
         if (!items.Count.Equals(0))
             if (IsItemExist(itemID))
@@ -178,11 +178,24 @@ public class PlayerData : MonoBehaviour
                 Inventory.instance.UpdateInventory();
                 Inventory.instance.DisableItemInfo();
 
-                return;
+                return true;//success
             }
 
         Debug.Log("itemID " + itemID +
                   " is not exist, so did not remove from items");
+        return false;//failed
         //Debug.Log("변수 등록: " + itemID);
+    }
+
+    public int RemoveItemAt(int index)
+    {
+        if(index>= items.Count || index < 0)
+        {
+            Debug.LogError("Index out of range: " + index);
+            return -1; // or throw an exception
+        }
+        int itemID= items[index];
+        return RemoveItem(itemID)?itemID:-1;
+        
     }
 }

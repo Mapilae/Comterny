@@ -86,7 +86,7 @@ public class LogicGateMinigame : MonoBehaviour
         playerData.RemoveVariable(13); //NOT게이트 삭제
         //--------
         canUse = false;
-        volume.profile = volumeProfile;
+        if(volume!=null) volume.profile = volumeProfile;
 
         if (objToDisable.Length > 0)
             for (var i = 0; i < objToDisable.Length; i++)

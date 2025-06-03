@@ -10,7 +10,7 @@ public class CameraLookChange : MonoBehaviour
 
     private void Start()
     {
-        cam = Camera.main.GetComponent<CameraFollow>();
+        cam = GameObject.FindWithTag("MainCamera").GetComponent<CameraFollow>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -80,3 +80,28 @@ MonoBehaviour:
     itemDesc: "\uB370\uC774\uD130 \uC0C1\uC790."
     itemSpr: {fileID: 21300000, guid: e9138fcb770f047bfb113899ebe9a049, type: 3}
     canThrowAway: 0
+  - itemID: 50
+    itemName: "\uCC45"
+    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemSpr: {fileID: 21300000, guid: 82d8b010c5cfa4f01b5ab3160554c55c, type: 3}
+    canThrowAway: 0
+  - itemID: 51
+    itemName: "\uCC45"
+    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemSpr: {fileID: 21300000, guid: 136b158862ea242cd985d38a6cfa7c2c, type: 3}
+    canThrowAway: 0
+  - itemID: 52
+    itemName: "\uCC45"
+    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemSpr: {fileID: 21300000, guid: 939d39b675b5f4d2aa64ce246785d506, type: 3}
+    canThrowAway: 0
+  - itemID: 53
+    itemName: "\uCC45"
+    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemSpr: {fileID: 21300000, guid: 856f7e33e496142a28d5a7707d32b7ee, type: 3}
+    canThrowAway: 0
+  - itemID: 54
+    itemName: "\uCC45"
+    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemSpr: {fileID: 21300000, guid: f9103df627de948149d5f3a2e22b8d02, type: 3}
+    canThrowAway: 0
