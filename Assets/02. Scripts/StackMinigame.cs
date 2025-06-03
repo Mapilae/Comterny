@@ -42,6 +42,7 @@ public class StackMinigame : MonoBehaviour
     public Transform topTextObj;
     Vector3 topLocalPos; //topTextObj의 로컬 포지션
     public Collider2D veryBottom;
+    public GameObject bookCol;
     bool canPop = true; //블록을 팝할 수 있는지 여부
     bool canPush = true;
 
@@ -76,12 +77,14 @@ public class StackMinigame : MonoBehaviour
             {
                 topTextObj.parent = veryBottom.transform;
                 veryBottom.enabled = false;
+                bookCol.SetActive(false);
                 Vector3 newPos = topLocalPos;
                 newPos.y = -0.2f;
                 topTextObj.localPosition = newPos;
             }
             else {
                 veryBottom.enabled = true;
+                bookCol.SetActive(true);
                 topTextObj.parent = stackBlock[top].block.transform;
                 topTextObj.localPosition = topLocalPos;
             
