@@ -11,7 +11,9 @@ public enum InteractableType
     AUTODOOR,
     PUZZLE,
     ITEM, //do not use in interactableSetting
-    AUTODIALOGUE
+    AUTODIALOGUE,
+    NOTHING,
+    SEARCH //same as NPC but no chatting icon
 }
 
 [Serializable]
@@ -23,7 +25,8 @@ public class InteractableSetting
 
     [Header("After this worked, add variable?")]
     public List<int> varCodeToAdd;
-
+    
+    
 
     [Header("for NPC")] public string dialogueID;
 
@@ -33,8 +36,12 @@ public class InteractableSetting
     public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
     public GameObject[] objToEnableOther; //미니게임 퍼즐 오브젝트.
     public Canvas canvasToEnable;
+    
     public string soundToPlay = "";
-    [Header("for SelfDoor and AutoDoor")] public GameObject objToDisable;
+    public GameObject objToDisable;
+    
+    public Collider2D[] colliderTodisable;
+    public Sprite sprToChange;
 }
 
 public class InteractableObject : MonoBehaviour
@@ -78,17 +85,31 @@ public class InteractableObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) AutoDialogue();
+        if (collision.CompareTag("Player"))
+        {
+            AutoDialogue();
+            AutoDoor();
+        }
     }
 
+    void AutoDoor()
+    {
+        if (interactList.Count == 0) return;
+        
+        if (usualInteractableType.Equals(InteractableType.AUTODOOR))
+        {
+            //Debug.Log("AUTO DOOR");
+            CheckIfInInventory(true);
+        }
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             isClose = false;
-#if UNITY_ANDROID
+
 MobileUI.instance.NothingClose();
-#endif
+
         }
     }
 
@@ -120,10 +141,10 @@ MobileUI.instance.NothingClose();
     private void SetMobileUI()
     {
         CheckIfInInventory(false);
-#if UNITY_ANDROID
+
         if (currentInteractIndex != -1) MobileUI.instance.SetIconImage(usualInteractableType);
         else MobileUI.instance.NothingClose();
-#endif
+
     }
 
     private void CheckIfInInventory(bool isCallAct)
@@ -163,6 +184,7 @@ MobileUI.instance.NothingClose();
     {
         if (currentInteractIndex == -1) return;
         if (!interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODIALOGUE)) return;
+        
         CheckIfInInventory(true);
 
         //AUTODIALOGUE
@@ -179,18 +201,15 @@ MobileUI.instance.NothingClose();
         }
 
         AddVariable();
-        GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
+        if (interactList[currentInteractIndex].dialogueID.Equals(""))
+        {
+            MobileUI.instance.NothingClose();
+        }
+        else
+            GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
 
-        if (interactList[currentInteractIndex].objToEnable2 != null)
-            interactList[currentInteractIndex].objToEnable2.SetActive(true);
-        if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
-            foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
-                obj.SetActive(true);
-
-        if (interactList[currentInteractIndex].objToEnable != null)
-            interactList[currentInteractIndex].objToEnable.SetActive(true);
-        if (interactList[currentInteractIndex].objToDisable != null)
-            interactList[currentInteractIndex].objToDisable.SetActive(false);
+       
+        InteractiveThings();
     }
 
     private void ItemTypeAct()
@@ -205,50 +224,71 @@ MobileUI.instance.NothingClose();
         {
             case InteractableType.NPC:
                 CaseNPC();
+                
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item
                 // Debug.Log("SELF DOOR");
-
-                interactList[currentInteractIndex].objToDisable.SetActive(false);
+                InteractiveThings();
                 break;
 
             case InteractableType.AUTODOOR: //When Player have the item(no need to hold)
                 // Debug.Log("AUTO DOOR");
                 //GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
-                if (interactList[currentInteractIndex].objToDisable != null)
-                    interactList[currentInteractIndex].objToDisable.SetActive(false);
+                InteractiveThings();
                 break;
             case InteractableType.PUZZLE:
                 //Debug.Log("PUZZLE MINIGAME START" + name);
 
-                if (interactList[currentInteractIndex].objToEnable2 != null)
-                    interactList[currentInteractIndex].objToEnable2.SetActive(true);
-                if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
-                    foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
-                        obj.SetActive(true);
-                if (interactList[currentInteractIndex].canvasToEnable != null)
-                    interactList[currentInteractIndex].canvasToEnable.enabled = true;
-                if (interactList[currentInteractIndex].objToEnable != null)
-                {
-                    interactList[currentInteractIndex].objToEnable.SetActive(true);
-                }
-                else
-                {
-                    Debug.Log(name + "이 퍼즐임에도 퍼즐 오브젝트가 비어있습니다! Inspector에서 할당해주세요!");
-
-                    AddVariable();
-                    return;
-                }
+                InteractiveThings();
 
                 if (interactList[currentInteractIndex].registerToInventory != null)
                     Inventory.instance.anything = interactList[currentInteractIndex].registerToInventory;
 
                 PlayerMovement.instance.ChangeCanMove(false);
                 break;
+            case InteractableType.NOTHING:
+                MobileUI.instance.NothingClose();
+                InteractiveThings();
+                break;
+            case InteractableType.SEARCH:
+                CaseNPC();
+                break;
+            case InteractableType.AUTODIALOGUE:
+                InteractiveThings();
+                break;
+            
         }
 
         AddVariable();
+    }
+
+    void InteractiveThings()
+    {
+        
+        if (interactList[currentInteractIndex].objToEnable != null)
+            interactList[currentInteractIndex].objToEnable.SetActive(true);
+        
+        if (interactList[currentInteractIndex].objToEnable2 != null)
+            interactList[currentInteractIndex].objToEnable2.SetActive(true);
+        
+        if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
+            foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
+                obj.SetActive(true);
+        
+        if (interactList[currentInteractIndex].canvasToEnable != null)
+            interactList[currentInteractIndex].canvasToEnable.enabled = true;
+        
+        if (interactList[currentInteractIndex].objToDisable != null)
+            interactList[currentInteractIndex].objToDisable.SetActive(false);
+        
+        if(interactList[currentInteractIndex].sprToChange != null)
+            GetComponent<SpriteRenderer>().sprite = interactList[currentInteractIndex].sprToChange;
+        
+        if (interactList[currentInteractIndex].colliderTodisable.Length > 0)
+            foreach (var col in interactList[currentInteractIndex].colliderTodisable)
+                col.enabled = false;
+
     }
 
     public void AddVariable()

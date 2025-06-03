@@ -155,14 +155,15 @@ public class PlayerData : MonoBehaviour
 
     public void AddItem(int itemID)
     {
-        if (!items.Count.Equals(0))
-            if (IsItemExist(itemID))
+        if (!items.Count.Equals(0)){
+            /*원래는 중복 허용 안했으나 중복 허용하도록 변경.
+             if (IsItemExist(itemID))
             {
                 Debug.Log("itemID " + itemID +
                           " already exist, so did not add in items");
                 return;
-            }
-
+            }*/
+        }
         //Debug.Log("변수 등록: " + itemID);
         items.Add(itemID);
         Inventory.instance.UpdateInventory();

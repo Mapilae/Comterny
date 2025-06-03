@@ -18,6 +18,7 @@ TagManager:
   - brick
   - trashEmpty
   - trashFull
+  - box
   layers:
   - Default
   - TransparentFX

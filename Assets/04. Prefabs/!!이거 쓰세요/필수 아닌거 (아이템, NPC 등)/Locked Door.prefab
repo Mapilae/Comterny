@@ -114,7 +114,9 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 5276450419264096843}
+    sprToChange: {fileID: 21300000, guid: 8bb7e870abaef4195af340bfea3f1777, type: 3}
   isClose: 0
 --- !u!61 &2173799265570150248
 BoxCollider2D:

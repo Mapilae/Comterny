@@ -11,7 +11,7 @@ public class MobileUI : MonoBehaviour
     public Sprite nullSprite;
     private Animator buttonAnim;
     private Canvas canvas;
-    private PlayerMovement playerMovement;
+    //private PlayerMovement playerMovement;
     public GameObject mobileOnlyObj;
     public GameObject pcObj; //space bar guide
     
@@ -33,13 +33,13 @@ public class MobileUI : MonoBehaviour
         mobileOnlyObj.SetActive(true);
         pcObj.SetActive(false);
         //canvas.enabled = true;
-        playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
+     //   playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
 #endif
     }
 
     public void SetIsSpace(bool isSpace)
     {
-        playerMovement.SetIsSpace(isSpace);
+        PlayerMovement.instance.SetIsSpace(isSpace);
     }
 
     public void HideThis(bool hide)
@@ -55,7 +55,7 @@ public class MobileUI : MonoBehaviour
         switch (type)
         {
             case InteractableType.NPC:
-                itemButtonImg.sprite = buttonIcon[1];
+                itemButtonImg.sprite = buttonIcon[1];//말 걸기
                 break;
             default:
                 itemButtonImg.sprite = buttonIcon[0];
