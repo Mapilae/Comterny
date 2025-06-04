@@ -126,7 +126,8 @@ public class PlayerMovement : MovingFootPrint
 
     public void IsSpaceFalse(float delay)
     {
-        Invoke("IsSpaceFalseDelay", delay);
+        if(delay.Equals(0f)) IsSpaceFalseDelay();
+        else Invoke("IsSpaceFalseDelay", delay);
     }
 
     private void IsSpaceFalseDelay()

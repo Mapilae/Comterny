@@ -165,46 +165,51 @@ public class CutsceneManager : MonoBehaviour
             moveObj.destination = moveObj.destinationTrans.position;
         else isLocal = true;
 
-        if (moveObj.startTrans != null)
-            moveObj.startPos = moveObj.startTrans.position;
-        else moveObj.startPos = moveObj.target.position;
-
-        if (moveObj.target.GetComponent<CameraFollow>())
-            CameraFollow.doFollowPlayer = false;
-
-        yield return new WaitForSeconds(moveObj.preWait);
-
-
-        var start = moveObj.startPos;
-        var newPos = moveObj.destination;
-        var end = new Vector3(newPos.x, newPos.y, isLocal ? moveObj.target.localPosition.z : moveObj.target.position.z);
-        var elapsed = 0f;
-
-        if (moveObj.target.GetComponent<PlayerMovement>() && moveObj.moveDuration > 0f)
+        if (moveObj.target != null)
         {
-            var dist = end.x - start.x;
-            PlayerMovement.instance.PlayerSpineAnimWalk();
-            if (dist != 0f)
-                PlayerMovement.instance.SetPlayerLookingDirection(dist < 0);
-        }
+            if (moveObj.startTrans != null)
+                moveObj.startPos = moveObj.startTrans.position;
+            else moveObj.startPos = moveObj.target.position;
 
-        while (elapsed < moveObj.moveDuration)
-        {
-            elapsed += Time.deltaTime;
+            if (moveObj.target.GetComponent<CameraFollow>())
+                CameraFollow.doFollowPlayer = false;
+
+            yield return new WaitForSeconds(moveObj.preWait);
+
+
+            var start = moveObj.startPos;
+            var newPos = moveObj.destination;
+            var end = new Vector3(newPos.x, newPos.y,
+                isLocal ? moveObj.target.localPosition.z : moveObj.target.position.z);
+            var elapsed = 0f;
+
+            if (moveObj.target.GetComponent<PlayerMovement>() && moveObj.moveDuration > 0f)
+            {
+                var dist = end.x - start.x;
+                PlayerMovement.instance.PlayerSpineAnimWalk();
+                if (dist != 0f)
+                    PlayerMovement.instance.SetPlayerLookingDirection(dist < 0);
+            }
+
+            while (elapsed < moveObj.moveDuration)
+            {
+                elapsed += Time.deltaTime;
+                if (isLocal)
+                    moveObj.target.localPosition = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
+                else
+                    moveObj.target.position = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
+                yield return null;
+            }
+
             if (isLocal)
-                moveObj.target.localPosition = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
+                moveObj.target.localPosition = end;
             else
-                moveObj.target.position = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
-            yield return null;
-        }
+                moveObj.target.position = end;
+            if (moveObj.target.GetComponent<PlayerMovement>())
+            {
+                PlayerMovement.instance.StopMoving();
 
-        if (isLocal)
-            moveObj.target.localPosition = end;
-        else
-            moveObj.target.position = end;
-        if (moveObj.target.GetComponent<PlayerMovement>()){
-            PlayerMovement.instance.StopMoving();
-            
+            }
         }
 
         currentMidStep++;

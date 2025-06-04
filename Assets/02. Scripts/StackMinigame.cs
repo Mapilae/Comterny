@@ -157,7 +157,7 @@ public class StackMinigame : MonoBehaviour
     {
         canPop = false; //블록을 팝할 수 없는 상태로 변경
         StackBlock poppedBlock = stackBlock[top];
-        Debug.Log("the book itemcode is "+poppedBlock.itemCode);
+//        Debug.Log("the book itemcode is "+poppedBlock.itemCode);
         poppedBlock.block.GetComponent<Rigidbody2D>().AddForce(Vector2.up*5, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.65f);
         PlayerData.instance.AddItem(poppedBlock.itemCode);

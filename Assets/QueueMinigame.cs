@@ -42,6 +42,15 @@ public class QueueMinigame : MonoBehaviour
         {
 //            Debug.Log("pop");
             disableObjs.Add(other.gameObject);
+
+            if (other.gameObject.transform.childCount > 0)
+            {
+                //if box has a bug obj, it is a success
+                MemoryBugObject bug = other.gameObject.transform.GetChild(0).GetComponent<MemoryBugObject>();
+                bug.transform.parent = null;
+                bug.MoveDown();
+            }
+            
             other.gameObject.SetActive(false);
             PlayerData.instance.AddItem(27);//data box item
             blockBoxCol.enabled = true;

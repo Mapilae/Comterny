@@ -60,7 +60,7 @@ public class StackQueueSwitch : MonoBehaviour
         if (isClose && PlayerMovement.isSpace)
         {
             canUse = false;
-            PlayerMovement.instance.IsSpaceFalse(0.5f);
+            PlayerMovement.instance.IsSpaceFalse(0f);
             // Debug.Log("Item picked up: " + item.itemName);
          
             if (objToEnable != null) objToEnable.SetActive(false);

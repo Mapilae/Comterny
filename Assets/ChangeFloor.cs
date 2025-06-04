@@ -34,7 +34,7 @@ public class ChangeFloor : MonoBehaviour
 
     void UpdateFloor()
     {
-        Debug.Log(floor+"층으로 변경됨");
+//        Debug.Log(floor+"층으로 변경됨");
        if(floor1!=null) floor1.SetActive(floor == 1);
        if(floor2!=null) floor2.SetActive(floor == 2);
        if(floor3!=null) floor3.SetActive(floor == 3);

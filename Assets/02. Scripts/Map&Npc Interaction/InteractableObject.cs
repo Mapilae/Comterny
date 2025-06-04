@@ -109,7 +109,7 @@ public class InteractableObject : MonoBehaviour
         {
             isClose = false;
 
-MobileUI.instance.NothingClose();
+            MobileUI.instance.NothingClose();
 
         }
     }
