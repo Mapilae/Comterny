@@ -281,6 +281,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!61 &5417724
 BoxCollider2D:
@@ -1935,6 +1937,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 299782454}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!61 &299782459
 BoxCollider2D:
@@ -2533,6 +2537,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 
@@ -2544,6 +2550,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 1863755071}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!1 &427601360
 GameObject:
@@ -6798,6 +6806,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!61 &1662228483
 BoxCollider2D:
@@ -8444,6 +8454,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 402689224}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!61 &1956436604
 BoxCollider2D:

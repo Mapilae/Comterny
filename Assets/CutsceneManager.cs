@@ -76,6 +76,7 @@ public class CutsceneManager : MonoBehaviour
 
     private IEnumerator StepStart()
     {
+        yield return null;
         if (MapOveray.instance.gameObject.activeInHierarchy&&!MapOveray.isOFF){
             Debug.Log("MapOveray is ON, waiting for it to turn OFF");
             yield return new WaitUntil(() => MapOveray.isOFF);}
@@ -208,7 +209,7 @@ public class CutsceneManager : MonoBehaviour
             if (moveObj.target.GetComponent<PlayerMovement>())
             {
                 PlayerMovement.instance.StopMoving();
-
+                PlayerMovement.instance.SetPlayerLookingDirection(false);
             }
         }
 

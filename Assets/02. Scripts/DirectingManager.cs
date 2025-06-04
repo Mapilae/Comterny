@@ -136,7 +136,12 @@ public class DirectingManager : MonoBehaviour
             case "camshake":
                 CameraShake();
                 break;
-
+            case "addVar":
+                PlayerData.instance.AddVariable(int.Parse(next));
+                break;
+            case "addItem":
+                PlayerData.instance.AddItem(int.Parse(next));
+                break;
             /*case "stretch":
                 //���ĵ� �ø���, ��ǰ, ������ ��.
                 if (next.Contains("left")) StandingStretch(0);

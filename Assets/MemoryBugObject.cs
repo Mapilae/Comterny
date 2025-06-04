@@ -7,13 +7,14 @@ public class MemoryBugObject : MonoBehaviour
     private Animator anim;
 
     private Collider2D col;
+    public bool colEnableAtStart = false; // 시작할 때 충돌체를 활성화할지 여부
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         col = GetComponent<Collider2D>();
         anim = GetComponent<Animator>();
-        col.enabled = false; //cannot catch bug at the start
+        col.enabled = colEnableAtStart; //cannot catch bug at the start
        // MoveDown();
     }
 

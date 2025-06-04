@@ -25,6 +25,8 @@ public class PlayerMovement : MovingFootPrint
 
     private SpriteRenderer spriteRender;
     private Vector2 targetPos;
+    
+    public bool forceRun = false; //달리기 강제 여부
 
 
     private void Awake()
@@ -138,7 +140,7 @@ public class PlayerMovement : MovingFootPrint
 
     public void SetIfRunning(bool isRunning)
     {
-        if (isRunning)
+        if (isRunning||forceRun)
         {
             moveSpeed = moveSpeed2x;
             this.isRunning = true;

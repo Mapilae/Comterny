@@ -123,10 +123,17 @@ public class Inventory : MonoBehaviour
             if (i < playerData.items.Count)
             {
                 var item = playerData.GetItemFromID(playerData.items[i]);
-                itemHoldList[i].image.sprite = item.itemSpr;
-                itemHoldList[i].itemID = item.itemID;
-                itemHoldList[i].canThrowAway = item.canThrowAway;
-                itemHoldList[i].image.transform.parent.gameObject.SetActive(true);
+                if (item == null)
+                {
+                    Debug.LogWarning(playerData.items[i]+"번 아이템을 찾지 못했습니다!");
+                    
+                }
+                else{
+                    itemHoldList[i].image.sprite = item.itemSpr;
+                    itemHoldList[i].itemID = item.itemID;
+                    itemHoldList[i].canThrowAway = item.canThrowAway;
+                    itemHoldList[i].image.transform.parent.gameObject.SetActive(true);
+                }
                 holdingItemCount++;
             }
             else

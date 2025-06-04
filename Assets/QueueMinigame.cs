@@ -46,13 +46,15 @@ public class QueueMinigame : MonoBehaviour
             if (other.gameObject.transform.childCount > 0)
             {
                 //if box has a bug obj, it is a success
-                MemoryBugObject bug = other.gameObject.transform.GetChild(0).GetComponent<MemoryBugObject>();
-                bug.transform.parent = null;
-                bug.MoveDown();
+                Debug.Log("bug 2 caught");
+                other.transform.parent = null;
+                PlayerData.instance.AddVariable(108);
+                other.gameObject.transform.GetChild(0).GetComponent<MemoryBugObject>().MoveDown();
             }
             
-            other.gameObject.SetActive(false);
+           
             PlayerData.instance.AddItem(27);//data box item
+            other.gameObject.SetActive(false);
             blockBoxCol.enabled = true;
         }
     }

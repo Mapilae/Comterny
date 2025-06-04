@@ -15,21 +15,25 @@ public class CameraLookChange : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if(!other.gameObject.activeInHierarchy)return;
         if (other.gameObject.CompareTag("Player")) OnEnter();
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
+        if(!other.gameObject.activeInHierarchy)return;
         if (other.gameObject.CompareTag("Player")) OnExit();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(!other.gameObject.activeInHierarchy)return;
         if (other.CompareTag("Player")) OnEnter();
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if(!other.gameObject.activeInHierarchy)return;
         if (other.CompareTag("Player")) OnExit();
     }
 

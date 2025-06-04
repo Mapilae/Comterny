@@ -19,6 +19,7 @@ TagManager:
   - trashEmpty
   - trashFull
   - box
+  - deadzone
   layers:
   - Default
   - TransparentFX

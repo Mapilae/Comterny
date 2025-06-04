@@ -167,6 +167,7 @@ public class PlayerData : MonoBehaviour
         //Debug.Log("변수 등록: " + itemID);
         items.Add(itemID);
         Inventory.instance.UpdateInventory();
+        Inventory.instance.HoldLastIndexItem();
     }
 
     public bool RemoveItem(int itemID)
@@ -175,6 +176,8 @@ public class PlayerData : MonoBehaviour
             if (IsItemExist(itemID))
             {
                 items.Remove(itemID);
+                
+                Inventory.instance.UnholdItem();
                 Inventory.instance.UpdateInventory();
                 Inventory.instance.DisableItemInfo();
 

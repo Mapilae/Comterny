@@ -227,7 +227,7 @@ public class DialogueManager : MonoBehaviour
         {
             new Cell("", "0", msg, "", "")
         };
-        Inventory.instance.HoldLastIndexItem();
+       // Inventory.instance.HoldLastIndexItem();
         dialogue.wholeObj.enabled = false;
         state = currentState.ITEM;
         StartDialogue(dialogueCell);
