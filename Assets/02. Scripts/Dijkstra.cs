@@ -136,6 +136,8 @@ public class Dijkstra : MonoBehaviour
     private void DisableThis()
     {
         Debug.Log("END");
+        //temp
+        LodingScene.instance.LoadScene();
         gameObject.SetActive(false);
     }
 }

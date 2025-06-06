@@ -13936,11 +13936,11 @@ PrefabInstance:
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: eb9edf98d570bc24e90a2cc00b4cec92, type: 3}
+      objectReference: {fileID: 8300000, guid: 1a06a14bc75164fe2b46c5c98e319284, type: 3}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: eb9edf98d570bc24e90a2cc00b4cec92, type: 3}
+      objectReference: {fileID: 8300000, guid: 1a06a14bc75164fe2b46c5c98e319284, type: 3}
     - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Enabled
       value: 1

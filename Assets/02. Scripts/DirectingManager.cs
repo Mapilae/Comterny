@@ -242,6 +242,7 @@ public class DirectingManager : MonoBehaviour
 
     private void MoveScene(string sceneName)
     {
+        Debug.Log("try to move scene to: "+sceneName);
         if (sceneName.Equals("")) LodingScene.instance.LoadScene();
         else LodingScene.instance.LoadScene(sceneName);
     }

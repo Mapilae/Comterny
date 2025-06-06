@@ -33,7 +33,7 @@ if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolde
         autoPlayID = text;
         this.repeatTime = repeatTime;
 
-        StartCoroutine(IEChangeBallonText());
+      if(this.gameObject.activeInHierarchy)  StartCoroutine(IEChangeBallonText());
     }
 
     private IEnumerator IEChangeBallonText()

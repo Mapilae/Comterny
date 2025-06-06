@@ -44,6 +44,8 @@ RectTransform:
   - {fileID: 5817587218020554604}
   - {fileID: 3547828449845793131}
   - {fileID: 1440684455757024102}
+  - {fileID: 6408785910668775010}
+  - {fileID: 2236242688487965006}
   m_Father: {fileID: 3662363324412436890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2168,13 +2170,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7420669381661404398}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 239995700758891781}
-  m_Father: {fileID: 3662363324412436890}
+  m_Father: {fileID: 5372482261100236102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3258,7 +3260,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9059470374423912758}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3267,11 +3269,11 @@ RectTransform:
   - {fileID: 3503826415431129135}
   - {fileID: 750994775274414805}
   - {fileID: 4042444407539994282}
-  m_Father: {fileID: 3662363324412436890}
+  m_Father: {fileID: 5372482261100236102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000027657, y: -71}
+  m_AnchoredPosition: {x: -0.000033378157, y: -71}
   m_SizeDelta: {x: 890, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3947420571607004710
@@ -4041,12 +4043,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 36407938452879961, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5372482261100236102}
-    - targetCorrespondingSourceObject: {fileID: 36407938452879961, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2236242688487965006}
-    - targetCorrespondingSourceObject: {fileID: 36407938452879961, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6408785910668775010}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5021825721026377315, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
       insertIndex: -1
@@ -4102,6 +4098,7 @@ MonoBehaviour:
   resultText: {fileID: 392441349940499315}
   successText: {fileID: 8104361230784958625}
   puzzlePanel: {fileID: 160042359559610043}
+  chatBallon: {fileID: 0}
 --- !u!1001 &4104941843043856430
 PrefabInstance:
   m_ObjectHideFlags: 0
