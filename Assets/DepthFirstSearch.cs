@@ -29,6 +29,7 @@ public class DepthFirstSearch : MonoBehaviour
     private readonly int[] userPathIndexOfBlank = { 1, 4, 6 }; //2 9 3
     private int userPathIndex;
     private List<TreeNode> vertexObj = new();
+    bool isChangedPos= false; //트리의 위치가 바뀌었는지 여부
 
     private void OnEnable()
     {
@@ -40,10 +41,12 @@ public class DepthFirstSearch : MonoBehaviour
         isUsing = true;
 
         vertexObj = binaryTree.vertexObj;
-        treeWhole.localScale = Vector3.one * 0.9f;
-        treeWhole.localPosition = new Vector3(treeWhole.localPosition.x, treeWhole.localPosition.y + 50,
-            treeWhole.localPosition.z);
-
+        if(!isChangedPos){
+            treeWhole.localScale = Vector3.one * 0.9f;
+            treeWhole.localPosition = new Vector3(treeWhole.localPosition.x, treeWhole.localPosition.y + 50,
+                treeWhole.localPosition.z);
+            isChangedPos = true;
+        }
         if (binaryTree.deletedNum.Equals(-1)) binaryTree.RemoveDelNum(7);
         correctPath = new List<int> { 1, 2, 4, 5, 9, 10, 3, 67, 78 };
         switch (binaryTree.deletedNum)

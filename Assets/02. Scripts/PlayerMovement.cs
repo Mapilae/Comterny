@@ -170,6 +170,9 @@ public class PlayerMovement : MovingFootPrint
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
         inputVec.Normalize();
+
+        playSpineAnim.ChangeTimeScale(1+Mathf.Abs(inputVec.y)*0.5f);
+        
         return inputVec;
 #endif
     }
@@ -177,8 +180,10 @@ public class PlayerMovement : MovingFootPrint
     public void ChangeCanMove(bool canMoveb)
     {
         canMove = canMoveb;
-        if (!canMoveb)
+        if (!canMoveb){
             StopMoving();
+            Debug.Log("PlayerMovement: canMove is set to false");
+        }
         else rb.WakeUp();
     }
 

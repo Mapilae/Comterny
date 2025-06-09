@@ -70,9 +70,11 @@ public class BinaryTree : MonoBehaviour
         if (isUsing) Pause.instance.SetCurrentPuzzle(gameObject);
     }
 
-    private void OnDisable()
+
+    public void ClosePanel()
     {
         PlayerMovement.instance.ChangeCanMove(true);
+        this.gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     private void BarrierOff()
@@ -158,7 +160,7 @@ public class BinaryTree : MonoBehaviour
     {
         Debug.Log("END");
         barrier.SetActive(false);
-        gameObject.transform.parent.gameObject.SetActive(false);
+        ClosePanel();
     }
 
     public void PointerOn(int index)

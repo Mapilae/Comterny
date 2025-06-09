@@ -153,21 +153,24 @@ public class PlayerData : MonoBehaviour
         return varHolder.FindItem(itemID);
     }
 
-    public void AddItem(int itemID)
+    public void AddItem(int itemID, bool isPlayerClickSelf=true)
     {
         if (!items.Count.Equals(0)){
             //원래는 중복 허용 안했으나 중복 허용하도록 변경.
              if (IsItemExist(itemID))
             {
-                Debug.Log("itemID " + itemID +
-                          " already exist. but its okay");
-                //return;
+                if(!varHolder.FindItem(itemID).canGetMultiple){
+                    Debug.Log("itemID " + itemID +
+                              " already exist. this itemID is not allowed to get multiple items, so did not add item");
+                    return;
+                    
+                }
             }
         }
         //Debug.Log("변수 등록: " + itemID);
         items.Add(itemID);
         Inventory.instance.UpdateInventory();
-        Inventory.instance.HoldLastIndexItem();
+        Inventory.instance.HoldLastIndexItem(isPlayerClickSelf);
     }
 
     public bool RemoveItem(int itemID)

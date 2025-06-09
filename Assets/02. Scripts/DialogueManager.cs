@@ -434,6 +434,8 @@ public class DialogueManager : MonoBehaviour
         dialogue.ResetSkipButton();
         
         StartCoroutine(IEEndDialogue());
+        
+        PlayerMovement.instance.ChangeCanMove(true);
     }
 
 
@@ -480,7 +482,7 @@ public class DialogueManager : MonoBehaviour
             state = currentState.DIALOGUE;
         }
 
-        PlayerMovement.instance.ChangeCanMove(true);
+//        PlayerMovement.instance.ChangeCanMove(true);
         dialogue.SetActive(false);
     }
 

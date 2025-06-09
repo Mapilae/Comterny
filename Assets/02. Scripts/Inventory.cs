@@ -34,6 +34,9 @@ public class Inventory : MonoBehaviour
     public Item holdingItem;
     private int holdingItemCount;
     private PlayerData playerData;
+    
+    [Header("Hint System")]
+    public Image hintImage;
 
     // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
     // 
@@ -49,10 +52,10 @@ public class Inventory : MonoBehaviour
         //  UpdateInventory();
     }
 
-    public void HoldLastIndexItem()
+    public void HoldLastIndexItem(bool isPlayerClickSelf=true)
     {
         //가장 마지막으로 얻은 아이템 들기. 아이템 획득시 뜨는 다이얼로그 하기 위한 목적.
-        ClickToHoldItem(holdingItemCount - 1);
+        ClickToHoldItem(holdingItemCount - 1, isPlayerClickSelf);
         Debug.Log("holded last item");
     }
 
@@ -62,6 +65,11 @@ public class Inventory : MonoBehaviour
     }
 
     public void ClickToHoldItem(int index)
+    {
+        ClickToHoldItem(index, true);
+    }
+    
+    public void ClickToHoldItem(int index, bool isPlayerClickSelf)
     {
         //이전에 클릭했던 인덱스 아웃라인 끄기
         if (currentHoldingItemIndex >= 0)
@@ -83,8 +91,22 @@ public class Inventory : MonoBehaviour
 
         var item = playerData.GetItemFromID(itemHoldList[currentHoldingItemIndex].itemID);
 
-        PlayerMovement.instance.HoldItem(item.itemID,
-            item.itemSpr);
+        if(isPlayerClickSelf){
+        if (item.isToOpenHint != -1)
+        {
+            // 아이템을 획득했을 때, 해당 아이템의 힌트 스프라이트를 보여준다.
+            //maybe we should make ReplaceItem() function instead of this
+            playerData.RemoveItem(item.itemID);
+            playerData.AddItem(item.isToOpenHint);
+            item = playerData.GetItemFromID(item.isToOpenHint);
+        }
+        if (item.hintSprite != null)
+        {
+            //hint인 경우
+            ShowHint(item);
+        }}
+
+        PlayerMovement.instance.HoldItem(item.itemID, item.itemSpr);
         holdingItem = item;
         UseAnythingObj();
     }
@@ -145,6 +167,22 @@ public class Inventory : MonoBehaviour
             }
     }
 
+    public void ShowHint(Item item)
+    {
+        hintImage.sprite = item.hintSprite;
+        hintImage.transform.parent.gameObject.SetActive(true);
+
+    }
+
+    public void HideHint()
+    {
+        hintImage.transform.parent.gameObject.SetActive(false);
+        hintImage.sprite = null;
+        UnholdItem();
+        
+    }
+
+    
     /**
      * MakeList() 함수는 itemHoldParent의 자식(아이템 전체를 관리하는 오브젝트)
      * 개수만큼 반복문을 돌려서 아이템 홀드 리스트의 추가한다.

@@ -45,7 +45,7 @@ public class ItemGet : MonoBehaviour
         {
             PlayerMovement.instance.IsSpaceFalse(0.5f);
             // Debug.Log("Item picked up: " + item.itemName);
-            playerData.AddItem(item.itemID);
+            playerData.AddItem(item.itemID, false);
             if (objToEnable != null) objToEnable.SetActive(false);
 
             if (msgToDialogue != "")

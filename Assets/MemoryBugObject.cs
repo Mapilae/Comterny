@@ -14,6 +14,8 @@ public class MemoryBugObject : MonoBehaviour
 
     private Collider2D col;
 
+    public Transform endParent;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -68,5 +70,6 @@ public class MemoryBugObject : MonoBehaviour
 
         // 최종 위치 보정
         transform.position = targetPos;
+        transform.parent = endParent;
     }
 }

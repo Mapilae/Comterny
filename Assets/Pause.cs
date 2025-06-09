@@ -99,4 +99,10 @@ public class Pause : MonoBehaviour
     {
         SaveData.instance.ResetData();
     }
+
+    public void PlayerCanMove()
+    {
+        //for debug only
+        PlayerMovement.instance.ChangeCanMove(true);
+    }
 }

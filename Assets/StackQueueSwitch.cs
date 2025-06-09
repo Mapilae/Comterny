@@ -15,6 +15,9 @@ public class StackQueueSwitch : MonoBehaviour
     
     public StackMinigame stackMinigame;
     public QueueMinigame queueMinigame;
+    private Animator anim;
+
+    private bool isButtonDown = false;
     
     [Serializable]
     public enum DataStructureType
@@ -30,6 +33,7 @@ public class StackQueueSwitch : MonoBehaviour
     void Start()
     {
         sprRender = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     
@@ -41,6 +45,9 @@ public class StackQueueSwitch : MonoBehaviour
             isClose = true;
             if (objToEnable != null) objToEnable.SetActive(true);
             MobileUI.instance.SetIconImage(InteractableType.ITEM);
+            anim.SetTrigger("down");
+            isButtonDown = true;
+            PlayStackOrQueue();
         }
     }
 
@@ -51,6 +58,8 @@ public class StackQueueSwitch : MonoBehaviour
             isClose = false;
             if (objToEnable != null) objToEnable.SetActive(false);
             MobileUI.instance.NothingClose();
+            anim.SetTrigger("up");
+            isButtonDown = false;
         }
     }
     
@@ -74,6 +83,7 @@ public class StackQueueSwitch : MonoBehaviour
 
     void PlayStackOrQueue()
     {
+        if(!isButtonDown)return;
         switch (thisType)
         {
             case DataStructureType.QUEUEPOP:

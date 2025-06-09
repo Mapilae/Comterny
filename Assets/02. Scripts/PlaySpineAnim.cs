@@ -21,6 +21,8 @@ public class PlaySpineAnim : MonoBehaviour
 
     Spine.EventData eventData;
     private int groundType = -1;
+    
+    [SerializeField] float timeScale = 1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -34,9 +36,21 @@ public class PlaySpineAnim : MonoBehaviour
 
     public void SetAnim(string animName, bool isLoop)
     {
+        if (animState == null) return;
         if (skelAnim.AnimationName.Equals(animName)) return;
+        
         //Debug.Log("Change Animation To : " + animName);
-        animState.SetAnimation(0, animName, isLoop);
+       
+        if (skelAnim.AnimationName.Equals(animName)) return;
+        animState.SetAnimation(0, animName, isLoop).TimeScale = timeScale;
+                                                               
+        //Debug.Log("Change Animation To : " + animName);
+        //animState.SetAnimation(0, animName, isLoop);
+    }
+    
+    public void ChangeTimeScale(float timeScale)
+    {
+        this.timeScale = timeScale;
     }
     
     private void HandleAnimationStateEvent (TrackEntry trackEntry, Spine.Event e) {

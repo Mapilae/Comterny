@@ -88,6 +88,7 @@ public class InteractableObject : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            isClose = true;
             AutoDialogue();
             AutoDoor();
         }
@@ -119,15 +120,16 @@ public class InteractableObject : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+           
+            if (!isCoroutineRunning) StartCoroutine(nameof(IESetMobileUI));
             isClose = true;
-            if (!isCoroutineRunning) StartCoroutine(nameof(IECheckIfInInventory));
         }
         //AUTO DOOR인경우 자동으로 문 열리도록하기
         //if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODOOR))
         //   ItemTypeAct();
     }
 
-    private IEnumerator IECheckIfInInventory()
+    private IEnumerator IESetMobileUI()
     {
         isCoroutineRunning = true;
         while (isClose)
@@ -240,17 +242,17 @@ public class InteractableObject : MonoBehaviour
                 break;
             case InteractableType.PUZZLE:
                 //Debug.Log("PUZZLE MINIGAME START" + name);
-
                 InteractiveThings();
-
                 if (interactList[currentInteractIndex].registerToInventory != null)
                     Inventory.instance.anything = interactList[currentInteractIndex].registerToInventory;
-
                 PlayerMovement.instance.ChangeCanMove(false);
                 break;
+            
             case InteractableType.NOTHING:
                 MobileUI.instance.NothingClose();
                 InteractiveThings();
+                PlayerMovement.instance.ChangeCanMove(true);
+                Debug.Log(this.name+" NOTHING "+currentInteractIndex);
                 break;
             case InteractableType.SEARCH:
                 CaseNPC();

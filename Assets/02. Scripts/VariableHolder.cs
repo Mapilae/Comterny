@@ -32,6 +32,10 @@ public class Item
     [TextArea] public string itemDesc;
     public Sprite itemSpr;
     public bool canThrowAway; //휴지통에 버릴 수 있는 아이템인지
+    public bool canGetMultiple; //여러개를 가질 수 있는 아이템인지
+    [Header("HINT ONLY")] 
+    public int isToOpenHint=-1;//힌트를 열기 위한 용도인가?
+    public Sprite hintSprite;
 }
 
 [CreateAssetMenu(fileName = "VariableHolder", menuName = "ScriptableObjects/VariableHolder", order = 3)]

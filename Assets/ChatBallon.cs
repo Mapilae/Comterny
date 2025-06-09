@@ -18,6 +18,8 @@ public class ChatBallon : NonPlayerCharacter
     private bool isPlaying;
     private float maxPreferredWidth;
     private TypeWriter typeWriter;
+    
+    
 
     private void Start()
     {
@@ -43,6 +45,7 @@ if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolde
         if (isPlaying)
             //
             StopCoroutine(nameof(PlayBallon));
+        
 
         StartConversation();
     }

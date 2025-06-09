@@ -29,79 +29,266 @@ MonoBehaviour:
     itemDesc: "\uC544\uC774\uD15C\uC124\uBA85"
     itemSpr: {fileID: 21300000, guid: d08d14a2969b743b1a8b14dc46e0e8fa, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 1
     itemName: "\uBB3C\uCEF5"
     itemDesc: "\uADF8\uB0E5 \uBB3C"
     itemSpr: {fileID: 21300000, guid: 5b54b64aa03a6418fa2cf8b50928ceb9, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 10
     itemName: "AND\uAC8C\uC774\uD2B8"
     itemDesc: "AND \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uB450 \uC785\uB825
       \uBAA8\uB450 1\uC778 \uACBD\uC6B0 1\uC744 \uCD9C\uB825\uD55C\uB2E4."
     itemSpr: {fileID: 21300000, guid: f49ed5a9d0a53634f8abf7d80bf496a5, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 11
     itemName: "AND\uAC8C\uC774\uD2B8"
     itemDesc: "AND \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uB450 \uC785\uB825
       \uBAA8\uB450 1\uC778 \uACBD\uC6B0 1\uC744 \uCD9C\uB825\uD55C\uB2E4."
     itemSpr: {fileID: 21300000, guid: f49ed5a9d0a53634f8abf7d80bf496a5, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 12
     itemName: "OR\uAC8C\uC774\uD2B8"
     itemDesc: "OR \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uB450 \uC785\uB825
       \uC911 \uD558\uB098\uB77C\uB3C4 1\uC778 \uACBD\uC6B0 1\uC744 \uCD9C\uB825\uD55C\uB2E4."
     itemSpr: {fileID: 21300000, guid: 1f09f981c33eb764f8c1140377e484e1, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 13
     itemName: "NOT\uAC8C\uC774\uD2B8"
     itemDesc: "NOT \uAC8C\uC774\uD2B8 \uC870\uAC01\uC774\uB2E4. \uC785\uB825 \uAC12\uC744
       \uBC18\uC804\uD558\uC5EC \uCD9C\uB825\uD558\uB294 \uC5ED\uD560\uC744 \uD55C\uB2E4."
     itemSpr: {fileID: 21300000, guid: b146a0f35156f5b4f9f184cc2e958945, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 35
     itemName: "\uC4F0\uB808\uAE30"
     itemDesc: "\uD734\uC9C0\uD1B5 \uC8FC\uBCC0\uC5D0 \uB5A8\uC5B4\uC838 \uC788\uB358
       \uC4F0\uB808\uAE30. \uBCC4\uB2E4\uB978 \uC4F8\uBAA8\uB294 \uC5C6\uC5B4\uBCF4\uC778\uB2E4."
     itemSpr: {fileID: 21300000, guid: aa33b91f4a83c174b95d400dee96b47e, type: 3}
     canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 36
     itemName: "\uC4F0\uB808\uAE30"
     itemDesc: "\uD734\uC9C0\uD1B5 \uC8FC\uBCC0\uC5D0 \uB5A8\uC5B4\uC838 \uC788\uB358
       \uC4F0\uB808\uAE30. \uBCC4\uB2E4\uB978 \uC4F8\uBAA8\uB294 \uC5C6\uC5B4\uBCF4\uC778\uB2E4."
     itemSpr: {fileID: 21300000, guid: aa33b91f4a83c174b95d400dee96b47e, type: 3}
     canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 26
     itemName: "\uB370\uC774\uD130 \uCC45"
     itemDesc: "\uB370\uC774\uD130 \uCC45."
     itemSpr: {fileID: 2139620687955372051, guid: 4fc86eb203b31a44491823aba704ddb5, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 27
     itemName: "\uB370\uC774\uD130 \uC0C1\uC790"
     itemDesc: "\uB370\uC774\uD130 \uC0C1\uC790."
     itemSpr: {fileID: 21300000, guid: e9138fcb770f047bfb113899ebe9a049, type: 3}
     canThrowAway: 0
+    canGetMultiple: 1
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 50
     itemName: "\uCC45"
     itemDesc: "\uC2A4\uD0DD \uCC45."
     itemSpr: {fileID: 21300000, guid: 82d8b010c5cfa4f01b5ab3160554c55c, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 51
     itemName: "\uCC45"
     itemDesc: "\uC2A4\uD0DD \uCC45."
     itemSpr: {fileID: 21300000, guid: 136b158862ea242cd985d38a6cfa7c2c, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 52
     itemName: "\uCC45"
     itemDesc: "\uC2A4\uD0DD \uCC45."
     itemSpr: {fileID: 21300000, guid: 939d39b675b5f4d2aa64ce246785d506, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 53
     itemName: "\uCC45"
     itemDesc: "\uC2A4\uD0DD \uCC45."
     itemSpr: {fileID: 21300000, guid: 856f7e33e496142a28d5a7707d32b7ee, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
   - itemID: 54
     itemName: "\uCC45"
     itemDesc: "\uC2A4\uD0DD \uCC45."
     itemSpr: {fileID: 21300000, guid: f9103df627de948149d5f3a2e22b8d02, type: 3}
     canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
+  - itemID: 36
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uC2A4\uD0DD \uB354\uBBF8\uB97C \uAD00\uB9AC\uD558\uB294 \uBC29\uBC95\uC5D0
+      \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 37
+    hintSprite: {fileID: 0}
+  - itemID: 37
+    itemName: "\uCABD\uC9C0"
+    itemDesc: "\uC2A4\uD0DD \uB354\uBBF8\uB97C \uAD00\uB9AC\uD558\uB294 \uBC29\uBC95\uC5D0
+      \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 38
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uD050 \uCEE8\uBCA0\uC774\uC5B4 \uBCA8\uD2B8\uB97C \uAD00\uB9AC\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 39
+    hintSprite: {fileID: 0}
+  - itemID: 39
+    itemName: "\uCABD\uC9C0"
+    itemDesc: "\uD050 \uCEE8\uBCA0\uC774\uC5B4 \uBCA8\uD2B8\uB97C \uAD00\uB9AC\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 20
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uC804\uB825\uBCF5\uAD6C\uC7A5\uCE58\uC758 \uD68C\uB85C\uB97C \uAD00\uB9AC\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 21
+    hintSprite: {fileID: 0}
+  - itemID: 21
+    itemName: "\uBA54\uB274\uC5BC"
+    itemDesc: "\uC804\uB825\uBCF5\uAD6C\uC7A5\uCE58\uC758 \uD68C\uB85C\uB97C \uAD00\uB9AC\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 22
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uC6CC\uD504 \uC81C\uC5B4\uD310\uC758 \uB370\uC774\uD130 \uC804\uC1A1\uC5D0
+      \uAD00\uD55C \uC124\uBA85\uC774 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 23
+    hintSprite: {fileID: 0}
+  - itemID: 23
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uC6CC\uD504 \uC81C\uC5B4\uD310\uC758 \uB370\uC774\uD130 \uC804\uC1A1\uC5D0
+      \uAD00\uD55C \uC124\uBA85\uC774 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 58
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uBCF4\uC548\uC7A5\uCE58\uC758 \uACE0\uC7A5 \uC2DC \uBCF5\uAD6C \uBC29\uBC95\uC5D0
+      \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 55
+    hintSprite: {fileID: 0}
+  - itemID: 55
+    itemName: "\uBA54\uB274\uC5BC"
+    itemDesc: "\uBCF4\uC548\uC7A5\uCE58\uC758 \uACE0\uC7A5 \uC2DC \uBCF5\uAD6C \uBC29\uBC95\uC5D0
+      \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 56
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED\uAE30\uB97C \uC791\uB3D9\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 0}
+  - itemID: 57
+    itemName: "\uBA54\uB274\uC5BC"
+    itemDesc: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED\uAE30\uB97C \uC791\uB3D9\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 0
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 58
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED\uAE30\uB97C \uC791\uB3D9\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 59
+    hintSprite: {fileID: 0}
+  - itemID: 59
+    itemName: "\uBC84\uC2A4 \uB178\uC120 \uBA54\uBAA8"
+    itemDesc: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED\uAE30\uB97C \uC791\uB3D9\uD558\uB294
+      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+  - itemID: 60
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uC774\uC9C4\uD2B8\uB9AC"
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: 61
+    hintSprite: {fileID: 0}
+  - itemID: 61
+    itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
+    itemDesc: "\uC774\uC9C4\uD2B8\uB9AC"
+    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    canThrowAway: 1
+    canGetMultiple: 0
+    isToOpenHint: -1
+    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
