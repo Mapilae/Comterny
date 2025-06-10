@@ -1243,7 +1243,7 @@
     "m_Title": "Bug Binary Disappear",
     "m_Position": {
         "x": -4482.0,
-        "y": 664.9999389648438
+        "y": 665.0
     }
 }
 
@@ -4886,7 +4886,7 @@
     "m_Title": "Flickering",
     "m_Position": {
         "x": -4665.5,
-        "y": 132.50001525878907
+        "y": 132.5
     }
 }
 
@@ -5507,7 +5507,7 @@
         "m_Guid": ""
     },
     "isMainTexture": false,
-    "useTilingAndOffset": false,
+    "useTilingAndOffset": true,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -6246,7 +6246,7 @@
     "m_Title": "Noise",
     "m_Position": {
         "x": -4511.0,
-        "y": -328.99993896484377
+        "y": -329.0
     }
 }
 

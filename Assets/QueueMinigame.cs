@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,19 +7,34 @@ public class QueueMinigame : MonoBehaviour
 {
     public Transform spawnPoint;
     private GameObject blockBoxCol;
-    private List<GameObject> disableObjs;
+    public List<GameObject> disableObjs;
     private readonly bool isSuccess = false;
 
-    private List<GameObject> waitToBeSpawn;
-    
+    public List<GameObject> waitToBeSpawn;
+        
 
-    private void Start()
+    private void Awake()
     {
         disableObjs = new List<GameObject>();
         waitToBeSpawn = new List<GameObject>();
+        
+    }
+    private void Start()
+    {
+    
         blockBoxCol = transform.GetChild(0).gameObject;
+    }
+
+    private void OnEnable()
+    {
         StartCoroutine(IEPushObjInList());
     }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -64,8 +80,8 @@ public class QueueMinigame : MonoBehaviour
     void PushObj()
     {
         var obj = disableObjs[0];
-        disableObjs.RemoveAt(0);
         waitToBeSpawn.Add(obj);
+        disableObjs.RemoveAt(0);
     }
 
     IEnumerator IEPushObjInList()
@@ -73,18 +89,18 @@ public class QueueMinigame : MonoBehaviour
         while (true)
         {
             if(waitToBeSpawn.Count>0){
+                Debug.Log("waitToBeSpawn");
                 var obj = waitToBeSpawn[0];
-                waitToBeSpawn.RemoveAt(0);
-
                 obj.transform.position = spawnPoint.position;
-                obj.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 2, ForceMode2D.Impulse);
                 obj.SetActive(true);
+                obj.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 2, ForceMode2D.Impulse);
+                waitToBeSpawn.RemoveAt(0); 
+                yield return new WaitForSeconds(4f);             
             }
-            yield return new WaitForSeconds(4f);
+            else 
+                yield return new WaitForSeconds(0.5f);
         }
     }
-
-
 
     public void PopOne()
     {

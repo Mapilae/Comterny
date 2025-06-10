@@ -13,6 +13,11 @@ public class HintPanel : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    public void SetHintImage(Sprite sprite)
+    {
+        hintImage.sprite = sprite;
+    }
+
 
     public void HideHint()
     {

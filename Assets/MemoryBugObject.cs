@@ -16,6 +16,8 @@ public class MemoryBugObject : MonoBehaviour
 
     public Transform endParent;
 
+    [Header("Attack effect")] public GameObject attackEffect;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -24,7 +26,7 @@ public class MemoryBugObject : MonoBehaviour
         col.enabled = colEnableAtStart; //cannot catch bug at the start
         // MoveDown();
         
-        anim.SetTrigger("die");
+        //anim.SetTrigger("die");
     }
 
     public void MoveDown()
@@ -115,9 +117,17 @@ public class MemoryBugObject : MonoBehaviour
         }
     }
 
+    public void BugAttack()
+    {
+        if (attackEffect != null)
+        {
+            attackEffect.SetActive(true);
+        }
+    }
+    
     public void BugDisappear()
     {
-        StartCoroutine(IEBugGlitch());
+        StartCoroutine(nameof(IEBugGlitch));
     }
 
     IEnumerator IEBugGlitch()
@@ -126,24 +136,27 @@ public class MemoryBugObject : MonoBehaviour
         mat.SetFloat("NoiseAmount", 5f);
         mat.SetFloat("GlitchStrength", 2f);
         
-        mat.SetFloat("GlitchStart", 1f);
+        Debug.Log("play! bug glitch and disappear");
         
         float time = 0f;
         while (time < 3f)
         {
             time += Time.deltaTime;
-            
+            transform.localScale+= new Vector3(0.03f, 0.03f, 0f);
             yield return null;
         }
 
         time = 0f;
         while (time < 1f)
         {
+            time += Time.deltaTime;
             mat.SetFloat("AlphaFloat", Mathf.Lerp(1f, 0f, time));
+            yield return null;
         }
         mat.SetFloat("GlitchStrength", 30f);
         mat.SetFloat("NoiseAmount", 2f);
         
+        gameObject.SetActive(false);
     }
 
 }

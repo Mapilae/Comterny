@@ -289,4 +289,4 @@ MonoBehaviour:
     canThrowAway: 1
     canGetMultiple: 0
     isToOpenHint: -1
-    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+    hintSprite: {fileID: -8578957793081133217, guid: 41e749c35ec0a4803a5a777846549f4b, type: 3}

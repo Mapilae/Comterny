@@ -55,7 +55,7 @@ public class Inventory : MonoBehaviour
     {
         //가장 마지막으로 얻은 아이템 들기. 아이템 획득시 뜨는 다이얼로그 하기 위한 목적.
         ClickToHoldItem(holdingItemCount - 1, isPlayerClickSelf);
-        Debug.Log("holded last item");
+//        Debug.Log("holded last item");
     }
 
     public void UnholdItem()
@@ -170,8 +170,10 @@ public class Inventory : MonoBehaviour
 
     void ShowHint(Item item)
     {
+        if(item.hintSprite==null)return;
         hintPanel.hintImage.sprite = item.hintSprite;
         hintPanel.gameObject.SetActive(true);
+        hintPanel.SetHintImage(item.hintSprite);
     }
 
     public void HideHint()
