@@ -6,22 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01. Scenes/Soeuns/MainMenu.unity
+    path: Assets/01. Scenes/MainMenu.unity
     guid: 993fcd964c0e5448db51300c792d8efb
   - enabled: 1
-    path: Assets/01. Scenes/Soeuns/MemoryDept.unity
+    path: Assets/01. Scenes/MemoryDept.unity
     guid: 56443c572d94946ef973f1ce9ff578b3
   - enabled: 1
     path: Assets/01. Scenes/BusStop.unity
     guid: efe1298391e91634fb06da3e1f1d3576
   - enabled: 1
-    path: Assets/01. Scenes/Soeuns/CentralProcessingDept.unity
+    path: Assets/01. Scenes/CentralProcessingDept.unity
     guid: acf8928fb04eaa94083202c1cbe73e9f
   - enabled: 1
-    path: Assets/01. Scenes/Soeuns/SystemSoftware.unity
+    path: Assets/01. Scenes/SystemSoftware.unity
     guid: ef0de1f28b79fd64a90fd6a1601bfa04
   - enabled: 1
-    path: Assets/01. Scenes/Soeuns/GoToOS.unity
+    path: Assets/01. Scenes/GoToOS.unity
     guid: f595ae4f8c7c4e94ebf452484b0c6bb1
   - enabled: 1
     path: Assets/01. Scenes/Soeuns/OSBossCombat.unity

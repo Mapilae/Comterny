@@ -33,7 +33,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "\uC0AC\uC6D0\uC99D"
+  m_Name: "\u1109\u1161\u110B\u116F\u11AB\u110C\u1173\u11BC"
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: move

@@ -68,7 +68,7 @@ public class PlayerNameSet : MonoBehaviour
     public void ButtonPopUp(Button button)
     {
         if (!button.interactable) return;
-        button.GetComponent<RectTransform>().localScale = Vector3.one*1.4f;
+        button.GetComponent<RectTransform>().localScale = Vector3.one*1.2f;
         Transform parent = button.transform.parent;
         button.transform.parent = transform;
         button.transform.parent = parent;

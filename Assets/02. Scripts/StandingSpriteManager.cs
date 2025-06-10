@@ -22,7 +22,7 @@ public class StandingSpriteManager : ScriptableObject
         };
     }
 
-    public Sprite FindSprite(string chName, int standingNum)
+    public Sprite FindSprite(string chName, string standingNum)
     {
         if (chName.Equals("")) return nullSprite;
 
@@ -67,9 +67,11 @@ public class StandingSpriteManager : ScriptableObject
          }*/
 
         if (sprListWhole == null) return nullSprite;
-        if (standingNum.Equals("")) standingNum = 0;
-
-        var spr = sprListWhole[standingNum].sprite;
+        
+        //Parse 가능하면 하고, 불가 ㄴ시 0을 디폴트로 넘기기
+        if (!int.TryParse(standingNum, out int result)) result = 0;
+        
+        var spr = sprListWhole[result].sprite;
 
         return spr;
     }

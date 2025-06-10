@@ -258,7 +258,7 @@ MonoBehaviour:
     canGetMultiple: 0
     isToOpenHint: -1
     hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
-  - itemID: 58
+  - itemID: 62
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
     itemDesc: "\uBC84\uC2A4 \uB178\uC120"
     itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
@@ -285,7 +285,7 @@ MonoBehaviour:
   - itemID: 61
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
     itemDesc: "\uC774\uC9C4\uD2B8\uB9AC"
-    itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
+    itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
     canThrowAway: 1
     canGetMultiple: 0
     isToOpenHint: -1

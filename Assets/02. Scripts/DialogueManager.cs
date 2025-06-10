@@ -62,7 +62,7 @@ public class Dialogue
         var split = sprManager.StandingNumParse(name, standingNum);
         name = split[0];
         standingNum = split[1];
-        var newSprite = sprManager.FindSprite(name, int.Parse(standingNum));
+        var newSprite = sprManager.FindSprite(name, standingNum);
         standingImg.image.sprite = newSprite;
         standingImg.image.enabled = standingImg.image.sprite != sprManager.nullSprite;
 

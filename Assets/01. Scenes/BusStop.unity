@@ -15769,6 +15769,10 @@ PrefabInstance:
       value: 0.299
       objectReference: {fileID: 0}
     - target: {fileID: 4637679767067565340, guid: 05a377ac74eea4e21ae1c69b41c02ce9, type: 3}
+      propertyPath: itemID
+      value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637679767067565340, guid: 05a377ac74eea4e21ae1c69b41c02ce9, type: 3}
       propertyPath: msgToDialogue
       value: "\uCABD\uC9C0\uB97C \uC5BB\uC5C8\uB2E4. \uAC89\uC5D0 '\uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uB85C
         \uAC00\uB294 \uBC84\uC2A4 \uB178\uC120 \uBA54\uBAA8'\uB77C\uACE0 \uC4F0\uC5EC\uC788\uB2E4."

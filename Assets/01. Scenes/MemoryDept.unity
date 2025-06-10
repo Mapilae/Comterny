@@ -6377,7 +6377,7 @@ MonoBehaviour:
         destinationTrans: {fileID: 1796718911}
         destination: {x: 0, y: 0, z: 0}
         preWait: 0
-        moveDuration: 1
+        moveDuration: 2
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 1353973799}
@@ -6386,7 +6386,7 @@ MonoBehaviour:
         startTrans: {fileID: 0}
         destinationTrans: {fileID: 0}
         destination: {x: 0, y: 0, z: 0}
-        preWait: 2
+        preWait: 0.5
         moveDuration: 0
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
@@ -13156,6 +13156,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 214250304544674648, guid: 18dfd69cc12470c4e9c771acae6ef3a9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 1334029565694127352, guid: 18dfd69cc12470c4e9c771acae6ef3a9, type: 3}
       propertyPath: m_Mesh
       value: 
