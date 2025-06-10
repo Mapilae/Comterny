@@ -51,7 +51,6 @@ public class PlayerMovement : MovingFootPrint
         //if (isMoving) return;
         FootStep(); //MovingFootPrint: 바닥 환경에 따라 발소리 나게함
 
-
 //#if UNITY_EDITOR
         //달리기 탐지 목적(걷는WASD와는 관련 없음)
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
@@ -60,7 +59,7 @@ public class PlayerMovement : MovingFootPrint
             SetIfRunning(false);
         if (Input.GetKeyDown(KeyCode.Space)) SetIsSpace(true);
 //#endif
-#if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
         if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.RUN))
             SetIfRunning(true);
         else if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.WALK))
@@ -156,16 +155,8 @@ public class PlayerMovement : MovingFootPrint
     private Vector2 GetInput()
     {
         var inputVec = Vector2.zero;
-#if UNITY_ANDROID
-        //모바일인 경우
-        inputVec.x = fixedJoystick.Horizontal;
-        inputVec.y = fixedJoystick.Vertical;
-        // Debug.Log(inputVec.x + ",  " + inputVec.y);
 
-        return inputVec;
-
-#endif
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_WEBGL
         //PC인 경우
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
@@ -174,6 +165,15 @@ public class PlayerMovement : MovingFootPrint
         playSpineAnim.ChangeTimeScale(1+Mathf.Abs(inputVec.y)*0.5f);
         
         return inputVec;
+#endif
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
+        //모바일인 경우
+        inputVec.x = fixedJoystick.Horizontal;
+        inputVec.y = fixedJoystick.Vertical;
+        // Debug.Log(inputVec.x + ",  " + inputVec.y);
+
+        return inputVec;
+
 #endif
     }
 

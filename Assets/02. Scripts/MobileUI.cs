@@ -14,6 +14,8 @@ public class MobileUI : MonoBehaviour
     //private PlayerMovement playerMovement;
     public GameObject mobileOnlyObj;
     public GameObject pcObj; //space bar guide
+
+    public static bool isJoyOn=false;
     
     private void Awake()
     {
@@ -34,6 +36,10 @@ public class MobileUI : MonoBehaviour
         pcObj.SetActive(false);
         //canvas.enabled = true;
      //   playerMovement = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
+#endif
+#if UNITY_WEBGL
+        mobileOnlyObj.SetActive(isJoyOn);
+        pcObj.SetActive(true);
 #endif
     }
 
