@@ -20,6 +20,7 @@ TagManager:
   - trashFull
   - box
   - deadzone
+  - bug
   layers:
   - Default
   - TransparentFX

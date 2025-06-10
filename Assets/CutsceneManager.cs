@@ -191,7 +191,12 @@ public class CutsceneManager : MonoBehaviour
                 if (dist != 0f)
                     PlayerMovement.instance.SetPlayerLookingDirection(dist < 0);
             }
+            if (moveObj.target.GetComponent<MemoryBugObject>())
+            {
+                MemoryBugObject bug = moveObj.target.GetComponent<MemoryBugObject>();
+                bug.StartRotation(end);
 
+            }
             while (elapsed < moveObj.moveDuration)
             {
                 elapsed += Time.deltaTime;
@@ -199,9 +204,11 @@ public class CutsceneManager : MonoBehaviour
                     moveObj.target.localPosition = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
                 else
                     moveObj.target.position = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
+
+                
                 yield return null;
             }
-
+            
             if (isLocal)
                 moveObj.target.localPosition = end;
             else
@@ -211,6 +218,13 @@ public class CutsceneManager : MonoBehaviour
                 PlayerMovement.instance.StopMoving();
                 PlayerMovement.instance.SetPlayerLookingDirection(false);
             }
+            if (moveObj.target.GetComponent<MemoryBugObject>())
+            {
+                MemoryBugObject bug = moveObj.target.GetComponent<MemoryBugObject>();
+                bug.EndRotation();
+             
+            }
+
         }
 
         currentMidStep++;

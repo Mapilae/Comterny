@@ -95,17 +95,30 @@ public class StackMinigame : MonoBehaviour
     public void PushButtonClick()
     {
         if(!canPush)return;
+
+        int holdingItemID =Inventory.instance.currentHoldingItemIndex==-1?
+            -1: Inventory.instance.itemHoldList[Inventory.instance.currentHoldingItemIndex].itemID;
+        if (holdingItemID >= 50 && holdingItemID <= 54)
+        {
+            //스택용 책인 경우
+            PlayerData.instance.RemoveItem(holdingItemID);
+            StartCoroutine(AddStackBlockAtTop(holdingItemID));
+            return;
+        }
+      
         for (int i = 0; i < PlayerData.instance.items.Count; i++)
         {
-           if(PlayerData.instance.items[i]>=50&&PlayerData.instance.items[i]<=54)
-           {//스택용 책인 경우
-               int itemID =PlayerData.instance.RemoveItemAt(i);
-               StartCoroutine(AddStackBlockAtTop(itemID));
-               return;
-           }
+            if (PlayerData.instance.items[i] >= 50 && PlayerData.instance.items[i] <= 54)
+            {
+                //스택용 책인 경우
+                int itemID = PlayerData.instance.RemoveItemAt(i);
+                StartCoroutine(AddStackBlockAtTop(itemID));
+                return;
+            }
+
             
         }
-        
+
         // Debug.Log(CheckBug());
     }
     

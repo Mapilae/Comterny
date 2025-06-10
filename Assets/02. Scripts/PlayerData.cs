@@ -204,4 +204,11 @@ public class PlayerData : MonoBehaviour
         return RemoveItem(itemID)?itemID:-1;
         
     }
+
+    public void ResetAll()
+    {
+        items.Clear();
+        variables.Clear();
+        Inventory.instance.UpdateInventory();
+    }
 }

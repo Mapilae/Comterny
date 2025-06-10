@@ -260,8 +260,7 @@ MonoBehaviour:
     hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
   - itemID: 58
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
-    itemDesc: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED\uAE30\uB97C \uC791\uB3D9\uD558\uB294
-      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemDesc: "\uBC84\uC2A4 \uB178\uC120"
     itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
     canThrowAway: 1
     canGetMultiple: 0
@@ -269,13 +268,12 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 59
     itemName: "\uBC84\uC2A4 \uB178\uC120 \uBA54\uBAA8"
-    itemDesc: "\uAE30\uACC4\uC5B4 \uBC88\uC5ED\uAE30\uB97C \uC791\uB3D9\uD558\uB294
-      \uBC29\uBC95\uC5D0 \uB300\uD574 \uC4F0\uC5EC\uC788\uB2E4."
+    itemDesc: "\uBC84\uC2A4 \uB178\uC120"
     itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
     canThrowAway: 1
     canGetMultiple: 0
     isToOpenHint: -1
-    hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
+    hintSprite: {fileID: -8299200411491441544, guid: cada5d34543d146f98cb85b1a70cb564, type: 3}
   - itemID: 60
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
     itemDesc: "\uC774\uC9C4\uD2B8\uB9AC"

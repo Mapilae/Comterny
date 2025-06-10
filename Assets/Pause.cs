@@ -105,4 +105,10 @@ public class Pause : MonoBehaviour
         //for debug only
         PlayerMovement.instance.ChangeCanMove(true);
     }
+
+    public void DeletePlayerDataInfo()
+    {
+        PlayerData.instance.ResetAll();
+    }
+    
 }

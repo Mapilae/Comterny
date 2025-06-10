@@ -4602,6 +4602,10 @@ PrefabInstance:
       value: "\uCEF4\uD30C\uC77C\uB7EC\uC7A0\uAE34\uBB38"
       objectReference: {fileID: 0}
     - target: {fileID: 3245160851987953146, guid: 1acafc79ea56d0b46b6793a4bbda1462, type: 3}
+      propertyPath: interactList.Array.data[0].soundToPlay
+      value: open wooden door
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245160851987953146, guid: 1acafc79ea56d0b46b6793a4bbda1462, type: 3}
       propertyPath: interactList.Array.data[1].objToDisable
       value: 
       objectReference: {fileID: 0}

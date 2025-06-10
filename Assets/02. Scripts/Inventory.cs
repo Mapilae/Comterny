@@ -36,8 +36,7 @@ public class Inventory : MonoBehaviour
     private PlayerData playerData;
     
     [Header("Hint System")]
-    public Image hintImage;
-
+    public HintPanel hintPanel;
     // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
     // 
     private void Awake()
@@ -92,19 +91,21 @@ public class Inventory : MonoBehaviour
         var item = playerData.GetItemFromID(itemHoldList[currentHoldingItemIndex].itemID);
 
         if(isPlayerClickSelf){
-        if (item.isToOpenHint != -1)
-        {
-            // 아이템을 획득했을 때, 해당 아이템의 힌트 스프라이트를 보여준다.
-            //maybe we should make ReplaceItem() function instead of this
-            playerData.RemoveItem(item.itemID);
-            playerData.AddItem(item.isToOpenHint);
-            item = playerData.GetItemFromID(item.isToOpenHint);
+            if (item.isToOpenHint != -1)
+            {
+                // 아이템을 획득했을 때, 해당 아이템의 힌트 스프라이트를 보여준다.
+                //maybe we should make ReplaceItem() function instead of this
+                playerData.RemoveItem(item.itemID);
+                playerData.AddItem(item.isToOpenHint);
+                item = playerData.GetItemFromID(item.isToOpenHint);
+            }
+            if (item.hintSprite != null)
+            {
+                //hint인 경우
+                ShowHint(item);
+            }
+        
         }
-        if (item.hintSprite != null)
-        {
-            //hint인 경우
-            ShowHint(item);
-        }}
 
         PlayerMovement.instance.HoldItem(item.itemID, item.itemSpr);
         holdingItem = item;
@@ -167,17 +168,15 @@ public class Inventory : MonoBehaviour
             }
     }
 
-    public void ShowHint(Item item)
+    void ShowHint(Item item)
     {
-        hintImage.sprite = item.hintSprite;
-        hintImage.transform.parent.gameObject.SetActive(true);
-
+        hintPanel.hintImage.sprite = item.hintSprite;
+        hintPanel.gameObject.SetActive(true);
     }
 
     public void HideHint()
     {
-        hintImage.transform.parent.gameObject.SetActive(false);
-        hintImage.sprite = null;
+        hintPanel.HideHint();
         UnholdItem();
         
     }
