@@ -150,4 +150,12 @@ public class LodingScene : MonoBehaviour
     {
         StartCoroutine(LoadSceneAsync(HowLoading.gameObject));
     }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quitting game...");
+        Application.Quit();
+        
+    }
+    
 }

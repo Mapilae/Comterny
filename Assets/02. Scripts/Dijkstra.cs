@@ -40,6 +40,8 @@ public class Dijkstra : MonoBehaviour
 
     private readonly int[] weight = new int[7];
 
+    public GameObject demoEndObj;
+
     private void Start()
     {
         //자동으로 찾아서 할당함
@@ -133,11 +135,18 @@ public class Dijkstra : MonoBehaviour
         ResetVertexBlocks();
     }
 
+    public void CloseTab()
+    {
+        PlayerMovement.instance.ChangeCanMove(true);
+        this.gameObject.SetActive(false);
+    }
+
     private void DisableThis()
     {
         Debug.Log("END");
         //temp
-        LodingScene.instance.LoadScene();
+       // LodingScene.instance.LoadScene();
+       demoEndObj.SetActive(true);
         gameObject.SetActive(false);
     }
 }

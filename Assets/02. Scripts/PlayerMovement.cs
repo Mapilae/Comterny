@@ -108,6 +108,11 @@ public class PlayerMovement : MovingFootPrint
     {
         playSpineAnim.SetAnim("idle", true);
     }
+    
+    public void PlayerSpineAnimBug()
+    {
+        playSpineAnim.SetAnim("FlyPunch", false);
+    }
 
     public void PlayerSpineAnimWalk()
     {

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 6459740d5eafa45de908641e081561f2, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: dd94eff661a4a4238927fa5fd84e952c, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -402,6 +402,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+  forceRun: 0
 --- !u!50 &7897887659413020819
 Rigidbody2D:
   serializedVersion: 5
@@ -493,6 +494,7 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: cf855a6998203e24fa225e45a28eaf6e, type: 3}
   basePitch: 1
   randomPitchOffset: 0.1
+  timeScale: 1
 --- !u!70 &827153660123190845
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

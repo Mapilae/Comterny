@@ -17,7 +17,7 @@ public class GreedyMinigame : MonoBehaviour
         instance = this;
     }
 
-    void Start()
+    void OnEnable()
     {
         greedyCircles=GameObject.FindObjectsOfType<GreedyCircle>().ToList();
         
@@ -25,7 +25,7 @@ public class GreedyMinigame : MonoBehaviour
         SetPlayerNewCollider(true);
     }
 
-    void SetPlayerNewCollider(bool isActive)
+    public void SetPlayerNewCollider(bool isActive)
     {
         
             playerNewCol.enabled = isActive;
@@ -48,6 +48,7 @@ public class GreedyMinigame : MonoBehaviour
         {
             circle.ResetCircle();
         }
+      //  SetPlayerNewCollider(false);
     }
     
     public void SuccessGame()
@@ -55,8 +56,18 @@ public class GreedyMinigame : MonoBehaviour
         if (isClear) return; // 이미 클리어된 경우는 무시
         isClear = true;
         SoundManager.instance.PlaySound("minigame success");
-        SetPlayerNewCollider(false);
+       // SetPlayerNewCollider(false);
         // 미니게임 성공 후 처리할 로직 추가
         Debug.Log("Greedy Minigame Cleared!");
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if(isClear)
+                SetPlayerNewCollider(false);
+        }
+    }
+    
 }

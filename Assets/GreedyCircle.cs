@@ -12,6 +12,9 @@ public class GreedyCircle : MonoBehaviour
     List<GameObject> nearNodeWeightText;
     public List<SpriteRenderer> nextVertex;
     public int thisType = 0;//1: 시작점, 0: 중간점, 3: 끝점
+    public Sprite[] circleSpr;
+    public Color edgeColors;
+    
 
 
     public bool isThisNodeGameOver;//틀린 답인가?
@@ -49,7 +52,7 @@ public class GreedyCircle : MonoBehaviour
         
         
         isVisited = visited;
-        render.color = isVisited ? Color.yellow : Color.white;
+        render.sprite = (isVisited&&!disableGameOver) ? circleSpr[1] : circleSpr[0];
         // 방문한 경우 색상을 노란색으로 변경, 방문하지 않은 경우 흰색으로 변경
         NearNodeActive(isVisited);
         if (disableGameOver != null)
@@ -62,13 +65,15 @@ public class GreedyCircle : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (GreedyMinigame.instance.isClear) return;
-        if (other.CompareTag("deadzone"))//players new col
+        if (other.CompareTag("deadzone")||other.CompareTag("Player"))//players new col
         {
             NearNodeActive(true);
             BeforeNodeActive(true);
             CheckIfGameOver();
         }
+       
     }
+    
 
     void CheckIfGameOver()
     {
@@ -110,7 +115,7 @@ public class GreedyCircle : MonoBehaviour
             if (node != null)
             {
                 node.gameObject.SetActive(active);
-                node.color = Color.white;
+                node.color = edgeColors;
             }
         }
         foreach (var vertex in nearNodeWeightText)
@@ -125,7 +130,7 @@ public class GreedyCircle : MonoBehaviour
         {
             if (vertex != null)
             {
-                vertex.enabled = active;
+                //vertex.enabled = active;
             }
             
         }

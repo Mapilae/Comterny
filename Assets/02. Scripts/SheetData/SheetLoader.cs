@@ -9,9 +9,12 @@ public class SheetLoader : MonoBehaviour
 {
     public static SheetLoader instance;
 
+    //스프레드시트 > 파일 > 공유 > 웹에 게시 > 생긴 링크 복사
     private static readonly string url =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
-
+        //"https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
+        //위에 이건 실제 쓰는 용
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyDhQNEmPN2kq_6YnYAm5qEX-x-s_EJ18P15C4a858VthuAkPY1_rKuYAK_usl1oKAjd8Rfz7bjTwc/pub?output=tsv";
+        //위에 저건 인디커넥트용
     public static int chapNumber = 1;
 
     public static bool isLoading;

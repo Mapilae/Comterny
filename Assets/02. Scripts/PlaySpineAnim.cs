@@ -47,6 +47,8 @@ public class PlaySpineAnim : MonoBehaviour
         //Debug.Log("Change Animation To : " + animName);
         //animState.SetAnimation(0, animName, isLoop);
     }
+
+    
     
     public void ChangeTimeScale(float timeScale)
     {

@@ -86,7 +86,7 @@ public class InteractableObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player")||collision.CompareTag("deadzone"))
         {
             isClose = true;
             AutoDialogue();
@@ -106,7 +106,7 @@ public class InteractableObject : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player")||collision.CompareTag("deadzone"))
         {
             isClose = false;
 
@@ -118,7 +118,7 @@ public class InteractableObject : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player")||collision.CompareTag("deadzone"))
         {
            
             if (!isCoroutineRunning) StartCoroutine(nameof(IESetMobileUI));

@@ -285,10 +285,28 @@ public class DialogueManager : MonoBehaviour
             Regex regex = new(@"\{(.*?)\}");
             content = regex.Replace(content, match =>
             {
-                var key = match.Groups[1].Value.Trim(); // ������ ���� �� ���� ����
-                if (key.Equals("Player")) return PlayerData.playerName;
+                var key = match.Groups[1].Value.Trim();
+
+                // switch문에 따라 "player"도 처리하도록 통합
                 var value = PlayerPrefs.GetString(key, "null");
-                return value;
+
+                // name 기준 분기
+                switch (dialogueList[crtIndex].name)
+                {
+                    case "램":
+                    case "프로세서":
+                    case "랜섬웨어":
+                    case "랜섬웨어빌런":
+                        return key.Equals("player") && PlayerData.playerName.Equals("유저 디버그") ? "유저" : value;
+
+                    case "컴파일러":
+                    case "폰 노이만":
+                    case "회장님":
+                        return key.Equals("player") && PlayerData.playerName.Equals("유저 디버그") ? "디버그" : value;
+
+                    default:
+                        return key.Equals("player") ? PlayerData.playerName : value;
+                }
             });
         }
 

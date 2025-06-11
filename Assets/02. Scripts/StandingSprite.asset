@@ -17,8 +17,12 @@ MonoBehaviour:
   - name: 
     sprite: {fileID: -4298056599330406823, guid: ac291c9b811d7e84a902d15a51610253, type: 3}
   ramSpr:
-  - name: "\uC2A4\uD0E0\uB529\uC774\uB984\uBA54\uBAA8"
-    sprite: {fileID: 21300000, guid: 7ad4666cb7b1d4c49946f3104cc3a72d, type: 3}
+  - name: "\uBBF8\uC18C"
+    sprite: {fileID: 21300000, guid: 0188db07020e9405986360d0964e86de, type: 3}
+  - name: "\uB208\uAC10\uACE0\uBD88\uC30D"
+    sprite: {fileID: 21300000, guid: 494a396fb1e044255ace1e4446245fe4, type: 3}
+  - name: "\uD328\uB2C9"
+    sprite: {fileID: 21300000, guid: 9ba0e63f4b3ea4487b99b9d41e52f3ca, type: 3}
   processorSpr:
   - name: 
     sprite: {fileID: 21300000, guid: 6e2fd961778d1a241ada43a9e3d838c7, type: 3}
@@ -26,5 +30,9 @@ MonoBehaviour:
   - name: 
     sprite: {fileID: 21300000, guid: f44254e5d183e7b438f96a87df79a9ca, type: 3}
   ransomwareSpr:
-  - name: 
-    sprite: {fileID: 21300000, guid: 572537a671f6a2b49ba690e5b6843b68, type: 3}
+  - name: "\uACE0\uC57C\uC774"
+    sprite: {fileID: 21300000, guid: 5323285fbc54d4fa9b6afd10bf0a09f1, type: 3}
+  - name: "\uD654\uB0A8"
+    sprite: {fileID: 21300000, guid: dcd3df896743b4eb3b668df974366fea, type: 3}
+  - name: "\uC6B8\uC74C"
+    sprite: {fileID: 21300000, guid: 81bb5653a23644ad7bb347af8bfdb650, type: 3}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public static CameraFollow instance;
+    public bool followPlayerAtFirst = false;
     public static bool doFollowPlayer = true;
     public Transform player; //플레이어 트랜스폼
 
@@ -64,6 +65,7 @@ public class CameraFollow : MonoBehaviour
     
     private void Start()
     {
+        doFollowPlayer = followPlayerAtFirst;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         targetPosition = transform.position;
     }

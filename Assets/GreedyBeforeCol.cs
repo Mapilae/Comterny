@@ -4,6 +4,7 @@ using UnityEngine;
 public class GreedyBeforeCol : MonoBehaviour
 {
     private SpriteRenderer parentRender;
+    public Color[] edgeColors;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class GreedyBeforeCol : MonoBehaviour
         if (parentRender == null) return;
         
         // 방문 여부에 따라 부모 오브젝트의 색상을 변경
-        parentRender.color = isVisited ? Color.yellow : Color.white;
+        parentRender.color = isVisited ? edgeColors[1] : edgeColors[0];
     }
   
 }

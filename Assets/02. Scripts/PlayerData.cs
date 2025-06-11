@@ -95,6 +95,7 @@ public void SetName(string newName)
 {
     playerName = newName;
     //SAVE
+    SaveData.instance.Save();
 }
 
 public void ChangeCrtStage(int stageNum)
