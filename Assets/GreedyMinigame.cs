@@ -21,7 +21,7 @@ public class GreedyMinigame : MonoBehaviour
     {
         greedyCircles=GameObject.FindObjectsOfType<GreedyCircle>().ToList();
         
-        ResetGame();
+        ResetGame(isPlayerTP:false);
         SetPlayerNewCollider(true);
     }
 
@@ -39,15 +39,24 @@ public class GreedyMinigame : MonoBehaviour
         ResetGame();
     }
 
-    void ResetGame()
+    void ResetGame(bool isPlayerTP=true)
     {
-        GameObject.FindWithTag("Player").transform.position=this.transform.position;
+        if(isPlayerTP)
+            GameObject.FindWithTag("Player").transform.position=this.transform.position;
         
         foreach (var circle in greedyCircles)
         {
             circle.ResetCircle();
         }
-        
-        
+    }
+    
+    public void SuccessGame()
+    {
+        if (isClear) return; // 이미 클리어된 경우는 무시
+        isClear = true;
+        SoundManager.instance.PlaySound("minigame success");
+        SetPlayerNewCollider(false);
+        // 미니게임 성공 후 처리할 로직 추가
+        Debug.Log("Greedy Minigame Cleared!");
     }
 }
