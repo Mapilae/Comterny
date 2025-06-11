@@ -92,7 +92,8 @@ public class Pause : MonoBehaviour
     {
         //버튼에서 사용함
         SaveData.instance.Save();
-        LodingScene.instance.LoadScene("MainMenu");
+        Debug.Log("MainMenu로 돌아갑니다. 다만, 현재는 아무일도 일어나지 않습니다.");
+        //LodingScene.instance.LoadScene("MainMenu");
     }
 
     public void ResetSaveData()

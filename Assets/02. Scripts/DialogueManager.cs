@@ -195,30 +195,10 @@ public class DialogueManager : MonoBehaviour
         if (dialogue.IsActive())
             //Spacebar or EnterKey, or Click Between bottom 0~700
             if (canClickToNext && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
-                                   (Input.mousePosition.y <= FIXED_HEIGHT && Input.GetMouseButtonDown(0)) ||
-                                   Input.mouseScrollDelta.y != 0.0))
+                                   (Input.GetMouseButtonDown(0)) ||
+                                   Input.mouseScrollDelta.y != 0.0||Input.touchCount > 0))//Input.mousePosition.y <= FIXED_HEIGHT && 
                 ChangeDialogue();
 
-#if UNITY_IOS
-        if (Input.touchCount > 0)
-        {
-           // if (!isNoNext && (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.y <= FIXED_HEIGHT))
-          //  {
-          //      tmptext.text = Input.GetTouch(0).position.y.ToString();
-           //     ChangeDialogue();
-           // }
-        }
-#endif
-#if UNITY_ANDROID
-        if (Input.touchCount > 0)
-        {
-            // if (!isNoNext && (Input.GetTouch(0).phase == TouchPhase.Ended && Input.GetTouch(0).position.y <= FIXED_HEIGHT))
-            // {
-            // tmptext.text = Input.GetTouch(0).position.y.ToString();
-            //     ChangeDialogue();
-            // }
-        }
-#endif
     }
 
     public void ItemGetDialogue(string msg)
@@ -482,7 +462,7 @@ public class DialogueManager : MonoBehaviour
             state = currentState.DIALOGUE;
         }
 
-//        PlayerMovement.instance.ChangeCanMove(true);
+        PlayerMovement.instance.ChangeCanMove(true);
         dialogue.SetActive(false);
     }
 
