@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+  m_Color: {r: 0.09019608, g: 0.08627451, b: 0.15294118, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2099,6 +2099,7 @@ MonoBehaviour:
   vertexBlocks: []
   nodeParent: {fileID: 2613601438570976034}
   nodeTexts: []
+  demoEndObj: {fileID: 0}
 --- !u!1 &7044834224762342079
 GameObject:
   m_ObjectHideFlags: 0

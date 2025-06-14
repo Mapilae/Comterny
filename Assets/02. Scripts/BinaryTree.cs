@@ -47,8 +47,9 @@ public class BinaryTree : MonoBehaviour
     public int deletedNum = -1;
 
     public GameObject objToDisable; //puzzle open interactable Object
-    private Animator anim;
 
+    public string clearCmd = "questRemove:멈춘 호출기;questGive:호출기 사용:호출기에 버스 노선을 입력하여 버스를 호출하자.";
+    private Animator anim;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -74,7 +75,7 @@ public class BinaryTree : MonoBehaviour
     public void ClosePanel()
     {
         PlayerMovement.instance.ChangeCanMove(true);
-        this.gameObject.transform.parent.gameObject.SetActive(false);
+        gameObject.transform.parent.gameObject.SetActive(false);
     }
 
     private void BarrierOff()
@@ -100,7 +101,7 @@ public class BinaryTree : MonoBehaviour
             // foreach (var arrow in vertexObj[index - 1].adjustArrows) arrow.SetActive(false);
             // nodeBlocks[index - 1].vertexObj.SetActive(false);
             RemoveDelNum(index);
-            Success();
+            Success(clearCmd);
         }
         else
         {
@@ -116,8 +117,9 @@ public class BinaryTree : MonoBehaviour
         vertexObj[2].adjustedNode.Remove(delNum); //이거의 부모 정점에서 인접노드로 해당 인덱스 삭제하기
     }
 
-    public void Success()
+    public void Success(string cmd = "replace")
     {
+        if (cmd.Equals("replace")) cmd = clearCmd;
         //end animation
         anim.SetTrigger("Success");
         SoundManager.instance.PlaySound("minigame clear");
@@ -130,6 +132,8 @@ public class BinaryTree : MonoBehaviour
             PlayerData.instance.AddVariable(varToAdd);
             objToDisable.SetActive(false);
         }
+
+        DirectingManager.instance.RunCMD(cmd);
 
         Invoke("DisableThis", 3f);
     }

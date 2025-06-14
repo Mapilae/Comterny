@@ -104,7 +104,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 27
     itemName: "\uB370\uC774\uD130 \uC0C1\uC790"
-    itemDesc: "\uB370\uC774\uD130 \uC0C1\uC790."
+    itemDesc: "\uB370\uC774\uD130\uAC00 \uBCF4\uAD00\uB41C \uC0C1\uC790."
     itemSpr: {fileID: 21300000, guid: e9138fcb770f047bfb113899ebe9a049, type: 3}
     canThrowAway: 0
     canGetMultiple: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 50
     itemName: "\uCC45"
-    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemDesc: "\uB370\uC774\uD130\uAC00 \uAE30\uB85D\uB41C \uCC45."
     itemSpr: {fileID: 21300000, guid: 82d8b010c5cfa4f01b5ab3160554c55c, type: 3}
     canThrowAway: 0
     canGetMultiple: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 51
     itemName: "\uCC45"
-    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemDesc: "\uB370\uC774\uD130\uAC00 \uAE30\uB85D\uB41C \uCC45."
     itemSpr: {fileID: 21300000, guid: 136b158862ea242cd985d38a6cfa7c2c, type: 3}
     canThrowAway: 0
     canGetMultiple: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 52
     itemName: "\uCC45"
-    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemDesc: "\uB370\uC774\uD130\uAC00 \uAE30\uB85D\uB41C \uCC45."
     itemSpr: {fileID: 21300000, guid: 939d39b675b5f4d2aa64ce246785d506, type: 3}
     canThrowAway: 0
     canGetMultiple: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 53
     itemName: "\uCC45"
-    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemDesc: "\uB370\uC774\uD130\uAC00 \uAE30\uB85D\uB41C \uCC45."
     itemSpr: {fileID: 21300000, guid: 856f7e33e496142a28d5a7707d32b7ee, type: 3}
     canThrowAway: 0
     canGetMultiple: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 54
     itemName: "\uCC45"
-    itemDesc: "\uC2A4\uD0DD \uCC45."
+    itemDesc: "\uB370\uC774\uD130\uAC00 \uAE30\uB85D\uB41C \uCC45."
     itemSpr: {fileID: 21300000, guid: f9103df627de948149d5f3a2e22b8d02, type: 3}
     canThrowAway: 0
     canGetMultiple: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
     hintSprite: {fileID: 115369738595167404, guid: 974d8850b3f7b4eaca2418218da3a983, type: 3}
   - itemID: 62
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
-    itemDesc: "\uBC84\uC2A4 \uB178\uC120"
+    itemDesc: "\uBC84\uC2A4 \uB178\uC120 \uC9C0\uC815 \uBC29\uBC95\uC774 \uC4F0\uC5EC\uC788\uB2E4."
     itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
     canThrowAway: 1
     canGetMultiple: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 59
     itemName: "\uBC84\uC2A4 \uB178\uC120 \uBA54\uBAA8"
-    itemDesc: "\uBC84\uC2A4 \uB178\uC120"
+    itemDesc: "\uBC84\uC2A4 \uB178\uC120 \uC9C0\uC815 \uBC29\uBC95\uC774 \uC4F0\uC5EC\uC788\uB2E4."
     itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
     canThrowAway: 1
     canGetMultiple: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
     hintSprite: {fileID: -8299200411491441544, guid: cada5d34543d146f98cb85b1a70cb564, type: 3}
   - itemID: 60
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
-    itemDesc: "\uC774\uC9C4\uD2B8\uB9AC"
+    itemDesc: "\uC774\uC9C4\uD2B8\uB9AC \uC6D0\uC608 \uBC29\uBC95\uC774 \uC801\uD600\uC788\uB2E4."
     itemSpr: {fileID: 21300000, guid: 9a145abed7e7c44129dd30bceb1999d8, type: 3}
     canThrowAway: 1
     canGetMultiple: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
     hintSprite: {fileID: 0}
   - itemID: 61
     itemName: "\uB204\uAD70\uAC00\uC758 \uCABD\uC9C0"
-    itemDesc: "\uC774\uC9C4\uD2B8\uB9AC"
+    itemDesc: "\uC774\uC9C4\uD2B8\uB9AC \uC6D0\uC608 \uBC29\uBC95\uC774 \uC801\uD600\uC788\uB2E4."
     itemSpr: {fileID: 21300000, guid: 0debe481268c74040bd07a46d7ca7ba1, type: 3}
     canThrowAway: 1
     canGetMultiple: 0

@@ -8,26 +8,31 @@ using Random = UnityEngine.Random;
 
 public class DirectingManager : MonoBehaviour
 {
+    public static DirectingManager instance;
     public Volume volumePrefab;
     [Header("CHOICE")] public GameObject choiceWholeObj;
     public choice[] choices;
 
     [Header("Other")] public GameObject prefab;
+    public Animator letterboxAnim;
+    public bool isLetterboxOn; //letterbox on/off
 
     private Camera cam;
 
     private Vector3 dftpos;
-    public Animator letterboxAnim;
-    private Animator panelAnim;
-    public bool isLetterboxOn = false; //letterbox on/off
     private DialogueManager dialogueManager;
+    private Animator panelAnim;
 
     private Vector3 standingDefaultPos;
     private GameObject standings;
 
     private Animator stands;
-    
-    
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -65,7 +70,7 @@ public class DirectingManager : MonoBehaviour
         {
             case "close":
                 //다이얼로그 종료
-                dialogueManager.EndDialogue();
+                dialogueManager.EndDialogue(false);
                 break;
             case "move":
                 dialogueManager.StartDialogueInManager(next);
@@ -85,7 +90,7 @@ public class DirectingManager : MonoBehaviour
                 break;
             case "open":
                 //특정 오브젝트의 태그를 검색하여 그것을 활성화 함(단일이어야함!) 다이얼로그는 자동으로 종료함. (close와 동일)
-                dialogueManager.EndDialogue();
+                dialogueManager.EndDialogue(false);
                 EnableObject(next, true);
                 break;
             case "enable":
@@ -242,7 +247,7 @@ public class DirectingManager : MonoBehaviour
 
     private void MoveScene(string sceneName)
     {
-        Debug.Log("try to move scene to: "+sceneName);
+        Debug.Log("try to move scene to: " + sceneName);
         if (sceneName.Equals("")) LodingScene.instance.LoadScene();
         else LodingScene.instance.LoadScene(sceneName);
     }
@@ -298,7 +303,7 @@ public class DirectingManager : MonoBehaviour
         letterboxAnim.SetTrigger("letterboxOn");
         panelAnim.SetTrigger("letterboxOn");
     }
-    
+
     public void LetterboxOff()
     {
         if (!isLetterboxOn) return;
@@ -307,7 +312,7 @@ public class DirectingManager : MonoBehaviour
         panelAnim.SetTrigger("letterboxOff");
     }
 
-    
+
     private IEnumerator TurnStandingLeftRight()
     {
         yield return new WaitForSeconds(0.5f);

@@ -4,19 +4,28 @@ using UnityEngine.UI;
 
 public class GlitchForSomeTime : MonoBehaviour
 {
-   public float coolTime=3f;
-   private Graphic graphic;
-   private Material mat;
-   public float noiseAmount = 50f;
-    void Start()
+    public float coolTime = 3f;
+    public float noiseAmount = 50f;
+    private Graphic graphic;
+    private Material mat;
+    private Renderer rend;
+
+    private void Start()
     {
-        graphic= GetComponent<Graphic>();
-        mat = Instantiate(graphic.material);
-        graphic.material = mat;
+        //graphic = GetComponent<Graphic>();
+
+        graphic = GetComponent<Graphic>();
+        rend = GetComponent<Renderer>();
+
+        if (graphic != null)
+            mat = Instantiate(graphic.material);
+        else if (rend != null)
+            mat = Instantiate(rend.material);
 
         StartGlitch();
     }
-    IEnumerator Glitch()
+
+    private IEnumerator Glitch()
     {
         while (true)
         {
@@ -24,19 +33,25 @@ public class GlitchForSomeTime : MonoBehaviour
             mat.SetFloat("_GlitchStart", 0f);
             mat.SetFloat("_GlitchStrength", 0f);
             mat.SetFloat("_NoiseAmount", 0f);
-            graphic.material = mat;
+
+            if (graphic != null)
+                graphic.material = mat;
+            else if (rend != null)
+                rend.material = mat;
             yield return new WaitForSeconds(coolTime);
             //glitch 효과를 줌
             mat.SetFloat("_GlitchStart", 0.2f);
             mat.SetFloat("_GlitchStrength", 3);
             mat.SetFloat("_NoiseAmount", noiseAmount);
-            graphic.material = mat;
+            if (graphic != null)
+                graphic.material = mat;
+            else if (rend != null)
+                rend.material = mat;
             yield return new WaitForSeconds(1f);
         }
-        
     }
 
-    void StartGlitch()
+    private void StartGlitch()
     {
         StartCoroutine(Glitch());
     }

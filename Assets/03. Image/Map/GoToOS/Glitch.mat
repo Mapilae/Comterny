@@ -59,7 +59,7 @@ Material:
     m_Floats:
     - _AlphaFloat: 1
     - _EnableExternalAlpha: 0
-    - _GlitchStart: 1
+    - _GlitchStart: 0.2
     - _GlitchStrength: 3
     - _NoiseAmount: 50
     - _ZWrite: 0

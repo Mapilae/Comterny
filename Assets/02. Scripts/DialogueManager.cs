@@ -104,7 +104,7 @@ public class Dialogue
             case "랜섬웨어빌런":
                 hex = "#FFFFFF";
                 isRansomwareVillian = true;
-                Debug.Log("랜섬웨어빌런");
+//                Debug.Log("랜섬웨어빌런");
                 break;
             case "랜섬웨어":
                 hex = "#FF0032";
@@ -195,10 +195,10 @@ public class DialogueManager : MonoBehaviour
         if (dialogue.IsActive())
             //Spacebar or EnterKey, or Click Between bottom 0~700
             if (canClickToNext && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
-                                   (Input.GetMouseButtonDown(0)) ||
-                                   Input.mouseScrollDelta.y != 0.0||Input.touchCount > 0))//Input.mousePosition.y <= FIXED_HEIGHT && 
+                                   Input.GetMouseButtonDown(0) ||
+                                   Input.mouseScrollDelta.y != 0.0 ||
+                                   Input.touchCount > 0)) //Input.mousePosition.y <= FIXED_HEIGHT && 
                 ChangeDialogue();
-
     }
 
     public void ItemGetDialogue(string msg)
@@ -207,7 +207,7 @@ public class DialogueManager : MonoBehaviour
         {
             new Cell("", "0", msg, "", "")
         };
-       // Inventory.instance.HoldLastIndexItem();
+        // Inventory.instance.HoldLastIndexItem();
         dialogue.wholeObj.enabled = false;
         state = currentState.ITEM;
         StartDialogue(dialogueCell);
@@ -335,9 +335,13 @@ public class DialogueManager : MonoBehaviour
 
     public void WhenDialogueTypingEnd()
     {
-        if (dirManager != null && dialogueList.Count > 0 && dialogueList.Count < crtIndex)
+        if (dirManager != null && dialogueList.Count > 0 && dialogueList.Count > crtIndex)
             if (dialogueList[crtIndex].after_cmd != "")
+            {
                 dirManager.RunCMD(dialogueList[crtIndex].after_cmd);
+                Debug.Log("after_cmd: " + dialogueList[crtIndex].after_cmd);
+            }
+
 //        Debug.Log("WhenDialogueTypingEnd called");
         crtIndex++;
     }
@@ -425,14 +429,15 @@ public class DialogueManager : MonoBehaviour
         EndDialogue();
     }
 
-    public void EndDialogue()
+    public void EndDialogue(bool checkDialogueTypingEnd = true)
     {
         if (typeWriter.isTyping) typeWriter.StopTyping(); //타이핑중인 경우 강제종료(삭제되었음에도 이전꺼가 끝까지 타이핑되는 버그 제거 위함)
-        ClearDialogue(null);
+        else if (checkDialogueTypingEnd) WhenDialogueTypingEnd();
+
         dialogue.ResetSkipButton();
-        
+
         StartCoroutine(IEEndDialogue());
-        
+
         PlayerMovement.instance.ChangeCanMove(true);
     }
 
@@ -467,10 +472,11 @@ public class DialogueManager : MonoBehaviour
 
         isPlayingDialogue = false;
 
+        ClearDialogue(null);
 
-       
         if (!PlayerMovement.isCutscene)
-        { MobileUI.instance.HideThis(false);
+        {
+            MobileUI.instance.HideThis(false);
             CameraFollow.instance.ExcludeLayerInCamera(false);
         }
 
@@ -502,7 +508,8 @@ public class DialogueManager : MonoBehaviour
     public List<Cell> LoadCellsFromSheetData(string idName)
     {
         var index = SheetData.instance.block.FindIndex(x => x.id == idName);
-
+        if (SheetData.instance.block.Count <= index)
+            Debug.LogWarning($"index보다 시트 카운트수가 더 적습니다! {SheetData.instance.block.Count}<={index}");
         return SheetData.instance.block[index].cells;
     }
 

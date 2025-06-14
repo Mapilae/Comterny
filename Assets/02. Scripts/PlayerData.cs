@@ -47,7 +47,7 @@ public class PlayerData : MonoBehaviour
     
     private void Start()
     {
-        SetResolution(); // 초기에 게임 해상도 고정
+        //SetResolution(); // 초기에 게임 해상도 고정
     }
 
 

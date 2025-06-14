@@ -1,53 +1,55 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UISwitcher;
 using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DecimalToBinaryPuzzle : MonoBehaviour
 {
-    public UISwitcher.UISwitcher[] toggleSwitches;         // 8개 스위치
-    public TextMeshProUGUI[] toggleLabels;                  // 각 토글의 Label
-    public RectTransform[] tipRects;                        // 각 토글의 Tip
+    public UISwitcher.UISwitcher[] toggleSwitches; // 8개 스위치
+    public TextMeshProUGUI[] toggleLabels; // 각 토글의 Label
+    public RectTransform[] tipRects; // 각 토글의 Tip
 
-    public TextMeshProUGUI decimalNumberText;               // 문제로 제시되는 십진수
-    public TextMeshProUGUI resultText;                      // 플레이어 입력의 변환 결과
-    public TextMeshProUGUI successText;                     // 성공 메시지
-    public GameObject puzzlePanel;                          // 퍼즐 전체 패널
+    public TextMeshProUGUI decimalNumberText; // 문제로 제시되는 십진수
+    public TextMeshProUGUI resultText; // 플레이어 입력의 변환 결과
+    public TextMeshProUGUI successText; // 성공 메시지
+    public GameObject puzzlePanel; // 퍼즐 전체 패널
+
+    public ChatBallon chatBallon; // 대화 풍선
+    public GameObject objToHide;
 
     private int targetNumber;
-    
-    public ChatBallon chatBallon; // 대화 풍선
 
-    
-    public void ClosePuzzle()
-    {
-        puzzlePanel.SetActive(false);
-        PlayerMovement.instance.ChangeCanMove(true);
-    }
-    void Start()
+    private void Start()
     {
         GenerateQuestion();
 
-        for (int i = 0; i < toggleSwitches.Length; i++)
+        for (var i = 0; i < toggleSwitches.Length; i++)
         {
-            int index = i;
+            var index = i;
             toggleSwitches[i].onValueChanged.AddListener(_ => SetToggleVisuals(index));
         }
 
         UpdateAllToggles(); // 초기 상태 반영
     }
 
-    void GenerateQuestion()
+
+    public void ClosePuzzle()
     {
-        targetNumber = UnityEngine.Random.Range(1, 32); // 1~255 --> 1~31로 변경
+        puzzlePanel.SetActive(false);
+        PlayerMovement.instance.ChangeCanMove(true);
+    }
+
+    private void GenerateQuestion()
+    {
+        targetNumber = Random.Range(1, 32); // 1~255 --> 1~31로 변경
         decimalNumberText.text = targetNumber.ToString();
         successText.gameObject.SetActive(false);
     }
 
-    void SetToggleVisuals(int index)
+    private void SetToggleVisuals(int index)
     {
-        bool isOn = toggleSwitches[index].isOn;
+        var isOn = toggleSwitches[index].isOn;
 
         if (toggleLabels.Length > index)
         {
@@ -59,39 +61,28 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         }
 
         if (tipRects.Length > index)
-        {
             tipRects[index].anchoredPosition =
                 isOn ? new Vector2(0f, 15f) : new Vector2(0f, -15f);
-        }
 
         UpdateResult();
     }
 
-    void UpdateAllToggles()
+    private void UpdateAllToggles()
     {
-        for (int i = 0; i < toggleSwitches.Length; i++)
-        {
-            SetToggleVisuals(i); // 현재 상태 강제 반영
-        }
+        for (var i = 0; i < toggleSwitches.Length; i++) SetToggleVisuals(i); // 현재 상태 강제 반영
     }
 
-    void UpdateResult()
+    private void UpdateResult()
     {
-        string binary = "";
-        foreach (var toggle in toggleSwitches)
-        {
-            binary += toggle.isOn ? "1" : "0";
-        }
+        var binary = "";
+        foreach (var toggle in toggleSwitches) binary += toggle.isOn ? "1" : "0";
 
         try
         {
-            int userValue = Convert.ToInt32(binary, 2);
-            resultText.text = "= " + userValue.ToString();
+            var userValue = Convert.ToInt32(binary, 2);
+            resultText.text = "= " + userValue;
 
-            if (userValue == targetNumber)
-            {
-                Success();
-            }
+            if (userValue == targetNumber) Success();
         }
         catch (Exception e)
         {
@@ -106,10 +97,11 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         PlayerData.instance.AddVariable(141);
         PlayerMovement.instance.ChangeCanMove(true);
         chatBallon.ChangeBallonText("컴파일러번역한뒤", 2);
+        objToHide.SetActive(false);
         StartCoroutine(ClosePuzzleAfterDelay());
     }
 
-    private System.Collections.IEnumerator ClosePuzzleAfterDelay()
+    private IEnumerator ClosePuzzleAfterDelay()
     {
         yield return new WaitForSeconds(1.5f);
         puzzlePanel.SetActive(false);

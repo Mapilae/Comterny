@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8671471787783198424}
   - component: {fileID: 2003379202539520478}
   - component: {fileID: 8637399042995878367}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: DescTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 8510512961176428221}
   - component: {fileID: 1282839272194801108}
   - component: {fileID: 6841743257973153515}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 5703294797979765275}
   - component: {fileID: 1241118040820029614}
   - component: {fileID: 7275859909370748552}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: HintPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -558,7 +558,7 @@ GameObject:
   - component: {fileID: 9061813134851468247}
   - component: {fileID: 4443029132283048773}
   - component: {fileID: 5289155076109800620}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: hintImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 4115616276869536769}
   - component: {fileID: 4358885793481032303}
   - component: {fileID: 1678082870610062132}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Quest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 4179878428820894227}
   - component: {fileID: 203738638561647651}
   - component: {fileID: 7999507353008942356}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: SideBarInv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1135,7 +1135,7 @@ GameObject:
   - component: {fileID: 6803452114859455029}
   - component: {fileID: 8200872095767767176}
   - component: {fileID: 2304411709091066285}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1454,7 +1454,7 @@ GameObject:
   - component: {fileID: 6626367835091419857}
   - component: {fileID: 3034172633445505646}
   - component: {fileID: 4938844053796661877}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: NameTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2058,7 +2058,7 @@ GameObject:
   - component: {fileID: 2023384565216112581}
   - component: {fileID: 4425011293910358896}
   - component: {fileID: 341857649705130541}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: ItemInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2716,6 +2716,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5243962213607484516}
     m_Modifications:
+    - target: {fileID: 258554617673637792, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 385147614694767814, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864084960988947158, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2782,7 +2794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -495
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2799,6 +2811,14 @@ PrefabInstance:
     - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Name
       value: QuestCell_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2898,9 +2918,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -2972,6 +3000,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5243962213607484516}
     m_Modifications:
+    - target: {fileID: 258554617673637792, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 385147614694767814, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864084960988947158, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3038,7 +3078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -605
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3055,6 +3095,14 @@ PrefabInstance:
     - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Name
       value: QuestCell_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3212,6 +3260,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5243962213607484516}
     m_Modifications:
+    - target: {fileID: 258554617673637792, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 385147614694767814, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864084960988947158, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3278,7 +3338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -385
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3295,6 +3355,14 @@ PrefabInstance:
     - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Name
       value: QuestCell_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3394,9 +3462,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -3548,9 +3624,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -3702,9 +3786,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -3856,9 +3948,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -4010,9 +4110,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -4302,9 +4410,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -4448,9 +4564,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -4602,9 +4726,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -4756,9 +4888,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -4830,6 +4970,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5243962213607484516}
     m_Modifications:
+    - target: {fileID: 258554617673637792, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 385147614694767814, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864084960988947158, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4896,7 +5048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -275
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4913,6 +5065,14 @@ PrefabInstance:
     - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Name
       value: QuestCell_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5012,9 +5172,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -5086,6 +5254,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5243962213607484516}
     m_Modifications:
+    - target: {fileID: 258554617673637792, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 385147614694767814, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864084960988947158, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5169,6 +5349,14 @@ PrefabInstance:
     - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Name
       value: QuestCell
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5268,9 +5456,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179917483293579656, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_Name
       value: InvSlotButton (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4679730591243320565, guid: d81c9f5ceeb4bb44bb55675e103d89f8, type: 3}
       propertyPath: m_IsActive
@@ -5342,6 +5538,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5243962213607484516}
     m_Modifications:
+    - target: {fileID: 258554617673637792, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 385147614694767814, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864084960988947158, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5408,7 +5616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -165
       objectReference: {fileID: 0}
     - target: {fileID: 3895333605129636618, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5425,6 +5633,14 @@ PrefabInstance:
     - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
       propertyPath: m_Name
       value: QuestCell_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5701491084609769854, guid: 50af31a7b49acc94189d350d530e10b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

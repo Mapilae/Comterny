@@ -26,10 +26,12 @@ public class DepthFirstSearch : MonoBehaviour
     public GameObject cutsceneAfterThis;
     public GameObject cutsceneNotification;
 
+    public string clearCmd = "questRemove:호출기 사용";
+
     private readonly int[] userPathIndexOfBlank = { 1, 4, 6 }; //2 9 3
+    private bool isChangedPos; //트리의 위치가 바뀌었는지 여부
     private int userPathIndex;
     private List<TreeNode> vertexObj = new();
-    bool isChangedPos= false; //트리의 위치가 바뀌었는지 여부
 
     private void OnEnable()
     {
@@ -41,12 +43,14 @@ public class DepthFirstSearch : MonoBehaviour
         isUsing = true;
 
         vertexObj = binaryTree.vertexObj;
-        if(!isChangedPos){
+        if (!isChangedPos)
+        {
             treeWhole.localScale = Vector3.one * 0.9f;
             treeWhole.localPosition = new Vector3(treeWhole.localPosition.x, treeWhole.localPosition.y + 50,
                 treeWhole.localPosition.z);
             isChangedPos = true;
         }
+
         if (binaryTree.deletedNum.Equals(-1)) binaryTree.RemoveDelNum(7);
         correctPath = new List<int> { 1, 2, 4, 5, 9, 10, 3, 67, 78 };
         switch (binaryTree.deletedNum)
@@ -119,7 +123,7 @@ public class DepthFirstSearch : MonoBehaviour
         //hideWhole.SetActive(false);
         objToDisable.SetActive(false);
         Debug.Log("성공!");
-        binaryTree.Success();
+        binaryTree.Success(clearCmd);
         PlayerData.instance.AddVariable(varToAdd);
         //버스 오는 animator에 트리거해서 버스오는거 만들기
         //또는 버스 오는 애니메이션 스크립트 작성해서 "버스가 곧 옵니다.." 같은거 만들기

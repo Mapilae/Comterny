@@ -360,13 +360,14 @@ GameObject:
   - component: {fileID: 2186197231692054024}
   - component: {fileID: 3804508771967830321}
   - component: {fileID: 2889745719352931651}
+  - component: {fileID: 7860195079274982157}
   m_Layer: 5
   m_Name: QuestCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3895333605129636618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -493,3 +494,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7860195079274982157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701491084609769854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4c638b907491b4fb176612e75dae6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questObj: {fileID: 0}
+  questName: 
+  content: 

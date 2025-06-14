@@ -10,13 +10,13 @@ public class MemoryBugObject : MonoBehaviour
     public Transform goPos2; // 도달
     public float duration = 1.0f; // 이동에 걸리는 시간
     public float height = 2.0f; // 포물선 최고 높이
-    Animator anim;
-
-    private Collider2D col;
 
     public Transform endParent;
 
     [Header("Attack effect")] public GameObject attackEffect;
+    private Animator anim;
+
+    private Collider2D col;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -25,7 +25,7 @@ public class MemoryBugObject : MonoBehaviour
         anim = GetComponent<Animator>();
         col.enabled = colEnableAtStart; //cannot catch bug at the start
         // MoveDown();
-        
+
         //anim.SetTrigger("die");
     }
 
@@ -33,7 +33,7 @@ public class MemoryBugObject : MonoBehaviour
     {
         transform.parent = null;
         col.enabled = true;
-        Debug.Log("bug is ready to Catch");
+        //       Debug.Log("bug is ready to Catch");
         StartParabola(goPos1);
     }
 
@@ -54,25 +54,25 @@ public class MemoryBugObject : MonoBehaviour
     private IEnumerator MoveParabola(Vector2 targetPos, float duration, float height)
     {
         Vector2 startPos = transform.position;
-        float time = 0f;
-        float finalAngle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * Mathf.Rad2Deg;
+        var time = 0f;
+        var finalAngle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * Mathf.Rad2Deg;
 
         while (time < duration)
         {
-            float t = time / duration;
+            var t = time / duration;
 
             // 수평 보간
-            Vector2 linear = Vector2.Lerp(startPos, targetPos, t);
+            var linear = Vector2.Lerp(startPos, targetPos, t);
 
             // 포물선 y값 추가
-            float parabolicY = 4f * height * t * (1f - t);
-            Vector2 newPos = new Vector2(linear.x, linear.y + parabolicY);
+            var parabolicY = 4f * height * t * (1f - t);
+            var newPos = new Vector2(linear.x, linear.y + parabolicY);
 
             // 회전: 현재 위치(newPos)에서 목표(targetPos)를 바라보도록
-            Vector2 direction = (targetPos - newPos).normalized;
+            var direction = (targetPos - newPos).normalized;
             if (direction.sqrMagnitude > 0.0001f)
             {
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -135f;
+                var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -135f;
                 transform.rotation = Quaternion.Euler(0f, 0f, angle);
             }
 
@@ -101,48 +101,45 @@ public class MemoryBugObject : MonoBehaviour
         StopCoroutine(nameof(ChangeRotation));
         anim.SetBool("fly", false);
     }
-    
-    IEnumerator ChangeRotation(Vector3 target)
+
+    private IEnumerator ChangeRotation(Vector3 target)
     {
         while (true)
         {
             Vector2 direction = (target - transform.position).normalized;
             if (direction.sqrMagnitude > 0.0001f)
             {
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -135f;
+                var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -135f;
                 transform.rotation = Quaternion.Euler(0f, 0f, angle);
             }
+
             yield return null;
-        
         }
     }
 
     public void BugAttack()
     {
-        if (attackEffect != null)
-        {
-            attackEffect.SetActive(true);
-        }
+        if (attackEffect != null) attackEffect.SetActive(true);
     }
-    
+
     public void BugDisappear()
     {
         StartCoroutine(nameof(IEBugGlitch));
     }
 
-    IEnumerator IEBugGlitch()
+    private IEnumerator IEBugGlitch()
     {
-        Material mat = GetComponent<Renderer>().sharedMaterial;
+        var mat = GetComponent<Renderer>().sharedMaterial;
         mat.SetFloat("NoiseAmount", 5f);
         mat.SetFloat("GlitchStrength", 2f);
-        
+
         Debug.Log("play! bug glitch and disappear");
-        
-        float time = 0f;
+
+        var time = 0f;
         while (time < 3f)
         {
             time += Time.deltaTime;
-            transform.localScale+= new Vector3(0.03f, 0.03f, 0f);
+            transform.localScale += new Vector3(0.03f, 0.03f, 0f);
             yield return null;
         }
 
@@ -153,10 +150,10 @@ public class MemoryBugObject : MonoBehaviour
             mat.SetFloat("AlphaFloat", Mathf.Lerp(1f, 0f, time));
             yield return null;
         }
+
         mat.SetFloat("GlitchStrength", 30f);
         mat.SetFloat("NoiseAmount", 2f);
-        
+
         gameObject.SetActive(false);
     }
-
 }

@@ -9736,7 +9736,7 @@ MonoBehaviour:
   steps:
   - memo: 
     stepStart:
-      dirCmd: 
+      dirCmd: "questRemove_\uBC84\uC2A4 \uD0C0\uAE30"
       animTriggers: []
     stepMiddle:
       movingObjects:

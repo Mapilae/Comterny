@@ -18,22 +18,23 @@ public class PlayerMovement : MovingFootPrint
 
     public LayerMask obstacleLayer;
 
-    private FixedJoystick fixedJoystick;
+    public bool forceRun; //달리기 강제 여부
+
+    private FloatingJoystick fixedJoystick;
     private Vector2 input;
     private bool isRunning;
+
+    //  private FixedJoystick jj;
     private float moveSpeed1x;
 
     private SpriteRenderer spriteRender;
     private Vector2 targetPos;
-    
-    public bool forceRun = false; //달리기 강제 여부
-
 
     private void Awake()
     {
         instance = this;
 
-        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FixedJoystick>();
+        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FloatingJoystick>();
     }
 
     private void Start()
@@ -108,7 +109,7 @@ public class PlayerMovement : MovingFootPrint
     {
         playSpineAnim.SetAnim("idle", true);
     }
-    
+
     public void PlayerSpineAnimBug()
     {
         playSpineAnim.SetAnim("FlyPunch", false);
@@ -132,7 +133,7 @@ public class PlayerMovement : MovingFootPrint
 
     public void IsSpaceFalse(float delay)
     {
-        if(delay.Equals(0f)) IsSpaceFalseDelay();
+        if (delay.Equals(0f)) IsSpaceFalseDelay();
         else Invoke("IsSpaceFalseDelay", delay);
     }
 
@@ -144,7 +145,7 @@ public class PlayerMovement : MovingFootPrint
 
     public void SetIfRunning(bool isRunning)
     {
-        if (isRunning||forceRun)
+        if (isRunning || forceRun)
         {
             moveSpeed = moveSpeed2x;
             this.isRunning = true;
@@ -161,35 +162,37 @@ public class PlayerMovement : MovingFootPrint
     {
         var inputVec = Vector2.zero;
 
-#if UNITY_EDITOR || UNITY_WEBGL
         //PC인 경우
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
         inputVec.Normalize();
 
-        playSpineAnim.ChangeTimeScale(1+Mathf.Abs(inputVec.y)*0.5f);
-        
-        return inputVec;
-#endif
-#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
+        playSpineAnim.ChangeTimeScale(1 + Mathf.Abs(inputVec.y) * 0.5f);
+
+
+#if UNITY_ANDROID || UNITY_IOS
+//        Debug.Log("android");
         //모바일인 경우
         inputVec.x = fixedJoystick.Horizontal;
         inputVec.y = fixedJoystick.Vertical;
         // Debug.Log(inputVec.x + ",  " + inputVec.y);
 
-        return inputVec;
-
 #endif
+        return inputVec;
     }
 
     public void ChangeCanMove(bool canMoveb)
     {
         canMove = canMoveb;
-        if (!canMoveb){
+        if (!canMoveb)
+        {
             StopMoving();
             Debug.Log("PlayerMovement: canMove is set to false");
         }
-        else rb.WakeUp();
+        else
+        {
+            rb.WakeUp();
+        }
     }
 
     public void UnholdItem()
