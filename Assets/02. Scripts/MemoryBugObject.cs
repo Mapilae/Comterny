@@ -139,7 +139,7 @@ public class MemoryBugObject : MonoBehaviour
         while (time < 3f)
         {
             time += Time.deltaTime;
-            transform.localScale += new Vector3(0.03f, 0.03f, 0f);
+            transform.localScale += new Vector3(0.06f, 0.06f, 0f);
             yield return null;
         }
 

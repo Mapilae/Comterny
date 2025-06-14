@@ -32,11 +32,14 @@ public class Inventory : MonoBehaviour
     public GameObject anything;
 
     public Item holdingItem;
+
+    [Header("Hint System")] public HintPanel hintPanel;
+
     private int holdingItemCount;
+    private bool isItemInfoEnabled;
+
     private PlayerData playerData;
-    
-    [Header("Hint System")]
-    public HintPanel hintPanel;
+
     // 플레이어 데이터 오브젝트를 찾고 그걷에 대한 정보를 가져온다
     // 
     private void Awake()
@@ -51,7 +54,51 @@ public class Inventory : MonoBehaviour
         //  UpdateInventory();
     }
 
-    public void HoldLastIndexItem(bool isPlayerClickSelf=true)
+    private void Update()
+    {
+        if (PlayerMovement.isCutscene || !PlayerMovement.canMove) return;
+        HandleScrollSelection();
+    }
+
+    /// <summary>
+    ///     마우스 휠 스크롤에 따라 선택 중인 슬롯을 변경 (원형 큐 방식)
+    /// </summary>
+    private void HandleScrollSelection()
+    {
+        var itemCount = playerData.items.Count;
+        if (itemCount == 0) return;
+
+        var scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (Mathf.Approximately(scroll, 0f)) return;
+
+        // 위로 스크롤(scroll>0): 인덱스--
+        if (scroll > 0f)
+        {
+            if (currentHoldingItemIndex <= 0)
+                // 맨 앞이거나 선택 없음 → 언홀드
+                ClickToHoldItem(-1, false);
+            else
+                ClickToHoldItem(currentHoldingItemIndex - 1, false);
+        }
+        // 아래로 스크롤(scroll<0): 인덱스++
+        else
+        {
+            if (currentHoldingItemIndex >= itemCount - 1)
+            {
+                // 맨 끝이거나 선택 없음 → 언홀드
+                ClickToHoldItem(-1, false);
+            }
+            else
+            {
+                // 선택 없음인 경우 처음(0) 선택
+                var next = currentHoldingItemIndex < 0 ? 0 : currentHoldingItemIndex + 1;
+                ClickToHoldItem(next, false);
+            }
+        }
+    }
+
+
+    public void HoldLastIndexItem(bool isPlayerClickSelf = true)
     {
         //가장 마지막으로 얻은 아이템 들기. 아이템 획득시 뜨는 다이얼로그 하기 위한 목적.
         ClickToHoldItem(holdingItemCount - 1, isPlayerClickSelf);
@@ -67,7 +114,7 @@ public class Inventory : MonoBehaviour
     {
         ClickToHoldItem(index, true);
     }
-    
+
     public void ClickToHoldItem(int index, bool isPlayerClickSelf)
     {
         //이전에 클릭했던 인덱스 아웃라인 끄기
@@ -90,7 +137,8 @@ public class Inventory : MonoBehaviour
 
         var item = playerData.GetItemFromID(itemHoldList[currentHoldingItemIndex].itemID);
 
-        if(isPlayerClickSelf){
+        if (isPlayerClickSelf)
+        {
             if (item.isToOpenHint != -1)
             {
                 // 아이템을 획득했을 때, 해당 아이템의 힌트 스프라이트를 보여준다.
@@ -99,12 +147,10 @@ public class Inventory : MonoBehaviour
                 playerData.AddItem(item.isToOpenHint);
                 item = playerData.GetItemFromID(item.isToOpenHint);
             }
+
             if (item.hintSprite != null)
-            {
                 //hint인 경우
                 ShowHint(item);
-            }
-        
         }
 
         PlayerMovement.instance.HoldItem(item.itemID, item.itemSpr);
@@ -114,6 +160,7 @@ public class Inventory : MonoBehaviour
 
     public void EnableItemInfo(int index)
     {
+        isItemInfoEnabled = true;
         itemInfoRect.anchoredPosition = new Vector2(itemInfoRect.anchoredPosition.x, -120 - 75 * index);
         var item = playerData.GetItemFromID(itemHoldList[index].itemID);
 
@@ -126,7 +173,17 @@ public class Inventory : MonoBehaviour
 
     public void DisableItemInfo()
     {
+        isItemInfoEnabled = false;
         itemInfoRect.gameObject.SetActive(false);
+    }
+
+    public void EnableOrDisableItemInfo(int index)
+    {
+        isItemInfoEnabled = !isItemInfoEnabled;
+        if (isItemInfoEnabled)
+            EnableItemInfo(index);
+        else
+            DisableItemInfo();
     }
 
     /*
@@ -148,15 +205,16 @@ public class Inventory : MonoBehaviour
                 var item = playerData.GetItemFromID(playerData.items[i]);
                 if (item == null)
                 {
-                    Debug.LogWarning(playerData.items[i]+"번 아이템을 찾지 못했습니다!");
-                    
+                    Debug.LogWarning(playerData.items[i] + "번 아이템을 찾지 못했습니다!");
                 }
-                else{
+                else
+                {
                     itemHoldList[i].image.sprite = item.itemSpr;
                     itemHoldList[i].itemID = item.itemID;
                     itemHoldList[i].canThrowAway = item.canThrowAway;
                     itemHoldList[i].image.transform.parent.gameObject.SetActive(true);
                 }
+
                 holdingItemCount++;
             }
             else
@@ -168,9 +226,9 @@ public class Inventory : MonoBehaviour
             }
     }
 
-    void ShowHint(Item item)
+    private void ShowHint(Item item)
     {
-        if(item.hintSprite==null)return;
+        if (item.hintSprite == null) return;
         hintPanel.hintImage.sprite = item.hintSprite;
         hintPanel.gameObject.SetActive(true);
         hintPanel.SetHintImage(item.hintSprite);
@@ -180,10 +238,9 @@ public class Inventory : MonoBehaviour
     {
         hintPanel.HideHint();
         UnholdItem();
-        
     }
 
-    
+
     /**
      * MakeList() 함수는 itemHoldParent의 자식(아이템 전체를 관리하는 오브젝트)
      * 개수만큼 반복문을 돌려서 아이템 홀드 리스트의 추가한다.

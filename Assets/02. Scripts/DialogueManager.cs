@@ -193,12 +193,25 @@ public class DialogueManager : MonoBehaviour
         if (isPause || isViewPause) return;
 
         if (dialogue.IsActive())
-            //Spacebar or EnterKey, or Click Between bottom 0~700
-            if (canClickToNext && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
-                                   Input.GetMouseButtonDown(0) ||
-                                   Input.mouseScrollDelta.y != 0.0 ||
-                                   Input.touchCount > 0)) //Input.mousePosition.y <= FIXED_HEIGHT && 
+        {
+            var inputTriggered = false;
+
+            // PC: Space, Enter, Mouse Click
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
+                Input.GetMouseButtonDown(0) || Input.mouseScrollDelta.y != 0.0f)
+                inputTriggered = true;
+            // 모바일: 터치가 '끝나는 순간'만 체크
+            if (Input.touchCount > 0)
+                foreach (var touch in Input.touches)
+                    if (touch.phase == TouchPhase.Ended)
+                    {
+                        inputTriggered = true;
+                        break;
+                    }
+
+            if (canClickToNext && inputTriggered)
                 ChangeDialogue();
+        }
     }
 
     public void ItemGetDialogue(string msg)
@@ -288,7 +301,7 @@ public class DialogueManager : MonoBehaviour
                 var key = match.Groups[1].Value.Trim();
 
                 // switch문에 따라 "player"도 처리하도록 통합
-                var value = PlayerPrefs.GetString(key, "null");
+                var value = PlayerPrefs.GetString("PlayerName", PlayerData.playerName);
 
                 // name 기준 분기
                 switch (dialogueList[crtIndex].name)

@@ -605,9 +605,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2320927892736014792, guid: a47ef13975cf1354fb0a40b415d918b6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440795182309114000, guid: a47ef13975cf1354fb0a40b415d918b6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5747641974245868733, guid: a47ef13975cf1354fb0a40b415d918b6, type: 3}
       propertyPath: m_Name
       value: Mobile Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747641974245868733, guid: a47ef13975cf1354fb0a40b415d918b6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5722,7 +5734,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!224 &1837741781
 RectTransform:
