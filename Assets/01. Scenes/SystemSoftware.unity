@@ -4109,6 +4109,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Binary_Add_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8349542313508006153, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7985,6 +7989,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item_1
       objectReference: {fileID: 0}
+    - target: {fileID: 915262607945328192, guid: f9ddcd7e41fd40f4eb5e199d011eda75, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2221864739970846407, guid: f9ddcd7e41fd40f4eb5e199d011eda75, type: 3}
       propertyPath: itemID
       value: 57
@@ -8065,10 +8073,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8804682324095168329, guid: f9ddcd7e41fd40f4eb5e199d011eda75, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9ddcd7e41fd40f4eb5e199d011eda75, type: 3}
 --- !u!1 &1763583464
 GameObject:
@@ -9557,7 +9562,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -46372541
+  m_SortingLayerID: 0
   m_SortingOrder: 49
   m_TargetDisplay: 0
 --- !u!224 &2079118651
@@ -9910,6 +9915,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4723577435663479498, guid: 289123f538bb44b3c9cd2888334e9871, type: 3}
+      propertyPath: m_SortingOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5067466733334592812, guid: 289123f538bb44b3c9cd2888334e9871, type: 3}
       propertyPath: objToHide
       value: 
@@ -10149,10 +10158,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2646283643758312594, guid: 05a377ac74eea4e21ae1c69b41c02ce9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a377ac74eea4e21ae1c69b41c02ce9, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

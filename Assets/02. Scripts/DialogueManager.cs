@@ -511,7 +511,15 @@ public class DialogueManager : MonoBehaviour
         //yield return waitUntil;
         //Debug.Log("Start Dialogue waiting end.");
 
-        var cells = LoadCellsFromSheetData(idName);
+        List<Cell> cells = null;
+        while (cells == null)
+        {
+            cells = LoadCellsFromSheetData(idName);
+            if (cells == null)
+                yield return new WaitForSeconds(1f);
+        }
+
+        SheetLoader.instance.ErrorDone(); //만약 에러 창 뜬 경우 없애기
         instance.StartDialogue(cells);
 
         PlayerMovement.instance.ChangeCanMove(false);
@@ -520,10 +528,21 @@ public class DialogueManager : MonoBehaviour
 
     public List<Cell> LoadCellsFromSheetData(string idName)
     {
-        var index = SheetData.instance.block.FindIndex(x => x.id == idName);
-        if (SheetData.instance.block.Count <= index)
-            Debug.LogWarning($"index보다 시트 카운트수가 더 적습니다! {SheetData.instance.block.Count}<={index}");
-        return SheetData.instance.block[index].cells;
+        try
+        {
+            if (SheetData.instance.block == null || SheetData.instance.block.Count == 0)
+                Debug.LogWarning("시트 로드 아직 안됨!");
+
+            var index = SheetData.instance.block.FindIndex(x => x.id == idName);
+            if (SheetData.instance.block.Count <= index)
+                Debug.LogWarning($"index보다 시트 카운트수가 더 적습니다! {SheetData.instance.block.Count}<={index}");
+            return SheetData.instance.block[index].cells;
+        }
+        catch
+        {
+            SheetLoader.instance.ErrorOccured();
+            return null;
+        }
     }
 
     private enum currentState

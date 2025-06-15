@@ -47,10 +47,10 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         successText.gameObject.SetActive(false);
     }
 
-    private void SetToggleVisuals(int index)
+    public void SetToggleVisuals(int index)
     {
         var isOn = toggleSwitches[index].isOn;
-
+        SoundManager.instance.PlaySound("switch button");
         if (toggleLabels.Length > index)
         {
             toggleLabels[index].text = isOn ? "1" : "0";

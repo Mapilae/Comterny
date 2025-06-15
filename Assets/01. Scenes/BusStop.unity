@@ -14612,6 +14612,10 @@ PrefabInstance:
       propertyPath: cutsceneNotification
       value: 
       objectReference: {fileID: 59813469}
+    - target: {fileID: 5922241220013899485, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6038717832086850619, guid: f9d07773695a3b347a6457a3c11399b9, type: 3}
       propertyPath: m_Pivot.x
       value: 0

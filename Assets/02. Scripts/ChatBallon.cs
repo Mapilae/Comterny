@@ -18,15 +18,14 @@ public class ChatBallon : NonPlayerCharacter
     private bool isPlaying;
     private float maxPreferredWidth;
     private TypeWriter typeWriter;
-    
-    
+
 
     private void Start()
     {
         maxPreferredWidth = ballonMid.rect.width;
         //OnStartDefaultSetting();
         audioSource = transform.GetChild(0).GetComponent<AudioSource>();
-if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolder.FindSE("bubble");
+        if (audioSource != null) audioSource.clip = SoundManager.instance.soundHolder.FindSE("bubble");
         StartConversation();
     }
 
@@ -35,7 +34,8 @@ if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolde
         autoPlayID = text;
         this.repeatTime = repeatTime;
 
-      if(this.gameObject.activeInHierarchy)  StartCoroutine(IEChangeBallonText());
+        if (gameObject.activeInHierarchy) StartCoroutine(IEChangeBallonText());
+        else Debug.LogWarning("chat ballon is not active");
     }
 
     private IEnumerator IEChangeBallonText()
@@ -43,9 +43,12 @@ if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolde
         yield return new WaitUntil(() => isLoaded);
 
         if (isPlaying)
+        {
             //
             StopCoroutine(nameof(PlayBallon));
-        
+            isPlaying = false;
+            ballonMid.gameObject.SetActive(false);
+        }
 
         StartConversation();
     }
@@ -59,16 +62,22 @@ if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolde
         text.text = "";
         typeWriter = GetComponent<TypeWriter>();
         //if (typeWriter.isTyping) typeWriter.StopTyping();
-        if (!gameObject.activeInHierarchy) return;
+        if (!gameObject.activeInHierarchy)
+            //
+            Debug.Log("chat ballon is not active somehow....");
+        //return;
         StartCoroutine(nameof(WaitStartConversation));
     }
 
     private IEnumerator WaitStartConversation()
     {
         isPlaying = true;
-        yield return new WaitForSeconds(2f);
-        dialogue = DialogueManager.instance.LoadCellsFromSheetData(autoPlayID);
 
+        while (dialogue == null)
+        {
+            dialogue = DialogueManager.instance.LoadCellsFromSheetData(autoPlayID);
+            if (dialogue == null) yield return new WaitForSeconds(1f);
+        }
 
         audioSource.Play();
         StartCoroutine(nameof(PlayBallon), repeatTime);
@@ -81,7 +90,7 @@ if(audioSource!=null)        audioSource.clip = SoundManager.instance.soundHolde
         var currentIndex = 0;
         float beforeSizeX = 0;
 
-        while (true)
+        while (isPlaying)
         {
 //            Debug.Log("currentIndex: " + currentIndex);
             if (fixRight)

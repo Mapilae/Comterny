@@ -14,7 +14,8 @@ public class SheetLoader : MonoBehaviour
         //"https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
         //위에 이건 실제 쓰는 용
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vRyDhQNEmPN2kq_6YnYAm5qEX-x-s_EJ18P15C4a858VthuAkPY1_rKuYAK_usl1oKAjd8Rfz7bjTwc/pub?output=tsv";
-        //위에 저건 인디커넥트용
+
+    //위에 저건 인디커넥트용
     public static int chapNumber = 1;
 
     public static bool isLoading;
@@ -67,7 +68,7 @@ public class SheetLoader : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log("Error: " + www.error);
-                errorObj.SetActive(true);
+                ErrorOccured();
                 yield break; // 코루틴 종료
             }
 
@@ -78,6 +79,16 @@ public class SheetLoader : MonoBehaviour
         DisplayText();
         LoadInSheetData();
         //DialogueManager.instance.crtChapter = chapNumber;
+    }
+
+    public void ErrorOccured()
+    {
+        errorObj.SetActive(true);
+    }
+
+    public void ErrorDone()
+    {
+        errorObj.SetActive(false);
     }
 
 

@@ -920,6 +920,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -350
       objectReference: {fileID: 0}
+    - target: {fileID: 3041378067163357980, guid: 1b48d576637c84a99bd9c62319eda8b5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3468387749360742428, guid: 1b48d576637c84a99bd9c62319eda8b5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2702,7 +2706,7 @@ MonoBehaviour:
   steps:
   - memo: 
     stepStart:
-      dirCmd: "questGive_\uC804\uB825 \uACF5\uAE09 \uC7A5\uCE58 \uBCF5\uAD6C"
+      dirCmd: "questRemove_\uC804\uB825 \uACF5\uAE09 \uC7A5\uCE58 \uBCF5\uAD6C"
       animTriggers:
       - animator: {fileID: 734053558}
         triggerName: StartSpin
@@ -11835,7 +11839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5925142159022814619, guid: 05a377ac74eea4e21ae1c69b41c02ce9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6643574433896158196, guid: 05a377ac74eea4e21ae1c69b41c02ce9, type: 3}
       propertyPath: m_Size.x
@@ -14351,7 +14355,7 @@ MonoBehaviour:
     colliderTodisable:
     - {fileID: 2018800703}
     sprToChange: {fileID: 0}
-  - interactableType: 0
+  - interactableType: 7
     needItemCode: 78000000
     varCodeToAdd: 7b000000
     dialogueID: "\uACE0\uC7A5\uB09C\uCFE8\uB7EC\uD074\uB9AD\uC2DC"
