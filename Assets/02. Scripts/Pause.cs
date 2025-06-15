@@ -10,12 +10,15 @@ public class Pause : MonoBehaviour
     public static bool isSkippedOnce;
     public GameObject pauseMenu;
 
+    public GameObject debugTab;
+    public GameObject reallyQuitMenu;
     public Button skipBtn;
-    
+
     public Slider bgmSlider;
 
     [Header("Current Puzzle Minigame(for skip)")]
     public GameObject currentPuzzle;
+
 
     private bool isPlayerObjExist;
 
@@ -31,11 +34,11 @@ public class Pause : MonoBehaviour
         skipBtn.interactable = currentPuzzle != null;
     }
 
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) OpenPauseMenu();
     }
+
 
     public void SetCurrentPuzzle(GameObject puzzle)
     {
@@ -72,10 +75,10 @@ public class Pause : MonoBehaviour
     {
         //슬라이더에서 사용함
         //Debug.Log("BGM Volume Changed: " + value);
-        float value = bgmSlider.value;
+        var value = bgmSlider.value;
         SoundManager.instance.ChangeBGMVolume(value);
     }
-    
+
     public void OpenPauseMenu()
     {
         //button click or key press
@@ -86,6 +89,12 @@ public class Pause : MonoBehaviour
         if (isPaused && isPlayerObjExist) PlayerMovement.instance.ChangeCanMove(isPaused);
         //메뉴 닫기 또는 열기
         pauseMenu.SetActive(isPaused);
+
+        if (isPaused)
+        {
+            debugTab.SetActive(false);
+            reallyQuitMenu.SetActive(false);
+        }
     }
 
     public void GoToMainMenu()
@@ -111,5 +120,10 @@ public class Pause : MonoBehaviour
     {
         PlayerData.instance.ResetAll();
     }
-    
+
+    public void QuitGame()
+    {
+        Debug.Log("GameQuit");
+        Application.Quit();
+    }
 }

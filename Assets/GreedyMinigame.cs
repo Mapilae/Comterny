@@ -10,6 +10,7 @@ public class GreedyMinigame : MonoBehaviour
 
     public bool isClear; // 게임이 클리어 되었는지 여부
     public string clearCmd = "questRemove_가장 짧은 길로만";
+    public GameObject collderWhenEnd;
     private List<GreedyCircle> greedyCircles; // 그리디 서클 리스트
 
     private void Awake()
@@ -29,7 +30,10 @@ public class GreedyMinigame : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             if (isClear)
+            {
                 SetPlayerNewCollider(false);
+                collderWhenEnd.SetActive(true);
+            }
     }
 
     public void SetPlayerNewCollider(bool isActive)

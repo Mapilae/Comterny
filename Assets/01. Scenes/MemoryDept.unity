@@ -2356,6 +2356,9 @@ MonoBehaviour:
   floor1: {fileID: 617051436}
   floor2: {fileID: 1352860234}
   floor3: {fileID: 129356838}
+  floor1Col: []
+  floor2Col: []
+  floor3Col: []
 --- !u!61 &292354359
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3292,7 +3295,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.07752788, y: 0}
+  m_Offset: {x: 0.016454935, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3302,7 +3305,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.0966845, y: 1}
+  m_Size: {x: 5.7101483, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &396198864
 Transform:
@@ -3335,6 +3338,9 @@ MonoBehaviour:
   floor1: {fileID: 617051436}
   floor2: {fileID: 1352860234}
   floor3: {fileID: 129356838}
+  floor1Col: []
+  floor2Col: []
+  floor3Col: []
 --- !u!1 &407193484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,7 +3699,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 4d196ce03025e4d0ea920fb27e9a3ef7, type: 3}
     - target: {fileID: 2356718698105409692, guid: b7e8f0f3d1f0d4d95bfac08d9eb5a79e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.086
+      value: 0.085999966
       objectReference: {fileID: 0}
     - target: {fileID: 2356718698105409692, guid: b7e8f0f3d1f0d4d95bfac08d9eb5a79e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3786,6 +3792,11 @@ PrefabInstance:
 --- !u!4 &446033637 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2356718698105409692, guid: b7e8f0f3d1f0d4d95bfac08d9eb5a79e, type: 3}
+  m_PrefabInstance: {fileID: 446033636}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &446033638 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3807244759961127538, guid: b7e8f0f3d1f0d4d95bfac08d9eb5a79e, type: 3}
   m_PrefabInstance: {fileID: 446033636}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &452134381
@@ -10861,6 +10872,11 @@ MonoBehaviour:
   floor1: {fileID: 617051436}
   floor2: {fileID: 1352860234}
   floor3: {fileID: 129356838}
+  floor1Col:
+  - {fileID: 6051242719852053363}
+  - {fileID: 446033638}
+  floor2Col: []
+  floor3Col: []
 --- !u!1 &1517884131
 GameObject:
   m_ObjectHideFlags: 0
@@ -14501,6 +14517,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 144606410}
+  - {fileID: 446033637}
   - {fileID: 2078237219}
   - {fileID: 1517884135}
   - {fileID: 1104561074}
@@ -14511,8 +14529,6 @@ Transform:
   - {fileID: 1992743049}
   - {fileID: 50704121}
   - {fileID: 1096238421}
-  - {fileID: 144606410}
-  - {fileID: 446033637}
   - {fileID: 1297921477}
   - {fileID: 293898139}
   - {fileID: 1757341261}
@@ -15947,6 +15963,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b7e8f0f3d1f0d4d95bfac08d9eb5a79e, type: 3}
+--- !u!58 &6051242719852053363 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3807244759961127538, guid: b7e8f0f3d1f0d4d95bfac08d9eb5a79e, type: 3}
+  m_PrefabInstance: {fileID: 6051242719852053362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
