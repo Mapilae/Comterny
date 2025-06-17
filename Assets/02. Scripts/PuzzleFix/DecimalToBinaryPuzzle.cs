@@ -17,6 +17,7 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
 
     public ChatBallon chatBallon; // 대화 풍선
     public GameObject objToHide;
+    public GameObject objToHide2;
 
     private int targetNumber;
 
@@ -33,10 +34,20 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         UpdateAllToggles(); // 초기 상태 반영
     }
 
+    private void OnEnable()
+    {
+        Pause.instance.SetCurrentPuzzle(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Pause.instance.SetCurrentPuzzle(null);
+    }
+
 
     public void ClosePuzzle()
     {
-        puzzlePanel.SetActive(false);
+        gameObject.SetActive(false);
         PlayerMovement.instance.ChangeCanMove(true);
     }
 
@@ -98,6 +109,7 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         PlayerMovement.instance.ChangeCanMove(true);
         chatBallon.ChangeBallonText("컴파일러번역한뒤", 2);
         objToHide.SetActive(false);
+        objToHide2.SetActive(false);
         StartCoroutine(ClosePuzzleAfterDelay());
     }
 

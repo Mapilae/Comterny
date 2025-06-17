@@ -37,11 +37,12 @@ public class Dijkstra : MonoBehaviour
     public GameObject demoEndObj;
 
     private readonly List<int> correctList = new() { 1, 3, 5, 7 };
+
+    private readonly string strPath = "AABCDEFGG";
     //public int minSum = 1000000; //경로 최소값(정답)
     // public int playerSum = 1000000; //플레이어가 클릭한 간선 가중치 합. 나중에 minSum과 비교함. 
 
     private readonly int[] weight = new int[7];
-    private readonly string strPath = "AABCDEFGG";
 
 
     private void Start()
@@ -65,6 +66,11 @@ public class Dijkstra : MonoBehaviour
     private void OnEnable()
     {
         Pause.instance.SetCurrentPuzzle(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        Pause.instance.SetCurrentPuzzle(null);
     }
 
     public void ResetVertexBlocks()

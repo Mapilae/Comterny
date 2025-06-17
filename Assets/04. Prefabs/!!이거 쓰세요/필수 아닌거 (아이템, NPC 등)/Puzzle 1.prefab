@@ -275,10 +275,15 @@ MonoBehaviour:
     needItemCode: 78000000
     varCodeToAdd: 7c000000
     dialogueID: 
+    registerToInventory: {fileID: 0}
     objToEnable: {fileID: 0}
     objToEnable2: {fileID: 4180523414095922148}
     objToEnableOther: []
+    canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!114 &564024265899838904
 MonoBehaviour:

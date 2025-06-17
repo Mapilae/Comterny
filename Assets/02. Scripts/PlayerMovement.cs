@@ -113,6 +113,7 @@ public class PlayerMovement : MovingFootPrint
     public void PlayerSpineAnimBug()
     {
         playSpineAnim.SetAnim("FlyPunch", false);
+        SoundManager.instance.PlaySound("catch bug");
     }
 
     public void PlayerSpineAnimWalk()

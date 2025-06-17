@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MobileUI : MonoBehaviour
@@ -6,26 +7,36 @@ public class MobileUI : MonoBehaviour
     public static MobileUI instance;
     private static readonly int IsActive = Animator.StringToHash("isActive");
 
+    public static bool isJoyOn = false;
+
     public Image itemButtonImg;
     public Sprite[] buttonIcon;
+
     public Sprite nullSprite;
-    private Animator buttonAnim;
-    private Canvas canvas;
+
     //private PlayerMovement playerMovement;
     public GameObject mobileOnlyObj;
     public GameObject pcObj; //space bar guide
+    private Animator buttonAnim;
+    private Canvas canvas;
 
-    public static bool isJoyOn=false;
-    
     private void Awake()
     {
         instance = this;
     }
 
+
     private void Start()
     {
         canvas = gameObject.GetComponent<Canvas>();
         buttonAnim = itemButtonImg.transform.parent.GetComponent<Animator>();
+
+        buttonAnim.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            // 버튼 클릭 후 선택 해제
+            EventSystem.current.SetSelectedGameObject(null);
+        });
+
 #if UNITY_EDITOR
         //canvas.enabled = false;
         mobileOnlyObj.SetActive(false);
@@ -52,7 +63,6 @@ public class MobileUI : MonoBehaviour
     {
         canvas.enabled = !hide;
         // mobileOnlyObj.SetActive(!hide);
-    
     }
 
     public void SetIconImage(InteractableType type)
@@ -61,7 +71,7 @@ public class MobileUI : MonoBehaviour
         switch (type)
         {
             case InteractableType.NPC:
-                itemButtonImg.sprite = buttonIcon[1];//말 걸기
+                itemButtonImg.sprite = buttonIcon[1]; //말 걸기
                 break;
             default:
                 itemButtonImg.sprite = buttonIcon[0];

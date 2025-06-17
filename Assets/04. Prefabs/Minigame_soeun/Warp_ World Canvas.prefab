@@ -300,8 +300,8 @@ GameObject:
   - component: {fileID: 9149247730437751159}
   - component: {fileID: 3194539423131694204}
   - component: {fileID: 1218516439084743856}
-  - component: {fileID: 3116301987095554316}
   - component: {fileID: 9167796874151761952}
+  - component: {fileID: 3116301987095554316}
   - component: {fileID: 5300588747538517397}
   - component: {fileID: 1335778702768155650}
   - component: {fileID: 5875319397053047280}
@@ -437,6 +437,43 @@ MonoBehaviour:
   - warp on
   - potal idle
   - warp move
+--- !u!70 &9167796874151761952
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528165490934387313}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -125}
+  m_Size: {x: 210, y: 100}
+  m_Direction: 1
 --- !u!61 &3116301987095554316
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -483,43 +520,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 499.43695, y: 119.015335}
   m_EdgeRadius: 0
---- !u!70 &9167796874151761952
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3528165490934387313}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -125}
-  m_Size: {x: 210, y: 100}
-  m_Direction: 1
 --- !u!114 &5300588747538517397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +558,10 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   - interactableType: 0
     needItemCode: 82000000
     varCodeToAdd: 
@@ -568,7 +571,10 @@ MonoBehaviour:
     objToEnable2: {fileID: 0}
     objToEnableOther: []
     canvasToEnable: {fileID: 0}
+    soundToPlay: 
     objToDisable: {fileID: 2893453468091940641}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!114 &5875319397053047280
 MonoBehaviour:
@@ -1263,6 +1269,10 @@ PrefabInstance:
     - target: {fileID: 4989231872987762536, guid: f5bd4e7f303bc2f46b05bf398223c15b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4995833992895536075, guid: f5bd4e7f303bc2f46b05bf398223c15b, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5404156458188543741, guid: f5bd4e7f303bc2f46b05bf398223c15b, type: 3}
       propertyPath: m_Name

@@ -90,3 +90,13 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e1b057e9025f646768fb9a2b21e30dbb, type: 3}
   - name: window error
     clip: {fileID: 8300000, guid: 68dcf2811adef45ef9d0d74a7b2a3106, type: 3}
+  - name: catch bug
+    clip: {fileID: 8300000, guid: c3f0549b432d24947819017f86735d8f, type: 3}
+  - name: bug flying
+    clip: {fileID: 8300000, guid: 7230102e854408c44b7d00f2bd7569f0, type: 3}
+  - name: glitch se
+    clip: {fileID: 8300000, guid: 4dee5102beff256459818b44c46c629a, type: 3}
+  - name: phong hang up
+    clip: {fileID: 8300000, guid: 8b205942db115384f8463a6e6db75f79, type: 3}
+  - name: phone calling
+    clip: {fileID: 8300000, guid: 904c1b7c3cff77e4f9d5ef3aa882fa08, type: 3}

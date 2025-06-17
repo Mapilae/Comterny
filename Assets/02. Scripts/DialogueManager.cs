@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -210,7 +211,15 @@ public class DialogueManager : MonoBehaviour
                     }
 
             if (canClickToNext && inputTriggered)
+            {
                 ChangeDialogue();
+
+                // 1) UI 버튼 Selected 상태 해제
+                EventSystem.current.SetSelectedGameObject(null);
+
+                // 2) 입력 축 상태(스페이스바 등) 모두 리셋
+                Input.ResetInputAxes();
+            }
         }
     }
 

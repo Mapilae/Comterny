@@ -9,7 +9,7 @@ public class Pause : MonoBehaviour
     //한번이라도 스킵한적 있는지 체크하는 용. 스킵한 적 있으면 도전과제 달성 안됨.
     public static bool isSkippedOnce;
     public GameObject pauseMenu;
-
+    public GameObject mainTab;
     public GameObject debugTab;
     public GameObject reallyQuitMenu;
     public Button skipBtn;
@@ -67,6 +67,8 @@ public class Pause : MonoBehaviour
             currentPuzzle.GetComponent<BinaryAdditionPuzzle>().Success();
         else if (currentPuzzle.GetComponent<DecimalToBinaryPuzzle>())
             currentPuzzle.GetComponent<DecimalToBinaryPuzzle>().Success();
+        else if (currentPuzzle.GetComponent<Dijkstra>())
+            currentPuzzle.GetComponent<Dijkstra>().Success();
         //스킵후 창 닫기
         OpenPauseMenu();
     }
@@ -92,6 +94,7 @@ public class Pause : MonoBehaviour
 
         if (isPaused)
         {
+            mainTab.SetActive(true);
             debugTab.SetActive(false);
             reallyQuitMenu.SetActive(false);
         }

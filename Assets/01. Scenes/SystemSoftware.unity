@@ -4101,6 +4101,10 @@ PrefabInstance:
       propertyPath: objToDisable
       value: 
       objectReference: {fileID: 709634841}
+    - target: {fileID: 2168803233527563742, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
+      propertyPath: objToDisable2
+      value: 
+      objectReference: {fileID: 709634842}
     - target: {fileID: 3105170606090187103, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -9927,6 +9931,10 @@ PrefabInstance:
       propertyPath: chatBallon
       value: 
       objectReference: {fileID: 424414345}
+    - target: {fileID: 5067466733334592812, guid: 289123f538bb44b3c9cd2888334e9871, type: 3}
+      propertyPath: objToHide2
+      value: 
+      objectReference: {fileID: 1354786552}
     - target: {fileID: 8638774053769522592, guid: 289123f538bb44b3c9cd2888334e9871, type: 3}
       propertyPath: m_Name
       value: NumToBinaryCanvas Variant

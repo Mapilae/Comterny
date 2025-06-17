@@ -48,6 +48,7 @@ public class MemoryBugObject : MonoBehaviour
     public void StartParabola(Transform target)
     {
         anim.SetBool("fly", true);
+        // SoundManager.instance.PlaySound("bug flying");
         StartCoroutine(MoveParabola(target.position, duration, height));
     }
 
@@ -87,6 +88,7 @@ public class MemoryBugObject : MonoBehaviour
 
         transform.parent = endParent;
         anim.SetBool("fly", false);
+        //SoundManager.instance.StopSound();
     }
 
 

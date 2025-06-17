@@ -1634,6 +1634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 5241826525427661402}
+  mainTab: {fileID: 340899896349222722}
   debugTab: {fileID: 6862181050958936220}
   reallyQuitMenu: {fileID: 2281011955069595389}
   skipBtn: {fileID: 1689767866367955757}

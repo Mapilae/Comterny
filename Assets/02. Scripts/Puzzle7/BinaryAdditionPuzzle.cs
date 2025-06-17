@@ -20,6 +20,7 @@ public class BinaryAdditionPuzzle : MonoBehaviour
     [Header("When Success")] public int varToAdd;
     public Collider2D colToDisable;
     public GameObject objToDisable;
+    public GameObject objToDisable2;
 
     private int answer;
 
@@ -99,6 +100,7 @@ public class BinaryAdditionPuzzle : MonoBehaviour
         PlayerMovement.instance.ChangeCanMove(true);
         if (colToDisable != null) colToDisable.enabled = false;
         if (objToDisable != null) objToDisable.gameObject.SetActive(false);
+        if (objToDisable2 != null) objToDisable2.gameObject.SetActive(false);
         StartCoroutine(ClosePuzzleAfterDelay());
     }
 
