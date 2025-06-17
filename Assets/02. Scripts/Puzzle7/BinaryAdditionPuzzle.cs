@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 
 public class BinaryAdditionPuzzle : MonoBehaviour
 {
-    public TextMeshProUGUI titleText;
-    public TextMeshProUGUI questionText;
     public TextMeshProUGUI number1Text;
     public TextMeshProUGUI number2Text;
     public UISwitcher.UISwitcher[] toggleSwitches;
@@ -60,8 +58,7 @@ public class BinaryAdditionPuzzle : MonoBehaviour
             }
         }
 
-        titleText.text = "이진수 덧셈 퀴즈";
-        questionText.text = "다음 두 이진수를 더하세요";
+
         number1Text.text = Convert.ToString(num1, 2).PadLeft(4, '0');
         number2Text.text = Convert.ToString(num2, 2).PadLeft(4, '0');
 

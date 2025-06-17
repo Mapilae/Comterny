@@ -34,13 +34,15 @@ public class Dijkstra : MonoBehaviour
     public Transform nodeParent;
     public List<TMP_Text> nodeTexts = new();
 
+    public GameObject demoEndObj;
+
     private readonly List<int> correctList = new() { 1, 3, 5, 7 };
     //public int minSum = 1000000; //경로 최소값(정답)
     // public int playerSum = 1000000; //플레이어가 클릭한 간선 가중치 합. 나중에 minSum과 비교함. 
 
     private readonly int[] weight = new int[7];
+    private readonly string strPath = "AABCDEFGG";
 
-    public GameObject demoEndObj;
 
     private void Start()
     {
@@ -89,7 +91,7 @@ public class Dijkstra : MonoBehaviour
 
         for (var i = 0; i < nodeTexts.Count; i++) nodeTexts[i].text = weight[i].ToString();
 
-        pathText.text = "1";
+        pathText.text = "A";
         clickList.Clear();
         clickList.Add(1);
         vertexBlocks[0].vertex.image.color = Color.red;
@@ -99,7 +101,7 @@ public class Dijkstra : MonoBehaviour
     public void ImgClick(int index)
     {
         Debug.Log(index);
-        pathText.text += "→" + index;
+        pathText.text += "→" + strPath[index];
         SoundManager.instance.PlaySound("keyboard");
 
         // foreach (var arrow in nodeBlocks[index - 1].adjustArrows) arrow.SetActive(false);
@@ -138,15 +140,15 @@ public class Dijkstra : MonoBehaviour
     public void CloseTab()
     {
         PlayerMovement.instance.ChangeCanMove(true);
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void DisableThis()
     {
         Debug.Log("END");
         //temp
-       // LodingScene.instance.LoadScene();
-       demoEndObj.SetActive(true);
+        // LodingScene.instance.LoadScene();
+        demoEndObj.SetActive(true);
         gameObject.SetActive(false);
     }
 }
