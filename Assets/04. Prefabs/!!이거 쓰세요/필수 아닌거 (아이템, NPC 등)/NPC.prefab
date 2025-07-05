@@ -80,9 +80,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: d79f6692a6615d842a725435cff5b13b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a1d08d9954dfd5e439d7dc37dc723611, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -144,6 +144,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   - interactableType: 0
     needItemCode: 
     varCodeToAdd: 
@@ -155,6 +157,8 @@ MonoBehaviour:
     canvasToEnable: {fileID: 0}
     soundToPlay: 
     objToDisable: {fileID: 0}
+    colliderTodisable: []
+    sprToChange: {fileID: 0}
   isClose: 0
 --- !u!58 &3123256497045867628
 CircleCollider2D:

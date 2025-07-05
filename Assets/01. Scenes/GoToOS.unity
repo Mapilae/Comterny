@@ -642,11 +642,11 @@ PrefabInstance:
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: 3e236ab37021243bb88e5f6bb595ab11, type: 3}
+      objectReference: {fileID: 8300000, guid: 6e4a6a1fd969ac245a96dd70e5c35766, type: 3}
     - target: {fileID: 6818046679025047479, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 3e236ab37021243bb88e5f6bb595ab11, type: 3}
+      objectReference: {fileID: 8300000, guid: 6e4a6a1fd969ac245a96dd70e5c35766, type: 3}
     - target: {fileID: 8956989733511003031, guid: 0d8fa9f634349b344aa1cfd4dd279435, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -7724,7 +7724,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.7876923, y: 0.7876923}
+    oldSize: {x: 0.77575755, y: 0.77575755}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -7814,7 +7814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6031014609228861021, guid: 9c9aaee7ac0d22d4cb1e270c350fe285, type: 3}
       propertyPath: m_FlipX
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6031014609228861021, guid: 9c9aaee7ac0d22d4cb1e270c350fe285, type: 3}
       propertyPath: m_SortingOrder
