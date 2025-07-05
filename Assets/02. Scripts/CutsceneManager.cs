@@ -65,10 +65,13 @@ public class CutsceneManager : MonoBehaviour
             Debug.Log("steop is null");
             return;
         }
-        if (steps.Count == 0) {
+
+        if (steps.Count == 0)
+        {
             Debug.Log("steps is empty");
             return; //비어있는 경우 시작 안함
         }
+
         PlayerMovement.isCutscene = true;
         StopAllCoroutines();
         StartCoroutine(StepStart());
@@ -77,11 +80,16 @@ public class CutsceneManager : MonoBehaviour
     private IEnumerator StepStart()
     {
         yield return null;
-        if (MapOveray.instance.gameObject.activeInHierarchy&&!MapOveray.isOFF){
+        if (MapOveray.instance.gameObject.activeInHierarchy && !MapOveray.isOFF)
+        {
             Debug.Log("MapOveray is ON, waiting for it to turn OFF");
-            yield return new WaitUntil(() => MapOveray.isOFF);}
+            yield return new WaitUntil(() => MapOveray.isOFF);
+        }
         else
+        {
             yield return null;
+        }
+
         currentStep = 0;
         currentMidStep = 0;
         MobileUI.instance.HideThis(true);
@@ -93,22 +101,22 @@ public class CutsceneManager : MonoBehaviour
     private void EndCutscene()
     {
         CameraFollow.doFollowPlayer = true;
-        PlayerMovement.isCutscene = false;
-        CameraFollow.instance.ExcludeLayerInCamera(false);
+
         MobileUI.instance.HideThis(false);
         directingManager.LetterboxOff();
+
+        CameraFollow.instance.ExcludeLayerInCamera(false);
+        PlayerMovement.isCutscene = false;
+
+        Debug.Log("end cutscene!");
     }
 
     private IEnumerator RunStep(int stepIndex)
     {
+        // 1) 스텝이 완전히 범위를 벗어나기 전에 끝내도록
         if (stepIndex >= steps.Count)
-        {
-            //end ALL
-            EndCutscene();
-            yield return new WaitForSeconds(1.5f);
-            this.gameObject.SetActive(false);
             yield break;
-        }
+
 
         var step = steps[stepIndex];
 
@@ -152,10 +160,22 @@ public class CutsceneManager : MonoBehaviour
             directingManager.RunCMD(step.stepEnd.dirCmd);
         }
 
+        // 2) 이게 마지막 스텝일 때만 컷신 종료
+        if (stepIndex == steps.Count - 1)
+        {
+            //end ALL
+            EndCutscene();
+            yield return new WaitForSeconds(1.5f);
+            gameObject.SetActive(false);
+            yield break;
+        }
+
+        // 3) 아니면 다음 스텝으로 진행
         yield return new WaitUntil(() => !DialogueManager.isPlayingDialogue);
         currentStep++;
         StartCoroutine(RunStep(currentStep));
     }
+
 
     private IEnumerator MoveTransformWithWaits(MovingTransform moveObj)
     {
@@ -191,12 +211,13 @@ public class CutsceneManager : MonoBehaviour
                 if (dist != 0f)
                     PlayerMovement.instance.SetPlayerLookingDirection(dist < 0);
             }
+
             if (moveObj.target.GetComponent<MemoryBugObject>())
             {
-                MemoryBugObject bug = moveObj.target.GetComponent<MemoryBugObject>();
+                var bug = moveObj.target.GetComponent<MemoryBugObject>();
                 bug.StartRotation(end);
-
             }
+
             while (elapsed < moveObj.moveDuration)
             {
                 elapsed += Time.deltaTime;
@@ -205,10 +226,10 @@ public class CutsceneManager : MonoBehaviour
                 else
                     moveObj.target.position = Vector3.Lerp(start, end, elapsed / moveObj.moveDuration);
 
-                
+
                 yield return null;
             }
-            
+
             if (isLocal)
                 moveObj.target.localPosition = end;
             else
@@ -218,18 +239,15 @@ public class CutsceneManager : MonoBehaviour
                 PlayerMovement.instance.StopMoving();
                 PlayerMovement.instance.SetPlayerLookingDirection(false);
             }
+
             if (moveObj.target.GetComponent<MemoryBugObject>())
             {
-                MemoryBugObject bug = moveObj.target.GetComponent<MemoryBugObject>();
+                var bug = moveObj.target.GetComponent<MemoryBugObject>();
                 bug.EndRotation();
-             
             }
-
         }
 
         currentMidStep++;
         yield return new WaitForSeconds(moveObj.postArrivalWait);
     }
-
-    
 }

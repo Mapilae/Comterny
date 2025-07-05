@@ -37,6 +37,7 @@ public class Inventory : MonoBehaviour
 
     private int holdingItemCount;
     private bool isItemInfoEnabled;
+    private UIItemFly itemFly;
 
     private PlayerData playerData;
 
@@ -52,6 +53,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         //  UpdateInventory();
+        itemFly = GetComponent<UIItemFly>();
     }
 
     private void Update()
@@ -281,6 +283,14 @@ public class Inventory : MonoBehaviour
             anything.GetComponent<LogicGateMinigame>().InventoryToReal(itemHoldList[currentHoldingItemIndex].itemID);
         if (anything.GetComponent<TrashCan>())
             anything.GetComponent<TrashCan>().CheckIfSomethingThrowable();
+    }
+
+    public void UnholdItemAfterFirstGet()
+    {
+        var itemName = playerData.GetItemFromID(holdingItem.itemID).itemName;
+        itemFly.BeginFly(holdingItem.itemSpr, itemName,
+            itemHoldList[holdingItemCount - 1].image.transform.parent.GetComponent<RectTransform>());
+        UnholdItem();
     }
 
     [Serializable]

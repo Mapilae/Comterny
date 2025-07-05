@@ -14,8 +14,8 @@ public class MemoryBugObject : MonoBehaviour
     public Transform endParent;
 
     [Header("Attack effect")] public GameObject attackEffect;
+    public GameObject objToEnableAfterFly;
     private Animator anim;
-
     private Collider2D col;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -88,6 +88,7 @@ public class MemoryBugObject : MonoBehaviour
 
         transform.parent = endParent;
         anim.SetBool("fly", false);
+        objToEnableAfterFly.SetActive(true);
         //SoundManager.instance.StopSound();
     }
 

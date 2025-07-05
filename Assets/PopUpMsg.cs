@@ -16,8 +16,8 @@ public class PopUpMsg : MonoBehaviour
 
     private void Start()
     {
-        frame.gameObject.SetActive(false);
         frame = text.transform.parent.GetComponent<Image>();
+        frame.gameObject.SetActive(false);
     }
 
     public void MsgPopUp(string msg)

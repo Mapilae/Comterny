@@ -504,7 +504,8 @@ public class DialogueManager : MonoBehaviour
 
         if (state.Equals(currentState.ITEM))
         {
-            Inventory.instance.UnholdItem();
+            Inventory.instance.UnholdItemAfterFirstGet();
+
             state = currentState.DIALOGUE;
         }
 

@@ -23,6 +23,7 @@ public class ParityBit : MonoBehaviour
 
     [Header("Potal")] public Animator anim;
     public List<GameObject> objToDisable; //퍼즐 오브젝트를 비활성화 시키는 오브젝트
+    public GameObject objToEnable;
     public Collider2D colToEnable;
 
     //varToAdd=135
@@ -193,6 +194,7 @@ public class ParityBit : MonoBehaviour
         closeABtn.SetActive(false);
         foreach (var obj in objToDisable) obj.SetActive(false);
         colToEnable.enabled = true;
+        objToEnable.SetActive(true);
         Debug.Log("Close Parity Bit Minigame...");
         yield return new WaitForSeconds(2.5f);
         anim.SetTrigger("Success");

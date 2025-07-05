@@ -18,8 +18,8 @@ public class CPUWarp : MonoBehaviour
 
     public Image waitTimer;
     public TMP_Text waitTxt;
+    public GameObject objToEnable;
     private bool isStaying;
-
     private float stayingTime;
 
     private void Start()
@@ -57,7 +57,11 @@ public class CPUWarp : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!canWarp) return;
-        if (other.CompareTag("Player")) isStaying = true;
+        if (other.CompareTag("Player"))
+        {
+            isStaying = true;
+            if (objToEnable != null) objToEnable.SetActive(false);
+        }
     }
 
     public void OnTriggerExit2D(Collider2D other)
