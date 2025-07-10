@@ -5,6 +5,7 @@ public class MemoryBugObject : MonoBehaviour
 {
     public bool colEnableAtStart; // 시작할 때 충돌체를 활성화할지 여부
 
+    public Transform rotationTarget;
     public Transform goPos1; // 도달할 목표 위치
 
     public Transform goPos2; // 도달
@@ -15,15 +16,15 @@ public class MemoryBugObject : MonoBehaviour
 
     [Header("Attack effect")] public GameObject attackEffect;
     public GameObject objToEnableAfterFly;
-    private Animator anim;
+    public Animator anim;
     private Collider2D col;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         col = GetComponent<Collider2D>();
-        anim = GetComponent<Animator>();
-        col.enabled = colEnableAtStart; //cannot catch bug at the start
+
+        if(col!=null) col.enabled = colEnableAtStart; //cannot catch bug at the start
         // MoveDown();
 
         //anim.SetTrigger("die");
@@ -74,7 +75,7 @@ public class MemoryBugObject : MonoBehaviour
             if (direction.sqrMagnitude > 0.0001f)
             {
                 var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -135f;
-                transform.rotation = Quaternion.Euler(0f, 0f, angle);
+                rotationTarget.rotation = Quaternion.Euler(0f, 0f, angle);
             }
 
             transform.position = newPos;
@@ -84,7 +85,7 @@ public class MemoryBugObject : MonoBehaviour
 
         // 마지막에는 시작→도착 직선 방향으로 고정
         transform.position = targetPos;
-        transform.rotation = Quaternion.Euler(0f, 0f, finalAngle);
+        rotationTarget.rotation = Quaternion.Euler(0f, 0f, finalAngle);
 
         transform.parent = endParent;
         anim.SetBool("fly", false);
@@ -113,7 +114,7 @@ public class MemoryBugObject : MonoBehaviour
             if (direction.sqrMagnitude > 0.0001f)
             {
                 var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + -135f;
-                transform.rotation = Quaternion.Euler(0f, 0f, angle);
+                rotationTarget.rotation = Quaternion.Euler(0f, 0f, angle);
             }
 
             yield return null;
@@ -132,7 +133,7 @@ public class MemoryBugObject : MonoBehaviour
 
     private IEnumerator IEBugGlitch()
     {
-        var mat = GetComponent<Renderer>().sharedMaterial;
+        var mat = rotationTarget.GetComponent<Renderer>().sharedMaterial;
         mat.SetFloat("NoiseAmount", 5f);
         mat.SetFloat("GlitchStrength", 2f);
 
@@ -142,7 +143,7 @@ public class MemoryBugObject : MonoBehaviour
         while (time < 3f)
         {
             time += Time.deltaTime;
-            transform.localScale += new Vector3(0.06f, 0.06f, 0f);
+            rotationTarget.localScale += new Vector3(0.06f, 0.06f, 0f);
             yield return null;
         }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,22 +5,21 @@ using UnityEngine;
 public class QueueMinigame : MonoBehaviour
 {
     public Transform spawnPoint;
-    private GameObject blockBoxCol;
     public List<GameObject> disableObjs;
-    private readonly bool isSuccess = false;
 
     public List<GameObject> waitToBeSpawn;
-        
+    private readonly bool isSuccess = false;
+    private GameObject blockBoxCol;
+
 
     private void Awake()
     {
         disableObjs = new List<GameObject>();
         waitToBeSpawn = new List<GameObject>();
-        
     }
+
     private void Start()
     {
-    
         blockBoxCol = transform.GetChild(0).gameObject;
     }
 
@@ -38,7 +36,7 @@ public class QueueMinigame : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("box"))
+        if (other.gameObject.CompareTag("box"))
         {
 //            Debug.Log("pop");
             disableObjs.Add(other.gameObject);
@@ -58,12 +56,14 @@ public class QueueMinigame : MonoBehaviour
         }
     }
 
+
     public void PushOne()
     {
         if (disableObjs.Count == 0) return;
-        
-        int holdingItemID =Inventory.instance.currentHoldingItemIndex==-1?
-            -1: Inventory.instance.itemHoldList[Inventory.instance.currentHoldingItemIndex].itemID;
+
+        var holdingItemID = Inventory.instance.currentHoldingItemIndex == -1
+            ? -1
+            : Inventory.instance.itemHoldList[Inventory.instance.currentHoldingItemIndex].itemID;
         if (holdingItemID.Equals(27))
         {
             //if is box item holding
@@ -77,29 +77,30 @@ public class QueueMinigame : MonoBehaviour
         }
     }
 
-    void PushObj()
+    private void PushObj()
     {
         var obj = disableObjs[0];
         waitToBeSpawn.Add(obj);
         disableObjs.RemoveAt(0);
     }
 
-    IEnumerator IEPushObjInList()
+    private IEnumerator IEPushObjInList()
     {
         while (true)
-        {
-            if(waitToBeSpawn.Count>0){
+            if (waitToBeSpawn.Count > 0)
+            {
                 Debug.Log("waitToBeSpawn");
                 var obj = waitToBeSpawn[0];
                 obj.transform.position = spawnPoint.position;
                 obj.SetActive(true);
                 obj.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 2, ForceMode2D.Impulse);
-                waitToBeSpawn.RemoveAt(0); 
-                yield return new WaitForSeconds(4f);             
+                waitToBeSpawn.RemoveAt(0);
+                yield return new WaitForSeconds(4f);
             }
-            else 
+            else
+            {
                 yield return new WaitForSeconds(0.5f);
-        }
+            }
     }
 
     public void PopOne()
