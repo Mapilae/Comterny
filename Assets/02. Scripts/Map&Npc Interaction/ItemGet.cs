@@ -57,8 +57,12 @@ public class ItemGet : MonoBehaviour
             canUse = false;
             SoundManager.instance.PlaySound("item get");
             for (var i = 0; i < varCodeToAdd.Count; i++) playerData.AddVariable(varCodeToAdd[i]);
+
+            GetComponent<Collider2D>().enabled = false;
             if (!sprToChange.Equals(null)) sprRender.sprite = sprToChange;
             else gameObject.SetActive(false);
+            //자꾸 비활성화 안되는 문제가 있어서 혹시 몰라 추가함
+            if (gameObject.activeInHierarchy) Destroy(gameObject);
         }
     }
 

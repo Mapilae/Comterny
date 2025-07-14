@@ -26,8 +26,7 @@ public class InteractableSetting
 
     [Header("After this worked, add variable?")]
     public List<int> varCodeToAdd;
-    
-    
+
 
     [Header("for NPC")] public string dialogueID;
 
@@ -37,10 +36,11 @@ public class InteractableSetting
     public GameObject objToEnable2; //미니게임 퍼즐 오브젝트.
     public GameObject[] objToEnableOther; //미니게임 퍼즐 오브젝트.
     public Canvas canvasToEnable;
-    
+
     public string soundToPlay = "";
     public GameObject objToDisable;
-    
+    public GameObject[] objToDisableOther;
+
     public Collider2D[] colliderTodisable;
     public Sprite sprToChange;
 }
@@ -86,7 +86,7 @@ public class InteractableObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")||collision.CompareTag("deadzone"))
+        if (collision.CompareTag("Player") || collision.CompareTag("deadzone"))
         {
             isClose = true;
             AutoDialogue();
@@ -94,39 +94,36 @@ public class InteractableObject : MonoBehaviour
         }
     }
 
-    void AutoDoor()
-    {
-        if (interactList.Count == 0) return;
-        
-        if (usualInteractableType.Equals(InteractableType.AUTODOOR))
-        {
-            //Debug.Log("AUTO DOOR");
-            CheckIfInInventory(true);
-        }
-    }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")||collision.CompareTag("deadzone"))
+        if (collision.CompareTag("Player") || collision.CompareTag("deadzone"))
         {
             isClose = false;
 
             MobileUI.instance.NothingClose();
-
         }
     }
 
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")||collision.CompareTag("deadzone"))
+        if (collision.CompareTag("Player") || collision.CompareTag("deadzone"))
         {
-           
             if (!isCoroutineRunning) StartCoroutine(nameof(IESetMobileUI));
             isClose = true;
         }
         //AUTO DOOR인경우 자동으로 문 열리도록하기
         //if (interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODOOR))
         //   ItemTypeAct();
+    }
+
+    private void AutoDoor()
+    {
+        if (interactList.Count == 0) return;
+
+        if (usualInteractableType.Equals(InteractableType.AUTODOOR))
+            //Debug.Log("AUTO DOOR");
+            CheckIfInInventory(true);
     }
 
     private IEnumerator IESetMobileUI()
@@ -147,7 +144,6 @@ public class InteractableObject : MonoBehaviour
 
         if (currentInteractIndex != -1) MobileUI.instance.SetIconImage(usualInteractableType);
         else MobileUI.instance.NothingClose();
-
     }
 
     private void CheckIfInInventory(bool isCallAct)
@@ -187,7 +183,7 @@ public class InteractableObject : MonoBehaviour
     {
         if (currentInteractIndex == -1) return;
         if (!interactList[currentInteractIndex].interactableType.Equals(InteractableType.AUTODIALOGUE)) return;
-        
+
         CheckIfInInventory(true);
 
         //AUTODIALOGUE
@@ -205,13 +201,11 @@ public class InteractableObject : MonoBehaviour
 
         AddVariable();
         if (interactList[currentInteractIndex].dialogueID.Equals(""))
-        {
             MobileUI.instance.NothingClose();
-        }
         else
             GetComponent<NonPlayerCharacter>().StartConversation(interactList[currentInteractIndex].dialogueID);
 
-       
+
         InteractiveThings();
     }
 
@@ -227,7 +221,7 @@ public class InteractableObject : MonoBehaviour
         {
             case InteractableType.NPC:
                 CaseNPC();
-                
+
                 break;
 
             case InteractableType.SELFDOOR: //When Player holding the item
@@ -247,12 +241,12 @@ public class InteractableObject : MonoBehaviour
                     Inventory.instance.anything = interactList[currentInteractIndex].registerToInventory;
                 PlayerMovement.instance.ChangeCanMove(false);
                 break;
-            
+
             case InteractableType.NOTHING:
                 MobileUI.instance.NothingClose();
                 InteractiveThings();
                 PlayerMovement.instance.ChangeCanMove(true);
-                Debug.Log(this.name+" NOTHING "+currentInteractIndex);
+                Debug.Log(name + " NOTHING " + currentInteractIndex);
                 break;
             case InteractableType.SEARCH:
                 CaseNPC();
@@ -260,43 +254,43 @@ public class InteractableObject : MonoBehaviour
             case InteractableType.AUTODIALOGUE:
                 InteractiveThings();
                 break;
-            
+
             case InteractableType.BUGFLY:
                 InteractiveThings();
                 //player anim changeS
                 break;
-            
         }
 
         AddVariable();
     }
 
-    void InteractiveThings()
+    private void InteractiveThings()
     {
-        
         if (interactList[currentInteractIndex].objToEnable != null)
             interactList[currentInteractIndex].objToEnable.SetActive(true);
-        
+
         if (interactList[currentInteractIndex].objToEnable2 != null)
             interactList[currentInteractIndex].objToEnable2.SetActive(true);
-        
+
         if (interactList[currentInteractIndex].objToEnableOther.Length > 0)
             foreach (var obj in interactList[currentInteractIndex].objToEnableOther)
                 obj.SetActive(true);
-        
+
         if (interactList[currentInteractIndex].canvasToEnable != null)
             interactList[currentInteractIndex].canvasToEnable.enabled = true;
-        
+
         if (interactList[currentInteractIndex].objToDisable != null)
             interactList[currentInteractIndex].objToDisable.SetActive(false);
-        
-        if(interactList[currentInteractIndex].sprToChange != null)
+
+        if (interactList[currentInteractIndex].objToDisableOther.Length > 0)
+            foreach (var obj in interactList[currentInteractIndex].objToDisableOther)
+                obj.SetActive(false);
+        if (interactList[currentInteractIndex].sprToChange != null)
             GetComponent<SpriteRenderer>().sprite = interactList[currentInteractIndex].sprToChange;
-        
+
         if (interactList[currentInteractIndex].colliderTodisable.Length > 0)
             foreach (var col in interactList[currentInteractIndex].colliderTodisable)
                 col.enabled = false;
-
     }
 
     public void AddVariable()
