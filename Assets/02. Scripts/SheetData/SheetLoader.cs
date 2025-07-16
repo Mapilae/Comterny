@@ -51,6 +51,14 @@ public class SheetLoader : MonoBehaviour
         StartCoroutine(LoadSheetOnStart());
     }
 
+    public void ReloadSheet()
+    {
+        SheetData.instance.block = new List<Block>(0);
+        DialogueManager.instance.EndDialogue();
+        StopAllCoroutines();
+        StartLoadSheet();
+    }
+
     private IEnumerator LoadSheetOnStart()
     {
         var sheetURL = url + "&range=A2:F&nocache=" + DateTime.UtcNow.Ticks + Random.Range(0, 100000);
