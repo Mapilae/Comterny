@@ -26,6 +26,10 @@ public class ParityBit : MonoBehaviour
     public GameObject objToEnable;
     public Collider2D colToEnable;
 
+    public TMP_Text leftCountTxt;
+    private int solvedCount; // ✅ 추가: 맞춘 횟수 카운트
+
+
     //varToAdd=135
     private void Start()
     {
@@ -50,6 +54,8 @@ public class ParityBit : MonoBehaviour
     {
         var rand = Random.Range(0, 5); //0,1,2,3,4
         parityBlocks[index].isParityRight = rand >= 2; //패리티 에러났을 확률 40%
+
+        if (solvedCount >= 5) parityBlocks[index].isParityRight = true;
 
         bool isSolo;
         string code;
@@ -145,6 +151,9 @@ public class ParityBit : MonoBehaviour
 
     public void ResetParity()
     {
+        solvedCount = 0; // ✅ 추가: 초기화
+        leftCountTxt.text = "(0/5)";
+
         for (var i = 0; i < parityBlocks.Count; i++)
         {
             parityBlocks[i].obj = parityBlocks[i].objBtn.gameObject;
@@ -170,6 +179,9 @@ public class ParityBit : MonoBehaviour
     private IEnumerator AnotherBlock(int index)
     {
         parityBlocks[index].obj.SetActive(false);
+        solvedCount++; // ✅ 추가: 정답 카운트 증가
+        leftCountTxt.text = $"({solvedCount}/5)";
+
         CreateParity(index);
 
         yield return new WaitForSeconds(1f);
@@ -178,6 +190,7 @@ public class ParityBit : MonoBehaviour
         else
             Debug.Log("Not finished");
     }
+
 
     public void EndGame()
     {
