@@ -540,13 +540,13 @@ public class DialogueManager : MonoBehaviour
     {
         try
         {
-            if (SheetData.instance.block == null || SheetData.instance.block.Count == 0)
+            if (SheetData.instance.sheetDataObj.block == null || SheetData.instance.sheetDataObj.block.Count == 0)
                 Debug.LogWarning("시트 로드 아직 안됨!");
 
-            var index = SheetData.instance.block.FindIndex(x => x.id == idName);
-            if (SheetData.instance.block.Count <= index)
-                Debug.LogWarning($"index보다 시트 카운트수가 더 적습니다! {SheetData.instance.block.Count}<={index}");
-            return SheetData.instance.block[index].cells;
+            var index = SheetData.instance.sheetDataObj.block.FindIndex(x => x.id == idName);
+            if (SheetData.instance.sheetDataObj.block.Count <= index)
+                Debug.LogWarning($"index보다 시트 카운트수가 더 적습니다! {SheetData.instance.sheetDataObj.block.Count}<={index}");
+            return SheetData.instance.sheetDataObj.block[index].cells;
         }
         catch
         {

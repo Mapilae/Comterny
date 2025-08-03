@@ -43,12 +43,18 @@ public class Cell
 public class SheetData : MonoBehaviour
 {
     public static SheetData instance;
+    public SheetDataObj sheetDataObj;
+    [Header("Scenario data")] private List<Block> block;
 
-    [Header("Scenario data")] public List<Block> block;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        block = sheetDataObj.block;
     }
 
     public void AddCell(string id, Cell cell)

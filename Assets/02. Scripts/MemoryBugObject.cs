@@ -24,7 +24,7 @@ public class MemoryBugObject : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
 
-        if(col!=null) col.enabled = colEnableAtStart; //cannot catch bug at the start
+        if (col != null) col.enabled = colEnableAtStart; //cannot catch bug at the start
         // MoveDown();
 
         //anim.SetTrigger("die");
@@ -133,9 +133,10 @@ public class MemoryBugObject : MonoBehaviour
 
     private IEnumerator IEBugGlitch()
     {
-        var mat = rotationTarget.GetComponent<Renderer>().sharedMaterial;
-        mat.SetFloat("NoiseAmount", 5f);
-        mat.SetFloat("GlitchStrength", 2f);
+        var mat = anim.GetComponent<Renderer>().sharedMaterial;
+        mat.SetFloat("_NoiseAmount", 5f);
+        mat.SetFloat("_GlitchStrength", 2f);
+        mat.SetFloat("_IsBugWhite", 1f); // ⬅ 반드시 언더스코어 포함해야 Shader Graph가 인식
 
         Debug.Log("play! bug glitch and disappear");
 
@@ -151,12 +152,12 @@ public class MemoryBugObject : MonoBehaviour
         while (time < 1f)
         {
             time += Time.deltaTime;
-            mat.SetFloat("AlphaFloat", Mathf.Lerp(1f, 0f, time));
+            mat.SetFloat("_AlphaFloat", Mathf.Lerp(1f, 0f, time));
             yield return null;
         }
 
-        mat.SetFloat("GlitchStrength", 30f);
-        mat.SetFloat("NoiseAmount", 2f);
+        mat.SetFloat("_GlitchStrength", 30f);
+        mat.SetFloat("_NoiseAmount", 2f);
 
         gameObject.SetActive(false);
     }

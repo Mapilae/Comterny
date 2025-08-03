@@ -5306,6 +5306,7 @@ MonoBehaviour:
   attackEffect: {fileID: 531392129}
   objToEnableAfterFly: {fileID: 1007991719}
   anim: {fileID: 1218563062}
+  bugMat: {fileID: 2100000, guid: 10f2a257719ca4942a9b43924ee7eb05, type: 2}
 --- !u!1 &690029775
 GameObject:
   m_ObjectHideFlags: 0
@@ -7629,6 +7630,7 @@ MonoBehaviour:
   attackEffect: {fileID: 165041411}
   objToEnableAfterFly: {fileID: 1909589761}
   anim: {fileID: 1353973800}
+  bugMat: {fileID: 2100000, guid: 10f2a257719ca4942a9b43924ee7eb05, type: 2}
 --- !u!114 &969594913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9498,6 +9500,7 @@ MonoBehaviour:
   attackEffect: {fileID: 531392129}
   objToEnableAfterFly: {fileID: 1007991719}
   anim: {fileID: 1218563062}
+  bugMat: {fileID: 0}
 --- !u!1 &1234956383
 GameObject:
   m_ObjectHideFlags: 0

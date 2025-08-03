@@ -1,30 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using Random = UnityEngine.Random;
 
 public class SheetLoader : MonoBehaviour
 {
     public static SheetLoader instance;
-
-    //스프레드시트 > 파일 > 공유 > 웹에 게시 > 생긴 링크 복사
-    private static readonly string url =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQL4QXgDuaYrnk5mL4aT8DTinFtM80x6Y0j2zPQkI2Y_sUhcCnJCxANag4Khc2pWA5ZK4mXq0kJKo_f/pub?output=tsv";
-    //위에 이건 실제 쓰는 용 | 아래꺼는 심사용 (수정X)
-    //"https://docs.google.com/spreadsheets/d/e/2PACX-1vRyDhQNEmPN2kq_6YnYAm5qEX-x-s_EJ18P15C4a858VthuAkPY1_rKuYAK_usl1oKAjd8Rfz7bjTwc/pub?output=tsv";
-
-    //위에 저건 인디커넥트용
     public static int chapNumber = 1;
-
     public static bool isLoading;
     public SheetData sheetData;
 
-    [Header("처음 시작할 때 자동실행할 다이얼로그가 있는 경우")]
-    public string startDialogueStr;
+    [Header("자동 실행 다이얼로그")] public string startDialogueStr;
 
-    [Header("Error MSG")] public GameObject errorObj;
+    [Header("에러 오브젝트")] public GameObject errorObj;
 
     private string currentId = "";
     private string strSheetData;
@@ -36,57 +22,85 @@ public class SheetLoader : MonoBehaviour
 
     private void Start()
     {
-        StartLoadSheet();
+        // LoadTSVFromResources("dialogue");
     }
 
-    public void OnErrorObjButtonClick()
+    public void LoadTSVFromResources(string fileNameWithoutExtension)
     {
-        errorObj.SetActive(false);
-        StartLoadSheet();
-    }
+        var tsvFile = Resources.Load<TextAsset>(fileNameWithoutExtension);
 
-    public void StartLoadSheet()
-    {
-        SheetData.instance.block = new List<Block>(0);
-        StartCoroutine(LoadSheetOnStart());
-    }
-
-    public void ReloadSheet()
-    {
-        SheetData.instance.block = new List<Block>(0);
-        DialogueManager.instance.EndDialogue();
-        StopAllCoroutines();
-        StartLoadSheet();
-    }
-
-    private IEnumerator LoadSheetOnStart()
-    {
-        var sheetURL = url + "&range=A2:F&nocache=" + DateTime.UtcNow.Ticks + Random.Range(0, 100000);
-        using (var www = UnityWebRequest.Get(sheetURL))
+        if (tsvFile == null)
         {
-            yield return www.SendWebRequest();
-
-            /*if (www.isDone) strSheetData = www.downloadHandler.text;
-            else
-            {
-                Debug.Log("Error: " + www.error);
-                errorObj.SetActive(true);
-            }*/
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error: " + www.error);
-                ErrorOccured();
-                yield break; // 코루틴 종료
-            }
-
-            strSheetData = www.downloadHandler.text;
+            Debug.LogError("TSV 파일을 Resources에서 찾을 수 없습니다: " + fileNameWithoutExtension);
+            ErrorOccured();
+            return;
         }
 
+        strSheetData = tsvFile.text;
+        ParseTSV();
+    }
+
+    public void ParseTSV()
+    {
+        SheetData.instance.sheetDataObj.block = new List<Block>();
         isLoading = true;
-        DisplayText();
-        LoadInSheetData();
-        //DialogueManager.instance.crtChapter = chapNumber;
+
+        var rows = strSheetData.Split('\n');
+        for (var i = 0; i < rows.Length; i++)
+        {
+            var columns = rows[i].Replace("\r", "").Split('\t');
+            if (columns.Length < 5) continue;
+
+            var id = columns[0];
+            var start_cmd = columns[1];
+            var standingNum = columns[2];
+            var char_name = columns[3];
+            var dialogue = columns[4];
+            var after_cmd = columns[5];
+
+            if (id.Equals(standingNum) && string.IsNullOrEmpty(dialogue)) continue;
+            if (id.Equals("//")) continue;
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                var block = new Block(id);
+                sheetData.AddBlock(block);
+                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
+                sheetData.AddCell(id, cell);
+                currentId = id;
+            }
+            else
+            {
+                id = currentId;
+                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
+                sheetData.AddCell(id, cell);
+            }
+        }
+
+        isLoading = false;
+        currentId = "";
+        StartDialogue();
+    }
+
+    private Cell MakeCell(string start_cmd, string standingNum, string char_name, string dialogue, string after_cmd)
+    {
+        return new Cell(char_name, string.IsNullOrEmpty(standingNum) ? "0" : standingNum, dialogue, start_cmd,
+            after_cmd);
+    }
+
+    public void StartDialogue()
+    {
+        var dialogueManagerObj = GameObject.FindGameObjectWithTag("DialogueManager");
+        if (dialogueManagerObj != null)
+            dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
+        else
+            Debug.Log("DialogueManager is null!");
+
+        if (!string.IsNullOrEmpty(startDialogueStr))
+        {
+            DialogueManager.instance.StartDialogueInManager(startDialogueStr);
+            PlayerMovement.canMove = false;
+        }
     }
 
     public void ErrorOccured()
@@ -97,93 +111,5 @@ public class SheetLoader : MonoBehaviour
     public void ErrorDone()
     {
         errorObj.SetActive(false);
-    }
-
-
-    private void DisplayText()
-    {
-//        Debug.Log(strSheetData);
-    }
-
-    public void LoadInSheetData()
-    {
-        var rows = strSheetData.Split('\n');
-        for (var i = 0; i < rows.Length; i++)
-        {
-            // 0=ID   1=start_cmd  2=StandingNum   3=Name   4=Dialogue 5=after_cmd
-
-            var columns = rows[i].Replace("\r", "").Split('\t');
-            var id = columns[0];
-
-            var start_cmd = columns[1];
-            var standingNum = columns[2];
-            var char_name = columns[3];
-            var dialogue = columns[4];
-            var after_cmd = columns[5];
-
-            // �迭 ���� Ȯ��
-            if (columns.Length < 5)
-                // Debug.LogWarning("�߸��� ������ ����: " + rows[i]);
-                continue; // �����Ͱ� ������ ���� �ǳʶ�
-
-            if (id.Equals(standingNum) && dialogue.Equals(""))
-                // Debug.Log("nothing is in cell!:" + columns[0] + ", " + columns[1] + ", " + columns[2] + ", " + columns[3]);
-                continue;
-
-            if (id.Equals("//")) continue;
-            if (!id.Equals(""))
-            {
-                //new branch
-                // 0=ID   1=start_cmd  2=StandingNum   3=Name   4=Dialogue 5=after_cmd
-
-                Block block = new(id);
-
-                sheetData.AddBlock(block);
-                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
-                //block.AddCell(cell);
-                sheetData.AddCell(id, cell);
-                currentId = id;
-            }
-            else
-            {
-                //branch already exist
-                id = currentId;
-                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
-                sheetData.AddCell(id, cell);
-            }
-        }
-
-        isLoading = false;
-        currentId = "";
-    }
-
-    public void StartDialogue()
-    {
-        var dialogueManagerObj = GameObject.FindGameObjectWithTag("DialogueManager");
-        if (dialogueManagerObj != null)
-            dialogueManagerObj.GetComponent<DialogueManager>().StartDialogueManager();
-        else
-            Debug.Log("DialogueManager is null!");
-        if (!startDialogueStr.Equals(""))
-        {
-//            Debug.Log("Auto StartDialogue " + startDialogueStr);
-            DialogueManager.instance.StartDialogueInManager(startDialogueStr);
-            PlayerMovement.canMove = false;
-        }
-    }
-
-
-    private Cell MakeCell(string start_cmd, string standingNum, string char_name, string dialogue,
-        string after_cmd)
-    {
-        // 0=ID   1=start_cmd  2=StandingNum   3=Name   4=Dialogue  5=after_cmd
-
-        Cell block;
-        if (standingNum.Equals("")) //standingNum이 비어있는 경우, 0을 기본값으로 채움.
-            block = new Cell(char_name, "0", dialogue, start_cmd, after_cmd);
-        else
-            block = new Cell(char_name, standingNum, dialogue, start_cmd, after_cmd);
-
-        return block;
     }
 }

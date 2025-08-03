@@ -1,0 +1,1814 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71230b7977ac1cb418a4e60a52a8c530, type: 3}
+  m_Name: SheetDataObj
+  m_EditorClassIdentifier: 
+  block:
+  - id: "\uB7A8\uC758\uC804\uD654"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC5EC\uAE30\uC548\uC37C\uC5B4\uC694"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uCEF4\uD130\uB2C8\uC785\uC131"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC5EC\uAE30\uC778\uAC00... HW\uB3D9\uC740 \uCC98\uC74C \uC640\uBCF4\uB124."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC5ED\uC2DC \uC7A0\uACA8\uC788\uB124."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uADFC\uCC98\uC5D0 \uBE44\uC0C1\uC6A9 \uCE74\uB4DC \uD0A4\uAC00 \uC788\uB314\uC9C0."
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uBB38\uC744 \uC5F4 \uBC29\uBC95\uC744 \uCC3E\uC544\uBCF4\uC790."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uBA54\uC778\uBA54\uBAA8\uB9AC\uCC98\uC74C"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uB7A8 \uC8FC\uC784\uB2D8?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC557, \uD639\uC2DC {player}\uB2D8..?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uC8C4\uC1A1\uD574\uC694, \uB9C8\uC911 \uB098\uAC14\uC5B4\uC57C \uD588\uC5C8\uB294\uB370.
+        \uC790\uB9AC\uB97C \uBE44\uC6E0\uB2E4\uAC00 \uBC8C\uB808\uAC00 \uB2E4\uB978
+        \uACF3\uC5D0 \uC228\uC5B4\uBC84\uB9B4\uAE4C\uBD10.."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uAD1C\uCC2E\uC544\uC694. \uADF8, \uBB38\uC81C\uC758 \uBC8C\uB808\uB294
+        \uC5B4\uB514 \uC788\uC5B4\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC544, \uADF8\uAC74-"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uBA54\uC778\uBA54\uBAA8\uB9AC\uCC45\uBCF4\uAE30"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC800 \uC2A4\uD0DD \uB354\uBBF8\uC5D0 \uC788\uC5B4\uC694. \uCC45\uC744
+        \uAEBC\uB0B4\uACE0 \uC7A1\uC73C\uC154\uC57C \uD560 \uAC83 \uAC19\uC544\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uBD80\uD0C1\uB4DC\uB824\uC694..! "
+      start_cmd: 
+      after_cmd: "questGive_\uBC8C\uB808 \uC7A1\uAE30:\uB370\uC774\uD130 \uCC45 \uC0AC\uC774\uC5D0
+        \uC228\uC740 \uBC8C\uB808\uB97C \uC7A1\uC73C\uB824\uBA74 \uBA3C\uC800 \uCC45\uC744
+        \uAEBC\uB0B4\uC57C \uD560 \uAC83 \uAC19\uB2E4."
+  - id: "\uBA54\uC778\uBA54\uBAA8\uB9AC\uBC8C\uB808\uC7A1\uAE30\uD018"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uBC8C\uB808\uB97C \uC7A1\uACE0 \uB2E4\uC2DC \uB3CC\uC544\uC624\uC790."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC2A4\uD0DD\uBC8C\uB808\uC7A1\uC558"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC7A1\uC558..."
+      start_cmd: "questRemove_\uBC8C\uB808 \uC7A1\uAE30"
+      after_cmd: 
+  - id: "\uC2A4\uD0DD\uC131\uACF5\uD6C4\uBC8C\uB808\uB3C4\uB9DD"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "2\uCE35\uC73C\uB85C \uAC00\uC11C \uBC8C\uB808\uB97C \uCC3E\uC544
+        \uC7A1\uC790."
+      start_cmd: 
+      after_cmd: "questGive_\uBC8C\uB808 \uC7A1\uAE30(2):\uB370\uC774\uD130 \uC0C1\uC790
+        \uC0AC\uC774\uC5D0 \uC228\uC740 \uBC8C\uB808\uB97C \uC7A1\uC73C\uB824\uBA74
+        \uBA3C\uC800 \uC0C1\uC790\uB97C \uAEBC\uB0B4\uC57C \uD560 \uAC83 \uAC19\uB2E4."
+  - id: "\uD050\uC5D0\uC228\uC740\uBC8C\uB808"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uBC8C\uB808\uAC00 \uD050 \uC790\uB8CC\uAD6C\uC870\uC758 \uB370\uC774\uD130
+        \uC0C1\uC790 \uC18D\uC5D0 \uC228\uC5B4\uBC84\uB838\uB2E4. \uB610 \uB0A0\uC544\uAC00\uBC84\uB9AC\uAE30
+        \uC804\uC5D0 \uC0C1\uC790\uB97C \uBE7C\uB0BC \uBC29\uBC95\uC744 \uCC3E\uC544\uBCF4\uC790."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uBC8C\uB808\uC7A1\uC740\uD6C4"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uBC8C\uB808\uB97C \uC7A1\uC558\uB2E4. \uBB54\uAC00 \uC774\uC0C1\uD558\uAC8C
+        \uC0AC\uB77C\uC84C\uC9C0\uB9CC... \uB7A8\uC5D0\uAC8C \uAC00\uC11C \uBCF4\uACE0\uD558\uC790."
+      start_cmd: "addVar_109;questRemove_\uBC8C\uB808 \uC7A1\uAE30(2)"
+      after_cmd: 
+  - id: "\uBC8C\uB808\uC7A1\uC740\uD6C4\uB7A8"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC5B4\uB5BB\uAC8C \uB418\uC168\uB098\uC694...?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uBAA8\uB450 \uCC98\uB9AC\uD588\uC2B5\uB2C8\uB2E4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC544..! \uB2E4\uD589\uC774\uB2E4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uC815\uB9D0 \uB108\uBB34 \uAC10\uC0AC\uB4DC\uB824\uC694. \uC774\uAC78
+        \uC5B4\uB5BB\uAC8C \uC0AC\uB840\uD574\uC57C\uD560\uC9C0..."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uAD1C\uCC2E\uC544\uC694. \uADF8\uAC74 \uADF8\uB807\uACE0, \uBC8C\uB808\uAC00
+        \uC7A1\uC73C\uB2C8\uAE4C \uC0AC\uB77C\uC838\uBC84\uB9AC\uB358\uB370-"
+      start_cmd: 
+      after_cmd: se_phone calling
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC557, \uC7A0\uC2DC\uB9CC\uC694. \uC804\uD654 \uBC1B\uACE0 \uC62C\uAC8C\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uB124, \uC8FC\uAE30\uC5B5\uBD80\uC11C\uC758 \uB7A8\uC785\uB2C8\uB2E4."
+      start_cmd: se_stop
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC557, \uD504\uB85C\uC138\uC11C \uD300\uC7A5\uB2D8...!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "\uB124? <big>\uBC14\uC774\uB7EC\uC2A4</big>\uC694?!"
+      start_cmd: bgm_pause
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "\uC5B4, \uC5EC\uBCF4\uC138\uC694?"
+      start_cmd: 
+      after_cmd: se_phong hang up
+    - name: "\uB7A8"
+      standingNum: 2
+      content: ....
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uC544\uBB34\uB798\uB3C4 \uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uC5D0
+        \uAC00\uBCF4\uC544\uC57C \uD560 \uAC83 \uAC19\uC544\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uC800\uB294 \uD544\uC694\uD55C \uC790\uB8CC\uB97C \uCC59\uAE30\uACE0
+        \uC788\uC744\uD14C\uB2C8, \uC900\uBE44\uB418\uC2DC\uBA74 \uB2E4\uC2DC \uB9D0\uC500\uD574\uC8FC\uC138\uC694."
+      start_cmd: 
+      after_cmd: "bgm_play;questGive_\uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uB85C:\uB7A8\uC5D0\uAC8C
+        \uB9D0\uC744 \uAC78\uC5B4 \uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uB85C \uC774\uB3D9\uD558\uC790."
+  - id: "MM\uC5D0\uC11C\uC774\uB3D9\uC9C1\uC804"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC8FC\uAE30\uC5B5\uBD80\uC11C\uC5D0\uC11C \uB098\uAC08\uAE4C?"
+      start_cmd: CHOICE_2
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uB2E4\uC74C\uC73C\uB85C"
+      start_cmd: 
+      after_cmd: "questRemove:\uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uB85C;movescene_"
+    - name: 
+      standingNum: 0
+      content: "\uCDE8\uC18C"
+      start_cmd: 
+      after_cmd: close
+  - id: "\uBC84\uC815\uCC98\uC74C\uB3C4\uCC29"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC774\uB7F0 \uACF3\uC774 \uC788\uC5C8\uAD70\uC694. "
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC5EC\uAE34 \uC2DC\uC2A4\uD15C \uBC84\uC2A4 \uC815\uB958\uC7A5\uC774\uC5D0\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC2E0\uD638\uB97C \uBCF4\uB0B4\uBA74 \uBC84\uC2A4\uAC00 \uB3C4\uCC29\uD574\uC11C
+        \uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uC640 \uC8FC\uAE30\uC5B5\uBD80\uC11C\uB97C
+        \uC624\uAC08 \uC218 \uC788\uC8E0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uB2E4\uB9CC \uC694\uC998 \uD68C\uC0AC \uC0C1\uD0DC\uAC00 \uC880
+        \uBD88\uC548\uC815\uD574\uC11C\u2026 \uC798 \uC791\uB3D9\uD560\uC9C0 \uBAA8\uB974\uACA0\uC5B4\uC694."
+      start_cmd: 
+      after_cmd: "questGive:\uBC84\uC2A4 \uD0C0\uAE30:\uBC84\uC2A4 \uD638\uCD9C\uAE30\uB85C
+        \uBC84\uC2A4\uB97C \uD638\uCD9C\uD558\uC790."
+  - id: "\uD638\uCD9C\uAE30\uCC98\uC74C\uD074\uB9AD"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uD5C8...."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uBB34\uC2A8 \uC77C \uC788\uB098\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uBC84\uC2A4 \uD638\uCD9C\uAE30\uC5D0 \uBB38\uC81C\uAC00 \uC788\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC774\uAC78 \uACE0\uCCD0\uC57C \uBC84\uC2A4\uAC00 \uC62C \uAC83
+        \uAC19\uC740\uB370...."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC544\uBB34\uB798\uB3C4, \uC606\uC758 \uB098\uBB34\uAC00 \uBB38\uC81C\uC778
+        \uAC83 \uAC19\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC5B4\uB5BB\uAC8C \uD574\uBCF4\uACA0\uC2B5\uB2C8\uB2E4."
+      start_cmd: 
+      after_cmd: "questGive:\uBA48\uCD98 \uD638\uCD9C\uAE30:\uD638\uCD9C\uAE30 \uC606\uC5D0
+        \uC790\uB780 \uB098\uBB34\uB97C \uC798\uB77C \uD638\uCD9C\uAE30\uAC00 \uC815\uC0C1
+        \uC791\uB3D9\uD558\uAC8C \uB9CC\uB4E4\uC790."
+  - id: "\uC798\uBABB\uC790\uB780\uD2B8\uB9AC\uC870\uC0AC"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC800\uAE30, \uD638\uCD9C\uAE30 \uC8FC\uBCC0\uC758 \uC774 \uB098\uBB34...
+        \uBB34\uC5B8\uAC00 \uC774\uC0C1\uD558\uC9C0 \uC54A\uB098\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "<b>\uC774\uC9C4\uD2B8\uB9AC</b>\uCC98\uB7FC \uC0DD\uACA8\uC57C \uD558\uC9C0\uB9CC
+        \uADDC\uCE59\uC774 \uC5C9\uB9DD\uC774\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uB370\uC774\uD130 \uD750\uB984\uC744 \uBC29\uD574\uD558\uACE0 \uC788\uC5B4\uC694.
+        \uC774\uAC8C \uD638\uCD9C\uAE30\uB97C \uB9C9\uACE0 \uC788\uB294 \uAC83 \uAC19\uC544\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uD2B8\uB9AC\uC758 \uC815\uC810\uB4E4\uC774 \uC81C\uBA4B\uB300\uB85C
+        \uC790\uB780 \uBAA8\uC591\uC774\uC5D0\uC694. \uC798\uB77C\uC11C \uC815\uB9AC\uD574\uBCF4\uB294
+        \uAC8C \uC88B\uACA0\uC5B4\uC694."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC774\uC9C4\uD2B8\uB9AC\uADDC\uCE59\uB9CC\uC871"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC774\uC81C\uC57C \uC774\uC9C4\uD2B8\uB9AC \uADDC\uCE59\uC774 \uB9DE\uC544\uB5A8\uC5B4\uC84C\uB124\uC694.
+        \uC774\uC81C \uD638\uCD9C \uC804\uD30C\uB97C \uBC29\uD574\uD558\uC9C0 \uC54A\uACA0\uC8E0?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uB124! \uC81C\uB300\uB85C \uC791\uB3D9\uD558\uB294 \uC18C\uB9AC\uB3C4
+        \uB4E4\uB9AC\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uD638\uCD9C\uAE30\uAC00 \uB2E4\uC2DC \uBC18\uC751\uD558\uAE30 \uC2DC\uC791\uD588\uC5B4\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uADF8\uB7FC \uD638\uCD9C\uC744 \uC2DC\uB3C4\uD574\uBCF4\uC8E0."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uD638\uCD9C\uAE30\uC0AC\uC6A9\uC131\uACF5\uD6C4"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uB2E4\uC74C \uBAA9\uC801\uC9C0\uB294... \uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uC778\uAC00.
+        \uC544\uB2C8\uBA74 \uADF8 \uC774\uC0C1\uC77C\uC9C0\uB3C4."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC911\uC559\uCC98\uB9AC\uCC98\uC74C\uB3C4\uCC29"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC800, \uB7A8 \uC8FC\uC784\uB2D8."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uB124!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC6D0\uB798 \uC911\uC559\uCC98\uB9AC\uBD80\uC11C\uAC00 \uC774\uB807\uAC8C
+        \uB530\uB73B\uD55C\uAC00\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uD760, \uC774\uC0C1\uD558\uB124\uC694... \uD3C9\uADE0 \uC628\uB3C4\uAC00
+        \uB192\uC740 \uD3B8\uC774\uAE34 \uD588\uC9C0\uB9CC \uC774\uB807\uAC8C \uC228\uC774
+        \uB9C9\uD790 \uC815\uB3C4\uB294 \uC544\uB2C8\uC5C8\uB294\uB370."
+      start_cmd: sdturn_leftright
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uD68C\uC0AC \uAC74\uBB3C\uC5D0 \uBB34\uC2A8 \uBB38\uC81C\uAC00 \uC0DD\uAE34
+        \uAC8C \uBD84\uBA85\uD574\uC694. \uC544\uAE4C \uC815\uC804\uB3C4 \uADF8\uB807\uACE0."
+      start_cmd: flinch
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uBE68\uB9AC \uD504\uB85C\uC138\uC11C \uD300\uC7A5\uB2D8\uAED8 \uAC00\uBCF4\uC544\uC57C\uACA0\uC5B4\uC694."
+      start_cmd: 
+      after_cmd: "questGive_\uB728\uAC70\uC6B4 \uC911\uC559\uCC98\uB9AC\uBD80\uC11C:\uD504\uB85C\uC138\uC11C
+        \uD300\uC7A5\uC5D0\uAC8C \uAC00\uBCF4\uC790."
+  - id: "\uD504\uB85C\uC138\uC11C\uC4F0\uB7EC\uC9C4\uCC44"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "<big>\uAE84\uC544\uC544\uC545</big> \uD504\uB85C\uC138\uC11C \uD300\uC7A5\uB2D8!!!"
+      start_cmd: shake;bgm_pause
+      after_cmd: "questRemove_\uB728\uAC70\uC6B4 \uC911\uC559\uCC98\uB9AC\uBD80\uC11C"
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "\uAD1C\uCC2E\uC73C\uC138\uC694? \uC0B4\uC544 \uACC4\uC2E0\uAC70\uC8E0?!?
+        \uC124\uB9C8 \uB2E4\uC6B4\uB418\uC2E0 \uAC74....."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC73C\uC73C... <small>\uB354</small>....."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "\uB124? \uBB50\uB77C\uACE0\uC694??"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB354\uC6CC...."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: ....
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uD504\uB85C\uC138\uC11C\uB97C \uC2DC\uC6D0\uD558\uAC8C \uD560 \uBC29\uBC95\uC744
+        \uCC3E\uC544\uBCF4\uC790."
+      start_cmd: bgm_play
+      after_cmd: "questGive_\uC2DD\uD788\uAE30:\uD504\uB85C\uC138\uC11C\uB97C \uC2DC\uC6D0\uD558\uAC8C
+        \uD560 \uBC29\uBC95\uC744 \uCC3E\uC544\uBCF4\uC790."
+  - id: "\uACE0\uC7A5\uB09C\uCFE8\uB7EC\uD074\uB9AD\uC2DC"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uCFE8\uB7EC\uAC00 \uB3CC\uC544\uAC00\uC9C0 \uC54A\uACE0 \uC788\uB2E4.
+        \uC774\uAC8C \uC628\uB3C4 \uC0C1\uC2B9\uC758 \uC8FC\uBC94\uC778\uAC00\uBCF4\uB2E4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC804\uAE30\uAC00 \uB098\uAC00\uC11C \uCFE8\uB7EC\uAC00 \uBA48\uCDC4\uB098\uBD10\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uC804\uB825 \uACF5\uAE09 \uC7A5\uCE58\uB97C \uBCF5\uAD6C\uD558\uACE0
+        \uC624\uC790."
+      start_cmd: 
+      after_cmd: "questGive_\uC804\uB825 \uACF5\uAE09 \uC7A5\uCE58 \uBCF5\uAD6C:\uCFE8\uB7EC\uB97C
+        \uAC00\uB3D9\uD558\uAE30 \uC704\uD574 \uACE0\uC7A5\uB09C \uC804\uB825 \uACF5\uAE09
+        \uC7A5\uCE58\uB97C \uBCF5\uAD6C\uD558\uC790.;questRemove_\uC2DD\uD788\uAE30"
+  - id: "\uC804\uB825\uBCF5\uAD6C\uC2DC"
+    cells:
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: 2
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC804\uB825\uBCF5\uAD6C\uD6C4\uD504\uB85C\uC138\uC11C"
+    cells:
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC73D... \uBB50\uC57C. \uB7A8?"
+      start_cmd: "questRemove_\uAE68\uC5B4\uB09C \uD504\uB85C\uC138\uC11C \uD300\uC7A5"
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB9AC\uACE0 \uADF8\uCABD\uC740...."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC548\uB155\uD558\uC138\uC694, \uAE30\uC220\uD300\uC758 \uC720\uC800
+        \uB514\uBC84\uADF8\uC785\uB2C8\uB2E4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC544, \uC804\uB825 \uBCF5\uAD6C. \uACE0\uB9C8\uC6CC\uC694. \uB355\uBD84\uC5D0
+        \uC0B4\uC558\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uBC14\uC774\uB7EC\uC2A4\uB77C\uB2C8, \uBB34\uC2A8 \uC77C\uC774 \uC788\uC5C8\uB358
+        \uAC70\uC608\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uC800 \uC815\uB9D0 \uC2EC\uC7A5 \uB5A8\uC5B4\uC9C0\uB294 \uC904
+        \uC54C\uC558\uB2E4\uAD6C\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uCEF4\uD130\uB2C8\uAC00 \uACF5\uACA9\uB2F9\uD588\uC5B4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uBE44\uC815\uC0C1\uC801\uC778 \uC5C5\uBB34\uB7C9 \uC99D\uAC00, \uC6D0\uC778\uC744
+        \uC54C \uC218 \uC5C6\uB294 \uC624\uB958 \uBC1C\uC0DD... \uC774\uAC74 \uBD84\uBA85,"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "<red>\uB79C\uC12C\uC6E8\uC5B4</red>\uB2E4."
+      start_cmd: 
+      after_cmd: "questGive_\uB79C\uC12C\uC6E8\uC5B4?:\uCEF4\uD130\uB2C8\uC758 \uC774\uC0C1\uC9D5\uD6C4\uB294
+        \uB79C\uC12C\uC6E8\uC5B4\uC758 \uACF5\uACA9 \uB54C\uBB38\uC77C\uAE4C? SW\uB3D9\uC5D0\uB294
+        \uD53C\uD574\uAC00 \uC5C6\uC5C8\uB294\uC9C0 \uC0B4\uD3B4\uBCF4\uC790."
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uD558...."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4 \uBD80\uC11C\uB97C
+        \uD655\uC778\uD560 \uD544\uC694\uAC00 \uC788\uACA0\uC5B4."
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "SW\uB3D9\uC758 \uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4
+        \uBD80\uC11C\uB85C \uAC00\uBCF4\uC790."
+      start_cmd: 
+      after_cmd: "questGive_\uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C\uB85C:\uC6CC\uD504\uB97C
+        \uD0C0\uACE0 SW\uB3D9\uC758 \uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4
+        \uBD80\uC11C\uB85C \uC774\uB3D9\uD558\uC790."
+  - id: "\uD750\uD2B8\uB7EC\uC9C4\uC11C\uB958\uB354\uBBF8\uD074\uB9AD\uC2DC"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uADF8\uB7F0\uB370 \uC774\uAC70 \uAD1C\uCC2E\uC544\uC694? \uB2E4
+        \uC5B4\uC9C8\uB7EC\uC84C\uB294\uB370."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB410\uC5B4. \uC5B4\uCC28\uD53C \uC5F0\uC0B0\uD558\uB358 \uAC83\uB4E4\uC774\uB77C."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB9AC\uACE0 \uC774\uB7F0 \uC885\uC774 \uCABC\uAC00\uB9AC\uBCF4\uB2E4
+        \uBAA9\uC228\uC774 \uB354 \uC911\uC694\uD558\uC796\uC544?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "...\uB2E4\uC2DC \uD55C\uBC88 \uACE0\uB9D9\uB2E4."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uCFE8\uB7EC\uD074\uB9AD\uC2DC"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uBC8C\uC368 \uC2DC\uC6D0\uD574\uC84C\uC5B4\uC694. \uC5F4\uC774 \uC644\uC804\uD788
+        \uC2DD\uAE30\uAE4C\uC9C4 \uC2DC\uAC04\uC774 \uC880 \uAC78\uB9AC\uACA0\uC9C0\uB9CC..."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC5B4\uC11C \uC774\uB3D9\uD558\uC9C0. \uC2DC\uAC04\uC774 \uC5C6\uC5B4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC815\uB9D0 \uAD1C\uCC2E\uC73C\uC2DC\uACA0\uC5B4\uC694? \uB2E4\uB978
+        \uBD80\uC11C\uC5D0\uB294 \uCFE8\uB7EC\uAC00 \uC5C6\uC744 \uC218\uB3C4 \uC788\uC5B4\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uD734\uB300\uC6A9 \uCFE8\uB7EC\uAC00 \uC5B4\uB290\uC815\uB3C4 \uB3C4\uC6C0\uC774
+        \uB420 \uAC70\uC57C. \uADF8\uB9AC\uACE0..."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC5B4\uCC28\uD53C <red>\uADF8\uB140\uC11D</red>\uC744 \uBABB\uC7A1\uC73C\uBA74
+        \uC6B0\uB9AC \uBAA8\uB450 \uC57C\uADFC \uD655\uC815\uC774\uB2E4."
+      start_cmd: 
+      after_cmd: bgm_pause
+    - name: 
+      standingNum: 0
+      content: "\uC548\uB3FC!!!!!!!!!!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC5ED\uC2DC \uD504\uB85C\uC138\uC11C \uD300\uC7A5\uB2D8...! \uBA4B\uC838\uC694...!"
+      start_cmd: 
+      after_cmd: bgm_play
+  - id: "\uD504\uB85C\uC138\uC11C\uC4F0\uB7EC\uC838\uC788\uC74C"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uD504\uB85C\uC138\uC11C \uD300\uC7A5\uC740 \uB354\uC6CC\uC11C \uAE30\uC808\uD55C
+        \uAC83 \uAC19\uB2E4. \uC0AC\uBB34\uC2E4\uC758 \uC628\uB3C4\uB97C \uB0AE\uCD9C
+        \uBC29\uBC95\uC774 \uC5C6\uC744\uAE4C?"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC6CC\uD504\uC2E4\uAC14\uC744\uB54C"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "...\uC74C. \uC5F0\uACB0\uC774 \uBD88\uC548\uC815\uD574\uBCF4\uC774\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uBB50? <small>\uC544\uAE4C \uC628\uB3C4 \uC0C1\uC2B9\uC774 \uC6D0\uC778\uC778\uAC00...</small>"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uAD1C\uCC2E\uC544\uC694. \uC774\uB7F0 \uBB38\uC81C\uB294 \uBAA9\uC801\uC9C0
+        \uB370\uC774\uD130\uB9CC \uB2E4\uC2DC \uC804\uC1A1 \uBC1B\uC73C\uBA74 \uB3FC\uC694."
+      start_cmd: 
+      after_cmd: "questGive_\uC6CC\uD504 \uC5F0\uACB0:\uC81C\uC5B4\uD310\uC5D0\uC11C
+        \uC624\uB958\uAC00 \uBC1C\uC0DD\uD55C \uB370\uC774\uD130\uB97C \uB2E4\uC2DC
+        \uC804\uC1A1\uBC1B\uC544 \uBB38\uC81C\uB97C \uD574\uACB0\uD558\uC790."
+  - id: "\uAEBC\uC9C4\uC6CC\uD504\uD074\uB9AD\uC2DC"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC6CC\uD504\uC758 \uC5F0\uACB0\uC774 \uBD88\uC548\uC815\uD558\uB2E4\uBABB\uD574
+        \uAC70\uC758 \uAEBC\uC9C0\uAE30 \uC9C1\uC804\uC774\uB2E4."
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uC0C1\uD0DC\uAC00 \uC774\uB7EC\uB2C8 \uBD84\uBA85 \uBAA9\uC801\uC9C0
+        \uC8FC\uC18C\uAC00 \uB3C4\uCC29\uD558\uB294 \uACFC\uC815\uC5D0\uC11C \uC624\uB958\uAC00
+        \uC0DD\uACBC\uC744 \uAC83\uC774\uB2E4. \uC6CC\uD504 \uC81C\uC5B4\uD310\uC744
+        \uC0B4\uD3B4\uBCFC\uAE4C?"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC2DC\uC2A4\uD15CSW\uCC98\uC74C"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC5EC\uAE30\uB3C4 \uC815\uC804\uB41C \uAC78\uAE4C\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC544\uB2C8. \uC5EC\uAE34 \uC6D0\uB798 \uC774\uB798."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uB124...?"
+      start_cmd: 
+      after_cmd: "questGive:\uC5B4\uB450\uC6B4 \uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C:\uC0AC\uBB34\uC2E4
+        \uC548\uC73C\uB85C \uB4E4\uC5B4\uAC08 \uBC29\uBC95\uC744 \uCC3E\uC544\uBCF4\uC790."
+  - id: "\uCEF4\uD30C\uC77C\uB7EC\uC7A0\uAE34\uBB38"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uBB38\uC774 \uBC14\uAE65\uC5D0\uC11C \uC7A0\uACA8\uC788\uB2E4. \uAC07\uD78C
+        \uAC78\uAE4C? \uC5B4\uB518\uAC00\uC5D0 \uC5F4 \uC218 \uC788\uB294 \uBCF4\uC548
+        \uC7A5\uCE58\uAC00 \uC788\uC744 \uAC83 \uAC19\uC740\uB370..."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uB204\uAD70\uAC00\uC758\uBAA9\uC18C\uB9AC\uAC00\uB4E4\uB9AC\uB294\uBB38"
+    cells:
+    - name: ???
+      standingNum: 0
+      content: 00101011110100001010100101010101001......
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: 0
+      content: 00101011110100001010100101010101001......
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: 0
+      content: 00101011110100001010100101010101001......
+      start_cmd: 
+      after_cmd: 
+  - id: "\uB9D0\uD48D\uC120\uD0D0\uC0C9\uC2DC"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC54C\uC544\uB4E4\uC744 \uC218 \uC5C6\uB294 \uB9D0\uC774\uB2E4.
+        \uC5B4\uB518\uAC00\uC5D0 \uBC88\uC5ED\uAE30\uAC00 \uC788\uC9C4 \uC54A\uC744\uAE4C?"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uCEF4\uD30C\uBC29\uC548\uC18C\uB9AC\uBC88\uC5ED\uB428"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uBC29 \uC548\uC5D0\uC11C \uC5B4\uB5A4 \uB0A8\uC790\uC758 \uBAA9\uC18C\uB9AC\uAC00
+        \uB4E4\uB9B0\uB2E4. \uC5EC\uAE30 \uAC07\uD78C\uAC78\uAE4C?"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uCEF4\uD30C\uC77C\uB7EC\uBC88\uC5ED\uBD88\uAC00"
+    cells:
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011110011000000 1100001000011000 1010110000000000...
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101000100 1011001011001000,   1100011101110100 1010110001110100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100000011000001 1100001000011000 1100011000000000 1100100111000000.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1101010101011000...   1011011000010000
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100001011100100 1100001000011000 1101010110001000 1011000100100100.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010110100011100 1100110000101110 1100010101000100,
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010110100011100 1100110000101110 1100010101000100.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010110110100 1100110000101000 1101010100111100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011110011110100 1011001010010100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100000010101100 1011011110001100 1011001111000100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010111000110 1011001010010100 1011001101110000, 1011101101010000.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1101011010001100 1100011110100101 1011001011011000 1100011101000000
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011001100000000 1100110010110100   1100010110110100 1011010100010100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010110000000000 1100001011100000   1010110001110100 1100100111000000...
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010111000101 1011101100110100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100100111000000 1100001011011100 1100000100011100 1011001010010100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101001000   1100011001010100 1011001010010100 1011001101110000,
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011100001011100 1010110111111000 1100010111010100   1011011000010000
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010111000110000 1011100001011101 1011001111111100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100011110001000 1010110011100000...
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100100000010101 1100100000000100 1100011101111000 1010110000000000...?
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101000100 1011001011001000 1100100111000000,
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010111101100 1010111000110100   1100011011010000 1011011110011000
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100011101110100 1011011110101100 1100100111000000...
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101000100,
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: ' 1100000100111000 1011101111111000 1100111101011100 1011100001100000'
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011011000010000   1011111001100000 1011011100101000 1011100110110100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011111011010100   1101010110001000 1011000100100100.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100111011110100 1101001100001100 1100011101111100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: '1100010111010000 1011011111101100 '
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 00110011 00110010 00110111 1010110000011100...?
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: '1100010101000100...   1010111111001000 '
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100011101110100 1100010111001000 1100011100111100 1011101001110100...
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010111000110000 1010110011000100 1100010110110100 1011100001011100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: '1011110010001000 1100010111101101 '
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1101010110001000 1011001010010100 1011001101110000 1011001111000100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011101010111011   1100010101001100 1100010101000100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011010011100011 1011001010010100 1011001011100100 1011101001110100,
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010110111111000 1010110001110100   1100011010110100 1100011000000001
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: ' 1100110010110100 1100100000011100 1100011101011000'
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011101100111000 1100100000011100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101000100 1011001011001100 1010110000000000?
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010110111111000 1011000011100101   1100100111000100 1010111000001001...
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1101010101100000 1010111001001100.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101000100 1011001011001000,
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100011100000100 1011001010010100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100110101011100 1100100000000001 1101011001010100 1010110000000000
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011001101011100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011010000011000 1100010110110100   1100011110001000 1100010110110100.
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010111101100 1010111000110000 1011100111001100 1101000001111100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100100000010101 1011100110101100 1011010000011100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1010110011110011 1011001111000100
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010111000110 1100011101000100 1010110001111000.
+      start_cmd: 
+      after_cmd: 
+  - id: "\uCEF4\uD30C\uC77C\uB7EC\uBC88\uC5ED\uD55C\uB4A4"
+    cells:
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uBCC0\uC218\uAC00... \uC544\uB2C8, \uC774\uAC74 \uC0C1\uC218\uC600\uC9C0.
+        \uD558... \uB610 \uC2E4\uC218\uD588\uB124.;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uAD1C\uCC2E\uC544, \uAD1C\uCC2E\uC544. \uC5B4\uCC28\uD53C \uBCF4\uB294
+        \uC0AC\uB78C\uB3C4 \uC5C6\uB294\uB370 \uBB50.;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uD68C\uC7A5\uB2D8\uC740 \uB300\uCCB4 \uC5B4\uB514 \uAC00\uC2E0 \uAC74\uC9C0...;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uC5C5\uBB34\uC9C0\uC2DC\uC11C\uB294 \uC548\uC654\uB294\uB370, \uB85C\uADF8\uC5D4
+        \uB610 \uAE30\uB85D\uB3FC \uC788\uACE0...;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uC815\uC804\uC778\uAC00...? \uC544\uB2C8\uC9C0, \uC5EC\uAE34 \uC6D0\uB798
+        \uC774\uB7AC\uC9C0...;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uC544, \uC138\uBBF8\uCF5C\uB860 \uB610 \uBE60\uB728\uB9B4 \uBED4
+        \uD588\uB124.;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uCEF4\uD30C\uC77C \uC5D0\uB7EC 327\uAC1C...? \uC544... \uAFC8\uC774\uC5C8\uC73C\uBA74...;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uAE30\uACC4\uC5B4\uB85C \uBC88\uC5ED\uD588\uB294\uB370\uB3C4 \uBABB
+        \uC54C\uC544\uB4E3\uB294\uB2E4\uBA74, \uADF8\uAC74 \uC6B4\uC601\uCCB4\uC81C\uC758
+        \uBB38\uC81C \uC544\uB2CC\uAC00?;"
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: "\uADF8\uB0E5 \uC9C4\uAE09...\uD560\uAE4C. \uC544\uB2C8, \uC704\uB294
+        \uCD5C\uC801\uD654\uAC00 \uB35C \uB418\uC5B4 \uC788\uC5B4. \uC5EC\uAE30\uB9CC\uD07C
+        \uC815\uB9AC\uB41C \uACF3\uB3C4 \uC5C6\uC744\uAC78.;"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uCEF4\uD30C\uC77C\uB7EC\uCCAB\uB9CC\uB0A8\uD574\uC11D\uBD88\uAC00"
+    cells:
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1011101101100011...!   1011001100000000 1100110010110100   1100010110110100
+        1011010110111011 1010110010001100   1011010011100100 1100010110110100 1100011000100100
+        1100001011100000 1010110010000001 1011001011001000 1010111001001100?!
+      start_cmd: "questRemove:\uC5B4\uB450\uC6B4 \uC2DC\uC2A4\uD15C \uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C"
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1101010100000100 1011100001011100 1100000100111000 1100000100011100
+        1010111001001100 1100100111000000?!
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: 1010110111111000 1011011110011000,   1011000010011000 1011001011100100.
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: 1011000100001000 1011001111000100   1100011101110100 1100100000011100  
+        1100100010000000   1011000010011000 1100011000100100 1100100111000000   1010110111111000
+        1011011110011000?
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: 1100010110111000 1100100000011100 1010111001001100 1100100111000000  
+        1100010111101100 1010111000110000 1100010111010000   1011101000111000 1011101100111100
+        1011011111101100   1100011110001000 1100011101000100   1010110001110000 1100010101111100?
+      start_cmd: 
+      after_cmd: 
+    - name: ???
+      standingNum: "\uCEF4\uD30C\uC77C\uB7EC:0"
+      content: 1100010101000100 1011001011001000,   1011000010011100   1100100111000100
+        1010111000001001 1101010101100000   1100000011011101 1010110000000001 1100011101110100  
+        1100010111000110 1011001100000000 1011001111000100...!
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC5B4\uB5A4 \uB300\uD654\uB97C \uB098\uB204\uC2DC\uB294 \uAC78\uAE4C\uC694..."
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uC54C\uC544\uB4E4\uC744 \uC218 \uC5C6\uB294 \uB9D0\uC774\uB2E4.
+        \uC5B4\uB518\uAC00\uC5D0 \uBC88\uC5ED\uAE30\uAC00 \uC788\uC9C4 \uC54A\uC744\uAE4C?"
+      start_cmd: 
+      after_cmd: "questGive_\uCEF4\uD30C\uC77C\uB7EC:\uAE30\uACC4\uC5B4\uB85C \uB9D0\uD558\uB294
+        \uCEF4\uD30C\uC77C\uB7EC \uB300\uB9AC\uC758 \uB9D0\uC744 \uBC88\uC5ED\uD560
+        \uBC29\uBC95\uC744 \uCC3E\uC544\uBCF4\uC790."
+  - id: "\uAF49\uCC2C\uD734\uC9C0\uD1B5"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uD734\uC9C0\uD1B5. \uC5F4\uAE4C?"
+      start_cmd: CHOICE_3
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uC4F0\uB808\uAE30 \uBC84\uB9AC\uAE30"
+      start_cmd: 
+      after_cmd: open_trashCanvas
+    - name: 
+      standingNum: 0
+      content: "\uD734\uC9C0\uD1B5 \uBE44\uC6B0\uAE30"
+      start_cmd: 
+      after_cmd: "move_\uD734\uC9C0\uD1B5\uBE44\uC6C0"
+    - name: 
+      standingNum: 0
+      content: "\uCDE8\uC18C"
+      start_cmd: 
+      after_cmd: close
+  - id: "\uD734\uC9C0\uD1B5\uBE44\uC6C0"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uD734\uC9C0\uD1B5\uC744 \uBE44\uC6E0\uB2E4."
+      start_cmd: se_empty trash;enable_trashEmpty;disable_trashFull
+      after_cmd: 
+  - id: "\uBE48\uD734\uC9C0\uD1B5"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uD734\uC9C0\uD1B5. \uBE44\uC5B4\uC788\uB2E4."
+      start_cmd: CHOICE_2
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uC4F0\uB808\uAE30 \uBC84\uB9AC\uAE30"
+      start_cmd: 
+      after_cmd: open_trashCanvas
+    - name: 
+      standingNum: 0
+      content: "\uCDE8\uC18C"
+      start_cmd: 
+      after_cmd: close
+  - id: "\uB5A8\uC5B4\uC9C4\uC4F0\uB808\uAE30"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uD734\uC9C0\uD1B5 \uC8FC\uBCC0\uC5D0 \uB5A8\uC5B4\uC9C4 \uC4F0\uB808\uAE30\uB97C
+        \uC8FC\uC6E0\uB2E4."
+      start_cmd: se_pick trash
+      after_cmd: 
+  - id: "\uACE0\uC7A5\uB09C\uC2DC\uACC4"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC2DC\uACC4\uAC00 \uACE0\uC7A5\uB0AC\uB294\uC9C0 \uC544\uAE4C\uBD80\uD130
+        \uC2DC\uAC04\uC774 \uBA48\uCDB0\uC788\uB2E4. \uC124\uB9C8 \uC774\uB798\uC11C
+        \uD1F4\uADFC\uC744 \uBABB\uD55C\uAC78\uAE4C?"
+      start_cmd: CHOICE_2
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uAC74\uC804\uC9C0\uB97C \uB123\uB294\uB2E4."
+      start_cmd: 
+      after_cmd: "move_\uC2DC\uACC4\uACE0\uCE68"
+    - name: 
+      standingNum: 0
+      content: "\uCDE8\uC18C"
+      start_cmd: 
+      after_cmd: close
+  - id: "\uC2DC\uACC4\uACE0\uCE68"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC2DC\uAC04\uC774 \uB2E4\uC2DC \uD750\uB974\uAE30 \uC2DC\uC791\uD588\uB2E4."
+      start_cmd: amb_clock
+      after_cmd: 
+  - id: "\uCEF4\uD30C\uC77C\uB7EC\uCCAB\uB9CC\uB0A8"
+    cells:
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uBB63...! \uB300\uCCB4 \uC5B4\uB5BB\uAC8C \uB4E4\uC5B4\uC624\uC2E0\uAC81\uB2C8\uAE4C?!;"
+      start_cmd: "sdturn_leftright;questRemove_\uC5B4\uB450\uC6B4 \uC2DC\uC2A4\uD15C
+        \uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C;questRemove_\uCEF4\uD30C\uC77C\uB7EC"
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uD504\uB85C\uC138\uC11C\uAE4C\uC9C0?!;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC9C0\uAE08\uAE4C\uC9C0 \uAC07\uD600 \uACC4\uC168\uB358 \uAC70\uC608\uC694?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC608...?;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC7A0\uACA8\uC788\uC5C8\uC2B5\uB2C8\uAE4C?;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "...\uC624.;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC2DC\uAC04\uC774 \uAF64 \uC9C0\uB0AC\uB098\uBCF4\uAD70\uC694. \uC774\uACF3\uC5D0\uC11C
+        \uC77C\uD558\uB2E4\uBCF4\uBA74 \uC2DC\uAC04 \uAC10\uAC01\uC774 \uD750\uB824\uC838\uC11C\uC694.;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB108\uB3C4 \uC774\uC81C \uC880 \uB098\uC624\uC9C0 \uADF8\uB798?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC5B8\uC81C\uAE4C\uC9C0 \uC5EC\uAE30\uC5D0 \uBA38\uBB3C\uB7EC \uC788\uC744
+        \uAC70\uC57C? \uC62C\uB77C\uC640\uC11C \uBE5B\uC774\uB77C\uB3C4 \uCB10\uB77C."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC544\uB2C8, \uB09C \uC9C4\uAE09\uD560 \uC0DD\uAC01\uC774 \uC5C6\uB300\uB3C4...!;"
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uADF8\uB54C, \uCEF4\uD30C\uC77C\uB7EC\uC758 \uBC88\uC5ED\uAE30\uC5D0
+        \uBA54\uC2DC\uC9C0\uAC00 \uC654\uB2E4."
+      start_cmd: 
+      after_cmd: bgm_pause
+    - name: "\uD68C\uC7A5\uC2E4\uC5D0\uC11C \uC628 \uC804\uBCF4"
+      standingNum: 0
+      content: <i>S... O... S...</i>
+      start_cmd: se_signal get
+      after_cmd: 
+    - name: "\uD68C\uC7A5\uC2E4\uC5D0\uC11C \uC628 \uC804\uBCF4"
+      standingNum: 0
+      content: "<i>\uC6B4\uC601\uCCB4\uC81C\uBD80\uC11C \uD68C\uC7A5\uC2E4\uC5D0
+        \uCD9C\uCC98\uBD88\uBA85\uC758 \uBC14\uC774\uB7EC\uC2A4 \uCE68\uC785</i>"
+      start_cmd: se_signal get
+      after_cmd: 
+    - name: "\uD68C\uC7A5\uC2E4\uC5D0\uC11C \uC628 \uC804\uBCF4"
+      standingNum: 0
+      content: "<i>\uB098\uB97C \uC778\uC9C8\uB85C \uC7A1\uACE0 \uD611\uBC15\uD558\uACE0
+        \uC788\uB2E4. \uACE0\uC9D1\uBD88\uD1B5\uC5D0 \uACF5\uACA9\uC131\uC774 \uAC15\uD558\uBBC0\uB85C
+        \uC8FC\uC758</i>"
+      start_cmd: se_signal get
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "<big>\uD68C\uC7A5\uB2D8</big>?!;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "<small>\uC798\uBABB\uB410\uC5B4... \uC798\uBABB\uB410\uC5B4... \uBB34\uC5B8\uAC00
+        \uB2E8\uB2E8\uD788...;</small>"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uAC19\uC774 \uB098\uAC00\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: ......;
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC74C...;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: ......;
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC81C\uC548\uC5D0 \uAC10\uC0AC\uB4DC\uB9BD\uB2C8\uB2E4\uB9CC, \uC804
+        \uC774\uACF3\uC5D0 \uBA38\uBB3C\uACA0\uC2B5\uB2C8\uB2E4.;"
+      start_cmd: 
+      after_cmd: bgm_play
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uD68C\uC7A5\uC2E4\uB85C \uAC00\uB294 \uAC00\uC7A5 \uBE60\uB978 \uAE38\uC740
+        \uC800\uAE30\uB85C \uB098\uAC00\uBA74 \uB098\uC62C \uD14C\uB2C8, \uADF8\uB7FC.;"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC544\uC624, \uC7E4 \uB610 \uC800\uB7EC\uB124."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uAC00\uC790."
+      start_cmd: 
+      after_cmd: "questRemove_\uB79C\uC12C\uC6E8\uC5B4?;questGive_\uC704\uAE30\uC758
+        \uD68C\uC7A5\uB2D8:\uD68C\uC7A5\uB2D8\uAED8 \uBB34\uC2A8 \uC77C\uC774 \uC0DD\uAE34
+        \uAC83 \uAC19\uB2E4! \uD68C\uC7A5\uC2E4(\uC6B4\uC601\uCCB4\uC81C\uBD80\uC11C)\uB85C
+        \uAC00\uBCF4\uC790."
+    - name: 
+      standingNum: 0
+      content: "\uCEF4\uD30C\uC77C\uB7EC\uC5D0\uAC8C \uD55C\uBC88 \uB354 \uB9D0\uC744
+        \uAC78\uBA74 \uC774\uB3D9\uD569\uB2C8\uB2E4."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uC6B4\uCCB4\uBD80\uC11C\uAC00\uBCF4\uC790"
+    cells:
+    - name: 
+      standingNum: 0
+      content: "\uC2DC\uC2A4\uD15C\uC18C\uD504\uD2B8\uC6E8\uC5B4\uBD80\uC11C\uC5D0\uC11C
+        \uB098\uAC08\uAE4C?"
+      start_cmd: CHOICE_2
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uB2E4\uC74C\uC73C\uB85C"
+      start_cmd: 
+      after_cmd: movescene_
+    - name: 
+      standingNum: 0
+      content: "\uCDE8\uC18C"
+      start_cmd: 
+      after_cmd: close
+  - id: "\uC6B4\uC601\uCCB4\uC81C\uBD80\uC11C\uCC98\uC74C"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC5EC\uAE34... \uCC98\uC74C \uC640\uBCF4\uB124\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB098\uB3C4 \uC624\uB79C\uB9CC\uC774\uB77C \uADF8\uB7F0\uAC00, \uB9CE\uC774
+        \uBC14\uB00C\uC5C8\uB124."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uB79C\uC12C\uC6E8\uC5B4\uBAA8\uB2C8\uD130\uD68C\uC7A5\uB2D8\uD611\uBC15"
+    cells:
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\u2026\uADF8\uB798! \uADF8\uB7EC\uB2C8\uAE4C \uB2F9\uC7A5 \uB0B4\uAC8C
+        \uB3C8\uC744 \uC8FC\uC9C0 \uC54A\uC73C\uBA74\u2026"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uB108\uD76C \uCEF4\uD130\uB2C8\uB97C \uC601\uC6D0\uD788 \uC7A0\uAD88
+        \uBC84\uB9AC\uACA0\uC5B4! \uADF8 \uB204\uAD6C\uB3C4 \uB098\uAC08 \uC218 \uC5C6\uACE0,
+        \uB418\uCC3E\uC744 \uC218\uB3C4 \uC5C6\uAC8C!"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uB79C\uC12C\uC6E8\uC5B4\uBAA8\uB2C8\uD130\uD68C\uC7A5\uB2D8\uD30C\uC77C\uAE68\uC9D0"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "\uAE84\uC544\uC544\uC545! \uD68C\uC7A5\uB2D8!! \uD30C\uC77C \uD655\uC7A5\uC790\uAC00\u2026!!"
+      start_cmd: shake
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uD55C\uC2DC\uAC00 \uAE09\uD574. \uC5B4\uC11C \uC774\uB3D9\uD574\uC57C-"
+      start_cmd: 
+      after_cmd: 
+  - id: "OS\uBD80\uC11C\uBC14\uB2E5\uBB34\uB108\uC9C4\uB4A4"
+    cells:
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\u2026\uC820\uC7A5."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 2
+      content: "\uC5B4, \uC5B4\uC5B4- \uC5B4\uB5A1\uD558\uC8E0?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC77C\uB2E8 \uCD5C\uB300\uD55C \uBE68\uB9AC \uAC00\uBCF4\uC8E0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB798. SW\uB3D9\uC774\uBA74 \uC5B4\uB518\uAC00\uC5D0 \uBC31\uC5C5\uC774
+        \uC788\uC744 \uAC70\uC57C. <small>...\uC788\uACA0\uC9C0...?</small>"
+      start_cmd: 
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uD68C\uC7A5\uC2E4(\uC6B4\uC601\uCCB4\uC81C\uBD80\uC11C)\uB85C \uAC08
+        \uBC29\uBC95\uC744 \uCC3E\uC544\uBCF4\uC790."
+      start_cmd: 
+      after_cmd: "questGive_\uBC84\uADF8 \uBA39\uC740 \uB2E4\uB9AC:\uB2E4\uB9AC\uAC00
+        \uC545\uC131 \uCF54\uB4DC\uB85C \uC778\uD574 \uBC14\uB85C \uC55E\uBC16\uC5D0
+        \uBCF4\uC774\uC9C0 \uC54A\uB294\uB2E4. \uC870\uC2EC\uD788 \uAC74\uB108\uAC08
+        \uBC29\uBC95\uC774 \uC5B4\uB514 \uC788\uC9C0 \uC54A\uC744\uAE4C?"
+  - id: "\uD638\uCD9C\uAE30\uC804\uD504\uB85C\uC138\uC11C"
+    cells:
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC5ED\uC2DC SW\uB3D9\uC740 \uC801\uC751\uC774 \uC548\uB3FC."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC774\uB807\uAC8C \uD06C\uAC8C \uC624\uB958\uAC00 \uB098\uC11C\uC57C...
+        \uBD10, \uB2E4\uB9AC\uB3C4 \uBB34\uB108\uC84C\uC796\uC544."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC5B4\uB5A4 \uC695\uC2EC\uC7C1\uC774\uAC00 \uC608\uC0B0\uC744 \uC0AC\uB9AC\uC0AC\uC695
+        \uCC44\uC6B0\uB294\uB370 \uC4F0\uB294 \uAC83\uC774 \uBD84\uBA85\uD574."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uC55E\uC73C\uB85C \uC5B4\uB5BB\uAC8C \uB420\uC9C0\uB294 \uACE0\uB824\uB3C4
+        \uD558\uC9C0 \uC54A\uACE0 \uB2F9\uC7A5 \uC88B\uC544\uBCF4\uC774\uB294 \uAE38\uB85C\uB9CC
+        \uAC00\uB294\uAC70\uC9C0."
+      start_cmd: 
+      after_cmd: "questGive_\uAC00\uC7A5 \uC9E7\uC740 \uAE38\uB85C\uB9CC:\uADF8\uB9AC\uB514
+        \uC54C\uACE0\uB9AC\uC998\uC5D0 \uB530\uB77C \uC22B\uC790\uAC00 \uAC00\uC7A5
+        \uC791\uC740 \uAE38\uB85C\uB9CC \uAC00\uBA74 \uC548\uC804\uD558\uC9C0 \uC54A\uC744\uAE4C?;questRemove_\uBC84\uADF8
+        \uBA39\uC740 \uB2E4\uB9AC"
+  - id: "\uD638\uCD9C\uAE30\uC804\uB7A8"
+    cells:
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uC800\uB3C4 \uC720\uC800 \uC528\uB97C \uC5B4\uB5BB\uAC8C \uB3C4\uC640\uB4DC\uB9AC\uACE0
+        \uC2F6\uC740\uB370\u2026"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 1
+      content: "\uBA54\uBAA8\uB9AC \uC811\uADFC \uB9D0\uACE0\uB294 \uD560 \uC904
+        \uC544\uB294\uAC8C \uC5C6\uC5B4\uC11C\u2026 \uC8C4\uC1A1\uD574\uC694."
+      start_cmd: 
+      after_cmd: 
+  - id: "\uB79C\uC12C\uC6E8\uC5B4\uCCAB\uB9CC\uB0A8"
+    cells:
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB79C\uC12C\uC6E8\uC5B4! \uB108\uC9C0? \uCEF4\uD130\uB2C8\uB97C
+        \uB728\uAC81\uAC8C \uB9CC\uB4E0 \uC8FC\uBC94."
+      start_cmd: "questRemove_\uC704\uAE30\uC758 \uD68C\uC7A5\uB2D8"
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: '!!!'
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uC5B4.... \uB204\uAD6C? \uB098 \uC54C\uC544?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uD754\uD55C \uC778\uC9C8\uADF9\uC774\uC9C0. \uB0B4\uAC00 \uC774
+        \uD68C\uC0AC\uC5D0\uC11C \uB108\uAC19\uC740 \uBC14\uC774\uB7EC\uC2A4\uB97C
+        \uBA87\uBC88\uC774\uB098 \uBD24\uB294\uB370."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB807\uC9C0\uB9CC \uD68C\uC7A5\uC2E4\uAE4C\uC9C0 \uCCD0\uB4E4\uC5B4\uC628\uAC74
+        \uB124\uAC00 \uCC98\uC74C\uC774\uAD70."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uBC29\uD574\uD558\uC9C0 \uB9C8! \uB09C \uC9C0\uAE08 \uC911\uC694\uD55C
+        \uC774\uC57C\uAE30\uB97C \uB098\uB204\uACE0 \uC788\uB2E4\uACE0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uC544, \uADF8\uB798. 7.77 BTC\uB97C \uC8FC\uBA74 \uBAA8\uB450 \uD480\uC5B4\uC904\uAC8C.
+        \uC5B4\uB54C?"
+      start_cmd: CHOICE_2
+      after_cmd: 
+    - name: 
+      standingNum: 0
+      content: "\uB79C\uC12C\uC6E8\uC5B4\uC5D0\uAC8C \uBAB8\uAC12\uC744 \uC9C0\uBD88\uD55C\uB2E4."
+      start_cmd: 
+      after_cmd: "move_\uB79C\uC12C\uC6E8\uC5B4\uBAB8\uAC12\uC9C0\uBD88"
+    - name: 
+      standingNum: 0
+      content: "\uB79C\uC12C\uC6E8\uC5B4\uB97C \uC7A1\uB294\uB2E4."
+      start_cmd: 
+      after_cmd: "move_\uB79C\uC12C\uC6E8\uC5B4\uC7A1\uAE30\uC120\uD0DD"
+  - id: "\uB79C\uC12C\uC6E8\uC5B4\uBAB8\uAC12\uC9C0\uBD88"
+    cells:
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uC88B\uC544."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "...\uC548 \uB3CC\uC544\uC624\uB294\uB370?"
+      start_cmd: 
+      after_cmd: 
+  - id: "\uB79C\uC12C\uC6E8\uC5B4\uC7A1\uAE30\uC120\uD0DD"
+    cells:
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC544\uBB34\uB798\uB3C4 \uC548 \uB418\uACA0\uC5B4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uD68C\uC7A5\uB2D8\uAE4C\uC9C0 \uC758\uC2DD\uBD88\uBA85\uC778 \uC0C1\uD0DC\uC5D0
+        \uB0B4\uAC00 \uD68C\uC0BF\uB3C8\uC744 \uD568\uBD80\uB85C \uC4F8 \uC218\uB294
+        \uC5C6\uC796\uC544."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uADF8\uB798\uB3C4...!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "...\uC815\uB9D0?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uADF8\uB798. \uBAA8\uB450 \uAC07\uD788\uACE0 \uC2F6\uB2E4\uBA74\uC57C."
+      start_cmd: 
+      after_cmd: "questGive_\uB79C\uC12C\uC6E8\uC5B4:\uB79C\uC12C\uC6E8\uC5B4\uC758
+        \uACF5\uACA9\uC744 \uD53C\uD558\uC790."
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uBB50\uC57C?! \uC5B4\uB5BB\uAC8C \uBE60\uC838\uB098\uC654\uC9C0?"
+      start_cmd: "questRemove_\uB79C\uC12C\uC6E8\uC5B4"
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC774\uC815\uB3C4\uC57C \uBB50."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\u3147\u3147\uD55C\uB370? \uB9C8\uC74C\uC5D0 \uB4E4 \uC815\uB3C4\uC57C."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uADF8\uB807\uC9C0\uB9CC \uC774\uAC74 \uBABB \uD53C\uD560\uAC78!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC544\uB2C8. \uC548 \uBCF4\uC774\uB294\uAC78 \uC5B4\uB5BB\uAC8C
+        \uD53C\uD558\uB77C\uACE0...!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "{\uC720\uC800} \uB2D8!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uACF5\uACA9 \uC8FC\uC18C\uB97C \uC54C\uC544\uB0C8\uC5B4\uC694! <small>\uD53C\uD560
+        \uC218 \uC788\uB2E4\uBA74 \uC815\uB9D0 \uC88B\uACA0\uC9C0\uB9CC\u2026</small>"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uD45C\uC2DC\uD574\uB4DC\uB9B4\uD14C\uB2C8, \uB3C4\uC6C0\uC774 \uB418\uAE38
+        \uBC14\uB77C\uC694."
+      start_cmd: 
+      after_cmd: "questGive_\uB79C\uC12C\uC6E8\uC5B4 (2):\uB7A8\uC774 \uD45C\uC2DC\uD574\uC900
+        \uC704\uCE58\uB97C \uBCF4\uACE0 \uB79C\uC12C\uC6E8\uC5B4\uC758 \uACF5\uACA9\uC744
+        \uD53C\uD558\uC790."
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uC5B4\uB5BB\uAC8C \uBA40\uCA61\uD55C\uAC70\uC9C0? \uBD84\uBA85 \uD53C\uD560
+        \uC218 \uC5C6\uC5C8\uC744\uD150\uB370\u2026!"
+      start_cmd: "questRemove_\uB79C\uC12C\uC6E8\uC5B4 (2)"
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:2"
+      content: "\uB108\uBB34\uD574! \uC65C \uB098\uD55C\uD14C\uB9CC \uC774\uB7EC\uB294
+        \uAC70\uB0D0\uACE0!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB124\uAC00 \uBA3C\uC800 \uACF5\uACA9\uD588\uC796\uC544."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB9AC\uACE0 \uB110 \uBABB \uC7A1\uC73C\uBA74 \uC6B0\uB9AC
+        \uBAA8\uB450 \uD1F4\uADFC\uC744 \uBABB\uD55C\uB2E4\uACE0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:2"
+      content: "\uC774\uAC83\uB3C4 \uB0B4 \uC798\uBABB\uC774\uC57C? \uBC14\uC774\uB7EC\uC2A4\uB3C4,
+        \uC2AC\uD514\uB3C4, <b>\uC774\uBCC4</b>\uB3C4\u2026"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "<b>\uC774\uBCC4</b>?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:2"
+      content: "\uB098\uB3C4 \uC774\uB7EC\uACE0 \uC2F6\uC9C0 \uC54A\uC558\uC5B4.
+        <b>\uADF8 \uC0AC\uB78C</b>\uC774 \uB0A0 \uBC84\uB9AC\uC9C0\uB9CC \uC54A\uC558\uB354\uB77C\uBA74
+        \uC774\uB7F0 \uC77C\uC740 \uC5C6\uC5C8\uC744 \uAC70\uB77C\uACE0\u2026."
+      start_cmd: 
+      after_cmd: "questGive_\uB79C\uC12C\uC6E8\uC5B4 (3):\uC660\uC9C0 \uC2AC\uD37C\uBCF4\uC774\uB294
+        \uB79C\uC12C\uC6E8\uC5B4\uC758 \uACF5\uACA9\uC744 \uD53C\uD558\uC790"
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "<b>\uADF8 \uC0AC\uB78C</b>\uC774\uB77C\uB2C8, \uADF8\uAC8C \uBB34\uC2A8
+        \uC18C\uB9AC\uC57C?"
+      start_cmd: "questRemove_\uB79C\uC12C\uC6E8\uC5B4 (3)"
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uC815\uB9D0 \uBAA8\uB974\uB294 \uAC70\uC57C, \uC544\uB2C8\uBA74
+        \uBAA8\uB974\uB294 \uCC99 \uD558\uB294 \uAC70\uC57C?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "<b>\uC5D0\uB2C8\uC545</b> \uB9D0\uC774\uC57C!! \uD55C\uB54C \uB6F0\uC5B4\uB09C
+        \uACC4\uC0B0\uC6D0\uC774\uC5C8\uB358 \uB0B4 <b>\uC804 \uC560\uC778</b>!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "<b>\uC5D0\uB2C8\uC545</b>\uC774\uB77C\uBA74\u2026."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uD760, \uB4E4\uC5B4\uBCF8 \uAC83 \uAC19\uAE30\uB3C4 \uD574. \uC61B\uB0A0\uC5D0
+        \uD68C\uC7A5\uB2D8\uC774 \uAC00\uB054 \uC5B8\uAE09\uD588\uC5C8\uC9C0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uAE30\uC220\uC758 \uBC1C\uC804\uC73C\uB85C \uC0AC\uC7A5\uB418\uC5C8\uB358
+        \uCEF4\uD4E8\uD130."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uADF8\uB798. \uD3F0 \uB178\uC774\uB9CC\uC758 \uCEF4\uD130\uB2C8\uAC00
+        \uC0DD\uACA8\uB098\uBA74\uC11C\uC9C0\u2026"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uADF8\uB798\uC11C \uADF8\uAC8C \uBB34\uC2A8 \uC5F0\uAD00\u2026?"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uC5D0\uB2C8\uC545\uC740 \uD3F0 \uB178\uC774\uB9CC \uAD6C\uC870\uC758
+        \uCEF4\uD4E8\uD130\uAC00 \uC0DD\uAE30\uBA74\uC11C \uC77C\uC790\uB9AC\uB97C
+        \uC783\uC5C8\uC5B4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F00"
+      content: "\uADF8\uB7EC\uBA74\uC11C \uC6B0\uB9AC \uAD00\uACC4\uC5D0\uB3C4 \uAE08\uC774
+        \uAC00\uAE30 \uC2DC\uC791\uD588\uC9C0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uC5D0\uB2C8\uC545\uC740\u2026 \uADF8 \uB4A4\uB85C \uAC11\uC790\uAE30
+        \uB0A0 \uB450\uACE0 \uC0AC\uB77C\uC84C\uC5B4. \uD55C \uB9C8\uB514 \uB9D0\uB3C4
+        \uC5C6\uC774\u2026!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\u2026\uADF8\uB7EC\uB2C8\uAE4C, <b>\uBB34\uD1B5\uBCF4\uC774\uBCC4</b>
+        \uB2F9\uD588\uB2E4\uB294 \uAC70\uB124\uC694."
+      start_cmd: 1
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uADF8\uB0A0 \uC774\uD6C4\uB85C \uB09C \uACB0\uC2EC\uD588\uC5B4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "<b>\uC0AC\uB791</b>\uC744 \uC5BB\uC744 \uC218 \uC5C6\uB2E4\uBA74,
+        <b>\uB3C8</b> \uB9CE\uC740 \uBC31\uC218\uB77C\uB3C4 \uB418\uACA0\uB2E4\uACE0!"
+      start_cmd: 
+      after_cmd: "questGive_\uB79C\uC12C\uC6E8\uC5B4 (4):\uC2E4\uC5F0\uC758 \uC544\uD514\uC5D0
+        \uD751\uD654\uD55C \uB79C\uC12C\uC6E8\uC5B4\uC758 \uACF5\uACA9\uC744 \uD53C\uD558\uC790"
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uC73D, \uC774\uC774\uC775!"
+      start_cmd: "questRemove_\uB79C\uC12C\uC6E8\uC5B4 (4)"
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uC5B4?! \uBB50\uC57C?! \uC774, \uC774\uAC8C \uC65C \uC548\uB418\uC9C0?!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB0B4\uAC00 \uB124 <b>\uC554\uD638</b>\uB97C \uD480\uC5B4\uB0C8\uAC70\uB4E0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:1"
+      content: "\uADF8\uAC78 \uC5B4\uB5BB\uAC8C\u2026?!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uD6C4\uD6C4. \uD558\uB098\uD558\uB098 \uCC0D\uC5B4\uBD24\uC9C0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uB10C \uC774\uC81C \uB05D\uC774\uB2E4, \uC774 \uBC14\uC774\uB7EC\uC2A4
+        \uB140\uC11D!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:0"
+      content: "\uD07F\u2026"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:2"
+      content: "\uD750\uC544\uC559!!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "{\uB514\uBC84\uADF8}, \uC7A1\uC544\uBC84\uB824."
+      start_cmd: 
+      after_cmd: "questGive_\uB79C\uC12C\uC6E8\uC5B4 \uC7A1\uAE30:\uACF5\uACA9\uC5D0
+        \uC2E4\uD328\uD55C \uB79C\uC12C\uC6E8\uC5B4\uB97C... \uC7A1\uC790."
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:2"
+      content: "\uD751, \uBB50\uC57C\u2026 "
+      start_cmd: "questRemove_\uB79C\uC12C\uC6E8\uC5B4 \uC7A1\uAE30"
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uC81C\uAC00 \uD560\uAC8C\uC694. \uADF8 \uC0AC\uB791."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\uADF8\uB7EC\uB2C8\uAE4C \uADF8\uB9CC\uD574\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: "\uB79C\uC12C\uC6E8\uC5B4\uBE4C\uB7F0:2"
+      content: "\u2026."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: 2
+      content: "\uC751\u2026."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB79C\uC12C\uC6E8\uC5B4"
+      standingNum: 2
+      content: "\uBBF8\uC548\uD574. \uB0B4\uAC00 \uB2E4 \uBCF5\uAD6C\uD560\uAC8C."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB807\uAC8C \uB098\uC624\uC2E0\uB2E4\uBA74\uC57C."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uB7A8"
+      standingNum: 0
+      content: "\uC57D\uC18D, \uAF2D \uC9C0\uD0A4\uAE30\uC608\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD3F0 \uB178\uC774\uB9CC"
+      standingNum: 0
+      content: "\uBB50\uB77C\uB9D0\uD558\uC9C0\uC544\uBB50\uB77C\uB9D0\uD558\uAC8C\uD558\uC9C0."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB7FC, \uD68C\uC7A5\uB2D8. \u3147\u3147\uB9CC \uC815\uB9AC\uD558\uACE0
+        \uC804 \uC774\uB9CC \uD1F4\uADFC\uD558\uACA0-"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uD5C9\uD5C9, \uD68C\uC7A5\uB2D8!!"
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uAD1C\uCC2E\uC73C\uC2ED\u2026\u2026\uC624."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uC81C\uAC00 \uD55C\uBC1C \uB2A6\uC5C8\uAD70\uC694."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uD504\uB85C\uC138\uC11C"
+      standingNum: 0
+      content: "\uADF8\uB798, \uB2A6\uC5B4\uB3C4 \uD55C~\uCC38 \uB2A6\uC5C8\uB2E4."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uCEF4\uD30C\uC77C\uB7EC"
+      standingNum: 0
+      content: "\uB2E4 \uCC98\uB9AC\uB41C \uAC83 \uAC19\uC73C\uB2C8, \uADF8\uB7FC
+        \uC800\uB294 \uC774\uB9CC\u2026 \uB2E4\uC2DC..."
+      start_cmd: 
+      after_cmd: 
+    - name: "\uC720\uC800 \uB514\uBC84\uADF8"
+      standingNum: 0
+      content: "\u2026."
+      start_cmd: 
+      after_cmd: 
