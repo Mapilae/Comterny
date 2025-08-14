@@ -57,11 +57,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaFloat: 0
+    - _AlphaFloat: 1
     - _EnableExternalAlpha: 0
     - _GlitchStart: 1
     - _GlitchStrength: 30
-    - _IsBugWhite: 1
+    - _IsBugWhite: 0
     - _NoiseAmount: 2
     - _ZWrite: 0
     m_Colors:

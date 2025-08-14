@@ -159,6 +159,8 @@ public class MemoryBugObject : MonoBehaviour
         mat.SetFloat("_GlitchStrength", 30f);
         mat.SetFloat("_NoiseAmount", 2f);
 
+        mat.SetFloat("_AlphaFloat", 1f);
+        mat.SetFloat("_IsBugWhite", 0f);
         gameObject.SetActive(false);
     }
 }

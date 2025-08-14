@@ -147,6 +147,9 @@ public class DirectingManager : MonoBehaviour
             case "addItem":
                 PlayerData.instance.AddItem(int.Parse(next));
                 break;
+            case "delItem":
+                PlayerData.instance.RemoveItem(int.Parse(next));
+                break;
             /*case "stretch":
                 //���ĵ� �ø���, ��ǰ, ������ ��.
                 if (next.Contains("left")) StandingStretch(0);
