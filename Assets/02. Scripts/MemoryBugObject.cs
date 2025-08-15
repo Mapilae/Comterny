@@ -105,8 +105,7 @@ public class MemoryBugObject : MonoBehaviour
         transform.parent = endParent;
         anim.SetBool("fly", false);
         objToEnableAfterFly.SetActive(true);
-        gameObject.SetActive(false);
-        Destroy(gameObject);
+       
         //SoundManager.instance.StopSound();
     }
 
