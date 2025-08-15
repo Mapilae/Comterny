@@ -29,9 +29,9 @@ public class MapOveray : MonoBehaviour
 {
     private static readonly int FadeOut = Animator.StringToHash("FadeOut");
     public static bool isOFF;
+    public static MapOveray instance;
     public int thisMapIndex;
     public List<MapSet> mapSets;
-    public static MapOveray instance;
     public TMP_Text mapNameTxt;
     public TMP_Text mapENGTxt;
     public TMP_Text mapBuildingTypeTxt;
@@ -45,7 +45,7 @@ public class MapOveray : MonoBehaviour
 
     private void Awake()
     {
-        instance= this;
+        instance = this;
     }
 
     private void Start()
@@ -69,6 +69,20 @@ public class MapOveray : MonoBehaviour
         var newCol = blackAlphaImg.color;
         newCol.a = mapSets[thisMapIndex].blackAlpha;
         blackAlphaImg.color = newCol;
+        if (thisMapIndex == 2)
+        {
+            PlayerData.instance.RemoveItem(27);
+            PlayerData.instance.RemoveItem(27);
+            PlayerData.instance.RemoveItem(27);
+            PlayerData.instance.RemoveItem(27);
+            PlayerData.instance.RemoveItem(27);
+            PlayerData.instance.RemoveItem(27);
+            PlayerData.instance.RemoveItem(50);
+            PlayerData.instance.RemoveItem(51);
+            PlayerData.instance.RemoveItem(52);
+            PlayerData.instance.RemoveItem(53);
+            PlayerData.instance.RemoveItem(54);
+        }
     }
 
     public void OnClicked()
