@@ -62,6 +62,7 @@ public class ItemGet : MonoBehaviour
             //if (!sprToChange.Equals(null)) sprRender.sprite = sprToChange;
             // else gameObject.SetActive(false);
             //자꾸 비활성화 안되는 문제가 있어서 혹시 몰라 추가함
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }

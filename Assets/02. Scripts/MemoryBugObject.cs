@@ -49,7 +49,7 @@ public class MemoryBugObject : MonoBehaviour
 
         mat.SetFloat("_AlphaFloat", 1f);
         mat.SetFloat("_IsBugWhite", 0f);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         StartParabola(goPos2);
     }
 
@@ -97,7 +97,8 @@ public class MemoryBugObject : MonoBehaviour
         transform.parent = endParent;
         anim.SetBool("fly", false);
         objToEnableAfterFly.SetActive(true);
-        
+        gameObject.SetActive(false);
+        Destroy(gameObject);
         //SoundManager.instance.StopSound();
     }
 
@@ -170,5 +171,6 @@ public class MemoryBugObject : MonoBehaviour
         mat.SetFloat("_AlphaFloat", 1f);
         mat.SetFloat("_IsBugWhite", 0f);
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
