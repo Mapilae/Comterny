@@ -1952,7 +1952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1195682266118319271, guid: adcc9838cbc9e7d4ea483f7288e3bfd4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2139019360930107668, guid: adcc9838cbc9e7d4ea483f7288e3bfd4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6180,7 +6180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1195682266118319271, guid: adcc9838cbc9e7d4ea483f7288e3bfd4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2139019360930107668, guid: adcc9838cbc9e7d4ea483f7288e3bfd4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7188,6 +7188,16 @@ MonoBehaviour:
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 446033639}
         objToEnable: {fileID: 481215857}
+      - target: {fileID: 0}
+        startTrans: {fileID: 0}
+        destinationTrans: {fileID: 0}
+        destination: {x: 0, y: 0, z: 0}
+        preWait: 0
+        moveDuration: 0
+        postArrivalWait: 0
+        startPos: {x: 0, y: 0, z: 0}
+        objToHide: {fileID: 1909589761}
+        objToEnable: {fileID: 249714911}
     stepEnd:
       dirCmd: addVar_107
       animTriggers: []
@@ -15999,6 +16009,16 @@ MonoBehaviour:
         postArrivalWait: 0
         startPos: {x: 0, y: 0, z: 0}
         objToHide: {fileID: 249714911}
+        objToEnable: {fileID: 41334109}
+      - target: {fileID: 0}
+        startTrans: {fileID: 0}
+        destinationTrans: {fileID: 0}
+        destination: {x: 0, y: 0, z: 0}
+        preWait: 0
+        moveDuration: 0
+        postArrivalWait: 0
+        startPos: {x: 0, y: 0, z: 0}
+        objToHide: {fileID: 863710219}
         objToEnable: {fileID: 41334109}
     stepEnd:
       dirCmd: "move_\uBC8C\uB808\uC7A1\uC740\uD6C4;se_stop;bgm_play"

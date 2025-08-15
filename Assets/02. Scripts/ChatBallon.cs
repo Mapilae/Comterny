@@ -40,7 +40,7 @@ public class ChatBallon : NonPlayerCharacter
 
     private IEnumerator IEChangeBallonText()
     {
-        yield return new WaitUntil(() => isLoaded);
+        //yield return new WaitUntil(() => isLoaded);
 
         if (isPlaying)
         {
@@ -50,6 +50,7 @@ public class ChatBallon : NonPlayerCharacter
             ballonMid.gameObject.SetActive(false);
         }
 
+        yield return null;
         StartConversation();
     }
 

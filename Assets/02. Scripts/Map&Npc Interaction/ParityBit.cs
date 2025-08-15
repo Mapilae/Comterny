@@ -27,6 +27,8 @@ public class ParityBit : MonoBehaviour
     public Collider2D colToEnable;
 
     public TMP_Text leftCountTxt;
+    public GameObject failObj;
+    public GameObject successObj;
     private int solvedCount; // ✅ 추가: 맞춘 횟수 카운트
 
 
@@ -164,9 +166,11 @@ public class ParityBit : MonoBehaviour
 
     public void ParityCheck(int index)
     {
+        failObj.SetActive(false);
         if (parityBlocks[index].isParityRight)
         {
             SoundManager.instance.PlaySound("minigame fail");
+            failObj.SetActive(true);
             ResetParity();
         }
         else
@@ -204,6 +208,7 @@ public class ParityBit : MonoBehaviour
 
     private IEnumerator EndClose()
     {
+        successObj.SetActive(true);
         closeABtn.SetActive(false);
         foreach (var obj in objToDisable) obj.SetActive(false);
         colToEnable.enabled = true;

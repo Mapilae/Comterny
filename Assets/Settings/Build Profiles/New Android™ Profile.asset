@@ -288,7 +288,7 @@ MonoBehaviour:
     - line: '|   AndroidTargetArchitectures: 3'
     - line: '|   AndroidSplashScreenScale: 0'
     - line: '|   androidSplashScreen: {instanceID: 0}'
-    - line: '|   AndroidKeystoreName: ''{inproject}: soeun.keystore'''
+    - line: '|   AndroidKeystoreName: ''{dedicated}: Documents/soeunjin.keystore'''
     - line: '|   AndroidKeyaliasName: jin='
     - line: '|   AndroidEnableArmv9SecurityFeatures: 0'
     - line: '|   AndroidEnableArm64MTE: 0'

@@ -81,6 +81,8 @@ public class Dijkstra : MonoBehaviour
             vertexBlock.vertex.interactable = true;
         }
 
+        vertexBlocks[vertexBlocks.Count - 1].vertex.image.color = Color.green;
+
         for (var i = 0; i < nodeTexts.Count; i++) weight[i] = Random.Range(1, 6);
 
         var sumOf3n4 = weight[3] + weight[4]; //3번과 4번 인덱스 간선의 가중치 합 (3->5->7)

@@ -28,7 +28,7 @@ public class MemoryBugObject : MonoBehaviour
         // MoveDown();
 
         //anim.SetTrigger("die");
-        
+
         Debug.Log("bug is flying up");
         var mat = anim.GetComponent<Renderer>().sharedMaterial;
         mat.SetFloat("_GlitchStrength", 30f);
@@ -105,7 +105,7 @@ public class MemoryBugObject : MonoBehaviour
         transform.parent = endParent;
         anim.SetBool("fly", false);
         objToEnableAfterFly.SetActive(true);
-       
+
         //SoundManager.instance.StopSound();
     }
 
@@ -145,6 +145,7 @@ public class MemoryBugObject : MonoBehaviour
     public void BugDisappear()
     {
         StartCoroutine(nameof(IEBugGlitch));
+        col.enabled = false;
     }
 
     private IEnumerator IEBugGlitch()
@@ -172,6 +173,9 @@ public class MemoryBugObject : MonoBehaviour
             yield return null;
         }
 
+        gameObject.transform.localScale = Vector3.zero;
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        gameObject.GetComponent<InteractableObject>().enabled = false;
         mat.SetFloat("_GlitchStrength", 30f);
         mat.SetFloat("_NoiseAmount", 2f);
 

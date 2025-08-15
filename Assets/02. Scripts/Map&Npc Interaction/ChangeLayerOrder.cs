@@ -28,6 +28,7 @@ public class ChangeLayerOrder : MonoBehaviour
 
     public Collider2D[] colliderToEnableWhenEnter;
     public Collider2D[] colliderToDisableWhenEnter;
+    public Canvas[] canvasToDisableWhenEnter;
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -59,10 +60,10 @@ public class ChangeLayerOrder : MonoBehaviour
             }
             else
             {
-                if(sorts != null)
-                for (var i = 0; i < sorts.Length; i++)
-                    if (sorts[i] != null && sorts[i].sortingGroup.gameObject.activeInHierarchy)
-                        sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
+                if (sorts != null)
+                    for (var i = 0; i < sorts.Length; i++)
+                        if (sorts[i] != null && sorts[i].sortingGroup.gameObject.activeInHierarchy)
+                            sorts[i].sortingGroup.sortingOrder = sorts[i].layerOrderDft;
             }
 
             if (other.CompareTag("Player"))
@@ -93,6 +94,13 @@ public class ChangeLayerOrder : MonoBehaviour
                     foreach (var obj in colliderToDisableWhenEnter)
                         obj.enabled = !isEnter;
                     if (isPermanent) colliderToDisableWhenEnter = null;
+                }
+
+                if (canvasToDisableWhenEnter != null)
+                {
+                    foreach (var obj in canvasToDisableWhenEnter)
+                        obj.enabled = !isEnter;
+                    if (isPermanent) canvasToDisableWhenEnter = null;
                 }
             }
         }

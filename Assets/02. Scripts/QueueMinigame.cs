@@ -57,9 +57,9 @@ public class QueueMinigame : MonoBehaviour
     }
 
 
-    public void PushOne()
+    public int PushOne()
     {
-        if (disableObjs.Count == 0) return;
+        if (disableObjs.Count == 0) return 0;
 
         var holdingItemID = Inventory.instance.currentHoldingItemIndex == -1
             ? -1
@@ -69,12 +69,17 @@ public class QueueMinigame : MonoBehaviour
             //if is box item holding
             PlayerData.instance.RemoveItemAt(Inventory.instance.currentHoldingItemIndex);
             PushObj();
+            return 0;
         }
-        else if (PlayerData.instance.IsItemExist(27))
+
+        if (PlayerData.instance.IsItemExist(27))
         {
             PlayerData.instance.RemoveItem(27);
             PushObj();
+            return 0;
         }
+
+        return -1;
     }
 
     private void PushObj()
@@ -103,9 +108,10 @@ public class QueueMinigame : MonoBehaviour
             }
     }
 
-    public void PopOne()
+    public int PopOne()
     {
-        if (isSuccess) return;
+        if (isSuccess) return 0;
         blockBoxCol.SetActive(false);
+        return 0;
     }
 }

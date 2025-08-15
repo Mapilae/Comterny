@@ -68,6 +68,7 @@ public class MobileUI : MonoBehaviour
     public void SetIconImage(InteractableType type)
     {
         buttonAnim.SetBool(IsActive, true);
+        if (itemButtonImg == null) return;
         switch (type)
         {
             case InteractableType.NPC:
@@ -81,7 +82,7 @@ public class MobileUI : MonoBehaviour
 
     public void NothingClose()
     {
-        itemButtonImg.sprite = nullSprite;
+        if (itemButtonImg != null) itemButtonImg.sprite = nullSprite;
         if (buttonAnim != null && buttonAnim.gameObject.activeInHierarchy) buttonAnim.SetBool(IsActive, false);
     }
 }
