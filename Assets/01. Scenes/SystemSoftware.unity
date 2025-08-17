@@ -4001,7 +4001,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 7.6850586, y: 7.735948}
+  m_Offset: {x: -35.98983, y: 7.7359486}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4011,7 +4011,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 308.8971, y: 16.471897}
+  m_Size: {x: 396.2469, y: 16.471897}
   m_EdgeRadius: 0
 --- !u!1 &730388722
 GameObject:
@@ -4192,6 +4192,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -276
       objectReference: {fileID: 0}
+    - target: {fileID: 1527245627082077872, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2168803233527563742, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
       propertyPath: colToDisable
       value: 
@@ -4204,6 +4208,10 @@ PrefabInstance:
       propertyPath: objToDisable2
       value: 
       objectReference: {fileID: 709634842}
+    - target: {fileID: 2414058553501159722, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3105170606090187103, guid: d0ce8eeee070e264e9a84151385ff9a7, type: 3}
       propertyPath: m_IsActive
       value: 0

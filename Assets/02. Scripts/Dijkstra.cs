@@ -34,6 +34,7 @@ public class Dijkstra : MonoBehaviour
     public Transform nodeParent;
     public List<TMP_Text> nodeTexts = new();
 
+    public GameObject failPopup;
     public GameObject demoEndObj;
 
     private readonly List<int> correctList = new() { 1, 3, 5, 7 };
@@ -142,6 +143,8 @@ public class Dijkstra : MonoBehaviour
     public void Fail()
     {
         SoundManager.instance.PlaySound("minigame fail");
+        failPopup.gameObject.SetActive(false);
+        failPopup.gameObject.SetActive(true);
         ResetVertexBlocks();
     }
 
