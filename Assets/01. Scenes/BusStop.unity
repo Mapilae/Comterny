@@ -1743,6 +1743,7 @@ MonoBehaviour:
   - {fileID: 1579255572}
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter: []
+  canvasToDisableWhenEnter: []
 --- !u!61 &260027921
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2395,6 +2396,7 @@ MonoBehaviour:
   - {fileID: 1849841424}
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter: []
+  canvasToDisableWhenEnter: []
 --- !u!4 &351996297 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4534840422110500683, guid: 34f88448cf9a2430a81363b9772ee079, type: 3}
@@ -2730,6 +2732,7 @@ MonoBehaviour:
   objToDisableWhenEnter: []
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter: []
+  canvasToDisableWhenEnter: []
 --- !u!61 &393594101
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13343,6 +13346,7 @@ MonoBehaviour:
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter:
   - {fileID: 1335852957}
+  canvasToDisableWhenEnter: []
 --- !u!210 &1335852960
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -13975,6 +13979,7 @@ MonoBehaviour:
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter:
   - {fileID: 260027921}
+  canvasToDisableWhenEnter: []
 --- !u!61 &1579255575
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15276,6 +15281,7 @@ MonoBehaviour:
   - {fileID: 795790922}
   colliderToDisableWhenEnter:
   - {fileID: 341205278}
+  canvasToDisableWhenEnter: []
 --- !u!61 &1844464064 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 3296029188464917690, guid: f5eb21b3276dfd846970a866216ae8f1, type: 3}
@@ -15336,6 +15342,7 @@ MonoBehaviour:
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter:
   - {fileID: 344486588}
+  canvasToDisableWhenEnter: []
 --- !u!60 &1849841428
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -15665,6 +15672,7 @@ MonoBehaviour:
   - {fileID: 1579255572}
   colliderToEnableWhenEnter: []
   colliderToDisableWhenEnter: []
+  canvasToDisableWhenEnter: []
 --- !u!61 &1921587161
 BoxCollider2D:
   m_ObjectHideFlags: 0
