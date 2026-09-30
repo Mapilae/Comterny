@@ -11,6 +11,45 @@
 **개발자:** [사용자 이름]  
 **플랫폼:** Unity 6  
 
+## 프로젝트 여는 방법 (개발용)
+에디터 버전은 **6000.0.42f1** 을 사용합니다.
+
+### Unity Hub로 열기
+1. Unity Hub → **Projects → Add → Add project from disk**
+2. `Assets`, `Packages`, `ProjectSettings` 가 바로 들어있는 **프로젝트 루트 폴더**를 선택합니다.  
+   (상위 폴더나 `Assets` 폴더를 고르면 `Please add a valid project` 오류가 납니다.)
+
+### Hub 없이 바로 열기 (PowerShell)
+Hub에서 인식이 안 될 때는 에디터 실행 파일로 직접 엽니다. 경로는 각자 환경에 맞게 수정하세요.
+```powershell
+& "<Unity 설치 경로>\6000.0.42f1\Editor\Unity.exe" -projectPath "<프로젝트 경로>\Comterny"
+
+# 예시
+& "C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Unity.exe" -projectPath "E:\codingstudy\Comterny"
+```
+처음 열 때는 `Library` 폴더를 생성하느라 시간이 걸립니다.
+
+### .sln 파일 생성
+`.sln` / `.csproj` 는 git에 올리지 않으므로 직접 생성해야 합니다.
+1. **Edit → Preferences → External Tools** 에서 External Script Editor 를 선택 (Visual Studio / Rider / VS Code)
+2. **Regenerate project files** 클릭 → 프로젝트 루트에 `Comterny.sln` 생성
+
+### 시작(디폴트) 씬 설정
+처음 프로젝트를 열면 빈 `Untitled` 씬이 열립니다. 마지막으로 연 씬 정보는 `Library` 폴더에 저장되는데, 이 폴더는 git에 올라가지 않기 때문입니다.
+
+**1. 에디터에 MainMenu 씬 띄우기**
+- `Assets/01. Scenes/MainMenu.unity` 를 더블클릭해서 엽니다.
+- 한 번 열면 이후부터는 에디터가 마지막 씬을 기억합니다.
+
+**2. Play 시 항상 MainMenu부터 시작하기**
+- `Assets/Editor/PlayFromFirstScene.cs` 가 Play 버튼을 누르면 현재 열린 씬과 관계없이 **Build Settings 의 첫 번째 씬 (MainMenu)** 부터 실행하도록 설정합니다. (기본값: 켜짐)
+- 현재 열린 씬에서 바로 테스트하려면 메뉴 **Tools → Play From First Scene** 을 눌러 끄면 됩니다. (체크 표시로 상태 확인)
+
+**3. 빌드 시 시작 씬 변경**
+- **File → Build Profiles (Build Settings) → Scene List** 에서 맨 위(인덱스 0)에 있는 씬이 게임 시작 씬입니다.
+- 순서를 바꾸면 Play 시작 씬(2번)도 같이 바뀝니다.
+- 현재 순서: `MainMenu` → `MemoryDept` → `BusStop` → `CentralProcessingDept` → `SystemSoftware` → `GoToOS` → `OSBossCombat`
+
 ## 소개
 Comterny는 탑뷰 방식으로 진행되는 게임으로, [게임의 핵심 목표나 특징 설명]하는 게임입니다.
 
