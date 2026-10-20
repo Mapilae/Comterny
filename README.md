@@ -12,7 +12,7 @@
 **플랫폼:** Unity 6  
 
 ## 프로젝트 여는 방법 (개발용)
-에디터 버전은 **6000.0.42f1** 을 사용합니다.
+에디터 버전은 **6000.3.6f1** 을 사용합니다.
 
 ### Unity Hub로 열기
 1. Unity Hub → **Projects → Add → Add project from disk**
@@ -22,10 +22,10 @@
 ### Hub 없이 바로 열기 (PowerShell)
 Hub에서 인식이 안 될 때는 에디터 실행 파일로 직접 엽니다. 경로는 각자 환경에 맞게 수정하세요.
 ```powershell
-& "<Unity 설치 경로>\6000.0.42f1\Editor\Unity.exe" -projectPath "<프로젝트 경로>\Comterny"
+& "<Unity 설치 경로>\6000.3.6f1\Editor\Unity.exe" -projectPath "<프로젝트 경로>\Comterny"
 
 # 예시
-& "C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Unity.exe" -projectPath "E:\codingstudy\Comterny"
+& "C:\Program Files\Unity\Hub\Editor\6000.3.6f1\Editor\Unity.exe" -projectPath "E:\codingstudy\Comterny"
 ```
 처음 열 때는 `Library` 폴더를 생성하느라 시간이 걸립니다.
 
