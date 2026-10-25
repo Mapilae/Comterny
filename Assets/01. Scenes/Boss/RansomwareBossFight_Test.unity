@@ -259,20 +259,25 @@ MonoBehaviour:
   playerSprite: {fileID: 21300000, guid: a2ccfb2ae53d0b04bab684c1d9b1e71a, type: 3}
   bossSprite: {fileID: 21300000, guid: 1e8d360d48e31294f98b4de06c07c804, type: 3}
   bgm: {fileID: 0}
-  testPlayerName: "\uB818"
+  testPlayerName: "\uC720\uC800 \uB514\uBC84\uADF8"
   hardMode: 0
   arenaHalfSize: {x: 5.5, y: 9}
   cameraOrthoSize: 4
   cameraFollowSmooth: 0.12
   playerSpeed: 5
-  playerHitRadius: 0.2
-  invincibleTime: 1.5
+  playerHitRadius: 0.16
+  invincibleTime: 2
   fragmentCount: 4
   pickupRange: 0.6
   slotRange: 0.95
-  decryptSpawnInterval: 8
-  decryptLifeTime: 7
+  decryptSpawnInterval: 5
+  decryptLifeTime: 10
   bossContactRadius: 0.55
+  debugKeys: 1
+  godMode: 0
+  bulletSpeedScale: 1
+  bulletCountScale: 1
+  patternRestScale: 1
   onClear:
     m_PersistentCalls:
       m_Calls: []

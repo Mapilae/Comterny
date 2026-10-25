@@ -26,7 +26,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     [Header("테스트")]
     [Tooltip("PlayerData가 없는 테스트 씬에서 쓸 이름")]
-    public string testPlayerName = "렘";
+    public string testPlayerName = "유저 디버그";
     [Tooltip("컴공모드: 방화벽 자리에 (fw+i) 힌트를 숨긴다. PlayerData.difficulty==1 이면 자동으로 켜짐")]
     public bool hardMode;
 
@@ -34,8 +34,8 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("세로로 긴 방 (아이작 메가 사탄 방처럼 보스는 맨 위에 고정)")]
     public Vector2 arenaHalfSize = new(5.5f, 9f);
     public float playerSpeed = 5f;
-    public float playerHitRadius = 0.2f;
-    public float invincibleTime = 1.5f;
+    public float playerHitRadius = 0.16f;
+    public float invincibleTime = 2f;
 
     [Header("카메라 (버스정류장 씬처럼 플레이어를 따라 세로 스크롤)")]
     public float cameraOrthoSize = 4f;
@@ -47,8 +47,8 @@ public class RansomwareBossFight : MonoBehaviour
     public float slotRange = 0.95f;
 
     [Header("복호화 아이템")]
-    public float decryptSpawnInterval = 8f;
-    public float decryptLifeTime = 7f;
+    public float decryptSpawnInterval = 5f;
+    public float decryptLifeTime = 10f;
 
     [Header("보스")]
     public float bossContactRadius = 0.55f;
@@ -57,6 +57,11 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("F1: 조각 하나 자동 배치 / F2: 무적 토글 / F3: 피격 테스트")]
     public bool debugKeys = true;
     public bool godMode;
+
+    [Header("탄막 난이도 (1 = 기본, 낮을수록 쉬움)")]
+    [Range(0.3f, 2f)] public float bulletSpeedScale = 1f;
+    [Range(0.3f, 2f)] public float bulletCountScale = 1f;
+    [Range(0.5f, 3f)] public float patternRestScale = 1f;
 
     [Header("이벤트 (본편 씬 연결용)")]
     public UnityEvent onClear;
@@ -554,7 +559,7 @@ public class RansomwareBossFight : MonoBehaviour
                 godMode = !godMode;
                 ShowMessage(godMode ? "[DEBUG] 무적 ON" : "[DEBUG] 무적 OFF", "", 1f);
             }
-            if (Input.GetKeyDown(KeyCode.F3)) { invincibleUntil = 0; bool g = godMode; godMode = false; OnPlayerHit(); godMode = g; }
+            if (Input.GetKeyDown(KeyCode.F3)) DebugHit();
         }
 
         float dt = Time.deltaTime;
@@ -693,8 +698,8 @@ public class RansomwareBossFight : MonoBehaviour
             : Vector2.zero;
         playerNameLabel.transform.position = playerPos + new Vector2(0, 0.78f) + jitter;
         carryLabel.transform.position = playerPos + new Vector2(0, 1.12f);
-        if (corruption > 0 && state == FightState.Fight && Random.value < 0.04f * corruption)
-            playerNameLabel.text = BossNameCorruptor.Corrupt(baseName, corruption); // 주소가 계속 깨지는 연출
+        if (corruption > 0 && state == FightState.Fight && Random.value < 0.015f * corruption)
+            playerNameLabel.text = BossNameCorruptor.Corrupt(baseName, corruption, randomHex: true); // 주소가 순간 깨지는 연출
         else if (corruption > 0 && state == FightState.Fight && Random.value < 0.02f)
             playerNameLabel.text = shownName;
 
@@ -861,6 +866,14 @@ public class RansomwareBossFight : MonoBehaviour
         UpdatePuzzle();
     }
 
+    /// <summary>디버그: 무적/무적시간 무시하고 한 대 맞는다.</summary>
+    public void DebugHit()
+    {
+        invincibleUntil = 0; bool g = godMode; godMode = false; OnPlayerHit(); godMode = g;
+    }
+
+    public int Corruption => corruption;
+    public string ShownName => shownName;
     public bool IsCleared => state == FightState.Clear;
     public bool IsGameOver => state == FightState.GameOver;
 
@@ -925,52 +938,54 @@ public class RansomwareBossFight : MonoBehaviour
                 case 2: yield return AimedFan(); break;
                 case 3: yield return ChainLasers(); break;
             }
-            yield return new WaitForSeconds(Mathf.Max(0.35f, 1.1f - filledCount * 0.15f));
+            yield return new WaitForSeconds(Mathf.Max(0.9f, 1.8f - filledCount * 0.2f) * patternRestScale);
         }
     }
 
-    private float Phase => filledCount; // 방화벽을 복구할수록 랜섬웨어가 발악
+    private float Phase => filledCount; // 방화벽을 복구할수록 랜섬웨어가 발악 (완만하게)
+
+    private int Cnt(float n) => Mathf.Max(1, Mathf.RoundToInt(n * bulletCountScale));
 
     private IEnumerator RadialBurst()
     {
-        int waves = 3;
+        int waves = 2;
         for (int w = 0; w < waves; w++)
         {
-            int n = 14 + (int)Phase * 3;
+            int n = Cnt(9 + Phase * 1.5f);
             float off = Random.Range(0f, 360f);
             for (int i = 0; i < n; i++)
-                Fire(bossPos, off + 360f / n * i, 2.6f + Phase * 0.25f, new Color(1f, 0.3f, 0.55f));
-            yield return new WaitForSeconds(0.55f);
+                Fire(bossPos, off + 360f / n * i, 2.0f + Phase * 0.12f, new Color(1f, 0.3f, 0.55f));
+            yield return new WaitForSeconds(0.8f);
         }
     }
 
     private IEnumerator Spiral()
     {
-        float dur = 2.6f, t = 0f, ang = Random.Range(0f, 360f);
-        int arms = 2 + (Phase >= 2 ? 1 : 0);
+        float dur = 2.0f, t = 0f, ang = Random.Range(0f, 360f);
+        int arms = Cnt(2 + (Phase >= 3 ? 1 : 0));
         float dir = Random.value < 0.5f ? 1f : -1f;
         while (t < dur)
         {
             for (int a = 0; a < arms; a++)
-                Fire(bossPos, ang + 360f / arms * a, 3f + Phase * 0.2f, new Color(1f, 0.75f, 0.2f));
-            ang += 17f * dir;
-            t += 0.085f;
-            yield return new WaitForSeconds(0.085f);
+                Fire(bossPos, ang + 360f / arms * a, 2.2f + Phase * 0.1f, new Color(1f, 0.75f, 0.2f));
+            ang += 19f * dir;
+            t += 0.15f;
+            yield return new WaitForSeconds(0.15f);
         }
     }
 
     private IEnumerator AimedFan()
     {
-        int volleys = 3 + (Phase >= 3 ? 1 : 0);
+        int volleys = 2 + (Phase >= 3 ? 1 : 0);
         for (int v = 0; v < volleys; v++)
         {
             Vector2 d = playerPos - bossPos;
             float baseAng = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
-            int n = 5 + (int)Phase;
-            float spread = 50f;
+            int n = Mathf.Max(2, Cnt(3 + Phase * 0.5f));
+            float spread = 36f;
             for (int i = 0; i < n; i++)
-                Fire(bossPos, baseAng - spread / 2f + spread / (n - 1) * i, 4.2f + Phase * 0.3f, new Color(0.75f, 0.4f, 1f));
-            yield return new WaitForSeconds(0.45f);
+                Fire(bossPos, baseAng - spread / 2f + spread / (n - 1) * i, 2.8f + Phase * 0.15f, new Color(0.75f, 0.4f, 1f));
+            yield return new WaitForSeconds(0.7f);
         }
     }
 
@@ -978,7 +993,7 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator ChainLasers()
     {
         var r = VisibleArena;
-        int n = 3 + Mathf.Min(2, (int)Phase);
+        int n = Cnt(2 + Mathf.Min(1, (int)Phase / 2));
         var made = new List<Laser>();
         for (int i = 0; i < n; i++)
         {
@@ -995,14 +1010,14 @@ public class RansomwareBossFight : MonoBehaviour
             else { var c = RandomPointIn(r, 0.5f); a = c + new Vector2(-12, 12); b = c + new Vector2(12, -12); }
 
             ClipToRect(r, ref a, ref b);
-            var L = new Laser { a = a, b = b, width = 0.32f };
+            var L = new Laser { a = a, b = b, width = 0.26f };
             L.sr = MakeSprite("Chain", squareSprite, (a + b) / 2f, new Vector2(Vector2.Distance(a, b), 0.06f), new Color(0.7f, 0.7f, 0.7f, 0.5f), 14);
             L.sr.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(b.y - a.y, b.x - a.x) * Mathf.Rad2Deg);
             made.Add(L);
             lasers.Add(L);
         }
 
-        yield return new WaitForSeconds(Mathf.Max(0.6f, 0.95f - Phase * 0.06f));
+        yield return new WaitForSeconds(Mathf.Max(1.0f, 1.4f - Phase * 0.08f)); // 예고선 충분히 보여주기
         foreach (var L in made)
         {
             L.active = true;
@@ -1011,7 +1026,7 @@ public class RansomwareBossFight : MonoBehaviour
             L.sr.transform.localScale = new Vector3(s.x, L.width / squareSprite.bounds.size.y, 1);
         }
         shakeTime = Mathf.Max(shakeTime, 0.12f);
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.45f);
         foreach (var L in made)
         {
             lasers.Remove(L);
@@ -1057,7 +1072,7 @@ public class RansomwareBossFight : MonoBehaviour
         return Vector2.Distance(p, a + ab * t);
     }
 
-    private void Fire(Vector2 from, float angleDeg, float speed, Color color, float radius = 0.13f)
+    private void Fire(Vector2 from, float angleDeg, float speed, Color color, float radius = 0.11f)
     {
         Bullet b = null;
         foreach (var x in bullets)
@@ -1069,7 +1084,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
         float rad = angleDeg * Mathf.Deg2Rad;
         b.pos = from;
-        b.vel = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * speed;
+        b.vel = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * (speed * bulletSpeedScale);
         b.radius = radius;
         b.alive = true;
         b.sr.color = color;
