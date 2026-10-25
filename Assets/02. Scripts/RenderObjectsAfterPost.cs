@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.Universal;
 
 public class RenderObjectsAfterPost : ScriptableRendererFeature
@@ -43,6 +44,39 @@ public class RenderObjectsAfterPost : ScriptableRendererFeature
 
             filteringSettings = new FilteringSettings(RenderQueueRange.all, layerMask);
             renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+        }
+
+        private class PassData
+        {
+            public RendererListHandle rendererList;
+        }
+
+        // Unity 6.3 (URP 17.3): Compatibility Mode 제거로 RenderGraph 경로가 필수
+        public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+        {
+            var resourceData = frameData.Get<UniversalResourceData>();
+            var renderingData = frameData.Get<UniversalRenderingData>();
+            var cameraData = frameData.Get<UniversalCameraData>();
+            var lightData = frameData.Get<UniversalLightData>();
+
+            using (var builder = renderGraph.AddRasterRenderPass<PassData>(profilerTag, out var passData))
+            {
+                var drawingSettings = CreateDrawingSettings(shaderTagId, renderingData, cameraData, lightData,
+                    SortingCriteria.CommonTransparent);
+                if (overrideMaterial != null)
+                    drawingSettings.overrideMaterial = overrideMaterial;
+
+                var listParams = new RendererListParams(renderingData.cullResults, drawingSettings, filteringSettings);
+                passData.rendererList = renderGraph.CreateRendererList(listParams);
+                builder.UseRendererList(passData.rendererList);
+
+                builder.SetRenderAttachment(resourceData.activeColorTexture, 0);
+                if (resourceData.activeDepthTexture.IsValid())
+                    builder.SetRenderAttachmentDepth(resourceData.activeDepthTexture, AccessFlags.Write);
+
+                builder.SetRenderFunc((PassData data, RasterGraphContext context) =>
+                    context.cmd.DrawRendererList(data.rendererList));
+            }
         }
 
         [Obsolete]
