@@ -623,6 +623,12 @@ MonoBehaviour:
   font: {fileID: 11400000, guid: 06806e4a5e3188d4580b577487f63129, type: 2}
   playerSprite: {fileID: 21300000, guid: a2ccfb2ae53d0b04bab684c1d9b1e71a, type: 3}
   bossSprite: {fileID: 21300000, guid: 7764cc9c60c1cac489bb10f80dafedea, type: 3}
+  keySprite: {fileID: 21300000, guid: 761b4e3349c14d5a8c01a9cc65629b91, type: 3}
+  doorOpenSprite: {fileID: 21300000, guid: cdaf7c68f735347bfac075ff7870aa32, type: 3}
+  doorClosedSprite: {fileID: 21300000, guid: 72270574ae1a24e219750a92fc54be0c, type: 3}
+  lockSprite: {fileID: 21300000, guid: f7c19f49b4d046ed87c26a07bbff5dba, type: 3}
+  pickupSfx: {fileID: 8300000, guid: 8a75e3b481d61a14abc52d6f8e73eba8, type: 3}
+  lockSfx: {fileID: 8300000, guid: 6184299f7d1616640b2f19a58ff7f214, type: 3}
   bgm: {fileID: 8300000, guid: 5841baca809a10f409312cfec82917e6, type: 3}
   bgmVolume: 0.4
   hitSfx: {fileID: 8300000, guid: 2f2191e05c6b28d4ab1fab469fde76ff, type: 3}
@@ -663,7 +669,7 @@ MonoBehaviour:
   bossTeleport: 1
   teleportDelayAfterAttack: 0.7
   wireTravelTime: 1
-  teleportMinPlayerDistance: 3.2
+  teleportMinPlayerDistance: 1.6
   virusGrowPerUnit: 0.14
   virusMaxScale: 2.4
   electricWhip: 1

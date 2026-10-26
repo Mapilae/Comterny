@@ -24,6 +24,11 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("Spine 캐릭터가 없을 때만 쓰는 정지 이미지")]
     public Sprite playerSprite;
     public Sprite bossSprite;
+    [Tooltip("코드 조각 = 열쇠")]
+    public Sprite keySprite;
+    [Tooltip("아이작 잠긴 문처럼: 처음엔 자물쇠 달린 닫힌 문 → 맞는 열쇠를 꽂으면 열린 문")]
+    public Sprite doorOpenSprite, doorClosedSprite, lockSprite;
+    public AudioClip pickupSfx, lockSfx;
     [Tooltip("보스전 BGM (기본: 05. Sounds/BGM/Boss_Remi_x_WhyDoITry)")]
     public AudioClip bgm;
     [Range(0f, 1f)] public float bgmVolume = 0.4f;
@@ -84,14 +89,14 @@ public class RansomwareBossFight : MonoBehaviour
     [Header("보스")]
     public float bossContactRadius = 0.55f;
 
-    [Header("보스 이동: 공격 후 무작위 컴퓨터를 해킹하며 전선 타고 순간이동")]
+    [Header("보스 이동: 공격 후 플레이어와 가장 가까운 컴퓨터를 해킹하며 전선 타고 순간이동")]
     public bool bossTeleport = true;
     [Tooltip("패턴 공격이 끝나고 이동을 시작하기까지")]
     public float teleportDelayAfterAttack = 0.7f;
     [Tooltip("전기 선이 이어진 뒤 보스가 도착 컴퓨터에 나타나기까지 (전선을 타고 가는 시간)")]
     public float wireTravelTime = 1f;
-    [Tooltip("도착 컴퓨터는 플레이어와 최소 이만큼 떨어진 곳에서 고른다")]
-    public float teleportMinPlayerDistance = 3.2f;
+    [Tooltip("플레이어와 가장 가까운 컴퓨터로 가되, 이 거리 안쪽(플레이어 바로 위)은 피한다")]
+    public float teleportMinPlayerDistance = 1.6f;
 
     [Header("바이러스 탄: 멀리 갈수록 커짐 (내부 네트워크를 타고 번지는 느낌)")]
     [Tooltip("1유닛 날아갈 때마다 커지는 비율")]
@@ -174,7 +179,8 @@ public class RansomwareBossFight : MonoBehaviour
         public Vector2 pos;
         public bool horizontal;    // 위/아래 벽이면 true
         public bool filled;
-        public SpriteRenderer sr;
+        public SpriteRenderer sr, lockIcon;
+        public Vector3 lockBaseScale;
         public TextMeshPro label;
     }
 
@@ -388,6 +394,7 @@ public class RansomwareBossFight : MonoBehaviour
     public static readonly Color DullColor = new(0.42f, 0.42f, 0.44f);         // 컴퓨터 등 배경 소품
     public static readonly Color DullTextColor = new(0.55f, 0.55f, 0.55f);
     private static readonly Color FixedColor = new(0.3f, 0.95f, 1f);
+    private static readonly Color LockColor = new(1f, 0.85f, 0.25f);          // 자물쇠 = 열쇠와 같은 노랑 (목표)
     private static readonly Color BrokenColor = new(1f, 0.82f, 0.2f);           // 끼워야 할 자리 (목표 → 노랑)
     private const float WallThick = 0.3f;
     private const float GapWidth = 1.7f;
@@ -436,9 +443,21 @@ public class RansomwareBossFight : MonoBehaviour
             var (pos, horizontal) = spots[i];
             var slot = new Slot { index = order[i], pos = pos, horizontal = horizontal };
             Vector2 size = horizontal ? new Vector2(GapWidth, WallThick) : new Vector2(WallThick, GapWidth);
-            slot.sr = MakeSprite($"Slot_{slot.index}", squareSprite, pos, size, BrokenColor, 6);
+            if (doorClosedSprite != null)
+            {
+                // 아이작 잠긴 문처럼: 벽에 세로로 선 닫힌 문 + 큼직한 자물쇠
+                slot.sr = MakeSprite($"Door_{slot.index}", doorClosedSprite, pos, new Vector2(1.05f, 1.6f), Color.white, 6);
+                if (lockSprite != null)
+                {
+                    slot.lockIcon = MakeSprite("Lock", lockSprite, pos + new Vector2(0, 0.05f), new Vector2(0.55f, 0.68f), LockColor, 7);
+                    slot.lockIcon.transform.SetParent(slot.sr.transform, true);
+                    slot.lockBaseScale = slot.lockIcon.transform.localScale;
+                }
+            }
+            else slot.sr = MakeSprite($"Slot_{slot.index}", squareSprite, pos, size, BrokenColor, 6);
 
-            Vector2 inward = horizontal ? new Vector2(0, pos.y > 0 ? -0.55f : 0.55f) : new Vector2(pos.x > 0 ? -1.05f : 1.05f, 0);
+            float inX = doorOpenSprite != null ? 1.4f : 1.05f;
+            Vector2 inward = horizontal ? new Vector2(0, pos.y > 0 ? -0.55f : 0.55f) : new Vector2(pos.x > 0 ? -inX : inX, 0);
             slot.label = MakeText($"SlotLabel_{slot.index}", SlotLabel(slot), pos + inward, 3.0f, BrokenColor, 20);
             slots.Add(slot);
         }
@@ -451,9 +470,11 @@ public class RansomwareBossFight : MonoBehaviour
         {
             Vector2 p = RandomInteriorPoint(1.2f, avoid: new[] { PlayerStart, BossSpot }, avoidRadius: 2.4f);
             var f = new Fragment { index = i, pos = p };
-            var sr = MakeSprite($"Fragment_{i}", squareSprite, p, new Vector2(1.25f, 0.5f), new Color(0.1f, 0.35f, 0.15f, 0.95f), 8);
+            var sr = keySprite != null
+                ? MakeSprite($"Key_{i}", keySprite, p, new Vector2(1.0f, 0.5f), Color.white, 8)   // 코드 조각 = 열쇠
+                : MakeSprite($"Fragment_{i}", squareSprite, p, new Vector2(1.25f, 0.5f), new Color(0.1f, 0.35f, 0.15f, 0.95f), 8);
             f.tr = sr.transform;
-            f.label = MakeText("Code", FragmentCode(i), p, 2.4f, new Color(0.55f, 1f, 0.55f), 9);
+            f.label = MakeText("Code", FragmentCode(i), p + (keySprite != null ? new Vector2(0, 0.48f) : Vector2.zero), 2.4f, new Color(0.55f, 1f, 0.55f), 9);
             f.label.transform.SetParent(f.tr, true);
             fragments.Add(f);
         }
@@ -743,7 +764,7 @@ public class RansomwareBossFight : MonoBehaviour
         string bars = "";
         for (int i = 0; i < BossNameCorruptor.MaxLevel + 1; i++) bars += i < hp ? "<color=#6F6>■</color>" : "<color=#555>□</color>";
         hpText.text = $"무결성 {bars}";
-        progressText.text = $"방화벽 복구 <color=#7FF>{filledCount}</color>/{slots.Count}";
+        progressText.text = $"{(doorOpenSprite != null ? "열린 문" : "방화벽 복구")} <color=#7FF>{filledCount}</color>/{slots.Count}";
     }
 
     private void ShowMessage(string main, string sub = "", float duration = 2f)
@@ -761,7 +782,7 @@ public class RansomwareBossFight : MonoBehaviour
         state = FightState.Intro;
         ShowMessage("<color=#C88>랜섬웨어</color>", $"\"방화벽은 이미 부서졌어. {baseName}, 네 파일도 곧 내 거야!\"", 2.6f);
         yield return new WaitForSeconds(2.6f);
-        ShowMessage("코드 조각을 맞는 주소에 끼워 방화벽을 복구하라!",
+        ShowMessage(keySprite != null ? "랜섬웨어가 문을 전부 잠갔다! 열쇠로 맞는 주소의 문을 열어라" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하라!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
         state = FightState.Fight;
         decryptSpawnTimer = decryptSpawnInterval;
@@ -996,7 +1017,17 @@ public class RansomwareBossFight : MonoBehaviour
         {
             if (s.filled) continue;
             float k = 0.55f + 0.45f * Mathf.Sin(Time.time * 6f + s.index);
-            s.sr.color = new Color(BrokenColor.r, BrokenColor.g, BrokenColor.b, k);
+            if (doorClosedSprite != null)
+            {
+                // 잠긴 문: 자물쇠가 살짝 두근거림
+                if (s.lockIcon != null)
+                {
+                    float pulse = 1f + 0.08f * Mathf.Sin(Time.time * 5f + s.index);
+                    s.lockIcon.transform.localScale = s.lockBaseScale * pulse;
+                    s.lockIcon.color = Color.Lerp(LockColor, Color.white, 0.25f * k);
+                }
+            }
+            else s.sr.color = new Color(BrokenColor.r, BrokenColor.g, BrokenColor.b, k);
         }
 
     }
@@ -1034,6 +1065,30 @@ public class RansomwareBossFight : MonoBehaviour
         if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.pitch = Random.Range(0.95f, 1.05f); // 연속으로 맞아도 덜 거슬리게
         sfxSource.PlayOneShot(hitSfx, hitSfxVolume);
+    }
+
+    /// <summary>열린 자물쇠가 위로 튀었다가 사라짐</summary>
+    private IEnumerator LockPopOff(SpriteRenderer lockSr)
+    {
+        lockSr.transform.SetParent(root, true);
+        Vector3 start = lockSr.transform.position, sc = lockSr.transform.localScale;
+        for (float t = 0; t < 0.45f; t += Time.deltaTime)
+        {
+            float k = t / 0.45f;
+            lockSr.transform.position = start + new Vector3(0, 0.9f * k - 0.6f * k * k, 0);
+            lockSr.transform.localScale = sc * (1f + 0.3f * k);
+            var c = lockSr.color; c.a = 1f - k; lockSr.color = c;
+            yield return null;
+        }
+        Destroy(lockSr.gameObject);
+    }
+
+    private void PlaySfx(AudioClip clip, float vol)
+    {
+        if (clip == null) return;
+        if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.pitch = 1f;
+        sfxSource.PlayOneShot(clip, vol);
     }
 
     private void Decrypt()
@@ -1097,7 +1152,8 @@ public class RansomwareBossFight : MonoBehaviour
                     carrying = f;
                     f.carried = true;
                     f.tr.gameObject.SetActive(false);
-                    carryLabel.text = $"[{FragmentCode(f.index)}]";
+                    carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(f.index)}]" : $"[{FragmentCode(f.index)}]";
+                    PlaySfx(pickupSfx, 0.6f);
                     break;
                 }
             }
@@ -1111,7 +1167,18 @@ public class RansomwareBossFight : MonoBehaviour
             if (s.index == carrying.index)
             {
                 s.filled = true;
-                s.sr.color = FixedColor;
+                if (doorOpenSprite != null && doorClosedSprite != null)
+                {
+                    // 맞는 열쇠 → 자물쇠가 튕겨 나가고 문이 열림
+                    var size0 = s.sr.bounds.size;
+                    s.sr.sprite = doorOpenSprite;
+                    var b = doorOpenSprite.bounds.size;
+                    s.sr.transform.localScale = new Vector3(size0.x / b.x, size0.y / b.y, 1f);
+                    s.sr.color = new Color(0.85f, 1f, 1f); // 문 너머 빛
+                    if (s.lockIcon != null) StartCoroutine(LockPopOff(s.lockIcon));
+                }
+                else s.sr.color = FixedColor;
+                PlaySfx(lockSfx, 0.8f);
                 s.label.text = SlotLabel(s);
                 s.label.color = FixedColor;
                 carrying.placed = true;
@@ -1120,10 +1187,9 @@ public class RansomwareBossFight : MonoBehaviour
                 carryLabel.text = "";
                 filledCount++;
                 RefreshHud();
-                shakeTime = 0.1f;
                 if (filledCount >= slots.Count) { Clear(); return; }
-                ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구!</color>",
-                    $"남은 구멍 {slots.Count - filledCount}개 - 랜섬웨어가 초조해진다", 1.4f);
+                ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} {(doorOpenSprite != null ? "문 열림!" : "복구!")}</color>",
+                    $"{(doorOpenSprite != null ? "남은 잠긴 문" : "남은 구멍")} {slots.Count - filledCount}개 - 랜섬웨어가 초조해진다", 1.4f);
             }
             else if (wrongSlotCooldown <= 0)
             {
@@ -1198,14 +1264,15 @@ public class RansomwareBossFight : MonoBehaviour
     {
         state = FightState.Clear;
         StopAllCoroutines();
+        foreach (var sl in slots) if (sl.filled && sl.lockIcon != null) Destroy(sl.lockIcon.gameObject);
         ClearAllBullets();
         if (decryptItem != null) Destroy(decryptItem.gameObject);
         bossSr.color = new Color(0.55f, 0.55f, 0.6f);
         playerNameLabel.text = baseName;
         clearAt = Time.time;
         SetPlayerAnim(idleAnim);
-        ShowMessage("<color=#7FF>방화벽 복구 완료!</color>",
-            $"도망갈 곳이 없어진 랜섬웨어를 검거했다.\n<size=80%>{(string.IsNullOrEmpty(NextScene) ? "R: 다시하기" : "Space: 계속   R: 다시하기")}</size>", -1f);
+        ShowMessage(doorOpenSprite != null ? "<color=#7FF>모든 문을 열었다!</color>" : "<color=#7FF>방화벽 복구 완료!</color>",
+            $"{(doorOpenSprite != null ? "열린 문으로 보안팀이 들이닥쳐 랜섬웨어를 검거했다." : "도망갈 곳이 없어진 랜섬웨어를 검거했다.")}\n<size=80%>{(string.IsNullOrEmpty(NextScene) ? "R: 다시하기" : "Space: 계속   R: 다시하기")}</size>", -1f);
         Debug.Log("[RansomwareBossFight] CLEAR");
         onClear?.Invoke();
     }
@@ -1263,15 +1330,22 @@ public class RansomwareBossFight : MonoBehaviour
     }
 
     // =====================================================================
-    // 보스 순간이동: 무작위 컴퓨터를 공격(해킹) → 전기 선 연결 → 전선을 타고 1초 뒤 등장
+    // 보스 순간이동: 플레이어와 가장 가까운 컴퓨터를 공격(해킹) → 전기 선 연결 → 전선을 타고 1초 뒤 등장
     private IEnumerator TeleportRoutine()
     {
-        var cand = new List<int>();
+        // 플레이어와 가장 가까운 컴퓨터로 이동 (지금 있는 곳 제외).
+        // 단, 플레이어 바로 위에 떨어지지 않게 teleportMinPlayerDistance 안쪽은 피한다 (전부 가까우면 그냥 가장 가까운 곳).
+        int to = -1, nearestAny = -1;
+        float best = float.MaxValue, bestAny = float.MaxValue;
         for (int i = 0; i < computers.Count; i++)
-            if (i != bossComputer && Vector2.Distance(computers[i].pos, playerPos) >= teleportMinPlayerDistance) cand.Add(i);
-        if (cand.Count == 0)
-            for (int i = 0; i < computers.Count; i++) if (i != bossComputer) cand.Add(i);
-        int to = cand[Random.Range(0, cand.Count)];
+        {
+            if (i == bossComputer) continue;
+            float d = Vector2.Distance(computers[i].pos, playerPos);
+            if (d < bestAny) { bestAny = d; nearestAny = i; }
+            if (d >= teleportMinPlayerDistance && d < best) { best = d; to = i; }
+        }
+        if (to < 0) to = nearestAny;
+        if (to < 0) yield break;
         Vector2 from = bossPos, dest = computers[to].pos;
 
         // 회로 배선처럼 ㄱ자로 꺾이는 경로
