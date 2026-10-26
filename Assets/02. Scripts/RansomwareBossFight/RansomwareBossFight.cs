@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Spine.Unity;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -20,12 +21,26 @@ public class RansomwareBossFight : MonoBehaviour
 {
     [Header("리소스 (비워두면 기본 도형/폰트 사용)")]
     public TMP_FontAsset font;
+    [Tooltip("Spine 캐릭터가 없을 때만 쓰는 정지 이미지")]
     public Sprite playerSprite;
     public Sprite bossSprite;
     public AudioClip bgm;
 
+    [Header("플레이어 캐릭터 (본편 Player 프리팹과 같은 Spine)")]
+    [Tooltip("User Debug/새 폴더/skeleton_SkeletonData - 본편 Player 프리팹이 쓰는 것과 동일")]
+    public SkeletonDataAsset playerSkeleton;
+    public float playerSpineScale = 1.3f;
+    public Vector2 playerSpineOffset = Vector2.zero;
+    public string idleAnim = "idle", walkAnim = "walk", runAnim = "run";
+
+    [Header("본편 연결")]
+    [Tooltip("클리어 후 이동할 씬 (BossFightEntry로 들어오면 그쪽 설정이 우선). 비우면 그 자리에서 R로 다시하기")]
+    public string nextSceneOnClear = "";
+    [Tooltip("클리어 후 자동으로 넘어가기까지 시간 (Space/Enter로 바로 넘어감)")]
+    public float clearAutoContinue = 5f;
+
     [Header("테스트")]
-    [Tooltip("PlayerData가 없는 테스트 씬에서 쓸 이름")]
+    [Tooltip("PlayerData가 없는 테스트 씬(보스 씬 단독 실행)에서 쓸 이름")]
     public string testPlayerName = "유저 디버그";
     [Tooltip("컴공모드: 방화벽 자리에 (fw+i) 힌트를 숨긴다. PlayerData.difficulty==1 이면 자동으로 켜짐")]
     public bool hardMode;
@@ -116,6 +131,10 @@ public class RansomwareBossFight : MonoBehaviour
 
     private Transform player;
     private SpriteRenderer playerSr;
+    private SkeletonAnimation playerSpine;
+    private string playerAnim;
+    private float clearAt;
+    private bool leaving;
     private TextMeshPro playerNameLabel, carryLabel;
     private Vector2 playerPos;
     private float invincibleUntil;
@@ -148,12 +167,9 @@ public class RansomwareBossFight : MonoBehaviour
     #region 초기화
     private void Start()
     {
-        if (PlayerData.instance != null)
-        {
-            baseName = PlayerData.playerName;
-            if (PlayerData.instance.difficulty == 1) hardMode = true;
-        }
-        else baseName = testPlayerName;
+        baseName = ResolvePlayerName();
+        if (PlayerData.instance != null && PlayerData.instance.difficulty == 1) hardMode = true;
+        Debug.Log($"[RansomwareBossFight] player name = '{baseName}' (PlayerData {(PlayerData.instance != null ? "연결됨" : "없음 → 테스트 이름")})");
 
         ResolveFont();
         CreateBaseSprites();
@@ -177,6 +193,18 @@ public class RansomwareBossFight : MonoBehaviour
         }
 
         StartCoroutine(IntroRoutine());
+    }
+
+    /// <summary>
+    /// 본편에서 넘어오면 PlayerData(DontDestroyOnLoad)에 저장된 이름(이름 입력 화면/세이브)을 그대로 쓴다.
+    /// 보스 씬만 단독으로 틀면 PlayerData가 없으므로 testPlayerName.
+    /// </summary>
+    private string ResolvePlayerName()
+    {
+        string n = PlayerData.instance != null ? PlayerData.playerName : testPlayerName;
+        if (string.IsNullOrWhiteSpace(n)) n = PlayerData.playerName; // static 기본값 "유저 디버그"
+        if (string.IsNullOrWhiteSpace(n)) n = "유저 디버그";
+        return n.Trim();
     }
 
     private void ResolveFont()
@@ -450,6 +478,23 @@ public class RansomwareBossFight : MonoBehaviour
         player = sr.transform;
         playerSr = sr;
 
+        if (playerSkeleton != null)
+        {
+            // 본편 Player 프리팹과 같은 Spine 캐릭터 (idle / walk / run 모션)
+            playerSpine = SkeletonAnimation.NewSkeletonAnimationGameObject(playerSkeleton);
+            playerSpine.name = "PlayerSpine";
+            var st = playerSpine.transform;
+            st.SetParent(player, false);
+            // 부모(Player 스프라이트)의 스케일 영향 제거
+            var ps = player.lossyScale;
+            st.localScale = new Vector3(playerSpineScale / ps.x, playerSpineScale / ps.y, 1f);
+            st.localPosition = new Vector3(playerSpineOffset.x / ps.x, playerSpineOffset.y / ps.y, 0f);
+            var mr = playerSpine.GetComponent<MeshRenderer>();
+            mr.sortingOrder = 12;
+            sr.enabled = false; // 판정/위치용으로만 남김
+            SetPlayerAnim(idleAnim);
+        }
+
         // 판정점(작은 코어) 표시 - 탄막 게임처럼 실제 피격 범위를 보여준다
         var core = MakeSprite("HitCore", circleSprite, playerPos, Vector2.one * playerHitRadius * 2f, new Color(1f, 1f, 1f, 0.9f), 13);
         core.transform.SetParent(player, true);
@@ -534,7 +579,7 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
-        ShowMessage("<color=#F5A>랜섬웨어</color>", "\"방화벽은 이미 부서졌어. 회장은 내 거야!\"", 2.6f);
+        ShowMessage("<color=#F5A>랜섬웨어</color>", $"\"방화벽은 이미 부서졌어. {baseName}, 네 파일도 곧 내 거야!\"", 2.6f);
         yield return new WaitForSeconds(2.6f);
         ShowMessage("코드 조각을 맞는 주소에 끼워 방화벽을 복구하라!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
@@ -545,10 +590,18 @@ public class RansomwareBossFight : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && (debugKeys || state == FightState.GameOver || state == FightState.Clear))
         {
             Restart();
             return;
+        }
+
+        if (state == FightState.Clear && !leaving && !string.IsNullOrEmpty(NextScene) &&
+            (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
+             (clearAutoContinue > 0 && Time.time - clearAt > clearAutoContinue)))
+        {
+            leaving = true;
+            BossFightEntry.ExitBossFight(NextScene, cleared: true);
         }
 
         if (debugKeys && state == FightState.Fight)
@@ -595,6 +648,7 @@ public class RansomwareBossFight : MonoBehaviour
     private void UpdatePlayer(float dt)
     {
         var input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (DebugMoveInput != Vector2.zero) input = DebugMoveInput; // 자동 테스트용
         if (input.sqrMagnitude > 1f) input.Normalize();
         bool slow = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         playerPos += input * (playerSpeed * (slow ? 0.45f : 1f) * dt);
@@ -605,6 +659,36 @@ public class RansomwareBossFight : MonoBehaviour
         playerPos.y = Mathf.Clamp(playerPos.y, r.yMin + m, r.yMax - m);
         player.position = playerPos;
         if (input.x != 0 && playerSprite != null) playerSr.flipX = input.x > 0;
+        UpdatePlayerAnim(input, slow);
+    }
+
+    // 본편 PlayerMovement와 같은 규칙: 정지 idle / 이동 run(보스전은 기본 달리기, PlayerBossCombat.forceRun과 동일)
+    // Shift(정밀 이동) 중에는 walk. 좌우 반전도 본편과 동일하게 spine localScale.x 부호로 처리.
+    private void UpdatePlayerAnim(Vector2 input, bool slow)
+    {
+        if (playerSpine == null) return;
+        bool moving = input.sqrMagnitude > 0.01f;
+        SetPlayerAnim(!moving ? idleAnim : slow ? walkAnim : runAnim,
+            moving ? 1f + Mathf.Abs(input.y) * 0.5f : 1f);
+        if (input.x != 0)
+        {
+            var sc = playerSpine.transform.localScale;
+            sc.x = Mathf.Abs(sc.x) * (input.x < 0 ? 1f : -1f);
+            playerSpine.transform.localScale = sc;
+        }
+    }
+
+    private void SetPlayerAnim(string anim, float timeScale = 1f)
+    {
+        if (playerSpine == null || string.IsNullOrEmpty(anim)) return;
+        if (playerSpine.AnimationState == null) playerSpine.Initialize(false);
+        if (playerAnim != anim)
+        {
+            playerAnim = anim;
+            playerSpine.AnimationState.SetAnimation(0, anim, true);
+        }
+        var cur = playerSpine.AnimationState.GetCurrent(0);
+        if (cur != null) cur.TimeScale = timeScale;
     }
 
     private void UpdateBoss(float dt)
@@ -714,6 +798,7 @@ public class RansomwareBossFight : MonoBehaviour
         bool blink = Time.time < invincibleUntil && Mathf.FloorToInt(Time.time * 14f) % 2 == 0;
         tint.a = blink ? 0.25f : 1f;
         playerSr.color = tint;
+        if (playerSpine != null) playerSpine.Skeleton.SetColor(tint);
 
         // 깨진 방화벽 깜빡임
         foreach (var s in slots)
@@ -875,6 +960,12 @@ public class RansomwareBossFight : MonoBehaviour
     public int Corruption => corruption;
     public string ShownName => shownName;
     public bool IsCleared => state == FightState.Clear;
+    /// <summary>자동 테스트용 가상 입력 (0이면 키보드)</summary>
+    public Vector2 DebugMoveInput { get; set; }
+    public string PlayerName => baseName;
+    public string CurrentPlayerAnim => playerAnim;
+    /// <summary>클리어 후 갈 씬: BossFightEntry로 들어왔으면 그 설정, 아니면 인스펙터 값</summary>
+    public string NextScene => !string.IsNullOrEmpty(BossFightEntry.PendingNextScene) ? BossFightEntry.PendingNextScene : nextSceneOnClear;
     public bool IsGameOver => state == FightState.GameOver;
 
     private void DropCarried()
@@ -902,8 +993,10 @@ public class RansomwareBossFight : MonoBehaviour
         if (decryptItem != null) Destroy(decryptItem.gameObject);
         bossSr.color = new Color(0.55f, 0.55f, 0.6f);
         playerNameLabel.text = baseName;
+        clearAt = Time.time;
+        SetPlayerAnim(idleAnim);
         ShowMessage("<color=#7FF>방화벽 복구 완료!</color>",
-            "도망갈 곳이 없어진 랜섬웨어를 검거했다.\n<size=80%>(→ 스테이지 7-2 클리어 / 발코니 컷신 연결 예정)   R: 다시하기</size>", -1f);
+            $"도망갈 곳이 없어진 랜섬웨어를 검거했다.\n<size=80%>{(string.IsNullOrEmpty(NextScene) ? "R: 다시하기" : "Space: 계속   R: 다시하기")}</size>", -1f);
         Debug.Log("[RansomwareBossFight] CLEAR");
         onClear?.Invoke();
     }
@@ -914,6 +1007,11 @@ public class RansomwareBossFight : MonoBehaviour
         StopAllCoroutines();
         playerNameLabel.text = BossNameCorruptor.RandomHex(8);
         playerSr.color = new Color(1f, 0.2f, 0.2f, 0.5f);
+        if (playerSpine != null)
+        {
+            SetPlayerAnim(idleAnim);
+            playerSpine.Skeleton.SetColor(new Color(1f, 0.2f, 0.2f, 0.5f));
+        }
         ShowMessage("<color=#F33>GAME OVER</color>", "파일이 완전히 암호화되었습니다...\nR: 다시하기", -1f);
         Debug.Log("[RansomwareBossFight] GAME OVER");
         onGameOver?.Invoke();
