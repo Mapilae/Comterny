@@ -24,7 +24,9 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("Spine 캐릭터가 없을 때만 쓰는 정지 이미지")]
     public Sprite playerSprite;
     public Sprite bossSprite;
+    [Tooltip("보스전 BGM (기본: 05. Sounds/BGM/Boss_Remi_x_WhyDoITry)")]
     public AudioClip bgm;
+    [Range(0f, 1f)] public float bgmVolume = 0.4f;
 
     [Header("플레이어 캐릭터 (본편 Player 프리팹과 같은 Spine)")]
     [Tooltip("User Debug/새 폴더/skeleton_SkeletonData - 본편 Player 프리팹이 쓰는 것과 동일")]
@@ -32,6 +34,17 @@ public class RansomwareBossFight : MonoBehaviour
     public float playerSpineScale = 1.3f;
     public Vector2 playerSpineOffset = Vector2.zero;
     public string idleAnim = "idle", walkAnim = "walk", runAnim = "run";
+
+    [Header("씬에 배치된 오브젝트 (메뉴 Comterny/보스전/씬 오브젝트 생성 으로 자동 생성, 비우면 런타임 생성)")]
+    [Tooltip("바닥(격자 포함). 위치/크기는 arenaHalfSize 기준")]
+    public SpriteRenderer sceneFloor;
+    [Tooltip("플레이어 시작 위치 = 이 오브젝트 위치. 자식에 Spine(SkeletonAnimation)이 있으면 그걸 씀")]
+    public Transform scenePlayer;
+    public Transform sceneBoss;
+    [Tooltip("보스가 옮겨 다니는 컴퓨터들. 0번 = 보스 시작 자리. 자식 'Screen'(SpriteRenderer) + TextMeshPro 라벨. 씬에서 옮기면 그대로 반영")]
+    public List<Transform> sceneComputers = new();
+    [Tooltip("에디터에서만 보이는 미리보기(방화벽 외곽 등). 플레이하면 꺼짐")]
+    public GameObject editorPreview;
 
     [Header("본편 연결")]
     [Tooltip("클리어 후 이동할 씬 (BossFightEntry로 들어오면 그쪽 설정이 우선). 비우면 그 자리에서 R로 다시하기")]
@@ -140,7 +153,7 @@ public class RansomwareBossFight : MonoBehaviour
         public Vector2 a, b;
         public float width;
         public bool active;
-        public SpriteRenderer sr;
+        public Bolt bolt;
     }
 
     private class Fragment
@@ -235,9 +248,13 @@ public class RansomwareBossFight : MonoBehaviour
 
         if (bgm != null)
         {
+            // 본편 BGM(SoundManager)이 이어서 나오면 겹치므로 끄고 보스전 BGM 재생
+            if (SoundManager.instance != null && SoundManager.instance.bgmAudio != null)
+                SoundManager.instance.bgmAudio.Stop();
             bgmSource = gameObject.AddComponent<AudioSource>();
             bgmSource.clip = bgm;
             bgmSource.loop = true;
+            bgmSource.volume = bgmVolume;
             bgmSource.Play();
         }
 
@@ -306,7 +323,7 @@ public class RansomwareBossFight : MonoBehaviour
         cam.orthographic = true;
         cam.orthographicSize = cameraOrthoSize;
         cam.clearFlags = CameraClearFlags.SolidColor;
-        cam.backgroundColor = new Color(0.02f, 0.03f, 0.07f);
+        cam.backgroundColor = BgColor;
         cam.transform.position = new Vector3(0f, 0.25f, -10f);
 
     }
@@ -351,19 +368,36 @@ public class RansomwareBossFight : MonoBehaviour
 
     // =====================================================================
     #region 아레나 / 퍼즐
-    private static readonly Color WallColor = new(1f, 0.42f, 0.18f);
+    // ---- 색 규칙 ----
+    // 배경: 무채색 / 플레이어에게 안 중요한 것: 채도 낮춤 / 장애물·탄(맞으면 아픈 것): 전부 붉은색
+    // 플레이어에게 중요한 것(조각·방화벽 구멍·복호화·HP)만 선명한 색
+    public static readonly Color BgColor = new(0.10f, 0.10f, 0.10f);
+    public static readonly Color FloorColor = new(0.16f, 0.16f, 0.16f);
+    public static readonly Color GridColor = new(0.30f, 0.30f, 0.30f, 0.35f);
+    public static readonly Color DangerColor = new(1f, 0.18f, 0.18f);          // 탄/레이저/채찍
+    public static readonly Color DangerWarnColor = new(1f, 0.25f, 0.25f, 0.3f);
+    // 전기 연출: 플레이어에게 안전한 것(예고선·이동 경로) = 노란 전기 / 위험한 것(실제 판정) = 붉은 전기
+    public static readonly Color SafeElectric = new(1f, 0.85f, 0.2f);
+    public static readonly Color DangerElectric = new(1f, 0.15f, 0.15f);
+    private static readonly Color SafeCore = new(1f, 1f, 0.8f);
+    private static readonly Color DangerCore = new(1f, 0.8f, 0.8f);
+    public static readonly Color WallColor = new(0.72f, 0.16f, 0.16f);         // 방화벽(장애물)
+    public static readonly Color DullColor = new(0.42f, 0.42f, 0.44f);         // 컴퓨터 등 배경 소품
+    public static readonly Color DullTextColor = new(0.55f, 0.55f, 0.55f);
     private static readonly Color FixedColor = new(0.3f, 0.95f, 1f);
-    private static readonly Color BrokenColor = new(1f, 0.15f, 0.3f);
+    private static readonly Color BrokenColor = new(1f, 0.82f, 0.2f);           // 끼워야 할 자리 (목표 → 노랑)
     private const float WallThick = 0.3f;
     private const float GapWidth = 1.7f;
 
     private void BuildArena()
     {
         var r = Arena;
-        MakeSprite("Floor", squareSprite, Vector2.zero, r.size, new Color(0.06f, 0.08f, 0.14f), 0);
+        if (editorPreview != null) editorPreview.SetActive(false);
+        if (sceneFloor != null) return; // 씬에 배치된 바닥/격자 사용
+        MakeSprite("Floor", squareSprite, Vector2.zero, r.size, FloorColor, 0);
 
         // 회로 느낌의 격자
-        var grid = new Color(0.12f, 0.2f, 0.32f, 0.35f);
+        var grid = GridColor;
         for (float x = Mathf.Ceil(r.xMin); x < r.xMax; x += 1f)
             MakeSprite("GridV", squareSprite, new Vector2(x, 0), new Vector2(0.02f, r.height), grid, 1);
         for (float y = Mathf.Ceil(r.yMin); y < r.yMax; y += 1f)
@@ -407,7 +441,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
 
         BuildWalls();
-        MakeText("CEO Room", "<color=#FC6>▲ 회장실</color>", new Vector2(0f, r.yMax + 0.5f), 2.6f, Color.white, 20);
+        MakeText("CEO Room", "<color=#999>▲ 회장실</color>", new Vector2(0f, r.yMax + 0.5f), 2.6f, Color.white, 20);
 
         // 코드 조각: 아레나 안쪽 무작위 위치 (보스/플레이어 시작점 근처는 피함)
         for (int i = 0; i < count; i++)
@@ -521,13 +555,27 @@ public class RansomwareBossFight : MonoBehaviour
     private void BuildPlayer()
     {
         playerPos = PlayerStart;
-        var sr = MakeSprite("Player", playerSprite != null ? playerSprite : circleSprite, playerPos,
-            playerSprite != null ? new Vector2(0.95f, 0.95f) : new Vector2(0.6f, 0.6f),
-            playerSprite != null ? Color.white : new Color(0.6f, 0.9f, 1f), 12);
-        player = sr.transform;
+        SpriteRenderer sr;
+        if (scenePlayer != null)
+        {
+            // 씬에 배치된 플레이어 사용 (시작 위치도 씬 기준)
+            player = scenePlayer;
+            playerPos = scenePlayer.position;
+            sr = scenePlayer.GetComponent<SpriteRenderer>();
+            if (sr == null) { sr = scenePlayer.gameObject.AddComponent<SpriteRenderer>(); sr.enabled = false; }
+            playerSpine = scenePlayer.GetComponentInChildren<SkeletonAnimation>();
+            if (playerSpine != null) { sr.enabled = false; SetPlayerAnim(idleAnim); }
+        }
+        else
+        {
+            sr = MakeSprite("Player", playerSprite != null ? playerSprite : circleSprite, playerPos,
+                playerSprite != null ? new Vector2(0.95f, 0.95f) : new Vector2(0.6f, 0.6f),
+                playerSprite != null ? Color.white : new Color(0.6f, 0.9f, 1f), 12);
+            player = sr.transform;
+        }
         playerSr = sr;
 
-        if (playerSkeleton != null)
+        if (playerSpine == null && playerSkeleton != null)
         {
             // 본편 Player 프리팹과 같은 Spine 캐릭터 (idle / walk / run 모션)
             playerSpine = SkeletonAnimation.NewSkeletonAnimationGameObject(playerSkeleton);
@@ -556,12 +604,44 @@ public class RansomwareBossFight : MonoBehaviour
     private Vector2 PlayerStart => new(0f, -arenaHalfSize.y + 1.5f);
     private Vector2 BossSpot => new(0f, arenaHalfSize.y - 1.9f);
 
-    private static readonly Color ScreenOk = new(0.25f, 0.85f, 1f);
-    private static readonly Color ScreenInfected = new(1f, 0.15f, 0.3f);
+    /// <summary>컴퓨터(책상) 위치 → 보스가 떠 있는 자리</summary>
+    public static readonly Vector2 ComputerBossOffset = new(0f, 0.75f);
+    /// <summary>기본 컴퓨터 배치 (보스 자리 기준). 0번 = 시작 자리</summary>
+    public List<Vector2> DefaultComputerSpots()
+    {
+        float hx = arenaHalfSize.x, hy = arenaHalfSize.y;
+        return new List<Vector2>
+        {
+            BossSpot,
+            new(-hx * 0.62f, hy * 0.55f), new(hx * 0.62f, hy * 0.55f),
+            new(-hx * 0.62f, hy * 0.08f), new(hx * 0.62f, hy * 0.08f),
+            new(0f, -hy * 0.28f),
+        };
+    }
+    public Vector2 DefaultPlayerStart => PlayerStart;
+
+    public static readonly Color ScreenOk = new(0.42f, 0.45f, 0.46f);       // 채도 낮은 회청색
+    public static readonly Color ScreenInfected = new(0.55f, 0.2f, 0.2f);  // 보스가 있는 PC (탁한 빨강)
 
     /// <summary>랜섬웨어가 옮겨 다니는 사내 컴퓨터들. 0번이 처음 자리(방 맨 위).</summary>
     private void BuildComputers()
     {
+        if (sceneComputers != null && sceneComputers.Count > 0)
+        {
+            foreach (var t in sceneComputers)
+            {
+                if (t == null) continue;
+                var scrT = t.Find("Screen");
+                computers.Add(new Computer
+                {
+                    pos = (Vector2)t.position + ComputerBossOffset,
+                    screen = scrT != null ? scrT.GetComponent<SpriteRenderer>() : t.GetComponentInChildren<SpriteRenderer>(),
+                    label = t.GetComponentInChildren<TextMeshPro>(),
+                });
+            }
+            if (computers.Count > 0) return;
+        }
+
         float hx = arenaHalfSize.x, hy = arenaHalfSize.y;
         var spots = new List<Vector2>
         {
@@ -572,11 +652,11 @@ public class RansomwareBossFight : MonoBehaviour
         };
         foreach (var c in spots)
         {
-            var desk = c + new Vector2(0f, -0.75f); // 보스는 모니터 위에 떠 있음
-            MakeSprite("PC_Body", squareSprite, desk, new Vector2(0.95f, 0.65f), new Color(0.16f, 0.18f, 0.24f), 3);
-            var scr = MakeSprite("PC_Screen", squareSprite, desk + new Vector2(0, 0.04f), new Vector2(0.78f, 0.45f), ScreenOk * 0.6f, 4);
-            MakeSprite("PC_Stand", squareSprite, desk + new Vector2(0, -0.42f), new Vector2(0.4f, 0.12f), new Color(0.16f, 0.18f, 0.24f), 3);
-            var lbl = MakeText("PC_Label", $"PC-{Random.Range(0x10, 0xFF):X2}", desk + new Vector2(0, -0.62f), 1.6f, new Color(0.6f, 0.75f, 0.85f), 4);
+            var desk = c - ComputerBossOffset; // 보스는 모니터 위에 떠 있음
+            MakeSprite("PC_Body", squareSprite, desk, new Vector2(0.95f, 0.65f), new Color(0.22f, 0.22f, 0.23f), 3);
+            var scr = MakeSprite("PC_Screen", squareSprite, desk + new Vector2(0, 0.04f), new Vector2(0.78f, 0.45f), ScreenOk, 4);
+            MakeSprite("PC_Stand", squareSprite, desk + new Vector2(0, -0.42f), new Vector2(0.4f, 0.12f), new Color(0.22f, 0.22f, 0.23f), 3);
+            var lbl = MakeText("PC_Label", $"PC-{Random.Range(0x10, 0xFF):X2}", desk + new Vector2(0, -0.62f), 1.6f, DullTextColor, 4);
             computers.Add(new Computer { pos = c, screen = scr, label = lbl });
         }
     }
@@ -586,8 +666,8 @@ public class RansomwareBossFight : MonoBehaviour
         if (idx < 0 || idx >= computers.Count) return;
         var c = computers[idx];
         c.infected = on;
-        c.screen.color = on ? ScreenInfected : ScreenOk * 0.6f;
-        c.label.color = on ? ScreenInfected : new Color(0.6f, 0.75f, 0.85f);
+        if (c.screen != null) c.screen.color = on ? ScreenInfected : ScreenOk;
+        if (c.label != null) c.label.color = on ? ScreenInfected : DullTextColor;
     }
 
     private void BuildBoss()
@@ -596,13 +676,23 @@ public class RansomwareBossFight : MonoBehaviour
         bossComputer = 0;
         bossHome = computers[0].pos;
         bossPos = bossHome;
-        bossSr = MakeSprite("Ransomware", bossSprite != null ? bossSprite : circleSprite, bossPos,
-            bossSprite != null ? new Vector2(1.7f, 1.7f) : new Vector2(1.2f, 1.2f),
-            bossSprite != null ? Color.white : new Color(0.9f, 0.2f, 0.5f), 10);
-        boss = bossSr.transform;
+        if (sceneBoss != null)
+        {
+            boss = sceneBoss;
+            bossSr = sceneBoss.GetComponent<SpriteRenderer>();
+            boss.position = bossPos;
+        }
+        else
+        {
+            bossSr = MakeSprite("Ransomware", bossSprite != null ? bossSprite : circleSprite, bossPos,
+                bossSprite != null ? new Vector2(1.7f, 1.7f) : new Vector2(1.2f, 1.2f),
+                bossSprite != null ? Color.white : new Color(0.9f, 0.2f, 0.5f), 10);
+            boss = bossSr.transform;
+        }
         bossBaseScale = boss.localScale;
         SetInfected(0, true);
-        var bossLabel = MakeText("BossName", "<color=#F5A>RANSOMWARE</color>", bossPos + new Vector2(0, 1.15f), 2.4f, Color.white, 21);
+        if (boss.GetComponentInChildren<TextMeshPro>() != null) return; // 씬에 이름표가 이미 있음
+        var bossLabel = MakeText("BossName", "<color=#C88>RANSOMWARE</color>", bossPos + new Vector2(0, 1.15f), 2.4f, Color.white, 21);
         bossLabel.transform.SetParent(boss, true);
     }
 
@@ -622,17 +712,17 @@ public class RansomwareBossFight : MonoBehaviour
         // HUD 뒷배경 띠 (스크롤되는 맵 위에서도 글자가 잘 보이도록)
         foreach (float by in new[] { halfH - 0.35f, -halfH + 0.25f })
         {
-            var band = MakeSprite("HUD_Band", squareSprite, Vector2.zero, new Vector2(halfW * 2f + 1f, 0.7f), new Color(0.01f, 0.02f, 0.05f, 0.8f), 29, cam.transform);
+            var band = MakeSprite("HUD_Band", squareSprite, Vector2.zero, new Vector2(halfW * 2f + 1f, 0.7f), new Color(0.05f, 0.05f, 0.05f, 0.85f), 29, cam.transform);
             band.transform.localPosition = new Vector3(0f, by, 10f);
         }
         hpText = MakeHudText("HUD_HP", "", new Vector2(-halfW + 0.3f + 9f, top), 3.2f, Color.white, 30, TextAlignmentOptions.Left);
         hintText = MakeHudText("HUD_Hint", $"int* fw = 0x{baseAddr:X4};  <size=80%>// sizeof(int)=4</size>",
-            new Vector2(0f, top), 3f, new Color(0.75f, 0.9f, 1f), 30);
+            new Vector2(0f, top), 3f, new Color(0.85f, 0.85f, 0.85f), 30);
         progressText = MakeHudText("HUD_Progress", "", new Vector2(halfW - 0.3f - 9f, top), 3.2f, Color.white, 30, TextAlignmentOptions.Right);
-        helpText = MakeHudText("HUD_Help", "WASD/방향키 이동   Shift 천천히   R 재시작" + (debugKeys ? "   <color=#556>[F1 조각자동 F2 무적 F3 피격]</color>" : ""),
-            new Vector2(0f, -halfH + 0.25f), 2.2f, new Color(0.6f, 0.65f, 0.75f), 30);
+        helpText = MakeHudText("HUD_Help", "WASD/방향키 이동   Shift 천천히   R 재시작" + (debugKeys ? "   <color=#555>[F1 조각자동 F2 무적 F3 피격]</color>" : ""),
+            new Vector2(0f, -halfH + 0.25f), 2.2f, DullTextColor, 30);
         msgText = MakeHudText("HUD_Msg", "", new Vector2(0f, 0.6f), 5.5f, Color.white, 40);
-        subMsgText = MakeHudText("HUD_SubMsg", "", new Vector2(0f, -0.5f), 3f, new Color(0.85f, 0.85f, 0.9f), 40);
+        subMsgText = MakeHudText("HUD_SubMsg", "", new Vector2(0f, -0.5f), 3f, new Color(0.85f, 0.85f, 0.85f), 40);
         msgText.rectTransform.sizeDelta = new Vector2(18f, 3f);
         subMsgText.rectTransform.sizeDelta = new Vector2(18f, 3f);
 
@@ -666,7 +756,7 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
-        ShowMessage("<color=#F5A>랜섬웨어</color>", $"\"방화벽은 이미 부서졌어. {baseName}, 네 파일도 곧 내 거야!\"", 2.6f);
+        ShowMessage("<color=#C88>랜섬웨어</color>", $"\"방화벽은 이미 부서졌어. {baseName}, 네 파일도 곧 내 거야!\"", 2.6f);
         yield return new WaitForSeconds(2.6f);
         ShowMessage("코드 조각을 맞는 주소에 끼워 방화벽을 복구하라!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
@@ -1068,6 +1158,8 @@ public class RansomwareBossFight : MonoBehaviour
     /// <summary>자동 테스트용: 다음 이동 강제</summary>
     public void DebugTeleport() { if (state == FightState.Fight && !bossTransit) StartCoroutine(TeleportRoutine()); }
     public void DebugSetPlayerPos(Vector2 p) => playerPos = p;
+    public void DebugChainLasers() { if (state == FightState.Fight) StartCoroutine(ChainLasers()); }
+    public bool BgmPlaying => bgmSource != null && bgmSource.isPlaying;
     public string CurrentPlayerAnim => playerAnim;
     /// <summary>클리어 후 갈 씬: BossFightEntry로 들어왔으면 그 설정, 아니면 인스펙터 값</summary>
     public string NextScene => !string.IsNullOrEmpty(BossFightEntry.PendingNextScene) ? BossFightEntry.PendingNextScene : nextSceneOnClear;
@@ -1180,8 +1272,8 @@ public class RansomwareBossFight : MonoBehaviour
 
         // 1) 목표 컴퓨터 해킹 + 전기 선이 뻗어나감
         SetInfected(to, true);
-        computers[to].label.text = "HACKED";
-        var wire = MakeBolt(new Color(0.35f, 0.9f, 1f, 0.55f), 0.16f, 0.05f, 30);
+        if (computers[to].label != null) computers[to].label.text = "HACKED";
+        var wire = MakeBolt(SafeElectric * new Color(1, 1, 1, 0.6f), 0.16f, 0.05f, 30, SafeCore); // 이동 경로(무해) → 노란 전기
         const float connectTime = 0.25f;
         for (float t = 0; t < connectTime; t += Time.deltaTime)
         {
@@ -1201,7 +1293,7 @@ public class RansomwareBossFight : MonoBehaviour
         SetInfected(bossComputer, false);
 
         // 3) 전류 덩어리가 전선을 타고 이동 (wireTravelTime)
-        var spark = MakeSprite("WireSpark", circleSprite, from, Vector2.one * 0.5f, new Color(1f, 0.3f, 0.6f), 31);
+        var spark = MakeSprite("WireSpark", circleSprite, from, Vector2.one * 0.5f, SafeElectric, 31);
         float travel = Mathf.Max(0.1f, wireTravelTime - 0.15f);
         for (float t = 0; t < travel; t += Time.deltaTime)
         {
@@ -1223,7 +1315,7 @@ public class RansomwareBossFight : MonoBehaviour
         bossTransit = false;
         DestroyBolt(wire);
         shakeTime = Mathf.Max(shakeTime, 0.15f);
-        computers[to].label.text = "LOCKED";
+        if (computers[to].label != null) computers[to].label.text = "LOCKED";
         for (float t = 0; t < 0.18f; t += Time.deltaTime)
         {
             float k = t / 0.18f;
@@ -1256,7 +1348,7 @@ public class RansomwareBossFight : MonoBehaviour
         float dir = Random.value < 0.5f ? 1f : -1f;
 
         // 예고: 회색 부채꼴 윤곽 + 보스가 파르르 떨림
-        var tele = MakeBolt(new Color(1f, 0.95f, 0.4f, 0.35f), 0.05f, 0f, 14);
+        var tele = MakeBolt(SafeElectric * new Color(1, 1, 1, 0.35f), 0.05f, 0f, 14);
         tele.jitter = 0f;
         for (float t = 0; t < whipTelegraph; t += Time.deltaTime)
         {
@@ -1269,14 +1361,14 @@ public class RansomwareBossFight : MonoBehaviour
             fan.Add(bossPos);
             SetBoltRaw(tele, fan);
             float blink = 0.2f + 0.25f * Mathf.Abs(Mathf.Sin(t * 18f));
-            SetBoltColor(tele, new Color(1f, 0.95f, 0.4f, blink));
+            SetBoltColor(tele, new Color(SafeElectric.r, SafeElectric.g, SafeElectric.b, blink));
             boss.position = bossPos + Random.insideUnitCircle * 0.04f;
             yield return null;
         }
         DestroyBolt(tele);
 
         // 휘두르기
-        var whip = MakeBolt(new Color(1f, 0.9f, 0.3f, 0.75f), 0.22f, 0.07f, 30);
+        var whip = MakeBolt(DangerElectric * new Color(1, 1, 1, 0.85f), 0.22f, 0.07f, 30, DangerCore);
         whip.jitter = 0.16f;
         bool hit = false;
         for (float t = 0; t < whipSweepTime; t += Time.deltaTime)
@@ -1312,12 +1404,12 @@ public class RansomwareBossFight : MonoBehaviour
 
     // =====================================================================
     // 전기 선 그리기 헬퍼
-    private Bolt MakeBolt(Color glowColor, float glowWidth, float coreWidth, int order)
+    private Bolt MakeBolt(Color glowColor, float glowWidth, float coreWidth, int order, Color? coreColor = null)
     {
         var b = new Bolt { go = new GameObject("Bolt") };
         b.go.transform.SetParent(root, false);
         b.glow = NewLine(b.go.transform, glowColor, glowWidth, order);
-        if (coreWidth > 0f) b.core = NewLine(b.go.transform, new Color(1f, 1f, 1f, 0.95f), coreWidth, order + 1);
+        if (coreWidth > 0f) b.core = NewLine(b.go.transform, coreColor ?? new Color(1f, 1f, 1f, 0.95f), coreWidth, order + 1);
         bolts.Add(b);
         return b;
     }
@@ -1339,6 +1431,17 @@ public class RansomwareBossFight : MonoBehaviour
     }
 
     private static void SetBoltColor(Bolt b, Color c) => b.glow.startColor = b.glow.endColor = c;
+
+    private static void SetBoltStyle(Bolt b, Color glow, float glowWidth, float coreWidth, Color core)
+    {
+        b.glow.startColor = b.glow.endColor = glow;
+        b.glow.startWidth = b.glow.endWidth = glowWidth;
+        if (b.core != null)
+        {
+            b.core.startColor = b.core.endColor = core;
+            b.core.startWidth = b.core.endWidth = coreWidth;
+        }
+    }
 
     /// <summary>route를 따라 length만큼만 그린다 (뻗어나가는 연출). 지글거림은 UpdateBolts에서.</summary>
     private void SetBoltPath(Bolt b, List<Vector2> route, float length)
@@ -1416,7 +1519,7 @@ public class RansomwareBossFight : MonoBehaviour
             int n = Cnt(9 + Phase * 1.5f);
             float off = Random.Range(0f, 360f);
             for (int i = 0; i < n; i++)
-                Fire(bossPos, off + 360f / n * i, 2.0f + Phase * 0.12f, new Color(1f, 0.3f, 0.55f));
+                Fire(bossPos, off + 360f / n * i, 2.0f + Phase * 0.12f, DangerColor);
             yield return new WaitForSeconds(0.8f);
         }
     }
@@ -1429,7 +1532,7 @@ public class RansomwareBossFight : MonoBehaviour
         while (t < dur)
         {
             for (int a = 0; a < arms; a++)
-                Fire(bossPos, ang + 360f / arms * a, 2.2f + Phase * 0.1f, new Color(1f, 0.75f, 0.2f));
+                Fire(bossPos, ang + 360f / arms * a, 2.2f + Phase * 0.1f, DangerColor);
             ang += 19f * dir;
             t += 0.15f;
             yield return new WaitForSeconds(0.15f);
@@ -1446,7 +1549,7 @@ public class RansomwareBossFight : MonoBehaviour
             int n = Mathf.Max(2, Cnt(3 + Phase * 0.5f));
             float spread = 36f;
             for (int i = 0; i < n; i++)
-                Fire(bossPos, baseAng - spread / 2f + spread / (n - 1) * i, 2.8f + Phase * 0.15f, new Color(0.75f, 0.4f, 1f));
+                Fire(bossPos, baseAng - spread / 2f + spread / (n - 1) * i, 2.8f + Phase * 0.15f, DangerColor);
             yield return new WaitForSeconds(0.7f);
         }
     }
@@ -1473,8 +1576,10 @@ public class RansomwareBossFight : MonoBehaviour
 
             ClipToRect(r, ref a, ref b);
             var L = new Laser { a = a, b = b, width = 0.26f };
-            L.sr = MakeSprite("Chain", squareSprite, (a + b) / 2f, new Vector2(Vector2.Distance(a, b), 0.06f), new Color(0.7f, 0.7f, 0.7f, 0.5f), 14);
-            L.sr.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(b.y - a.y, b.x - a.x) * Mathf.Rad2Deg);
+            // 예고: 가는 노란 전기 (아직 안전)
+            L.bolt = MakeBolt(SafeElectric * new Color(1, 1, 1, 0.55f), 0.07f, 0.02f, 14, SafeCore);
+            L.bolt.jitter = 0.05f;
+            SetBoltPath(L.bolt, new List<Vector2> { a, b }, float.MaxValue);
             made.Add(L);
             lasers.Add(L);
         }
@@ -1483,16 +1588,16 @@ public class RansomwareBossFight : MonoBehaviour
         foreach (var L in made)
         {
             L.active = true;
-            L.sr.color = new Color(1f, 0.25f, 0.35f, 0.95f);
-            var s = L.sr.transform.localScale;
-            L.sr.transform.localScale = new Vector3(s.x, L.width / squareSprite.bounds.size.y, 1);
+            // 실체화: 굵은 붉은 전기 (판정 있음)
+            SetBoltStyle(L.bolt, DangerElectric * new Color(1, 1, 1, 0.85f), L.width, 0.07f, DangerCore);
+            L.bolt.jitter = 0.12f;
         }
         shakeTime = Mathf.Max(shakeTime, 0.12f);
         yield return new WaitForSeconds(0.45f);
         foreach (var L in made)
         {
             lasers.Remove(L);
-            if (L.sr != null) Destroy(L.sr.gameObject);
+            if (L.bolt != null) DestroyBolt(L.bolt);
         }
     }
 
@@ -1602,7 +1707,7 @@ public class RansomwareBossFight : MonoBehaviour
     private void ClearAllBullets()
     {
         foreach (var b in bullets) if (b.alive) Kill(b);
-        foreach (var L in lasers) if (L.sr != null) Destroy(L.sr.gameObject);
+        foreach (var L in lasers) if (L.bolt?.go != null) Destroy(L.bolt.go);
         lasers.Clear();
         foreach (var b in bolts) if (b.go != null) Destroy(b.go);
         bolts.Clear();
