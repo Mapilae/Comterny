@@ -64,6 +64,9 @@ public class RansomwareBossFight : MonoBehaviour
     public float playerSpeed = 5f;
     public float playerHitRadius = 0.16f;
     public float invincibleTime = 2f;
+    [Tooltip("맞았을 때 화면 흔들림 세기 (0 = 없음)")]
+    public float hitShakeAmount = 0.03f;
+    public float hitShakeTime = 0.12f;
 
     [Header("카메라 (버스정류장 씬처럼 플레이어를 따라 세로 스크롤)")]
     public float cameraOrthoSize = 4f;
@@ -181,7 +184,7 @@ public class RansomwareBossFight : MonoBehaviour
     private Camera cam;
     private Vector2 camFollow, camVel;
     private readonly List<(Transform target, TextMeshPro marker)> offscreenMarkers = new();
-    private float shakeTime;
+    private float shakeTime, shakeAmp = 0.12f;
     private Sprite squareSprite, circleSprite;
     private Material spriteMat;
 
@@ -911,7 +914,8 @@ public class RansomwareBossFight : MonoBehaviour
         if (shakeTime > 0)
         {
             shakeTime -= Time.deltaTime;
-            shake = Random.insideUnitCircle * 0.12f;
+            shake = Random.insideUnitCircle * shakeAmp;
+            if (shakeTime <= 0) shakeAmp = 0.12f;
         }
         cam.transform.position = new Vector3(camFollow.x + shake.x, camFollow.y + shake.y, -10f);
         UpdateOffscreenMarkers();
@@ -1004,7 +1008,9 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (state != FightState.Fight || Time.time < invincibleUntil || godMode) return;
 
-        shakeTime = 0.25f;
+        // 피격 흔들림은 아주 살짝만
+        shakeTime = hitShakeTime;
+        shakeAmp = hitShakeAmount;
         if (corruption >= BossNameCorruptor.MaxLevel)
         {
             corruption = BossNameCorruptor.MaxLevel + 1;
