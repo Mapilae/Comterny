@@ -68,6 +68,32 @@ public class RansomwareBossFight : MonoBehaviour
     [Header("보스")]
     public float bossContactRadius = 0.55f;
 
+    [Header("보스 이동: 공격 후 무작위 컴퓨터를 해킹하며 전선 타고 순간이동")]
+    public bool bossTeleport = true;
+    [Tooltip("패턴 공격이 끝나고 이동을 시작하기까지")]
+    public float teleportDelayAfterAttack = 0.7f;
+    [Tooltip("전기 선이 이어진 뒤 보스가 도착 컴퓨터에 나타나기까지 (전선을 타고 가는 시간)")]
+    public float wireTravelTime = 1f;
+    [Tooltip("도착 컴퓨터는 플레이어와 최소 이만큼 떨어진 곳에서 고른다")]
+    public float teleportMinPlayerDistance = 3.2f;
+
+    [Header("바이러스 탄: 멀리 갈수록 커짐 (내부 네트워크를 타고 번지는 느낌)")]
+    [Tooltip("1유닛 날아갈 때마다 커지는 비율")]
+    public float virusGrowPerUnit = 0.14f;
+    [Tooltip("최대 배율")]
+    public float virusMaxScale = 2.4f;
+
+    [Header("근접 공격: 전기 채찍")]
+    public bool electricWhip = true;
+    [Tooltip("플레이어가 이 안에 들어오면 채찍을 휘두른다")]
+    public float whipRange = 2.4f;
+    public float whipLength = 3.0f;
+    [Tooltip("휘두르기 전 예고(부채꼴) 시간")]
+    public float whipTelegraph = 0.6f;
+    public float whipSweepAngle = 110f;
+    public float whipSweepTime = 0.28f;
+    public float whipCooldown = 3f;
+
     [Header("디버그 (테스트용 단축키)")]
     [Tooltip("F1: 조각 하나 자동 배치 / F2: 무적 토글 / F3: 피격 테스트")]
     public bool debugKeys = true;
@@ -86,10 +112,27 @@ public class RansomwareBossFight : MonoBehaviour
 
     private class Bullet
     {
-        public Vector2 pos, vel;
-        public float radius;
+        public Vector2 pos, vel, origin;
+        public float radius, baseRadius, baseAlpha;
         public SpriteRenderer sr;
         public bool alive;
+    }
+
+    /// <summary>지글지글한 전기 선 (LineRenderer 2겹: 바깥 글로우 + 하얀 코어)</summary>
+    private class Bolt
+    {
+        public LineRenderer glow, core;
+        public readonly List<Vector2> path = new();
+        public float jitter = 0.12f, step = 0.3f, nextRefresh;
+        public GameObject go;
+    }
+
+    private class Computer
+    {
+        public Vector2 pos;
+        public SpriteRenderer screen;
+        public TextMeshPro label;
+        public bool infected;
     }
 
     private class Laser
@@ -145,6 +188,12 @@ public class RansomwareBossFight : MonoBehaviour
     private Transform boss;
     private SpriteRenderer bossSr;
     private Vector2 bossPos, bossHome;
+    private Vector3 bossBaseScale;
+    private bool bossTransit, whipping;
+    private float whipReadyAt;
+    private int bossComputer;
+    private readonly List<Computer> computers = new();
+    private readonly List<Bolt> bolts = new();
 
     private readonly List<Bullet> bullets = new();
     private readonly List<Laser> lasers = new();
@@ -507,14 +556,52 @@ public class RansomwareBossFight : MonoBehaviour
     private Vector2 PlayerStart => new(0f, -arenaHalfSize.y + 1.5f);
     private Vector2 BossSpot => new(0f, arenaHalfSize.y - 1.9f);
 
+    private static readonly Color ScreenOk = new(0.25f, 0.85f, 1f);
+    private static readonly Color ScreenInfected = new(1f, 0.15f, 0.3f);
+
+    /// <summary>랜섬웨어가 옮겨 다니는 사내 컴퓨터들. 0번이 처음 자리(방 맨 위).</summary>
+    private void BuildComputers()
+    {
+        float hx = arenaHalfSize.x, hy = arenaHalfSize.y;
+        var spots = new List<Vector2>
+        {
+            BossSpot,
+            new(-hx * 0.62f, hy * 0.55f), new(hx * 0.62f, hy * 0.55f),
+            new(-hx * 0.62f, hy * 0.08f), new(hx * 0.62f, hy * 0.08f),
+            new(0f, -hy * 0.28f),
+        };
+        foreach (var c in spots)
+        {
+            var desk = c + new Vector2(0f, -0.75f); // 보스는 모니터 위에 떠 있음
+            MakeSprite("PC_Body", squareSprite, desk, new Vector2(0.95f, 0.65f), new Color(0.16f, 0.18f, 0.24f), 3);
+            var scr = MakeSprite("PC_Screen", squareSprite, desk + new Vector2(0, 0.04f), new Vector2(0.78f, 0.45f), ScreenOk * 0.6f, 4);
+            MakeSprite("PC_Stand", squareSprite, desk + new Vector2(0, -0.42f), new Vector2(0.4f, 0.12f), new Color(0.16f, 0.18f, 0.24f), 3);
+            var lbl = MakeText("PC_Label", $"PC-{Random.Range(0x10, 0xFF):X2}", desk + new Vector2(0, -0.62f), 1.6f, new Color(0.6f, 0.75f, 0.85f), 4);
+            computers.Add(new Computer { pos = c, screen = scr, label = lbl });
+        }
+    }
+
+    private void SetInfected(int idx, bool on)
+    {
+        if (idx < 0 || idx >= computers.Count) return;
+        var c = computers[idx];
+        c.infected = on;
+        c.screen.color = on ? ScreenInfected : ScreenOk * 0.6f;
+        c.label.color = on ? ScreenInfected : new Color(0.6f, 0.75f, 0.85f);
+    }
+
     private void BuildBoss()
     {
-        bossHome = BossSpot;
+        BuildComputers();
+        bossComputer = 0;
+        bossHome = computers[0].pos;
         bossPos = bossHome;
         bossSr = MakeSprite("Ransomware", bossSprite != null ? bossSprite : circleSprite, bossPos,
             bossSprite != null ? new Vector2(1.7f, 1.7f) : new Vector2(1.2f, 1.2f),
             bossSprite != null ? Color.white : new Color(0.9f, 0.2f, 0.5f), 10);
         boss = bossSr.transform;
+        bossBaseScale = boss.localScale;
+        SetInfected(0, true);
         var bossLabel = MakeText("BossName", "<color=#F5A>RANSOMWARE</color>", bossPos + new Vector2(0, 1.15f), 2.4f, Color.white, 21);
         bossLabel.transform.SetParent(boss, true);
     }
@@ -693,12 +780,22 @@ public class RansomwareBossFight : MonoBehaviour
 
     private void UpdateBoss(float dt)
     {
-        // 메가 사탄처럼 방 맨 위에 고정. 살짝 둥실거리는 연출만.
-        bossPos = bossHome + new Vector2(0f, Mathf.Sin(Time.time * 1.6f) * 0.08f);
-        boss.position = bossPos;
+        // 컴퓨터 위에 떠서 살짝 둥실. 이동(전선) 중에는 TeleportRoutine이 위치를 잡는다.
+        if (!bossTransit)
+        {
+            bossPos = bossHome + new Vector2(0f, Mathf.Sin(Time.time * 1.6f) * 0.08f);
+            boss.position = bossPos;
+        }
 
-        if (state == FightState.Fight && Vector2.Distance(bossPos, playerPos) < bossContactRadius + playerHitRadius)
+        if (state == FightState.Fight && !bossTransit && Vector2.Distance(bossPos, playerPos) < bossContactRadius + playerHitRadius)
             OnPlayerHit();
+
+        // 근접: 가까이 오면 전기 채찍
+        if (electricWhip && state == FightState.Fight && !bossTransit && !whipping && Time.time >= whipReadyAt
+            && Vector2.Distance(bossPos, playerPos) < whipRange)
+            StartCoroutine(ElectricWhip());
+
+        UpdateBolts();
     }
 
     private Vector2 CameraTarget()
@@ -963,6 +1060,14 @@ public class RansomwareBossFight : MonoBehaviour
     /// <summary>자동 테스트용 가상 입력 (0이면 키보드)</summary>
     public Vector2 DebugMoveInput { get; set; }
     public string PlayerName => baseName;
+    public bool BossInTransit => bossTransit;
+    public bool BossWhipping => whipping;
+    public Vector2 BossPosition => bossPos;
+    public int BossComputer => bossComputer;
+    public float MaxBulletRadius { get { float m = 0; foreach (var b in bullets) if (b.alive) m = Mathf.Max(m, b.radius); return m; } }
+    /// <summary>자동 테스트용: 다음 이동 강제</summary>
+    public void DebugTeleport() { if (state == FightState.Fight && !bossTransit) StartCoroutine(TeleportRoutine()); }
+    public void DebugSetPlayerPos(Vector2 p) => playerPos = p;
     public string CurrentPlayerAnim => playerAnim;
     /// <summary>클리어 후 갈 씬: BossFightEntry로 들어왔으면 그 설정, 아니면 인스펙터 값</summary>
     public string NextScene => !string.IsNullOrEmpty(BossFightEntry.PendingNextScene) ? BossFightEntry.PendingNextScene : nextSceneOnClear;
@@ -1005,6 +1110,11 @@ public class RansomwareBossFight : MonoBehaviour
     {
         state = FightState.GameOver;
         StopAllCoroutines();
+        foreach (var b in bolts) if (b.go != null) Destroy(b.go);
+        bolts.Clear();
+        whipping = false;
+        if (bossTransit) { bossTransit = false; bossPos = bossHome; boss.position = bossPos; }
+        boss.localScale = bossBaseScale;
         playerNameLabel.text = BossNameCorruptor.RandomHex(8);
         playerSr.color = new Color(1f, 0.2f, 0.2f, 0.5f);
         if (playerSpine != null)
@@ -1036,8 +1146,262 @@ public class RansomwareBossFight : MonoBehaviour
                 case 2: yield return AimedFan(); break;
                 case 3: yield return ChainLasers(); break;
             }
-            yield return new WaitForSeconds(Mathf.Max(0.9f, 1.8f - filledCount * 0.2f) * patternRestScale);
+            float rest = Mathf.Max(0.9f, 1.8f - filledCount * 0.2f) * patternRestScale;
+            if (bossTeleport && state == FightState.Fight)
+            {
+                yield return new WaitForSeconds(teleportDelayAfterAttack);
+                while (whipping) yield return null;
+                yield return TeleportRoutine();
+                rest = Mathf.Max(0.4f, rest - teleportDelayAfterAttack);
+            }
+            yield return new WaitForSeconds(rest);
         }
+    }
+
+    // =====================================================================
+    // 보스 순간이동: 무작위 컴퓨터를 공격(해킹) → 전기 선 연결 → 전선을 타고 1초 뒤 등장
+    private IEnumerator TeleportRoutine()
+    {
+        var cand = new List<int>();
+        for (int i = 0; i < computers.Count; i++)
+            if (i != bossComputer && Vector2.Distance(computers[i].pos, playerPos) >= teleportMinPlayerDistance) cand.Add(i);
+        if (cand.Count == 0)
+            for (int i = 0; i < computers.Count; i++) if (i != bossComputer) cand.Add(i);
+        int to = cand[Random.Range(0, cand.Count)];
+        Vector2 from = bossPos, dest = computers[to].pos;
+
+        // 회로 배선처럼 ㄱ자로 꺾이는 경로
+        var route = new List<Vector2> { from };
+        if (Mathf.Abs(from.x - dest.x) > 0.3f && Mathf.Abs(from.y - dest.y) > 0.3f)
+            route.Add(new Vector2(dest.x, from.y));
+        route.Add(dest);
+        float total = 0f;
+        for (int i = 1; i < route.Count; i++) total += Vector2.Distance(route[i - 1], route[i]);
+
+        // 1) 목표 컴퓨터 해킹 + 전기 선이 뻗어나감
+        SetInfected(to, true);
+        computers[to].label.text = "HACKED";
+        var wire = MakeBolt(new Color(0.35f, 0.9f, 1f, 0.55f), 0.16f, 0.05f, 30);
+        const float connectTime = 0.25f;
+        for (float t = 0; t < connectTime; t += Time.deltaTime)
+        {
+            SetBoltPath(wire, route, Mathf.Clamp01(t / connectTime) * total);
+            yield return null;
+        }
+        SetBoltPath(wire, route, total);
+
+        // 2) 보스가 전선 속으로 빨려 들어감
+        bossTransit = true;
+        for (float t = 0; t < 0.15f; t += Time.deltaTime)
+        {
+            boss.localScale = bossBaseScale * (1f - t / 0.15f);
+            yield return null;
+        }
+        boss.localScale = Vector3.zero;
+        SetInfected(bossComputer, false);
+
+        // 3) 전류 덩어리가 전선을 타고 이동 (wireTravelTime)
+        var spark = MakeSprite("WireSpark", circleSprite, from, Vector2.one * 0.5f, new Color(1f, 0.3f, 0.6f), 31);
+        float travel = Mathf.Max(0.1f, wireTravelTime - 0.15f);
+        for (float t = 0; t < travel; t += Time.deltaTime)
+        {
+            float k = Mathf.SmoothStep(0f, 1f, t / travel);
+            bossPos = PointOnRoute(route, k * total);
+            boss.position = bossPos;
+            spark.transform.position = bossPos;
+            float pulse = 0.45f + 0.15f * Mathf.Sin(Time.time * 40f);
+            spark.transform.localScale = Vector3.one * (pulse / circleSprite.bounds.size.x);
+            yield return null;
+        }
+        Destroy(spark.gameObject);
+
+        // 4) 도착: 튀어나오듯 등장
+        bossComputer = to;
+        bossHome = dest;
+        bossPos = dest;
+        boss.position = dest;
+        bossTransit = false;
+        DestroyBolt(wire);
+        shakeTime = Mathf.Max(shakeTime, 0.15f);
+        computers[to].label.text = "LOCKED";
+        for (float t = 0; t < 0.18f; t += Time.deltaTime)
+        {
+            float k = t / 0.18f;
+            boss.localScale = bossBaseScale * (k < 0.7f ? Mathf.Lerp(0f, 1.25f, k / 0.7f) : Mathf.Lerp(1.25f, 1f, (k - 0.7f) / 0.3f));
+            yield return null;
+        }
+        boss.localScale = bossBaseScale;
+    }
+
+    private static Vector2 PointOnRoute(List<Vector2> route, float dist)
+    {
+        for (int i = 1; i < route.Count; i++)
+        {
+            float seg = Vector2.Distance(route[i - 1], route[i]);
+            if (dist <= seg || i == route.Count - 1)
+                return Vector2.Lerp(route[i - 1], route[i], seg <= 0 ? 1f : Mathf.Clamp01(dist / seg));
+            dist -= seg;
+        }
+        return route[^1];
+    }
+
+    // =====================================================================
+    // 근접: 전기 채찍 (부채꼴 예고 → 빠르게 휘두름)
+    private IEnumerator ElectricWhip()
+    {
+        whipping = true;
+        Vector2 d = playerPos - bossPos;
+        float baseAng = Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg;
+        float half = whipSweepAngle * 0.5f;
+        float dir = Random.value < 0.5f ? 1f : -1f;
+
+        // 예고: 회색 부채꼴 윤곽 + 보스가 파르르 떨림
+        var tele = MakeBolt(new Color(1f, 0.95f, 0.4f, 0.35f), 0.05f, 0f, 14);
+        tele.jitter = 0f;
+        for (float t = 0; t < whipTelegraph; t += Time.deltaTime)
+        {
+            var fan = new List<Vector2> { bossPos };
+            for (int i = 0; i <= 12; i++)
+            {
+                float a = (baseAng - half + whipSweepAngle * i / 12f) * Mathf.Deg2Rad;
+                fan.Add(bossPos + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * whipLength);
+            }
+            fan.Add(bossPos);
+            SetBoltRaw(tele, fan);
+            float blink = 0.2f + 0.25f * Mathf.Abs(Mathf.Sin(t * 18f));
+            SetBoltColor(tele, new Color(1f, 0.95f, 0.4f, blink));
+            boss.position = bossPos + Random.insideUnitCircle * 0.04f;
+            yield return null;
+        }
+        DestroyBolt(tele);
+
+        // 휘두르기
+        var whip = MakeBolt(new Color(1f, 0.9f, 0.3f, 0.75f), 0.22f, 0.07f, 30);
+        whip.jitter = 0.16f;
+        bool hit = false;
+        for (float t = 0; t < whipSweepTime; t += Time.deltaTime)
+        {
+            float k = t / whipSweepTime;
+            float a = (baseAng + dir * Mathf.Lerp(-half, half, k)) * Mathf.Deg2Rad;
+            Vector2 tip = bossPos + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * whipLength;
+            // 채찍처럼 끝이 늦게 따라오는 곡선
+            Vector2 mid = bossPos + (Vector2)(Quaternion.Euler(0, 0, -dir * 18f) * (tip - bossPos)) * 0.55f;
+            var curve = new List<Vector2>();
+            for (int i = 0; i <= 8; i++)
+            {
+                float u = i / 8f;
+                curve.Add((1 - u) * (1 - u) * bossPos + 2 * (1 - u) * u * mid + u * u * tip);
+            }
+            SetBoltPath(whip, curve, float.MaxValue);
+            if (!hit && state == FightState.Fight)
+                for (int i = 1; i < curve.Count; i++)
+                    if (DistancePointSegment(playerPos, curve[i - 1], curve[i]) < 0.14f + playerHitRadius)
+                    {
+                        hit = true;
+                        OnPlayerHit();
+                        break;
+                    }
+            yield return null;
+        }
+        shakeTime = Mathf.Max(shakeTime, 0.1f);
+        yield return new WaitForSeconds(0.08f);
+        DestroyBolt(whip);
+        whipReadyAt = Time.time + whipCooldown;
+        whipping = false;
+    }
+
+    // =====================================================================
+    // 전기 선 그리기 헬퍼
+    private Bolt MakeBolt(Color glowColor, float glowWidth, float coreWidth, int order)
+    {
+        var b = new Bolt { go = new GameObject("Bolt") };
+        b.go.transform.SetParent(root, false);
+        b.glow = NewLine(b.go.transform, glowColor, glowWidth, order);
+        if (coreWidth > 0f) b.core = NewLine(b.go.transform, new Color(1f, 1f, 1f, 0.95f), coreWidth, order + 1);
+        bolts.Add(b);
+        return b;
+    }
+
+    private LineRenderer NewLine(Transform parent, Color c, float w, int order)
+    {
+        var go = new GameObject("Line");
+        go.transform.SetParent(parent, false);
+        var lr = go.AddComponent<LineRenderer>();
+        lr.useWorldSpace = true;
+        if (spriteMat != null) lr.sharedMaterial = spriteMat;
+        lr.startColor = lr.endColor = c;
+        lr.startWidth = lr.endWidth = w;
+        lr.numCapVertices = 2;
+        lr.numCornerVertices = 1;
+        lr.sortingOrder = order;
+        lr.positionCount = 0;
+        return lr;
+    }
+
+    private static void SetBoltColor(Bolt b, Color c) => b.glow.startColor = b.glow.endColor = c;
+
+    /// <summary>route를 따라 length만큼만 그린다 (뻗어나가는 연출). 지글거림은 UpdateBolts에서.</summary>
+    private void SetBoltPath(Bolt b, List<Vector2> route, float length)
+    {
+        b.path.Clear();
+        b.path.Add(route[0]);
+        float left = length;
+        for (int i = 1; i < route.Count && left > 0f; i++)
+        {
+            float seg = Vector2.Distance(route[i - 1], route[i]);
+            if (seg <= left) { b.path.Add(route[i]); left -= seg; }
+            else { b.path.Add(Vector2.Lerp(route[i - 1], route[i], left / seg)); left = 0f; }
+        }
+        b.nextRefresh = 0f;
+        RefreshBolt(b);
+    }
+
+    private static void SetBoltRaw(Bolt b, List<Vector2> pts)
+    {
+        b.path.Clear();
+        b.path.AddRange(pts);
+        b.glow.positionCount = pts.Count;
+        for (int i = 0; i < pts.Count; i++) b.glow.SetPosition(i, pts[i]);
+    }
+
+    private void RefreshBolt(Bolt b)
+    {
+        if (b.jitter <= 0f || b.path.Count < 2) return;
+        var pts = new List<Vector3>();
+        for (int i = 1; i < b.path.Count; i++)
+        {
+            Vector2 a = b.path[i - 1], c = b.path[i];
+            float len = Vector2.Distance(a, c);
+            int n = Mathf.Max(1, Mathf.CeilToInt(len / b.step));
+            Vector2 nrm = len > 0 ? new Vector2(-(c.y - a.y), c.x - a.x) / len : Vector2.zero;
+            for (int k = (i == 1 ? 0 : 1); k <= n; k++)
+            {
+                float u = (float)k / n;
+                bool end = (i == 1 && k == 0) || (i == b.path.Count - 1 && k == n);
+                pts.Add(Vector2.Lerp(a, c, u) + (end ? Vector2.zero : nrm * Random.Range(-b.jitter, b.jitter)));
+            }
+        }
+        var arr = pts.ToArray();
+        b.glow.positionCount = arr.Length;
+        b.glow.SetPositions(arr);
+        if (b.core != null)
+        {
+            b.core.positionCount = arr.Length;
+            b.core.SetPositions(arr);
+        }
+        b.nextRefresh = Time.time + 0.05f;
+    }
+
+    private void UpdateBolts()
+    {
+        foreach (var b in bolts)
+            if (b.go != null && Time.time >= b.nextRefresh) RefreshBolt(b);
+    }
+
+    private void DestroyBolt(Bolt b)
+    {
+        bolts.Remove(b);
+        if (b.go != null) Destroy(b.go);
     }
 
     private float Phase => filledCount; // 방화벽을 복구할수록 랜섬웨어가 발악 (완만하게)
@@ -1182,6 +1546,9 @@ public class RansomwareBossFight : MonoBehaviour
         }
         float rad = angleDeg * Mathf.Deg2Rad;
         b.pos = from;
+        b.origin = from;
+        b.baseRadius = radius;
+        b.baseAlpha = color.a;
         b.vel = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * (speed * bulletSpeedScale);
         b.radius = radius;
         b.alive = true;
@@ -1199,6 +1566,13 @@ public class RansomwareBossFight : MonoBehaviour
             if (!b.alive) continue;
             b.pos += b.vel * dt;
             b.sr.transform.position = b.pos;
+            // 바이러스가 내부 네트워크를 타고 번지듯, 멀리 갈수록 커진다 (판정도 같이)
+            float grow = Mathf.Min(virusMaxScale, 1f + Vector2.Distance(b.pos, b.origin) * virusGrowPerUnit);
+            b.radius = b.baseRadius * grow;
+            b.sr.transform.localScale = Vector3.one * (b.radius * 2.4f / circleSprite.bounds.size.x);
+            var col = b.sr.color;
+            col.a = b.baseAlpha * Mathf.Lerp(1f, 0.7f, (grow - 1f) / Mathf.Max(0.01f, virusMaxScale - 1f));
+            b.sr.color = col;
             if (b.pos.x < r.xMin || b.pos.x > r.xMax || b.pos.y < r.yMin || b.pos.y > r.yMax
                 || Mathf.Abs(b.pos.y - camFollow.y) > cam.orthographicSize * 2.5f)
             {
@@ -1230,6 +1604,12 @@ public class RansomwareBossFight : MonoBehaviour
         foreach (var b in bullets) if (b.alive) Kill(b);
         foreach (var L in lasers) if (L.sr != null) Destroy(L.sr.gameObject);
         lasers.Clear();
+        foreach (var b in bolts) if (b.go != null) Destroy(b.go);
+        bolts.Clear();
+        foreach (Transform t in root) if (t.name == "WireSpark") Destroy(t.gameObject);
+        whipping = false;
+        if (bossTransit) { bossTransit = false; boss.position = bossPos; }
+        if (boss != null) boss.localScale = bossBaseScale;
     }
     #endregion
 }
