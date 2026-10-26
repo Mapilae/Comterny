@@ -20,6 +20,7 @@ public static class RansomwareBossSceneBuilder
     const string SquarePath = SpriteDir + "/BossFx_Square.png";
     const string CirclePath = SpriteDir + "/BossFx_Circle.png";
     const string DefaultBgmPath = "Assets/05. Sounds/BGM/Boss_Remi_x_WhyDoITry.ogg";
+    const string DefaultHitSfxPath = "Assets/05. Sounds/error-9-206494.mp3";
     const string UnlitMatPath = "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Unlit-Default.mat";
 
     [MenuItem("Comterny/보스전/씬 오브젝트 생성(갱신)")]
@@ -174,6 +175,7 @@ public static class RansomwareBossSceneBuilder
         // ---- 컴포넌트에 연결
         Undo.RecordObject(f, "Build Boss Scene");
         if (f.bgm == null) f.bgm = AssetDatabase.LoadAssetAtPath<AudioClip>(DefaultBgmPath);
+        if (f.hitSfx == null) f.hitSfx = AssetDatabase.LoadAssetAtPath<AudioClip>(DefaultHitSfxPath);
         f.sceneFloor = floor;
         f.scenePlayer = player;
         f.sceneBoss = bossSr.transform;

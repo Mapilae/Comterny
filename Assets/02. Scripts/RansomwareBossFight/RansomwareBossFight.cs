@@ -27,6 +27,9 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("보스전 BGM (기본: 05. Sounds/BGM/Boss_Remi_x_WhyDoITry)")]
     public AudioClip bgm;
     [Range(0f, 1f)] public float bgmVolume = 0.4f;
+    [Tooltip("맞았을 때 효과음 (기본: 05. Sounds/error-9)")]
+    public AudioClip hitSfx;
+    [Range(0f, 1f)] public float hitSfxVolume = 0.7f;
 
     [Header("플레이어 캐릭터 (본편 Player 프리팹과 같은 Spine)")]
     [Tooltip("User Debug/새 폴더/skeleton_SkeletonData - 본편 Player 프리팹이 쓰는 것과 동일")]
@@ -64,9 +67,6 @@ public class RansomwareBossFight : MonoBehaviour
     public float playerSpeed = 5f;
     public float playerHitRadius = 0.16f;
     public float invincibleTime = 2f;
-    [Tooltip("맞았을 때 화면 흔들림 세기 (0 = 없음)")]
-    public float hitShakeAmount = 0.03f;
-    public float hitShakeTime = 0.12f;
 
     [Header("카메라 (버스정류장 씬처럼 플레이어를 따라 세로 스크롤)")]
     public float cameraOrthoSize = 4f;
@@ -224,7 +224,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     private TextMeshPro hpText, progressText, hintText, msgText, subMsgText, helpText;
     private float msgUntil;
-    private AudioSource bgmSource;
+    private AudioSource bgmSource, sfxSource;
 
     private Rect Arena => new(-arenaHalfSize, arenaHalfSize * 2f);
 
@@ -1008,9 +1008,7 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (state != FightState.Fight || Time.time < invincibleUntil || godMode) return;
 
-        // 피격 흔들림은 아주 살짝만
-        shakeTime = hitShakeTime;
-        shakeAmp = hitShakeAmount;
+        PlayHitSfx(); // 피격 시 화면 흔들림 없음 (요청)
         if (corruption >= BossNameCorruptor.MaxLevel)
         {
             corruption = BossNameCorruptor.MaxLevel + 1;
@@ -1028,6 +1026,14 @@ public class RansomwareBossFight : MonoBehaviour
         RefreshHud();
         ShowMessage("<color=#F55>파일이 암호화되고 있다!</color>",
             corruption >= BossNameCorruptor.MaxLevel ? "한 번 더 맞으면 끝이다... 복호화 아이템을 찾자" : "복호화 아이템을 먹으면 원래대로 돌아온다", 1.6f);
+    }
+
+    private void PlayHitSfx()
+    {
+        if (hitSfx == null) return;
+        if (sfxSource == null) sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.pitch = Random.Range(0.95f, 1.05f); // 연속으로 맞아도 덜 거슬리게
+        sfxSource.PlayOneShot(hitSfx, hitSfxVolume);
     }
 
     private void Decrypt()
@@ -1320,7 +1326,6 @@ public class RansomwareBossFight : MonoBehaviour
         boss.position = dest;
         bossTransit = false;
         DestroyBolt(wire);
-        shakeTime = Mathf.Max(shakeTime, 0.15f);
         if (computers[to].label != null) computers[to].label.text = "LOCKED";
         for (float t = 0; t < 0.18f; t += Time.deltaTime)
         {
