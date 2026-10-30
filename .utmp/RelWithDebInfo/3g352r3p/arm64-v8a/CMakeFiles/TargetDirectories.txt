@@ -1,5 +1,0 @@
-/Users/jichal/coding/schoolpro/comterny/.utmp/RelWithDebInfo/3g352r3p/arm64-v8a/CMakeFiles/edit_cache.dir
-/Users/jichal/coding/schoolpro/comterny/.utmp/RelWithDebInfo/3g352r3p/arm64-v8a/CMakeFiles/rebuild_cache.dir
-/Users/jichal/coding/schoolpro/comterny/.utmp/RelWithDebInfo/3g352r3p/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
-/Users/jichal/coding/schoolpro/comterny/.utmp/RelWithDebInfo/3g352r3p/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
-/Users/jichal/coding/schoolpro/comterny/.utmp/RelWithDebInfo/3g352r3p/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

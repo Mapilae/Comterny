@@ -35,6 +35,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -73,3 +74,17 @@ crashlytics-build.properties
 Library/
 
 .idea/.idea.comtany/.idea/workspace.xml
+
+# Android signing keys (never commit; share privately)
+*.keystore
+*.jks
+
+# Editor crash logs
+mono_crash*.json
+
+# macOS system files
+.DS_Store
+
+# Android build temp / Burst debug output
+.utmp/
+*_BurstDebugInformation_DoNotShip/
