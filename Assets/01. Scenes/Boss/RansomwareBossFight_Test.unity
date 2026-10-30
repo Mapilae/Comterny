@@ -627,7 +627,7 @@ MonoBehaviour:
   lockSprite: {fileID: 21300000, guid: f7c19f49b4d046ed87c26a07bbff5dba, type: 3}
   pickupSfx: {fileID: 8300000, guid: 8a75e3b481d61a14abc52d6f8e73eba8, type: 3}
   lockSfx: {fileID: 8300000, guid: 6184299f7d1616640b2f19a58ff7f214, type: 3}
-  bgm: {fileID: 8300000, guid: 5841baca809a10f409312cfec82917e6, type: 3}
+  bgm: {fileID: 8300000, guid: 6e4a6a1fd969ac245a96dd70e5c35766, type: 3}
   bgmVolume: 0.4
   hitSfx: {fileID: 8300000, guid: 2f2191e05c6b28d4ab1fab469fde76ff, type: 3}
   hitSfxVolume: 0.7

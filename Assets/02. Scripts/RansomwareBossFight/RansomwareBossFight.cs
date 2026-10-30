@@ -29,8 +29,12 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("아이작 잠긴 문처럼: 처음엔 자물쇠 달린 닫힌 문 → 맞는 열쇠를 꽂으면 열린 문")]
     public Sprite doorOpenSprite, doorClosedSprite, lockSprite;
     public AudioClip pickupSfx, lockSfx;
-    [Tooltip("보스전 BGM (기본: 05. Sounds/BGM/Boss_Remi_x_WhyDoITry)")]
+    [Tooltip("보스전 BGM (기본: 05. Sounds/BGM/Comterny01(120))")]
     public AudioClip bgm;
+    [Tooltip("랜섬웨어가 초조해질 때의 BGM 배속 (140bpm / 120bpm = 1.1667)")]
+    public float bgmFastSpeed = 140f / 120f;
+    [Tooltip("BGM이 빨라지는 데 걸리는 시간(초)")]
+    public float bgmSpeedUpTime = 0.5f;
     [Range(0f, 1f)] public float bgmVolume = 0.4f;
     [Tooltip("맞았을 때 효과음 (기본: 05. Sounds/error-9)")]
     public AudioClip hitSfx;
@@ -231,6 +235,8 @@ public class RansomwareBossFight : MonoBehaviour
     private TextMeshPro hpText, progressText, hintText, msgText, subMsgText, helpText;
     private float msgUntil;
     private AudioSource bgmSource, sfxSource;
+    private float bgmSpeedUpElapsed = -1f; // 0 이상이면 배속 진행 중
+    private bool bgmSpedUp;
 
     private Rect Arena => new(-arenaHalfSize, arenaHalfSize * 2f);
 
@@ -777,6 +783,24 @@ public class RansomwareBossFight : MonoBehaviour
 
     // =====================================================================
     #region 진행
+    /// <summary>BGM을 한 번만 배속한다. 곡을 끊지 않고 재생 속도만 올린다.</summary>
+    private void SpeedUpBgm()
+    {
+        if (bgmSpedUp || bgmSource == null) return;
+        bgmSpedUp = true;
+        bgmSpeedUpElapsed = 0f;
+    }
+
+    // Clear/GameOver의 StopAllCoroutines에 끊기지 않도록 코루틴 대신 Update에서 진행
+    private void UpdateBgmSpeedUp()
+    {
+        if (bgmSpeedUpElapsed < 0f) return;
+        bgmSpeedUpElapsed += Time.unscaledDeltaTime;
+        float t = bgmSpeedUpTime > 0f ? Mathf.Clamp01(bgmSpeedUpElapsed / bgmSpeedUpTime) : 1f;
+        bgmSource.pitch = Mathf.Lerp(1f, bgmFastSpeed, Mathf.SmoothStep(0f, 1f, t));
+        if (t >= 1f) bgmSpeedUpElapsed = -1f;
+    }
+
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
@@ -796,6 +820,8 @@ public class RansomwareBossFight : MonoBehaviour
             Restart();
             return;
         }
+
+        UpdateBgmSpeedUp();
 
         if (state == FightState.Clear && !leaving && !string.IsNullOrEmpty(NextScene) &&
             (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
@@ -1188,6 +1214,8 @@ public class RansomwareBossFight : MonoBehaviour
                 filledCount++;
                 RefreshHud();
                 if (filledCount >= slots.Count) { Clear(); return; }
+                // 문을 절반(올림) 이상 열면 배속 (5개면 3개째부터)
+                if (filledCount >= (slots.Count + 1) / 2) SpeedUpBgm();
                 ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} {(doorOpenSprite != null ? "문 열림!" : "복구!")}</color>",
                     $"{(doorOpenSprite != null ? "남은 잠긴 문" : "남은 구멍")} {slots.Count - filledCount}개 - 랜섬웨어가 초조해진다", 1.4f);
             }

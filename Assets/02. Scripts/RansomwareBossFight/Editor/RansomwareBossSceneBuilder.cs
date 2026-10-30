@@ -19,7 +19,7 @@ public static class RansomwareBossSceneBuilder
     const string SpriteDir = "Assets/03. Image/BossFight";
     const string SquarePath = SpriteDir + "/BossFx_Square.png";
     const string CirclePath = SpriteDir + "/BossFx_Circle.png";
-    const string DefaultBgmPath = "Assets/05. Sounds/BGM/Boss_Remi_x_WhyDoITry.ogg";
+    const string DefaultBgmPath = "Assets/05. Sounds/BGM/Comterny01(120) (1).mp3";
     const string DefaultHitSfxPath = "Assets/05. Sounds/error-9-206494.mp3";
     const string UnlitMatPath = "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Unlit-Default.mat";
 
