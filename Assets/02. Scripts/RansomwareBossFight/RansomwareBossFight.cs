@@ -90,7 +90,7 @@ public class RansomwareBossFight : MonoBehaviour
     public float cameraFollowSmooth = 0.12f;
 
     [Header("퍼즐")]
-    [Range(2, 6)] public int fragmentCount = 4;
+    [Range(2, 6)] public int fragmentCount = 6;
     public float pickupRange = 0.6f;
     public float slotRange = 0.95f;
 
@@ -127,7 +127,7 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("일반 난이도에서도 2페이즈 주소 암호화를 쓴다 (컴공모드는 항상 사용)")]
     public bool phase2MaskAddressInNormal;
 
-    [Header("구출 NPC: 무작위 문 2개에 갇혀 있고, 그 문은 다시 잠기지 않는다")]
+    [Header("구출 NPC: 문 6개 중 무작위 2개에 하나씩 갇혀 있고, 그 문은 다시 잠기지 않는다")]
     [Tooltip("갇혀있을 때 모습. 비우면 색 사각형으로 표시")]
     public Sprite processorSprite, ramSprite;
     [Tooltip("구출돼서 플레이어를 따라다닐 때 모습. 비우면 갇혀있을 때와 같은 스프라이트 유지. 프리팹을 쓰는 경우에도 이 스프라이트로 교체됨(크기는 프리팹 Scale 그대로)")]
@@ -502,7 +502,7 @@ public class RansomwareBossFight : MonoBehaviour
             (new Vector2(r.xMax, r.yMax - r.height * 0.55f), false),
             (new Vector2(r.xMin, r.yMax - r.height * 0.75f), false),
             (new Vector2(r.xMax, r.yMax - r.height * 0.88f), false),
-            (new Vector2(r.xMax, r.yMax - r.height * 0.22f), false),
+            (new Vector2(r.xMax, r.yMax - r.height * 0.12f), false), // 0.22면 PC_2 위에 뜬 보스와 겹친다
             (new Vector2(r.xMin, r.yMax - r.height * 0.58f), false),
         };
         int count = Mathf.Clamp(fragmentCount, 2, spots.Count);
@@ -563,7 +563,6 @@ public class RansomwareBossFight : MonoBehaviour
             var s = pool[pick];
             pool.RemoveAt(pick);
             s.npc = kind;
-            s.label.text = SlotLabel(s);
 
             bool ram = kind == NpcKind.Ram;
             var art = ram ? ramSprite : processorSprite;
@@ -579,10 +578,10 @@ public class RansomwareBossFight : MonoBehaviour
                 sr = Instantiate(prefab, p, Quaternion.identity, root);
                 sr.name = npcName;
                 if (art != null) sr.sprite = art; // 프리팹은 크기 전용, 갇혀있을 때 모습은 이 스프라이트로 교체
-                sr.color = color * CorruptedTint;
+                sr.color = color;
                 sr.sortingOrder = 12;
             }
-            else sr = MakeSprite(npcName, art != null ? art : squareSprite, p, new Vector2(0.6f, 0.6f), color * CorruptedTint, 12);
+            else sr = MakeSprite(npcName, art != null ? art : squareSprite, p, new Vector2(0.6f, 0.6f), color, 12);
             var tagOffset = new Vector2(0f, sr.bounds.max.y - p.y + 0.2f);
             string corrupted = BossNameCorruptor.Corrupt(NpcName(kind), BossNameCorruptor.MaxLevel);
             var tag = MakeText("Tag", corrupted, p + tagOffset, 2f, Color.white, 13);
@@ -748,8 +747,7 @@ public class RansomwareBossFight : MonoBehaviour
         int full = baseAddr + s.index * 4;
         string addr = AddressMasked ? $"0x??{full & 0xFF:X2}" : $"0x{full:X4}";
         if (s.filled) return $"<color=#7FF>{FragmentCode(s.index)}</color>";
-        string text = hardMode ? addr : $"{addr}\n<size=70%>(fw+?)</size>";
-        return s.npc == NpcKind.None ? text : $"{text}\n<size=70%><color=#FC8>{NpcName(s.npc)} 갇힘</color></size>";
+        return hardMode ? addr : $"{addr}\n<size=70%>(fw+?)</size>";
     }
 
     private string FragmentCode(int i)
