@@ -43,6 +43,8 @@ public class RansomwareBossFight : MonoBehaviour
     public Material glowMaterial;
     [Tooltip("감염된 PC 화면에 쓰는 약한 글로우 머터리얼 (기본: 03. Image/Emmision_light)")]
     public Material screenGlowMaterial;
+    [Tooltip("탄막 프리팹 (루트에 SpriteRenderer 필요). 프리팹의 스프라이트/색/머터리얼을 그대로 쓰고, 크기와 판정은 코드가 정한다. 비우면 기본 동그라미")]
+    public SpriteRenderer bulletPrefab;
 
     [Header("플레이어 캐릭터 (본편 Player 프리팹과 같은 Spine)")]
     [Tooltip("User Debug/새 폴더/skeleton_SkeletonData - 본편 Player 프리팹이 쓰는 것과 동일")]
@@ -1767,15 +1769,34 @@ public class RansomwareBossFight : MonoBehaviour
         return Vector2.Distance(p, a + ab * t);
     }
 
+    private SpriteRenderer MakeBulletSprite(Vector2 from, Color color)
+    {
+        if (bulletPrefab == null)
+        {
+            var sr = MakeSprite("Bullet", circleSprite, from, Vector2.one * 0.3f, color, 15);
+            sr.sharedMaterial = GlowMat;
+            return sr;
+        }
+        var inst = Instantiate(bulletPrefab, from, Quaternion.identity, root);
+        inst.name = "Bullet";
+        if (inst.sprite == null) inst.sprite = circleSprite;
+        inst.sortingOrder = 15;
+        return inst;
+    }
+
+    // 스프라이트 크기와 무관하게 판정 반지름에 맞춘다
+    private static void SetBulletScale(Bullet b) =>
+        b.sr.transform.localScale = Vector3.one * (b.radius * 2.4f / b.sr.sprite.bounds.size.x);
+
     private void Fire(Vector2 from, float angleDeg, float speed, Color color, float radius = 0.11f)
     {
+        if (bulletPrefab != null) color = bulletPrefab.color;
         Bullet b = null;
         foreach (var x in bullets)
             if (!x.alive) { b = x; break; }
         if (b == null)
         {
-            b = new Bullet { sr = MakeSprite("Bullet", circleSprite, from, Vector2.one * 0.3f, color, 15) };
-            b.sr.sharedMaterial = GlowMat;
+            b = new Bullet { sr = MakeBulletSprite(from, color) };
             bullets.Add(b);
         }
         float rad = angleDeg * Mathf.Deg2Rad;
@@ -1788,7 +1809,7 @@ public class RansomwareBossFight : MonoBehaviour
         b.alive = true;
         b.sr.color = color;
         b.sr.transform.position = from;
-        b.sr.transform.localScale = Vector3.one * (radius * 2.4f / circleSprite.bounds.size.x);
+        SetBulletScale(b);
         b.sr.gameObject.SetActive(true);
     }
 
@@ -1803,7 +1824,7 @@ public class RansomwareBossFight : MonoBehaviour
             // 바이러스가 내부 네트워크를 타고 번지듯, 멀리 갈수록 커진다 (판정도 같이)
             float grow = Mathf.Min(virusMaxScale, 1f + Vector2.Distance(b.pos, b.origin) * virusGrowPerUnit);
             b.radius = b.baseRadius * grow;
-            b.sr.transform.localScale = Vector3.one * (b.radius * 2.4f / circleSprite.bounds.size.x);
+            SetBulletScale(b);
             var col = b.sr.color;
             col.a = b.baseAlpha * Mathf.Lerp(1f, 0.7f, (grow - 1f) / Mathf.Max(0.01f, virusMaxScale - 1f));
             b.sr.color = col;
