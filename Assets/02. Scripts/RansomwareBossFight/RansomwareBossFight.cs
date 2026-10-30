@@ -1276,7 +1276,7 @@ public class RansomwareBossFight : MonoBehaviour
     public int BossComputer => bossComputer;
     public float MaxBulletRadius { get { float m = 0; foreach (var b in bullets) if (b.alive) m = Mathf.Max(m, b.radius); return m; } }
     /// <summary>자동 테스트용: 다음 이동 강제</summary>
-    public void DebugTeleport() { if (state == FightState.Fight && !bossTransit) StartCoroutine(TeleportRoutine()); }
+    public void DebugTeleport() { if (state == FightState.Fight && !bossTransit) StartCoroutine(TeleportRoutine(force: true)); }
     public void DebugSetPlayerPos(Vector2 p) => playerPos = p;
     public void DebugChainLasers() { if (state == FightState.Fight) StartCoroutine(ChainLasers()); }
     public bool BgmPlaying => bgmSource != null && bgmSource.isPlaying;
@@ -1373,7 +1373,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     // =====================================================================
     // 보스 순간이동: 플레이어와 가장 가까운 컴퓨터를 공격(해킹) → 전기 선 연결 → 전선을 타고 1초 뒤 등장
-    private IEnumerator TeleportRoutine()
+    private IEnumerator TeleportRoutine(bool force = false)
     {
         // 플레이어와 가장 가까운 컴퓨터로 이동 (지금 있는 곳 제외).
         // 단, 플레이어 바로 위에 떨어지지 않게 teleportMinPlayerDistance 안쪽은 피한다 (전부 가까우면 그냥 가장 가까운 곳).
@@ -1388,6 +1388,10 @@ public class RansomwareBossFight : MonoBehaviour
         }
         if (to < 0) to = nearestAny;
         if (to < 0) yield break;
+        // 지금 컴퓨터가 옮겨갈 곳보다 플레이어에게 가깝거나 같으면 이동하지 않는다
+        // (플레이어 이동을 막는 장애물이 없어 직선 거리 = 이동 거리)
+        if (!force && Vector2.Distance(computers[bossComputer].pos, playerPos) <= Vector2.Distance(computers[to].pos, playerPos))
+            yield break;
         Vector2 from = bossPos, dest = computers[to].pos;
 
         // 회로 배선처럼 ㄱ자로 꺾이는 경로
