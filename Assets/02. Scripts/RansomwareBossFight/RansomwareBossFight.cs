@@ -535,6 +535,8 @@ public class RansomwareBossFight : MonoBehaviour
             float inX = doorOpenSprite != null ? 1.4f : 1.05f;
             Vector2 inward = horizontal ? new Vector2(0, pos.y > 0 ? -0.55f : 0.55f) : new Vector2(pos.x > 0 ? -inX : inX, 0);
             slot.label = MakeText($"SlotLabel_{slot.index}", SlotLabel(slot), pos + inward, 3.0f, BrokenColor, 20);
+            slot.label.outlineColor = Color.black; // 열쇠와 겹쳐도 읽히도록
+            slot.label.outlineWidth = 0.1f;
             slots.Add(slot);
         }
 
@@ -1511,8 +1513,9 @@ public class RansomwareBossFight : MonoBehaviour
         Vector2 jitter = corruption > 0 && state != FightState.Clear
             ? Random.insideUnitCircle * (0.02f * corruption)
             : Vector2.zero;
-        playerNameLabel.transform.position = playerPos + new Vector2(0, 0.78f) + jitter;
-        carryLabel.transform.position = playerPos + new Vector2(0, 1.12f);
+        float iconLift = carrying != null && playerMovement != null ? 0.4f : 0f; // 머리 위 ItemIcon과 겹치지 않게
+        playerNameLabel.transform.position = playerPos + new Vector2(0, 0.78f + iconLift) + jitter;
+        carryLabel.transform.position = playerPos + new Vector2(0, 1.12f + iconLift);
         if (corruption > 0 && state == FightState.Fight && Random.value < 0.015f * corruption)
             playerNameLabel.text = BossNameCorruptor.Corrupt(baseName, corruption, randomHex: true); // 주소가 순간 깨지는 연출
         else if (corruption > 0 && state == FightState.Fight && Random.value < 0.02f)
@@ -1676,6 +1679,7 @@ public class RansomwareBossFight : MonoBehaviour
                     f.carried = true;
                     f.tr.gameObject.SetActive(false);
                     carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(f.index)}]" : $"[{FragmentCode(f.index)}]";
+                    SetKeyIcon(f);
                     PlaySfx(pickupSfx, 0.6f);
                     break;
                 }
@@ -1708,6 +1712,7 @@ public class RansomwareBossFight : MonoBehaviour
                 carrying.carried = false;
                 carrying = null;
                 carryLabel.text = "";
+                SetKeyIcon(null);
                 filledCount++;
                 RefreshHud();
                 if (filledCount >= slots.Count) { Clear(); return; }
@@ -1785,6 +1790,15 @@ public class RansomwareBossFight : MonoBehaviour
         carrying.tr.gameObject.SetActive(true);
         carrying = null;
         carryLabel.text = "";
+        SetKeyIcon(null);
+    }
+
+    /// <summary>본편 Player 프리팹의 Canvas/ItemIcon에 들고 있는 열쇠를 표시한다. null이면 숨김.</summary>
+    private void SetKeyIcon(Fragment f)
+    {
+        if (playerMovement == null || playerMovement.currentHoldingImg == null) return;
+        if (f != null && keySprite != null) playerMovement.HoldItem(f.index, keySprite);
+        else playerMovement.UnholdItem();
     }
 
     private bool IsKeyFlying(Fragment f) => f.dropStartedAt >= 0f && Time.time - f.dropStartedAt < KeyDropTime;
