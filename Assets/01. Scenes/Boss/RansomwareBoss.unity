@@ -718,17 +718,37 @@ MonoBehaviour:
   bossContactRadius: 0.55
   bossTeleport: 1
   teleportDelayAfterAttack: 0.7
-  wireTravelTime: 0.5
+  wireTravelTime: 0.75
   teleportMinPlayerDistance: 1.6
   virusGrowPerUnit: 0.16
-  virusMaxScale: 4
+  virusMaxScale: 3
+  phase2Countdown: 60
+  turretFireInterval: 2.5
+  turretBulletSpeed: 2
+  turretBulletRadius: 0.085
+  phase2MaskAddressInNormal: 0
+  processorSprite: {fileID: 21300000, guid: 9fd7c4052877e3742b866ddc9b73dc47, type: 3}
+  ramSprite: {fileID: 21300000, guid: cbc3717d937a04740852555d2efd743e, type: 3}
+  processorPrefab: {fileID: 8668700900180186122, guid: 777f6bd1cae351a4e94c361c8dec7ab0, type: 3}
+  ramPrefab: {fileID: 4767266459417302410, guid: 59d462a8ee28374469eea2e62f8dccfe, type: 3}
+  processorInterval: 6
+  processorRadius: 3
+  processorShrinkTime: 0.5
+  processorRescueLine: "\uC73C... \uB354\uC6CC \uC8FD\uB294\uC904 \uC54C\uC558\uB124.
+    \uB3C4\uC640\uC904\uD14C\uB2C8\uAE4C \uBE68\uB9AC \uB9C9\uC544\uBD10!"
+  processorActionLine: "\uC704\uD5D8\uD55C \uBC14\uC774\uB7EC\uC2A4\uB97C \uACE8\uB77C\uC11C
+    \uC9C0\uC6E0\uC5B4. \uC774\uC815\uB3C4 \uACC4\uC0B0 \uCBE4\uC774\uC57C."
+  ramRescueLine: "\uD734, \uB4DC\uB514\uC5B4 \uC5EC\uC720 \uACF5\uAC04\uC774 \uC0DD\uACBC\uC5B4\uC694.
+    \uC5F4\uC1E0 \uAC12\uC740 \uC81C\uAC00 \uAE30\uC5B5\uD574 \uB458\uAC8C\uC694!"
+  ramActionLine: "\uC81C\uAC00 \uC800\uC7A5\uD574\uB454 \uC5F4\uC1E0 \uAC12\uC774
+    \uC788\uC5B4\uC11C \uBCF5\uAD6C\uD588\uC5B4\uC694!"
   electricWhip: 1
   whipRange: 2.4
   whipLength: 3
   whipTelegraph: 0.6
   whipSweepAngle: 110
   whipSweepTime: 0.28
-  whipCooldown: 2
+  whipCooldown: 2.5
   debugKeys: 1
   godMode: 0
   bulletSpeedScale: 1
