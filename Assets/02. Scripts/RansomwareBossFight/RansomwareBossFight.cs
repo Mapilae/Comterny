@@ -24,6 +24,8 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("Spine 캐릭터가 없을 때만 쓰는 정지 이미지")]
     public Sprite playerSprite;
     public Sprite bossSprite;
+    [Tooltip("2페이즈(몸값 결제) 진입 시 보스 외관. 비우면 bossSprite 유지")]
+    public Sprite bossSpritePhase2;
     [Tooltip("코드 조각 = 열쇠")]
     public Sprite keySprite;
     [Tooltip("아이작 잠긴 문처럼: 처음엔 자물쇠 달린 닫힌 문 → 맞는 열쇠를 꽂으면 열린 문")]
@@ -126,9 +128,11 @@ public class RansomwareBossFight : MonoBehaviour
     public bool phase2MaskAddressInNormal;
 
     [Header("구출 NPC: 무작위 문 2개에 갇혀 있고, 그 문은 다시 잠기지 않는다")]
-    [Tooltip("비우면 색 사각형으로 표시")]
+    [Tooltip("갇혀있을 때 모습. 비우면 색 사각형으로 표시")]
     public Sprite processorSprite, ramSprite;
-    [Tooltip("NPC 프리팹 (루트에 SpriteRenderer 필요). 넣으면 스프라이트보다 우선하고, 크기/색은 프리팹 설정을 그대로 쓴다")]
+    [Tooltip("구출돼서 플레이어를 따라다닐 때 모습. 비우면 갇혀있을 때와 같은 스프라이트 유지. 프리팹을 쓰는 경우에도 이 스프라이트로 교체됨(크기는 프리팹 Scale 그대로)")]
+    public Sprite processorSpriteFree, ramSpriteFree;
+    [Tooltip("NPC 프리팹 (루트에 SpriteRenderer 필요). 넣으면 스프라이트보다 우선하고, 크기/색은 프리팹 설정을 그대로 쓴다. 갇힘/구출 전환은 프리팹의 SpriteRenderer.sprite를 교체하는 식으로 동작 (프리팹 Scale은 크기 조정용)")]
     public SpriteRenderer processorPrefab, ramPrefab;
     [Tooltip("프로세서가 탄을 지우는 주기(초)")]
     public float processorInterval = 6f;
@@ -229,6 +233,7 @@ public class RansomwareBossFight : MonoBehaviour
         public Vector2 tagOffset;   // 크기에 맞춘 이름표 위치
         public float followSide;    // 플레이어 옆으로 떨어지는 거리
         public bool rescued;
+        public bool usesPrefab;     // 프리팹을 쓰면 구출 시 스프라이트 교체를 하지 않는다
     }
 
     private class Slot
@@ -563,13 +568,16 @@ public class RansomwareBossFight : MonoBehaviour
             var art = ram ? ramSprite : processorSprite;
             var prefab = ram ? ramPrefab : processorPrefab;
             var color = prefab != null ? prefab.color : art != null ? Color.white : ram ? new Color(0.45f, 0.8f, 1f) : new Color(1f, 0.55f, 0.25f);
-            Vector2 p = (Vector2)s.label.transform.position + new Vector2(0f, -0.85f);
+            // 문의 자물쇠에 거의 붙을 정도로 가깝게: 문 위치에서 안쪽 방향으로 살짝만 띄운다
+            Vector2 doorToInside = ((Vector2)s.label.transform.position - s.pos).normalized;
+            Vector2 p = s.pos + doorToInside * 0.75f;
             string npcName = ram ? "NPC_RAM" : "NPC_Processor";
             SpriteRenderer sr;
             if (prefab != null)
             {
                 sr = Instantiate(prefab, p, Quaternion.identity, root);
                 sr.name = npcName;
+                if (art != null) sr.sprite = art; // 프리팹은 크기 전용, 갇혀있을 때 모습은 이 스프라이트로 교체
                 sr.color = color * CorruptedTint;
                 sr.sortingOrder = 12;
             }
@@ -579,7 +587,7 @@ public class RansomwareBossFight : MonoBehaviour
             var tag = MakeText("Tag", corrupted, p + tagOffset, 2f, Color.white, 13);
             tag.transform.SetParent(sr.transform, true);
             npcs.Add(new Npc { kind = kind, tr = sr.transform, sr = sr, color = color, tag = tag, corruptedName = corrupted,
-                tagOffset = tagOffset, followSide = sr.bounds.extents.x + 0.55f });
+                tagOffset = tagOffset, followSide = sr.bounds.extents.x + 0.55f, usesPrefab = prefab != null });
         }
     }
 
@@ -595,14 +603,42 @@ public class RansomwareBossFight : MonoBehaviour
         dialogueUntil = Time.time + 2.2f;
     }
 
+    /// <summary>NPC 스프라이트를 바꾼다. 프리팹 사용 시엔 스케일은 그대로 두고 SpriteRenderer.sprite만 교체한다(프리팹의 Scale은 크기 조정용).
+    /// 스프라이트만 바꾸는 경우(비-프리팹)엔 비율이 달라도 화면상 높이를 유지하도록 스케일을 재계산한다. 이름표/추적 거리는 항상 새 크기에 맞춘다.</summary>
+    private void ChangeNpcAppearance(Npc npc, Sprite sprite)
+    {
+        if (sprite == null) return;
+        if (npc.usesPrefab)
+        {
+            npc.sr.sprite = sprite;
+        }
+        else
+        {
+            float worldHeight = npc.sr.sprite != null ? npc.sr.sprite.bounds.size.y * npc.tr.localScale.y : npc.tr.localScale.y;
+            npc.sr.sprite = sprite;
+            float newHeight = sprite.bounds.size.y;
+            if (newHeight > 0.0001f)
+            {
+                float scale = worldHeight / newHeight;
+                npc.tr.localScale = new Vector3(scale, scale, 1f);
+            }
+        }
+        Vector2 pos = npc.tr.position;
+        npc.tagOffset = new Vector2(0f, npc.sr.bounds.max.y - pos.y + 0.2f);
+        npc.followSide = npc.sr.bounds.extents.x + 0.55f;
+        npc.tag.transform.position = (Vector2)npc.tr.position + npc.tagOffset;
+    }
+
     private void RescueNpc(Slot s)
     {
         var npc = npcs.Find(n => n.kind == s.npc);
         if (npc == null || npc.rescued) return;
         npc.rescued = true;
         npc.sr.color = npc.color;
+        bool ram = s.npc == NpcKind.Ram;
+        ChangeNpcAppearance(npc, ram ? ramSpriteFree : processorSpriteFree);
         npc.tag.text = NpcName(npc.kind);
-        npc.tag.transform.position = (Vector2)npc.tr.position + npc.tagOffset;
+        npc.tag.transform.position = (Vector2)npc.tr.position + npc.tagOffset; // 스프라이트가 그대로인 경우(위 함수가 return)를 위해 재배치
         if (s.npc == NpcKind.Processor) processorTimer = processorInterval;
         Speak(s.npc, s.npc == NpcKind.Ram ? ramRescueLine : processorRescueLine);
 
@@ -1056,10 +1092,26 @@ public class RansomwareBossFight : MonoBehaviour
     {
         phase2 = true;
         SpeedUpBgm();
+        ChangeBossAppearance(bossSpritePhase2);
         StopAllCoroutines();
         foreach (var sl in slots) if (sl.filled && sl.lockIcon != null) Destroy(sl.lockIcon.gameObject);
         ClearAllBullets();
         StartCoroutine(Phase2Routine());
+    }
+
+    /// <summary>보스 외관을 다른 스프라이트로 바꾼다. 이미지 비율이 달라도 기존과 같은 화면상 높이를 유지한다. sprite가 null이면 그대로 둔다.</summary>
+    private void ChangeBossAppearance(Sprite sprite)
+    {
+        if (sprite == null || bossSr == null) return;
+        float worldHeight = bossSr.sprite != null ? bossSr.sprite.bounds.size.y * boss.localScale.y : boss.localScale.y;
+        bossSr.sprite = sprite;
+        float newHeight = sprite.bounds.size.y;
+        if (newHeight > 0.0001f)
+        {
+            float scale = worldHeight / newHeight;
+            boss.localScale = new Vector3(scale, scale, 1f);
+            bossBaseScale = boss.localScale;
+        }
     }
 
     /// <summary>전환 연출: 공격을 멈추고 모든 컴퓨터를 잠근 뒤 카운트다운 시작. 이 동안 판정 없음.</summary>
