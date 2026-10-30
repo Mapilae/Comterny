@@ -20,6 +20,9 @@ public class PlayerMovement : MovingFootPrint
 
     public bool forceRun; //달리기 강제 여부
 
+    public bool slowOnShift; //켜면 기본이 달리기이고 Shift가 정밀(저속) 이동이 된다 (보스전용)
+    public float slowMoveScale = 0.45f;
+
     private FloatingJoystick fixedJoystick;
     private Vector2 input;
     private bool isRunning;
@@ -34,7 +37,8 @@ public class PlayerMovement : MovingFootPrint
     {
         instance = this;
 
-        fixedJoystick = GameObject.FindWithTag("Mobile").transform.GetChild(0).GetComponent<FloatingJoystick>();
+        var mobile = GameObject.FindWithTag("Mobile"); //보스 씬처럼 Mobile Canvas가 없는 씬도 있다
+        if (mobile != null) fixedJoystick = mobile.transform.GetChild(0).GetComponent<FloatingJoystick>();
     }
 
     private void Start()
@@ -42,7 +46,11 @@ public class PlayerMovement : MovingFootPrint
         moveSpeed1x = moveSpeed;
 
         spriteRender = GetComponent<SpriteRenderer>();
-        if (footprintObj == null) footprintObj = GameObject.FindWithTag("FootPrint").transform.GetChild(0).gameObject;
+        if (footprintObj == null)
+        {
+            var footPrint = GameObject.FindWithTag("FootPrint");
+            if (footPrint != null) footprintObj = footPrint.transform.GetChild(0).gameObject;
+        }
         StartFootPrint();
         targetPos = transform.position; // 초기 위치 설정
     }
@@ -54,14 +62,21 @@ public class PlayerMovement : MovingFootPrint
 
 //#if UNITY_EDITOR
         //달리기 탐지 목적(걷는WASD와는 관련 없음)
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
+        if (slowOnShift)
+        {
+            bool slow = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            moveSpeed = slow ? moveSpeed2x * slowMoveScale : moveSpeed2x;
+            isRunning = !slow;
+        }
+        else if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl))
             SetIfRunning(true);
         else
             SetIfRunning(false);
         if (Input.GetKeyDown(KeyCode.Space)) SetIsSpace(true);
 //#endif
 #if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
-        if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.RUN))
+        if (slowOnShift || fixedJoystick == null) { }
+        else if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.RUN))
             SetIfRunning(true);
         else if (fixedJoystick.CurrentMovementState.Equals(Joystick.MovementState.WALK))
             SetIfRunning(false);
@@ -174,8 +189,11 @@ public class PlayerMovement : MovingFootPrint
 #if UNITY_ANDROID || UNITY_IOS
 //        Debug.Log("android");
         //모바일인 경우
-        inputVec.x = fixedJoystick.Horizontal;
-        inputVec.y = fixedJoystick.Vertical;
+        if (fixedJoystick != null)
+        {
+            inputVec.x = fixedJoystick.Horizontal;
+            inputVec.y = fixedJoystick.Vertical;
+        }
         // Debug.Log(inputVec.x + ",  " + inputVec.y);
 
 #endif

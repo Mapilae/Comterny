@@ -23,6 +23,7 @@ public static class RansomwareBossSceneBuilder
     const string DefaultHitSfxPath = "Assets/05. Sounds/error-9-206494.mp3";
     const string DefaultGlowMaterialPath = "Assets/03. Image/Emmision.mat";
     const string DefaultScreenGlowMaterialPath = "Assets/03. Image/Emmision_light.mat";
+    const string PlayerPrefabPath = "Assets/04. Prefabs/!!이거 쓰세요/!!필수로 넣어야함!! 씬 하나당 꼭 1개씩만 두세요/Player.prefab";
     const string UnlitMatPath = "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Unlit-Default.mat";
 
     [MenuItem("Comterny/보스전/씬 오브젝트 생성(갱신)")]
@@ -149,30 +150,10 @@ public static class RansomwareBossSceneBuilder
 
         // ---- 플레이어 (본편 Player와 같은 Spine)
         var pStart = f.DefaultPlayerStart;
-        var player = new GameObject("Player (시작 위치)").transform;
-        player.SetParent(root, false);
+        var existingPlayer = Object.FindAnyObjectByType<PlayerMovement>();
+        var player = existingPlayer != null ? existingPlayer.transform
+            : ((GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(PlayerPrefabPath), scene)).transform;
         player.position = pStart;
-        var psr = player.gameObject.AddComponent<SpriteRenderer>();
-        psr.sprite = f.playerSprite != null ? f.playerSprite : circle;
-        if (unlit != null) psr.sharedMaterial = unlit;
-        psr.sortingOrder = 12;
-        if (f.playerSkeleton != null)
-        {
-            psr.enabled = false;
-            var sa = SkeletonAnimation.NewSkeletonAnimationGameObject(f.playerSkeleton);
-            sa.name = "PlayerSpine";
-            sa.transform.SetParent(player, false);
-            sa.transform.localScale = new Vector3(-f.playerSpineScale, f.playerSpineScale, 1f); // 본편처럼 오른쪽 보기
-            sa.transform.localPosition = f.playerSpineOffset;
-            sa.AnimationName = f.idleAnim;
-            sa.loop = true;
-            sa.GetComponent<MeshRenderer>().sortingOrder = 12;
-        }
-        else
-        {
-            var b = psr.sprite.bounds.size;
-            player.localScale = new Vector3(0.95f / b.x, 0.95f / b.y, 1f);
-        }
 
         // ---- 컴포넌트에 연결
         Undo.RecordObject(f, "Build Boss Scene");

@@ -261,6 +261,7 @@ public class RansomwareBossFight : MonoBehaviour
     private Transform player;
     private SpriteRenderer playerSr;
     private SkeletonAnimation playerSpine;
+    private PlayerMovement playerMovement; // 있으면 이동/애니메이션은 본편 PlayerMovement가 맡는다
     private string playerAnim;
     private float clearAt;
     private bool leaving;
@@ -852,6 +853,7 @@ public class RansomwareBossFight : MonoBehaviour
     private void BuildPlayer()
     {
         playerPos = PlayerStart;
+        SetupPlayerPrefab();
         SpriteRenderer sr;
         if (scenePlayer != null)
         {
@@ -896,6 +898,61 @@ public class RansomwareBossFight : MonoBehaviour
         playerNameLabel = MakeText("NameLabel", baseName, playerPos + new Vector2(0, 0.75f), 2.8f, Color.white, 21);
         carryLabel = MakeText("CarryLabel", "", playerPos + new Vector2(0, 1.1f), 2.4f, new Color(0.55f, 1f, 0.55f), 21);
         shownName = baseName;
+    }
+
+    /// <summary>씬의 본편 Player 프리팹을 찾아 조작 대상으로 삼고 보스전 규칙(속도/저속 이동/크기/벽)을 적용한다.
+    /// scenePlayer가 예전 위치 표시용 오브젝트면 그 위치만 이어받고 꺼 둔다.</summary>
+    private void SetupPlayerPrefab()
+    {
+        playerMovement = scenePlayer != null ? scenePlayer.GetComponent<PlayerMovement>() : null;
+        if (playerMovement == null) playerMovement = FindAnyObjectByType<PlayerMovement>();
+        if (playerMovement == null) return;
+
+        Vector2 start = scenePlayer != null ? scenePlayer.position : PlayerStart;
+        if (scenePlayer != null && scenePlayer != playerMovement.transform) scenePlayer.gameObject.SetActive(false);
+        scenePlayer = playerMovement.transform;
+        scenePlayer.position = start;
+        scenePlayer.localScale = new Vector3(playerSpineScale, playerSpineScale, 1f);
+
+        playerMovement.moveSpeed2x = playerSpeed;
+        playerMovement.slowOnShift = true;
+        PlayerMovement.isCutscene = false;
+        playerMovement.ChangeCanMove(true); // static: 본편에서 입장할 때/재시작 전에 꺼진 값이 남아 있다
+        if (playerMovement.rb != null) playerMovement.rb.interpolation = RigidbodyInterpolation2D.Interpolate; // 카메라 추적 시 떨림 방지
+
+        foreach (var sa in scenePlayer.GetComponentsInChildren<SkeletonAnimation>())
+            sa.GetComponent<MeshRenderer>().sortingOrder = 12;
+        var listener = scenePlayer.GetComponent<AudioListener>();
+        if (listener != null && cam != null && cam.GetComponent<AudioListener>() != null) listener.enabled = false;
+
+        BuildPlayerWalls();
+    }
+
+    /// <summary>플레이어 이동 범위 벽. 기존 좌표 제한과 같은 범위(중심 기준 Arena 안쪽 0.4)가 되도록 콜라이더 크기만큼 민다.</summary>
+    private void BuildPlayerWalls()
+    {
+        var col = playerMovement.GetComponent<CapsuleCollider2D>();
+        if (col == null) return;
+        Physics2D.SyncTransforms();
+        Bounds b = col.bounds;
+        Vector2 p = scenePlayer.position;
+        var r = Arena;
+        const float m = 0.4f, thick = 2f;
+        float left = r.xMin + m - (p.x - b.min.x), right = r.xMax - m + (b.max.x - p.x);
+        float bottom = r.yMin + m - (p.y - b.min.y), top = r.yMax - m + (b.max.y - p.y);
+        float cx = (left + right) / 2f, cy = (bottom + top) / 2f, w = right - left + thick * 2f, h = top - bottom + thick * 2f;
+        MakeWall("WallLeft", new Vector2(left - thick / 2f, cy), new Vector2(thick, h));
+        MakeWall("WallRight", new Vector2(right + thick / 2f, cy), new Vector2(thick, h));
+        MakeWall("WallBottom", new Vector2(cx, bottom - thick / 2f), new Vector2(w, thick));
+        MakeWall("WallTop", new Vector2(cx, top + thick / 2f), new Vector2(w, thick));
+    }
+
+    private void MakeWall(string wallName, Vector2 pos, Vector2 size)
+    {
+        var go = new GameObject(wallName);
+        go.transform.SetParent(root, false);
+        go.transform.position = pos;
+        go.AddComponent<BoxCollider2D>().size = size;
     }
 
     private Vector2 PlayerStart => new(0f, -arenaHalfSize.y + 1.5f);
@@ -1299,6 +1356,12 @@ public class RansomwareBossFight : MonoBehaviour
 
     private void UpdatePlayer(float dt)
     {
+        if (playerMovement != null)
+        {
+            playerPos = player.position;
+            return;
+        }
+
         var input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (DebugMoveInput != Vector2.zero) input = DebugMoveInput; // 자동 테스트용
         if (input.sqrMagnitude > 1f) input.Normalize();
@@ -1693,7 +1756,7 @@ public class RansomwareBossFight : MonoBehaviour
     public float MaxBulletRadius { get { float m = 0; foreach (var b in bullets) if (b.alive) m = Mathf.Max(m, b.radius); return m; } }
     /// <summary>자동 테스트용: 다음 이동 강제</summary>
     public void DebugTeleport() { if (state == FightState.Fight && !bossTransit) StartCoroutine(TeleportRoutine(force: true)); }
-    public void DebugSetPlayerPos(Vector2 p) => playerPos = p;
+    public void DebugSetPlayerPos(Vector2 p) { playerPos = p; if (player != null) player.position = p; }
     public void DebugChainLasers() { if (state == FightState.Fight) StartCoroutine(ChainLasers()); }
     public bool BgmPlaying => bgmSource != null && bgmSource.isPlaying;
     public string CurrentPlayerAnim => playerAnim;
@@ -1729,6 +1792,7 @@ public class RansomwareBossFight : MonoBehaviour
         bossSr.color = new Color(0.55f, 0.55f, 0.6f);
         playerNameLabel.text = baseName;
         clearAt = Time.time;
+        if (playerMovement != null) playerMovement.ChangeCanMove(false);
         SetPlayerAnim(idleAnim);
         ShowMessage(doorOpenSprite != null ? "<color=#7FF>모든 문을 열었다!</color>" : "<color=#7FF>방화벽 복구 완료!</color>",
             $"{(doorOpenSprite != null ? "열린 문으로 보안팀이 들이닥쳐 랜섬웨어를 검거했다." : "도망갈 곳이 없어진 랜섬웨어를 검거했다.")}\n<size=80%>{(string.IsNullOrEmpty(NextScene) ? "R: 다시하기" : "Space: 계속   R: 다시하기")}</size>", -1f);
@@ -1748,6 +1812,7 @@ public class RansomwareBossFight : MonoBehaviour
         boss.localScale = bossBaseScale;
         playerNameLabel.text = BossNameCorruptor.RandomHex(8);
         playerSr.color = new Color(1f, 0.2f, 0.2f, 0.5f);
+        if (playerMovement != null) playerMovement.ChangeCanMove(false);
         if (playerSpine != null)
         {
             SetPlayerAnim(idleAnim);
