@@ -218,6 +218,9 @@ public class RansomwareBossFight : MonoBehaviour
         public bool carried, placed;
         public Transform tr;
         public TextMeshPro label;
+        public Vector3 baseScale;
+        public Vector2 dropFrom;
+        public float dropStartedAt = -1f; // 0 이상이면 떨어지는 연출 진행 중
     }
 
     private enum NpcKind { None, Ram, Processor }
@@ -475,6 +478,7 @@ public class RansomwareBossFight : MonoBehaviour
     private static readonly Color BrokenColor = new(1f, 0.82f, 0.2f);           // 끼워야 할 자리 (목표 → 노랑)
     private const float WallThick = 0.3f;
     private const float GapWidth = 1.7f;
+    private const float KeyDropDistance = 1.6f, KeyDropHeight = 1.1f, KeyDropTime = 0.45f, KeyNoticeTime = 2f;
 
     private void BuildArena()
     {
@@ -547,6 +551,7 @@ public class RansomwareBossFight : MonoBehaviour
                 ? MakeSprite($"Key_{i}", keySprite, p, new Vector2(1.0f, 0.5f), Color.white, 8)   // 코드 조각 = 열쇠
                 : MakeSprite($"Fragment_{i}", squareSprite, p, new Vector2(1.25f, 0.5f), new Color(0.1f, 0.35f, 0.15f, 0.95f), 8);
             f.tr = sr.transform;
+            f.baseScale = f.tr.localScale;
             f.label = MakeText("Code", FragmentCode(i), p + (keySprite != null ? new Vector2(0, 0.48f) : Vector2.zero), 2.4f, new Color(0.55f, 1f, 0.55f), 9);
             f.label.transform.SetParent(f.tr, true);
             fragments.Add(f);
@@ -1500,6 +1505,8 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (state == FightState.GameOver) return;
 
+        UpdateKeyDrops();
+
         // 이름 라벨 (손상 단계일수록 글리치)
         Vector2 jitter = corruption > 0 && state != FightState.Clear
             ? Random.insideUnitCircle * (0.02f * corruption)
@@ -1565,10 +1572,11 @@ public class RansomwareBossFight : MonoBehaviour
         playerNameLabel.text = shownName;
         invincibleUntil = Time.time + invincibleTime;
         ClearBulletsNear(playerPos, 1.6f);
-        if (carrying != null && IsRescued(NpcKind.Ram)) Speak(NpcKind.Ram, ramActionLine); // 램 패시브: 열쇠 보존
+        bool droppedKey = carrying != null && !IsRescued(NpcKind.Ram);
+        if (carrying != null && !droppedKey) Speak(NpcKind.Ram, ramActionLine); // 램 패시브: 열쇠 보존
         else DropCarried();
         RefreshHud();
-        ShowMessage("<color=#F55>파일이 암호화되고 있다!</color>",
+        ShowMessage(droppedKey ? "<color=#FC3>열쇠를 떨어뜨렸다!</color>" : "<color=#F55>파일이 암호화되고 있다!</color>",
             corruption >= BossNameCorruptor.MaxLevel ? "한 번 더 맞으면 끝이다... 복호화 아이템을 찾자" : "복호화 아이템을 먹으면 원래대로 돌아온다", 1.6f);
     }
 
@@ -1661,7 +1669,7 @@ public class RansomwareBossFight : MonoBehaviour
         {
             foreach (var f in fragments)
             {
-                if (f.carried || f.placed) continue;
+                if (f.carried || f.placed || IsKeyFlying(f)) continue;
                 if (Vector2.Distance(f.pos, playerPos) < pickupRange)
                 {
                     carrying = f;
@@ -1766,14 +1774,46 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (carrying == null) return;
         carrying.carried = false;
-        carrying.pos = playerPos + Random.insideUnitCircle.normalized * 0.9f;
+        carrying.pos = playerPos + Random.insideUnitCircle.normalized * KeyDropDistance;
         var r = Arena;
         carrying.pos.x = Mathf.Clamp(carrying.pos.x, r.xMin + 0.8f, r.xMax - 0.8f);
         carrying.pos.y = Mathf.Clamp(carrying.pos.y, r.yMin + 0.8f, r.yMax - 0.8f);
-        carrying.tr.position = carrying.pos;
+        carrying.dropFrom = playerPos;
+        carrying.dropStartedAt = Time.time;
+        carrying.tr.position = playerPos;
+        carrying.tr.localScale = carrying.baseScale;
         carrying.tr.gameObject.SetActive(true);
         carrying = null;
         carryLabel.text = "";
+    }
+
+    private bool IsKeyFlying(Fragment f) => f.dropStartedAt >= 0f && Time.time - f.dropStartedAt < KeyDropTime;
+
+    // 떨어진 열쇠: 플레이어에게서 포물선으로 튀어나간 뒤 잠시 두근거려 위치를 알린다
+    // Phase2/Clear의 StopAllCoroutines에 끊기지 않도록 코루틴 대신 Update에서 진행
+    private void UpdateKeyDrops()
+    {
+        foreach (var f in fragments)
+        {
+            if (f.dropStartedAt < 0f) continue;
+            float t = Time.time - f.dropStartedAt;
+            if (t < KeyDropTime)
+            {
+                float k = t / KeyDropTime;
+                f.tr.position = Vector2.Lerp(f.dropFrom, f.pos, k) + Vector2.up * (4f * KeyDropHeight * k * (1f - k));
+            }
+            else if (t < KeyDropTime + KeyNoticeTime)
+            {
+                f.tr.position = f.pos;
+                f.tr.localScale = f.baseScale * (1f + 0.25f * Mathf.Abs(Mathf.Sin(t * 8f)));
+            }
+            else
+            {
+                f.tr.position = f.pos;
+                f.tr.localScale = f.baseScale;
+                f.dropStartedAt = -1f;
+            }
+        }
     }
     #endregion
 
