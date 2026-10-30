@@ -39,6 +39,10 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("맞았을 때 효과음 (기본: 05. Sounds/error-9)")]
     public AudioClip hitSfx;
     [Range(0f, 1f)] public float hitSfxVolume = 0.7f;
+    [Tooltip("보스 공격/이동 연출에 쓰는 글로우 머터리얼 (기본: 03. Image/Emmision). 빛 번짐은 씬 Volume의 Bloom이 만든다")]
+    public Material glowMaterial;
+    [Tooltip("감염된 PC 화면에 쓰는 약한 글로우 머터리얼 (기본: 03. Image/Emmision_light)")]
+    public Material screenGlowMaterial;
 
     [Header("플레이어 캐릭터 (본편 Player 프리팹과 같은 Spine)")]
     [Tooltip("User Debug/새 폴더/skeleton_SkeletonData - 본편 Player 프리팹이 쓰는 것과 동일")]
@@ -156,6 +160,7 @@ public class RansomwareBossFight : MonoBehaviour
     {
         public Vector2 pos;
         public SpriteRenderer screen;
+        public Material screenBaseMat; // 감염 해제 시 되돌릴 원래 머터리얼
         public TextMeshPro label;
         public bool infected;
     }
@@ -652,6 +657,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     public static readonly Color ScreenOk = new(0.42f, 0.45f, 0.46f);       // 채도 낮은 회청색
     public static readonly Color ScreenInfected = new(0.55f, 0.2f, 0.2f);  // 보스가 있는 PC (탁한 빨강)
+    private static readonly Color ScreenInfectedGlow = new(1f, 0.25f, 0.25f); // 글로우 머터리얼을 쓸 때의 감염 화면 (Bloom 임계값을 넘는 밝기)
 
     /// <summary>랜섬웨어가 옮겨 다니는 사내 컴퓨터들. 0번이 처음 자리(방 맨 위).</summary>
     private void BuildComputers()
@@ -696,7 +702,13 @@ public class RansomwareBossFight : MonoBehaviour
         if (idx < 0 || idx >= computers.Count) return;
         var c = computers[idx];
         c.infected = on;
-        if (c.screen != null) c.screen.color = on ? ScreenInfected : ScreenOk;
+        if (c.screen != null)
+        {
+            if (c.screenBaseMat == null) c.screenBaseMat = c.screen.sharedMaterial;
+            bool glow = on && screenGlowMaterial != null;
+            c.screen.sharedMaterial = glow ? screenGlowMaterial : c.screenBaseMat;
+            c.screen.color = glow ? ScreenInfectedGlow : on ? ScreenInfected : ScreenOk;
+        }
         if (c.label != null) c.label.color = on ? ScreenInfected : DullTextColor;
     }
 
@@ -1408,6 +1420,7 @@ public class RansomwareBossFight : MonoBehaviour
 
         // 3) 전류 덩어리가 전선을 타고 이동 (wireTravelTime)
         var spark = MakeSprite("WireSpark", circleSprite, from, Vector2.one * 0.5f, SafeElectric, 31);
+        spark.sharedMaterial = GlowMat;
         float travel = Mathf.Max(0.1f, wireTravelTime - 0.15f);
         for (float t = 0; t < travel; t += Time.deltaTime)
         {
@@ -1517,6 +1530,8 @@ public class RansomwareBossFight : MonoBehaviour
 
     // =====================================================================
     // 전기 선 그리기 헬퍼
+    private Material GlowMat => glowMaterial != null ? glowMaterial : spriteMat;
+
     private Bolt MakeBolt(Color glowColor, float glowWidth, float coreWidth, int order, Color? coreColor = null)
     {
         var b = new Bolt { go = new GameObject("Bolt") };
@@ -1533,7 +1548,7 @@ public class RansomwareBossFight : MonoBehaviour
         go.transform.SetParent(parent, false);
         var lr = go.AddComponent<LineRenderer>();
         lr.useWorldSpace = true;
-        if (spriteMat != null) lr.sharedMaterial = spriteMat;
+        if (GlowMat != null) lr.sharedMaterial = GlowMat;
         lr.startColor = lr.endColor = c;
         lr.startWidth = lr.endWidth = w;
         lr.numCapVertices = 2;
@@ -1760,6 +1775,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (b == null)
         {
             b = new Bullet { sr = MakeSprite("Bullet", circleSprite, from, Vector2.one * 0.3f, color, 15) };
+            b.sr.sharedMaterial = GlowMat;
             bullets.Add(b);
         }
         float rad = angleDeg * Mathf.Deg2Rad;

@@ -21,6 +21,8 @@ public static class RansomwareBossSceneBuilder
     const string CirclePath = SpriteDir + "/BossFx_Circle.png";
     const string DefaultBgmPath = "Assets/05. Sounds/BGM/Comterny01(120) (1).mp3";
     const string DefaultHitSfxPath = "Assets/05. Sounds/error-9-206494.mp3";
+    const string DefaultGlowMaterialPath = "Assets/03. Image/Emmision.mat";
+    const string DefaultScreenGlowMaterialPath = "Assets/03. Image/Emmision_light.mat";
     const string UnlitMatPath = "Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Unlit-Default.mat";
 
     [MenuItem("Comterny/보스전/씬 오브젝트 생성(갱신)")]
@@ -176,6 +178,8 @@ public static class RansomwareBossSceneBuilder
         Undo.RecordObject(f, "Build Boss Scene");
         if (f.bgm == null) f.bgm = AssetDatabase.LoadAssetAtPath<AudioClip>(DefaultBgmPath);
         if (f.hitSfx == null) f.hitSfx = AssetDatabase.LoadAssetAtPath<AudioClip>(DefaultHitSfxPath);
+        if (f.glowMaterial == null) f.glowMaterial = AssetDatabase.LoadAssetAtPath<Material>(DefaultGlowMaterialPath);
+        if (f.screenGlowMaterial == null) f.screenGlowMaterial = AssetDatabase.LoadAssetAtPath<Material>(DefaultScreenGlowMaterialPath);
         f.sceneFloor = floor;
         f.scenePlayer = player;
         f.sceneBoss = bossSr.transform;
