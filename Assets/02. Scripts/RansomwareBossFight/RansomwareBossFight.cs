@@ -97,7 +97,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     [Header("퍼즐")]
     [Tooltip("방화벽 문 개수. 열쇠는 NPC 몫까지 더해서 생성된다")]
-    [Range(2, 6)] public int fragmentCount = 4;
+    [Range(2, 6)] public int fragmentCount = 5;
     public float pickupRange = 0.6f;
     public float slotRange = 0.95f;
 
@@ -942,6 +942,7 @@ public class RansomwareBossFight : MonoBehaviour
         // 판정점(작은 코어) 표시 - 탄막 게임처럼 실제 피격 범위를 보여준다
         var core = MakeSprite("HitCore", circleSprite, playerPos, Vector2.one * playerHitRadius * 2f, new Color(1f, 1f, 1f, 0.9f), 13);
         core.transform.SetParent(player, true);
+        core.enabled = false;
 
         playerNameLabel = MakeText("NameLabel", baseName, playerPos + new Vector2(0, 0.75f), 2.8f, Color.white, 21);
         carryLabel = MakeText("CarryLabel", "", playerPos + new Vector2(0, 1.1f), 2.4f, new Color(0.55f, 1f, 0.55f), 21);
@@ -1267,7 +1268,7 @@ public class RansomwareBossFight : MonoBehaviour
         for (int i = 0; i < computers.Count; i++)
         {
             SetInfected(i, true);
-            if (computers[i].label != null) computers[i].label.text = "LOCKED";
+            if (computers[i].label != null) computers[i].label.text = "INFECTED";
         }
         ShowMessage("<color=#F55>랜섬웨어가 분노했다!</color>", $"\"{baseName}, 협상은 끝났어.\"", 1.6f);
         yield return new WaitForSeconds(1.6f);
@@ -2075,7 +2076,7 @@ public class RansomwareBossFight : MonoBehaviour
         bossTransit = false;
         DestroyBolt(wire);
         if (!computers[to].infected) SetInfected(to, true); // 이동 중 복호화로 치료됐어도 보스가 있으면 감염
-        if (computers[to].label != null) computers[to].label.text = "LOCKED";
+        if (computers[to].label != null) computers[to].label.text = "INFECTED";
         for (float t = 0; t < 0.18f; t += Time.deltaTime)
         {
             float k = t / 0.18f;
