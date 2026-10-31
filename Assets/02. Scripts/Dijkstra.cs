@@ -37,6 +37,10 @@ public class Dijkstra : MonoBehaviour
     public GameObject failPopup;
     public GameObject demoEndObj;
 
+    [Header("클리어 후 보스전 (끄면 예전처럼 데모 종료 화면)")]
+    public bool goToBossAfterClear = true;
+    public string bossSceneName = BossFightEntry.DefaultBossScene;
+
     private readonly List<int> correctList = new() { 1, 3, 5, 7 };
 
     private readonly string strPath = "AABCDEFGG";
@@ -157,8 +161,13 @@ public class Dijkstra : MonoBehaviour
     private void DisableThis()
     {
         Debug.Log("END");
-        //temp
-        // LodingScene.instance.LoadScene();
+        if (goToBossAfterClear)
+        {
+            // 다익스트라 클리어 → 랜섬웨어 보스전 입장
+            gameObject.SetActive(false);
+            BossFightEntry.EnterBossFight(bossSceneName);
+            return;
+        }
         demoEndObj.SetActive(true);
         gameObject.SetActive(false);
     }

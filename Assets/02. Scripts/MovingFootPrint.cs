@@ -71,7 +71,7 @@ public class MovingFootPrint : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         InitializeFootprintPool();
 
-        if (rb != null)
+        if (rb != null && footprintObj != null)
             StartCoroutine(CreateFootPrint());
     }
 

@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Comterny.sln"
+    "dotnet.defaultSolution": "Comterny.slnx"
 }

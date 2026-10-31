@@ -1,0 +1,10 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="AstarPathfindingProject.csproj" />
+  <Project Path="spine-unity-editor.csproj" />
+  <Project Path="spine-csharp.csproj" />
+  <Project Path="spine-unity.csproj" />
+  <Project Path="PackageToolsEditor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="AstarPathfindingProjectEditor.csproj" />
+</Solution>

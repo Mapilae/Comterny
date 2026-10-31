@@ -5538,7 +5538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6799206763602439214, guid: e68d725fe9bb54acf9348dc48f0b4c5f, type: 3}
       propertyPath: LoadSceneName
-      value: OSBossCombat
+      value: RansomwareBoss
       objectReference: {fileID: 0}
     - target: {fileID: 8933575954712612556, guid: e68d725fe9bb54acf9348dc48f0b4c5f, type: 3}
       propertyPath: m_Name

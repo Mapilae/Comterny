@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/Soeuns/OSBossCombat.unity
     guid: 7b93f78869de74c5ab3948bac323fb9f
+  - enabled: 1
+    path: Assets/01. Scenes/Boss/RansomwareBoss.unity
+    guid: 20ae703d026e46b8aa06e625ae11049c
   - enabled: 0
     path: Assets/01. Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
