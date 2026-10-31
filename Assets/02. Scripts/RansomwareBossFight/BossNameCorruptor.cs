@@ -43,6 +43,16 @@ public static class BossNameCorruptor
         return jong > 0 ? ((char)(c - jong)).ToString() : InitialOf(c).ToString();
     }
 
+    /// <summary>이름 뒤에 붙일 조사 '(으)로': 받침이 있으면 "으로", 없거나 ㄹ 받침이거나 한글이 아니면 "로".</summary>
+    public static string EuroJosa(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "로";
+        char last = name[name.Length - 1];
+        if (!IsHangulSyllable(last)) return "로";
+        int jong = (last - 0xAC00) % 28;
+        return jong > 0 && jong != 8 ? "으로" : "로"; // 8 = ㄹ 받침 (철로, 서울로)
+    }
+
     public static string Hex(int digits, System.Random rng = null)
     {
         var sb = new StringBuilder("0x");

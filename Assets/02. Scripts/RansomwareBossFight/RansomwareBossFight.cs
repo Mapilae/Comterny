@@ -1192,8 +1192,8 @@ public class RansomwareBossFight : MonoBehaviour
         foreach (var f in fragments) f.label.text = FragmentCode(f.index);
         if (carrying != null) carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(carrying.index)}]" : $"[{FragmentCode(carrying.index)}]";
         foreach (var s in slots) s.label.text = SlotLabel(s);
-        ShowMessage("<color=#F55>몸값을 내놓아라</color>",
-            AddressMasked ? "제한 시간이 끝나면 문이 다시 잠긴다 - 주소도 암호화됐다!" : "제한 시간이 끝나면 문이 다시 잠긴다", 1.4f);
+        ShowMessage("<color=#F55>이젠 다 필요없어! 전부 없애 버릴거야!</color>",
+            AddressMasked ? "방화벽이 뚫리기 전에 모두 막아야 한다. 주소도 암호화됐다!" : "방화벽이 뚫리기 전에 모두 막아야 한다", 1.4f);
         yield return new WaitForSeconds(1.4f);
 
         for (int i = 0; i < computers.Count; i++)
@@ -1216,7 +1216,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
         int sec = Mathf.CeilToInt(phase2Left);
         bool flash = sec <= 10 && Mathf.FloorToInt(Time.time * 4f) % 2 == 0;
-        countdownText.text = $"몸값 결제까지 <color={(flash ? "#FFF" : "#F55")}>{sec / 60:00}:{sec % 60:00}</color>";
+        countdownText.text = $"복호화 키 삭제까지 <color={(flash ? "#FFF" : "#F55")}>{sec / 60:00}:{sec % 60:00}</color>";
 
         // 보스가 떠난 감염 컴퓨터는 포탑이 된다. 화면 밖에서 날아오는 탄은 피할 수 없으니 보이는 것만 쏜다
         var view = ViewRect;
@@ -1287,9 +1287,9 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
-        ShowMessage("<color=#C88>랜섬웨어</color>", $"\"방화벽은 이미 부서졌어. {baseName}, 네 파일도 곧 내 거야!\"", 2.6f);
+        ShowMessage("<color=#C88>랜섬웨어</color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
         yield return new WaitForSeconds(2.6f);
-        ShowMessage(keySprite != null ? "랜섬웨어가 문을 전부 잠갔다! 열쇠로 맞는 주소의 문을 열어라" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하라!",
+        ShowMessage(keySprite != null ? "랜섬웨어가 방화벽을 모두 무너뜨렸다! \n포인터 열쇠로 맞는 주소의 문을 열어 복구하자" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하자!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
         state = FightState.Fight;
         decryptSpawnTimer = decryptSpawnInterval;
@@ -1579,7 +1579,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (carrying != null && !droppedKey) Speak(NpcKind.Ram, ramActionLine); // 램 패시브: 열쇠 보존
         else DropCarried();
         RefreshHud();
-        ShowMessage(droppedKey ? "<color=#FC3>열쇠를 떨어뜨렸다!</color>" : "<color=#F55>파일이 암호화되고 있다!</color>",
+        ShowMessage(droppedKey ? "<color=#FC3>열쇠를 떨어뜨렸다!</color>" : "<color=#F55>내 파일이 암호화되고 있다!</color>",
             corruption >= BossNameCorruptor.MaxLevel ? "한 번 더 맞으면 끝이다... 복호화 아이템을 찾자" : "복호화 아이템을 먹으면 원래대로 돌아온다", 1.6f);
     }
 
@@ -1621,7 +1621,9 @@ public class RansomwareBossFight : MonoBehaviour
         shownName = BossNameCorruptor.Corrupt(baseName, corruption);
         playerNameLabel.text = shownName;
         RefreshHud();
-        ShowMessage("<color=#7FF>복호화 성공!</color>", corruption == 0 ? $"{baseName}(으)로 완전히 돌아왔다" : "조금 더 복구해야 한다", 1.4f);
+        ShowMessage("<color=#7FF>복호화 성공!</color>", corruption == 0 ? $"{baseName}{BossNameCorruptor.EuroJosa(baseName)} 완전히 돌아왔다" : "조금 더 복구해야 한다", 1.4f);
+
+
     }
 
     private void UpdateDecryptItem(float dt)
@@ -1653,7 +1655,7 @@ public class RansomwareBossFight : MonoBehaviour
             decryptSpawnTimer = decryptSpawnInterval;
             Decrypt();
             if (phase2 && CureNearestComputer(playerPos) >= 0)
-                ShowMessage("<color=#7FF>복호화 성공!</color>", "가장 가까운 컴퓨터를 치료했다", 1.4f);
+                ShowMessage("<color=#7FF>복호화 성공!</color>", "가장 가까운 감염된 컴퓨터도 치료했다", 1.4f);
         }
         else if (remain <= 0)
         {
