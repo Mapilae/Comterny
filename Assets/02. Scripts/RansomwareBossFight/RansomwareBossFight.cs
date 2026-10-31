@@ -5,6 +5,7 @@ using Spine.Unity;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// [Scene 6. Puzzle 9. 포인터] 운영체제 부서 회장실 앞 방화벽 - 랜섬웨어 보스전 (프로토타입)
@@ -139,7 +140,7 @@ public class RansomwareBossFight : MonoBehaviour
     public bool phase2MaskAddressInNormal;
 
     [Header("구출 NPC: 문과 별개로 맵 안쪽 무작위 위치에 묶여 있고, 주소가 맞는 열쇠로 풀어준다 (클리어에 필수는 아님)")]
-    [Tooltip("맞는 열쇠를 든 플레이어가 이 거리 안에 들어오면 구출")]
+    [Tooltip("이 거리 안에서 맞는 열쇠를 스킬 버튼으로 꽂으면 구출")]
     public float npcRescueRange = 0.9f;
     [Tooltip("갇혀있을 때 모습. 비우면 색 사각형으로 표시")]
     public Sprite processorSprite, ramSprite;
@@ -166,6 +167,10 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("맵에 설치한 휴지통들. 트로이목마를 든 채 가까이 가면 버려진다 (열쇠는 못 버림)")]
     public List<Transform> trashCans = new();
     public float trashRange = 0.9f;
+
+    [Header("스킬 버튼: Mobile Canvas의 SearchButton (PC는 Space)")]
+    [Tooltip("버튼에 지금 할 수 있는 행동을 표시하는 텍스트. 할 수 있는 행동이 없으면 꺼진다")]
+    public TMP_Text changeItemText;
 
     [Header("근접 공격: 전기 채찍")]
     public bool electricWhip = true;
@@ -313,6 +318,13 @@ public class RansomwareBossFight : MonoBehaviour
     private readonly List<(SpriteRenderer sr, float startedAt)> trojanBlasts = new();
     private Trojan heldTrojan, swappedOutTrojan;
 
+    private bool skillPressed;
+    private string skillLabel;
+    private Sprite skillIcon;
+    private Fragment selfDroppedKey;
+    private float selfDroppedAt;
+    private const float KeyRepickDelay = 1.5f;
+
     private bool phase2;
     private float phase2Left;
     private TextMeshPro countdownText;
@@ -351,6 +363,7 @@ public class RansomwareBossFight : MonoBehaviour
         BuildPlayer();
         BuildBoss();
         BuildHud();
+        BindSkillButton();
         camFollow = CameraTarget();
         LateUpdate();
 
@@ -1094,7 +1107,7 @@ public class RansomwareBossFight : MonoBehaviour
         hintText = MakeHudText("HUD_Hint", $"int* fw = 0x{baseAddr:X4};  <size=80%>// sizeof(int)=4</size>",
             new Vector2(0f, top), 3f, new Color(0.85f, 0.85f, 0.85f), 30);
         progressText = MakeHudText("HUD_Progress", "", new Vector2(halfW - 0.3f - 9f, top), 3.2f, Color.white, 30, TextAlignmentOptions.Right);
-        helpText = MakeHudText("HUD_Help", "WASD/방향키 이동   Shift 천천히   R 재시작" + (debugKeys ? "   <color=#555>[F1 조각자동 F2 무적 F3 피격]</color>" : ""),
+        helpText = MakeHudText("HUD_Help", "WASD/방향키 이동   Space 스킬   Shift 천천히   R 재시작" + (debugKeys ? "   <color=#555>[F1 조각자동 F2 무적 F3 피격]</color>" : ""),
             new Vector2(0f, -halfH + 0.25f), 2.2f, DullTextColor, 30);
         msgText = MakeHudText("HUD_Msg", "", new Vector2(0f, 0.6f), 5.5f, Color.white, 40);
         subMsgText = MakeHudText("HUD_SubMsg", "", new Vector2(0f, -0.5f), 3f, new Color(0.85f, 0.85f, 0.85f), 40);
@@ -1382,6 +1395,10 @@ public class RansomwareBossFight : MonoBehaviour
         if (Time.time > msgUntil) { msgText.text = ""; subMsgText.text = ""; }
         if (wrongSlotCooldown > 0) wrongSlotCooldown -= dt;
 
+        bool pressedSkill = skillPressed || Input.GetKeyDown(KeyCode.Space);
+        skillPressed = false;
+        PlayerMovement.isSpace = false; // 보스전에서는 안 쓰는 값. 남겨두면 다음 씬에서 상호작용이 눌린 채로 시작한다
+
         if (state == FightState.Intro || state == FightState.Fight)
         {
             UpdatePlayer(dt);
@@ -1396,9 +1413,11 @@ public class RansomwareBossFight : MonoBehaviour
             UpdateLasers();
             UpdateTrojans(dt);
             UpdatePuzzle();
+            if (pressedSkill) PressSkill();
             UpdateDecryptItem(dt);
             if (state == FightState.Fight) UpdatePhase2(dt);
         }
+        UpdateSkillButton();
         UpdateVisuals(dt);
     }
 
@@ -1708,79 +1727,179 @@ public class RansomwareBossFight : MonoBehaviour
             {
                 // 방금 내려놓은 열쇠는 범위 밖으로 나갔다 와야 다시 주울 수 있다 (벽 근처에서 무한 교체 방지)
                 if (!inRange) swappedOutKey = null;
+                else if (f == RepickableKey() && Time.time - selfDroppedAt >= KeyRepickDelay)
+                {
+                    PickUpKey(f); // 자의로 떨어뜨린 자리에 계속 서 있으면 다시 줍는다
+                    return;
+                }
                 continue;
             }
-            if (!inRange) continue;
+            if (!inRange || carrying != null || heldTrojan != null) continue; // 빈손일 때만 자동으로 줍는다
 
-            var previous = carrying;
-            if (previous != null)
-            {
-                DropCarried();
-                swappedOutKey = previous;
-                ShowMessage("<color=#FC3>열쇠를 바꿨다!</color>", $"{FragmentCode(previous.index)} → {FragmentCode(f.index)}", 1.4f);
-            }
-            if (heldTrojan != null) DropHeldTrojan();
-            carrying = f;
-            f.carried = true;
-            f.tr.gameObject.SetActive(false);
-            carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(f.index)}]" : $"[{FragmentCode(f.index)}]";
-            SetKeyIcon(f);
-            PlaySfx(pickupSfx, 0.6f);
+            PickUpKey(f);
             return;
         }
         foreach (var n in npcs)
         {
             if (n.Rescued) continue;
             bool touching = Vector2.Distance(n.transform.position, playerPos) <= npcRescueRange;
-            if (touching && carrying != null && n.KeyIndex == carrying.index)
-            {
-                ConsumeCarried();
-                RescueNpc(n);
-                RefreshHud();
-                return;
-            }
-            n.SetPlayerTouching(touching);
-            if (touching && carrying != null) ShowAddressMismatch();
+            n.SetPlayerTouching(touching && (carrying == null || n.KeyIndex != carrying.index)); // 맞는 열쇠를 들었으면 잠겼다는 말을 하지 않는다
         }
 
         if (wrongSlotTried != null && Vector2.Distance(wrongSlotTried.pos, playerPos) > slotRange) wrongSlotTried = null;
-        if (carrying == null) return;
+    }
 
-        foreach (var s in slots)
+    private void PickUpKey(Fragment f)
+    {
+        selfDroppedKey = null;
+        if (swappedOutKey == f) swappedOutKey = null;
+        carrying = f;
+        f.carried = true;
+        f.tr.gameObject.SetActive(false);
+        carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(f.index)}]" : $"[{FragmentCode(f.index)}]";
+        SetKeyIcon(f);
+        PlaySfx(pickupSfx, 0.6f);
+    }
+
+    private void SwapKey(Fragment f)
+    {
+        var previous = carrying;
+        DropCarried();
+        swappedOutKey = previous;
+        ShowMessage("<color=#FC3>열쇠를 바꿨다!</color>", $"{FragmentCode(previous.index)} → {FragmentCode(f.index)}", 1.4f);
+        PickUpKey(f);
+    }
+
+    private void TryKeyOnSlot(Slot s)
+    {
+        if (s.index != carrying.index)
         {
-            if (s.filled || Vector2.Distance(s.pos, playerPos) > slotRange) continue;
-
-            if (s.index == carrying.index)
+            ShowAddressMismatch();
+            if (wrongSlotTried != s)
             {
-                s.filled = true;
-                if (HasDoorArt) SetDoorBlocked(s, true); // 맞는 열쇠 → 문이 닫히고 쉴드 표시
-                else s.sr.color = FixedColor;
-                PlaySfx(lockSfx, 0.8f);
-                s.label.text = SlotLabel(s);
-                s.label.color = FixedColor;
-                ConsumeCarried();
-                filledCount++;
-                RefreshHud();
-                if (filledCount >= slots.Count) { Clear(); return; }
-                phase2Left = phase2Countdown;
-                // 문을 절반(올림) 이상 막으면 2페이즈 (5개면 3개째부터)
-                if (!phase2 && filledCount >= (slots.Count + 1) / 2) { EnterPhase2(); return; }
-                StartGroggy();
-                bool cured = CureNearestComputer(s.pos) >= 0; // 방화벽을 막으면 가장 가까운 좀비 PC가 정상으로 돌아온다
-                ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구! 랜섬웨어를 잠시동안 무력화시켰다!</color>",
-                    $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해한다")}", 1.4f);
+                wrongSlotTried = s;
+                if (Random.value < trojanChance) ThrowTrojan();
             }
-            else
-            {
-                ShowAddressMismatch();
-                if (wrongSlotTried != s)
-                {
-                    wrongSlotTried = s;
-                    if (Random.value < trojanChance) ThrowTrojan();
-                }
-            }
-            break;
+            return;
         }
+
+        s.filled = true;
+        if (HasDoorArt) SetDoorBlocked(s, true); // 맞는 열쇠 → 문이 닫히고 쉴드 표시
+        else s.sr.color = FixedColor;
+        PlaySfx(lockSfx, 0.8f);
+        s.label.text = SlotLabel(s);
+        s.label.color = FixedColor;
+        ConsumeCarried();
+        filledCount++;
+        RefreshHud();
+        if (filledCount >= slots.Count) { Clear(); return; }
+        phase2Left = phase2Countdown;
+        // 문을 절반(올림) 이상 막으면 2페이즈 (5개면 3개째부터)
+        if (!phase2 && filledCount >= (slots.Count + 1) / 2) { EnterPhase2(); return; }
+        StartGroggy();
+        bool cured = CureNearestComputer(s.pos) >= 0; // 방화벽을 막으면 가장 가까운 좀비 PC가 정상으로 돌아온다
+        ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구! 랜섬웨어를 잠시동안 무력화시켰다!</color>",
+            $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해한다")}", 1.4f);
+    }
+
+    private void TryKeyOnNpc(BossNpc n)
+    {
+        if (n.KeyIndex != carrying.index)
+        {
+            ShowAddressMismatch();
+            return;
+        }
+
+        ConsumeCarried();
+        RescueNpc(n);
+        RefreshHud();
+    }
+
+    private Slot SlotInRange() => slots.Find(s => !s.filled && Vector2.Distance(s.pos, playerPos) <= slotRange);
+
+    /// <summary>자의로 떨어뜨린 뒤 아직 범위를 벗어나지 않아, 빈손이면 다시 주울 수 있는 열쇠</summary>
+    private Fragment RepickableKey()
+    {
+        var f = selfDroppedKey;
+        if (f == null || f != swappedOutKey || carrying != null || heldTrojan != null || IsKeyFlying(f)) return null;
+        return Vector2.Distance(f.pos, playerPos) < pickupRange ? f : null;
+    }
+
+    private BossNpc NpcInRange() => npcs.Find(n => !n.Rescued && Vector2.Distance(n.transform.position, playerPos) <= npcRescueRange);
+
+    private Fragment SwappableKey() => fragments.Find(f => !f.carried && !f.placed && !IsKeyFlying(f) && f != swappedOutKey
+        && Vector2.Distance(f.pos, playerPos) < pickupRange);
+
+    // ---- 스킬 버튼 (우선순위: 트로이목마 버리기 > 문/NPC에 꽂기 > 열쇠 바꾸기 > 열쇠 버리기) ----
+    // PlayerMovement.SetIsSpace는 이동 중 입력을 무시하므로, 움직이며 쓰는 보스전에서는 버튼 클릭을 직접 받는다
+    private void BindSkillButton()
+    {
+        if (MobileUI.instance == null || MobileUI.instance.itemButtonImg == null) return;
+        var button = MobileUI.instance.itemButtonImg.transform.parent.GetComponent<Button>();
+        if (button != null) button.onClick.AddListener(() => skillPressed = true);
+    }
+
+    private void PressSkill()
+    {
+        if (heldTrojan != null)
+        {
+            DropHeldTrojan(playerPos);
+            return;
+        }
+        if (carrying == null)
+        {
+            var dropped = RepickableKey();
+            if (dropped != null) PickUpKey(dropped);
+            return;
+        }
+
+        var slot = SlotInRange();
+        if (slot != null) { TryKeyOnSlot(slot); return; }
+
+        var npc = NpcInRange();
+        if (npc != null) { TryKeyOnNpc(npc); return; }
+
+        var key = SwappableKey();
+        if (key != null) { SwapKey(key); return; }
+
+        swappedOutKey = carrying; // 발밑에 내려놓자마자 다시 주워지지 않게
+        selfDroppedKey = carrying;
+        selfDroppedAt = Time.time;
+        DropCarried(playerPos);
+    }
+
+    private string SkillLabel()
+    {
+        if (state != FightState.Fight) return null;
+        if (heldTrojan != null) return "떨어뜨리기";
+        if (carrying == null) return RepickableKey() != null ? "열쇠 줍기" : null;
+        if (SlotInRange() != null || NpcInRange() != null) return "주소 꽂기";
+        if (SwappableKey() != null) return "열쇠 바꾸기";
+        return "떨어뜨리기";
+    }
+
+    private void UpdateSkillButton()
+    {
+        string label = SkillLabel();
+        // 라벨이 같아도(떨어뜨리기) 든 물건이 바뀌면 아이콘은 바꿔야 한다
+        Sprite icon = heldTrojan != null ? trojanSprite : carrying != null || label != null ? keySprite : null;
+        if (label == skillLabel && icon == skillIcon) return;
+        skillLabel = label;
+        skillIcon = icon;
+
+        if (changeItemText != null)
+        {
+            changeItemText.gameObject.SetActive(label != null);
+            if (label != null) changeItemText.text = label;
+        }
+        if (MobileUI.instance == null) return;
+        if (label == null)
+        {
+            MobileUI.instance.NothingClose();
+            return;
+        }
+        MobileUI.instance.SetIconImage(InteractableType.ITEM);
+        if (icon != null && MobileUI.instance.itemButtonImg != null) MobileUI.instance.itemButtonImg.sprite = icon;
     }
 
     private void ConsumeCarried()
@@ -1815,6 +1934,7 @@ public class RansomwareBossFight : MonoBehaviour
         else playerPos = npcs.Find(x => x.KeyIndex == f.index).transform.position; // NPC 몫의 열쇠
         player.position = playerPos;
         UpdatePuzzle();
+        if (carrying != null) PressSkill();
     }
 
     /// <summary>디버그: 무적/무적시간 무시하고 한 대 맞는다.</summary>
@@ -1844,11 +1964,12 @@ public class RansomwareBossFight : MonoBehaviour
     public string NextScene => !string.IsNullOrEmpty(BossFightEntry.PendingNextScene) ? BossFightEntry.PendingNextScene : nextSceneOnClear;
     public bool IsGameOver => state == FightState.GameOver;
 
-    private void DropCarried()
+    /// <summary>at을 안 주면 DropPoint로 튀어나간다.</summary>
+    private void DropCarried(Vector2? at = null)
     {
         if (carrying == null) return;
         carrying.carried = false;
-        carrying.pos = DropPoint();
+        carrying.pos = at ?? DropPoint();
         carrying.dropFrom = playerPos;
         carrying.dropStartedAt = Time.time;
         carrying.tr.position = playerPos;
@@ -1970,17 +2091,18 @@ public class RansomwareBossFight : MonoBehaviour
             playerMovement.HoldItem(TrojanHoldId, trojanSprite);
         PlaySfx(pickupSfx, 0.6f);
         ShowMessage("<color=#F55>트로이목마를 주웠다!</color>",
-            (previousKey != null ? "열쇠를 떨어뜨렸다! " : "") + "터지기 전에 다른 아이템으로 바꾸거나 휴지통에 버리자", 1.6f);
+            (previousKey != null ? "열쇠를 떨어뜨렸다! " : "") + "터지기 전에 떨어뜨리거나 휴지통에 버리자", 1.6f);
     }
 
-    private void DropHeldTrojan()
+    /// <summary>at을 안 주면 DropPoint로 튀어나간다. 떨어뜨리면 trojanFuse를 처음부터 다시 센다.</summary>
+    private void DropHeldTrojan(Vector2? at = null)
     {
         var t = heldTrojan;
         heldTrojan = null;
         swappedOutTrojan = t; // 방금 내려놓은 트로이목마는 범위 밖으로 나갔다 와야 다시 주워진다
         carryLabel.text = "";
         SetKeyIcon(null);
-        LaunchTrojan(t, playerPos, DropPoint(), KeyDropTime);
+        LaunchTrojan(t, playerPos, at ?? DropPoint(), KeyDropTime);
     }
 
     private void RemoveTrojan(Trojan t)
