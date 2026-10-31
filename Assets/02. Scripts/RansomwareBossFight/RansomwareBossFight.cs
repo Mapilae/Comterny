@@ -30,6 +30,8 @@ public class RansomwareBossFight : MonoBehaviour
     public Sprite bossSpriteGroggy;
     [Tooltip("코드 조각 = 열쇠")]
     public Sprite keySprite;
+    [Tooltip("트로이목마. 비우면 붉은 사각형으로 표시")]
+    public Sprite trojanSprite;
     [Tooltip("무너진 방화벽: 처음엔 빨갛게 빛나는 열린 문 → 맞는 열쇠를 꽂으면 닫힌 문")]
     public Sprite doorOpenSprite, doorClosedSprite;
     [Tooltip("막은 문 위에 표시할 쉴드 아이콘(흰색 권장). 코드에서 시안색 글로우를 입힌다. 비우면 닫힌 문만 보임")]
@@ -152,6 +154,19 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("지워진 탄이 작아지며 사라지는 시간(초)")]
     public float processorShrinkTime = 0.5f;
 
+    [Header("트로이목마: 방화벽에 틀린 열쇠를 꽂으면 랜섬웨어가 확률적으로 떨어뜨린다")]
+    [Range(0f, 1f)] public float trojanChance = 0.5f;
+    [Tooltip("랜섬웨어 위치에서 플레이어 방향으로 떨어뜨리는 거리 (플레이어를 넘어가지는 않는다)")]
+    public float trojanThrowDistance = 2.5f;
+    [Tooltip("바닥에 떨어진 트로이목마가 터지기까지(초)")]
+    public float trojanFuse = 3f;
+    [Tooltip("주운 트로이목마가 터지기까지(초)")]
+    public float trojanHeldFuse = 4f;
+    public float trojanBlastRadius = 1.6f;
+    [Tooltip("맵에 설치한 휴지통들. 트로이목마를 든 채 가까이 가면 버려진다 (열쇠는 못 버림)")]
+    public List<Transform> trashCans = new();
+    public float trashRange = 0.9f;
+
     [Header("근접 공격: 전기 채찍")]
     public bool electricWhip = true;
     [Tooltip("플레이어가 이 안에 들어오면 채찍을 휘두른다")]
@@ -230,6 +245,13 @@ public class RansomwareBossFight : MonoBehaviour
         public float dropStartedAt = -1f; // 0 이상이면 떨어지는 연출 진행 중
     }
 
+    private class Trojan
+    {
+        public Vector2 pos, dropFrom;
+        public float flyTime, flyElapsed, fuseLeft;
+        public SpriteRenderer sr, warn; // warn: 바닥에 표시되는 폭발 범위
+    }
+
     private class Slot
     {
         public int index;          // 이 자리의 주소 = baseAddr + index*4
@@ -285,6 +307,11 @@ public class RansomwareBossFight : MonoBehaviour
     private int baseAddr;
     private int filledCount;
     private float wrongSlotCooldown;
+    private Slot wrongSlotTried; // 범위 밖으로 나갔다 와야 다시 트로이목마 확률을 굴린다
+
+    private readonly List<Trojan> trojans = new();
+    private readonly List<(SpriteRenderer sr, float startedAt)> trojanBlasts = new();
+    private Trojan heldTrojan, swappedOutTrojan;
 
     private bool phase2;
     private float phase2Left;
@@ -471,6 +498,8 @@ public class RansomwareBossFight : MonoBehaviour
     private const float WallThick = 0.3f;
     private const float GapWidth = 1.7f;
     private const float KeyDropDistance = 1.6f, KeyDropHeight = 1.1f, KeyDropTime = 0.45f, KeyNoticeTime = 2f;
+    private const float TrojanHeight = 0.9f, TrojanThrowTime = 0.6f, TrojanBlastTime = 0.35f;
+    private const int TrojanHoldId = -2; // PlayerMovement.currentHoldingItem 값 (-1 = 없음, 0 이상 = 열쇠)
 
     private void BuildArena()
     {
@@ -1328,6 +1357,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
 
         UpdateBgmSpeedUp();
+        UpdateTrojanBlasts();
 
         if (state == FightState.Clear && !leaving && !string.IsNullOrEmpty(NextScene) &&
             (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) ||
@@ -1364,6 +1394,7 @@ public class RansomwareBossFight : MonoBehaviour
             UpdateProcessor(dt);
             UpdateBullets(dt);
             UpdateLasers();
+            UpdateTrojans(dt);
             UpdatePuzzle();
             UpdateDecryptItem(dt);
             if (state == FightState.Fight) UpdatePhase2(dt);
@@ -1538,7 +1569,7 @@ public class RansomwareBossFight : MonoBehaviour
         Vector2 jitter = corruption > 0 && state != FightState.Clear
             ? Random.insideUnitCircle * (0.02f * corruption)
             : Vector2.zero;
-        float iconLift = carrying != null && playerMovement != null ? 0.4f : 0f; // 머리 위 ItemIcon과 겹치지 않게
+        float iconLift = (carrying != null || heldTrojan != null) && playerMovement != null ? 0.4f : 0f; // 머리 위 ItemIcon과 겹치지 않게
         playerNameLabel.transform.position = playerPos + new Vector2(0, 0.78f + iconLift) + jitter;
         carryLabel.transform.position = playerPos + new Vector2(0, 1.12f + iconLift);
         if (corruption > 0 && state == FightState.Fight && Random.value < 0.015f * corruption)
@@ -1688,6 +1719,7 @@ public class RansomwareBossFight : MonoBehaviour
                 swappedOutKey = previous;
                 ShowMessage("<color=#FC3>열쇠를 바꿨다!</color>", $"{FragmentCode(previous.index)} → {FragmentCode(f.index)}", 1.4f);
             }
+            if (heldTrojan != null) DropHeldTrojan();
             carrying = f;
             f.carried = true;
             f.tr.gameObject.SetActive(false);
@@ -1711,6 +1743,7 @@ public class RansomwareBossFight : MonoBehaviour
             if (touching && carrying != null) ShowAddressMismatch();
         }
 
+        if (wrongSlotTried != null && Vector2.Distance(wrongSlotTried.pos, playerPos) > slotRange) wrongSlotTried = null;
         if (carrying == null) return;
 
         foreach (var s in slots)
@@ -1737,7 +1770,15 @@ public class RansomwareBossFight : MonoBehaviour
                 ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구! 랜섬웨어를 잠시동안 무력화시켰다!</color>",
                     $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해한다")}", 1.4f);
             }
-            else ShowAddressMismatch();
+            else
+            {
+                ShowAddressMismatch();
+                if (wrongSlotTried != s)
+                {
+                    wrongSlotTried = s;
+                    if (Random.value < trojanChance) ThrowTrojan();
+                }
+            }
             break;
         }
     }
@@ -1765,6 +1806,7 @@ public class RansomwareBossFight : MonoBehaviour
     public void DebugSolveNext()
     {
         if (state != FightState.Fight) return;
+        if (heldTrojan != null) RemoveTrojan(heldTrojan);
         var f = carrying ?? fragments.Find(x => !x.placed);
         if (f == null) return;
         var s = slots.Find(x => x.index == f.index);
@@ -1806,17 +1848,7 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (carrying == null) return;
         carrying.carried = false;
-        carrying.pos = playerPos + Random.insideUnitCircle.normalized * KeyDropDistance;
-        var r = Arena;
-        carrying.pos.x = Mathf.Clamp(carrying.pos.x, r.xMin + 0.8f, r.xMax - 0.8f);
-        carrying.pos.y = Mathf.Clamp(carrying.pos.y, r.yMin + 0.8f, r.yMax - 0.8f);
-        // 묶인 NPC 스프라이트 뒤에 열쇠가 가려지지 않도록 밀어낸다
-        foreach (var n in npcs)
-        {
-            Vector2 away = carrying.pos - (Vector2)n.transform.position;
-            if (n.Rescued || away.magnitude >= 1.2f) continue;
-            carrying.pos = (Vector2)n.transform.position + (away.sqrMagnitude > 0.001f ? away.normalized : Vector2.down) * 1.2f;
-        }
+        carrying.pos = DropPoint();
         carrying.dropFrom = playerPos;
         carrying.dropStartedAt = Time.time;
         carrying.tr.position = playerPos;
@@ -1825,6 +1857,28 @@ public class RansomwareBossFight : MonoBehaviour
         carrying = null;
         carryLabel.text = "";
         SetKeyIcon(null);
+    }
+
+    private Vector2 ClampToArena(Vector2 p)
+    {
+        var r = Arena;
+        p.x = Mathf.Clamp(p.x, r.xMin + 0.8f, r.xMax - 0.8f);
+        p.y = Mathf.Clamp(p.y, r.yMin + 0.8f, r.yMax - 0.8f);
+        return p;
+    }
+
+    /// <summary>플레이어가 들고 있던 물건이 튀어나가 떨어질 자리</summary>
+    private Vector2 DropPoint()
+    {
+        Vector2 p = ClampToArena(playerPos + Random.insideUnitCircle.normalized * KeyDropDistance);
+        // 묶인 NPC 스프라이트 뒤에 가려지지 않도록 밀어낸다
+        foreach (var n in npcs)
+        {
+            Vector2 away = p - (Vector2)n.transform.position;
+            if (n.Rescued || away.magnitude >= 1.2f) continue;
+            p = (Vector2)n.transform.position + (away.sqrMagnitude > 0.001f ? away.normalized : Vector2.down) * 1.2f;
+        }
+        return p;
     }
 
     /// <summary>본편 Player 프리팹의 Canvas/ItemIcon에 들고 있는 열쇠를 표시한다. null이면 숨김.</summary>
@@ -1861,6 +1915,181 @@ public class RansomwareBossFight : MonoBehaviour
                 f.tr.localScale = f.baseScale;
                 f.dropStartedAt = -1f;
             }
+        }
+    }
+    #endregion
+
+    // =====================================================================
+    #region 트로이목마
+    /// <summary>랜섬웨어가 자기 자리에서 플레이어 방향으로 떨어뜨린다. 그로기/전선 이동 중에는 못 던진다.</summary>
+    private void ThrowTrojan()
+    {
+        if (IsGroggy || bossTransit) return;
+        Vector2 land = ClampToArena(bossPos + Vector2.ClampMagnitude(playerPos - bossPos, trojanThrowDistance));
+
+        var art = trojanSprite != null ? trojanSprite : squareSprite;
+        Vector2 b = art.bounds.size;
+        var t = new Trojan
+        {
+            sr = MakeSprite("Trojan", art, bossPos, new Vector2(TrojanHeight * b.x / b.y, TrojanHeight), trojanSprite != null ? Color.white : DangerColor, 11),
+            warn = MakeSprite("TrojanWarn", circleSprite, land, Vector2.one * trojanBlastRadius * 2f, DangerWarnColor, 2),
+        };
+        trojans.Add(t);
+        LaunchTrojan(t, bossPos, land, TrojanThrowTime);
+        BossSpeak($"히힛, {baseName}. 이 장난감은 어때?");
+    }
+
+    /// <summary>포물선으로 날아가 착지하면 trojanFuse를 세기 시작한다.</summary>
+    private void LaunchTrojan(Trojan t, Vector2 from, Vector2 to, float flyTime)
+    {
+        t.dropFrom = from;
+        t.pos = to;
+        t.flyTime = flyTime;
+        t.flyElapsed = 0f;
+        t.fuseLeft = trojanFuse;
+        t.sr.transform.position = from;
+        t.sr.gameObject.SetActive(true);
+        t.warn.transform.position = to;
+        t.warn.gameObject.SetActive(false);
+    }
+
+    private void PickUpTrojan(Trojan t)
+    {
+        var previousKey = carrying;
+        if (previousKey != null)
+        {
+            DropCarried();
+            swappedOutKey = previousKey;
+        }
+        if (heldTrojan != null) DropHeldTrojan();
+        heldTrojan = t;
+        t.fuseLeft = trojanHeldFuse;
+        t.sr.gameObject.SetActive(false);
+        t.warn.gameObject.SetActive(false);
+        if (playerMovement != null && playerMovement.currentHoldingImg != null && trojanSprite != null)
+            playerMovement.HoldItem(TrojanHoldId, trojanSprite);
+        PlaySfx(pickupSfx, 0.6f);
+        ShowMessage("<color=#F55>트로이목마를 주웠다!</color>",
+            (previousKey != null ? "열쇠를 떨어뜨렸다! " : "") + "터지기 전에 다른 아이템으로 바꾸거나 휴지통에 버리자", 1.6f);
+    }
+
+    private void DropHeldTrojan()
+    {
+        var t = heldTrojan;
+        heldTrojan = null;
+        swappedOutTrojan = t; // 방금 내려놓은 트로이목마는 범위 밖으로 나갔다 와야 다시 주워진다
+        carryLabel.text = "";
+        SetKeyIcon(null);
+        LaunchTrojan(t, playerPos, DropPoint(), KeyDropTime);
+    }
+
+    private void RemoveTrojan(Trojan t)
+    {
+        trojans.Remove(t);
+        if (t == heldTrojan)
+        {
+            heldTrojan = null;
+            carryLabel.text = "";
+            SetKeyIcon(null);
+        }
+        if (t == swappedOutTrojan) swappedOutTrojan = null;
+        Destroy(t.sr.gameObject);
+        Destroy(t.warn.gameObject);
+    }
+
+    private void ExplodeTrojan(Trojan t, Vector2 at)
+    {
+        RemoveTrojan(t);
+        var blast = MakeSprite("TrojanBlast", circleSprite, at, Vector2.one * trojanBlastRadius * 2f, DangerColor, 17);
+        blast.sharedMaterial = GlowMat;
+        trojanBlasts.Add((blast, Time.time));
+        shakeTime = Mathf.Max(shakeTime, 0.2f);
+        if (Vector2.Distance(at, playerPos) < trojanBlastRadius + playerHitRadius) OnPlayerHit();
+    }
+
+    private void UpdateTrojans(float dt)
+    {
+        for (int i = trojans.Count - 1; i >= 0; i--)
+        {
+            var t = trojans[i];
+            if (t == heldTrojan)
+            {
+                UpdateHeldTrojan(t, dt);
+                continue;
+            }
+
+            if (t.flyElapsed < t.flyTime)
+            {
+                t.flyElapsed += dt;
+                float k = Mathf.Clamp01(t.flyElapsed / t.flyTime);
+                t.sr.transform.position = Vector2.Lerp(t.dropFrom, t.pos, k) + Vector2.up * (4f * KeyDropHeight * k * (1f - k));
+                if (k >= 1f) t.warn.gameObject.SetActive(true);
+                continue;
+            }
+
+            bool inRange = Vector2.Distance(t.pos, playerPos) < pickupRange;
+            if (t == swappedOutTrojan)
+            {
+                if (!inRange) swappedOutTrojan = null;
+            }
+            else if (inRange)
+            {
+                PickUpTrojan(t);
+                continue;
+            }
+
+            t.fuseLeft -= dt;
+            if (t.fuseLeft <= 0f)
+            {
+                ExplodeTrojan(t, t.pos);
+                continue;
+            }
+            // 터질 때가 가까울수록 범위 표시가 진해지고, 마지막 1초는 빠르게 번쩍인다
+            float flash = Mathf.Abs(Mathf.Sin(Time.time * (t.fuseLeft < 1f ? 16f : 6f)));
+            if (trojanSprite != null) t.sr.color = Color.Lerp(Color.white, DangerColor, flash * 0.6f);
+            var warnColor = DangerWarnColor;
+            warnColor.a = Mathf.Lerp(0.1f, 0.35f, 1f - t.fuseLeft / trojanFuse);
+            t.warn.color = warnColor;
+        }
+    }
+
+    private void UpdateHeldTrojan(Trojan t, float dt)
+    {
+        foreach (var can in trashCans)
+        {
+            if (can == null || Vector2.Distance(can.position, playerPos) > trashRange) continue;
+            RemoveTrojan(t);
+            PlaySfx(pickupSfx, 0.6f);
+            ShowMessage("<color=#7FF>트로이목마를 휴지통에 버렸다!</color>", "", 1.4f);
+            return;
+        }
+
+        t.fuseLeft -= dt;
+        if (t.fuseLeft <= 0f)
+        {
+            ExplodeTrojan(t, playerPos);
+            return;
+        }
+        carryLabel.text = $"<color=#F55>트로이목마 [{Mathf.CeilToInt(t.fuseLeft)}]</color>";
+    }
+
+    // 폭발 이펙트는 Clear/GameOver 뒤에도 사라져야 하므로 전투 상태와 무관하게 진행
+    private void UpdateTrojanBlasts()
+    {
+        for (int i = trojanBlasts.Count - 1; i >= 0; i--)
+        {
+            var (sr, startedAt) = trojanBlasts[i];
+            float k = (Time.time - startedAt) / TrojanBlastTime;
+            if (k >= 1f)
+            {
+                Destroy(sr.gameObject);
+                trojanBlasts.RemoveAt(i);
+                continue;
+            }
+            sr.transform.localScale = Vector3.one * (trojanBlastRadius * 2f * Mathf.Lerp(0.4f, 1f, k) / circleSprite.bounds.size.x);
+            var c = DangerColor;
+            c.a = 1f - k;
+            sr.color = c;
         }
     }
     #endregion
@@ -2479,6 +2708,7 @@ public class RansomwareBossFight : MonoBehaviour
         foreach (var b in bolts) if (b.go != null) Destroy(b.go);
         bolts.Clear();
         foreach (Transform t in root) if (t.name == "WireSpark") Destroy(t.gameObject);
+        for (int i = trojans.Count - 1; i >= 0; i--) RemoveTrojan(trojans[i]);
         whipping = false;
         if (bossTransit) { bossTransit = false; boss.position = bossPos; }
         if (boss != null) boss.localScale = bossBaseScale;
