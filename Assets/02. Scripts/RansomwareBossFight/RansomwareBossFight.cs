@@ -151,10 +151,6 @@ public class RansomwareBossFight : MonoBehaviour
     public float processorRadius = 3f;
     [Tooltip("지워진 탄이 작아지며 사라지는 시간(초)")]
     public float processorShrinkTime = 0.5f;
-    [TextArea] public string processorRescueLine = "으... 드디어 열이 식었어요. 이제 제가 연산을 도울게요!";
-    [TextArea] public string processorActionLine = "계산 끝! 위험한 바이러스를 골라서 지웠어요!";
-    [TextArea] public string ramRescueLine = "휴, 공간이 비었어요! 열쇠 값은 제가 기억해 둘게요!";
-    [TextArea] public string ramActionLine = "제가 저장해둔 열쇠 값이 있어서 복구했어요!";
 
     [Header("근접 공격: 전기 채찍")]
     public bool electricWhip = true;
@@ -234,24 +230,6 @@ public class RansomwareBossFight : MonoBehaviour
         public float dropStartedAt = -1f; // 0 이상이면 떨어지는 연출 진행 중
     }
 
-    private enum NpcKind { None, Ram, Processor }
-
-    private class Npc
-    {
-        public NpcKind kind;
-        public int index;           // 이 NPC를 푸는 열쇠의 주소 = baseAddr + index*4
-        public TextMeshPro addressLabel;
-        public Transform tr;
-        public SpriteRenderer sr;
-        public Color color;
-        public TextMeshPro tag;
-        public string corruptedName;
-        public Vector2 tagOffset;   // 크기에 맞춘 이름표 위치
-        public float followSide;    // 플레이어 옆으로 떨어지는 거리
-        public bool rescued;
-        public bool usesPrefab;     // 프리팹을 쓰면 구출 시 스프라이트 교체를 하지 않는다
-    }
-
     private class Slot
     {
         public int index;          // 이 자리의 주소 = baseAddr + index*4
@@ -288,6 +266,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     private Transform boss;
     private SpriteRenderer bossSr;
+    private SpeechBubble bossBubble;
     private Vector2 bossPos, bossHome;
     private Vector3 bossBaseScale;
     private bool bossTransit, whipping;
@@ -311,10 +290,10 @@ public class RansomwareBossFight : MonoBehaviour
     private float phase2Left;
     private TextMeshPro countdownText;
 
-    private readonly List<Npc> npcs = new();
+    private readonly List<BossNpc> npcs = new();
     private readonly List<(Bolt bolt, float until)> processorFx = new();
-    private float processorTimer, dialogueUntil;
-    private TextMeshPro passiveText, dialogueText;
+    private float processorTimer;
+    private TextMeshPro passiveText;
 
     private Transform decryptItem;
     private float decryptSpawnTimer, decryptDespawnAt;
@@ -605,93 +584,38 @@ public class RansomwareBossFight : MonoBehaviour
                 sr.sortingOrder = 12;
             }
             else sr = MakeSprite(npcName, art != null ? art : squareSprite, p, new Vector2(0.6f, 0.6f), color, 12);
-            var tagOffset = new Vector2(0f, sr.bounds.max.y - p.y + 0.2f);
-            string corrupted = BossNameCorruptor.Corrupt(NpcName(kind), BossNameCorruptor.MaxLevel);
-            var tag = MakeText("Tag", corrupted, p + tagOffset, 2f, Color.white, 13);
+            var tag = MakeText("Tag", "", p, 2f, Color.white, 13);
             tag.transform.SetParent(sr.transform, true);
             var addressLabel = MakeText("NpcAddress", AddressLabel(keyIndexes[i]), new Vector2(p.x, sr.bounds.min.y - 0.3f), 3.0f, BrokenColor, 20);
             addressLabel.outlineColor = Color.black;
             addressLabel.outlineWidth = 0.1f;
             addressLabel.transform.SetParent(sr.transform, true);
-            npcs.Add(new Npc { kind = kind, index = keyIndexes[i], addressLabel = addressLabel, tr = sr.transform, sr = sr, color = color, tag = tag, corruptedName = corrupted,
-                tagOffset = tagOffset, followSide = sr.bounds.extents.x + 0.55f, usesPrefab = prefab != null });
+            if (!sr.TryGetComponent(out BossNpc npc)) npc = sr.gameObject.AddComponent<BossNpc>();
+            npc.Setup(kind, keyIndexes[i], color, tag, addressLabel, prefab != null);
+            npcs.Add(npc);
         }
     }
 
     private static readonly Color CorruptedTint = new(1f, 0.45f, 0.45f); // 최대 손상 단계의 플레이어 색
 
-    private static string NpcName(NpcKind kind) => kind == NpcKind.Ram ? "램" : "프로세서";
+    private bool IsRescued(NpcKind kind) => npcs.Exists(n => n.Kind == kind && n.Rescued);
 
-    private bool IsRescued(NpcKind kind) => npcs.Exists(n => n.kind == kind && n.rescued);
-
-    private void Speak(NpcKind kind, string line)
+    private void RescueNpc(BossNpc npc)
     {
-        dialogueText.text = $"<color=#7F7>{NpcName(kind)}</color>: {line}";
-        dialogueUntil = Time.time + 2.2f;
-    }
-
-    /// <summary>NPC 스프라이트를 바꾼다. 프리팹 사용 시엔 스케일은 그대로 두고 SpriteRenderer.sprite만 교체한다(프리팹의 Scale은 크기 조정용).
-    /// 스프라이트만 바꾸는 경우(비-프리팹)엔 비율이 달라도 화면상 높이를 유지하도록 스케일을 재계산한다. 이름표/추적 거리는 항상 새 크기에 맞춘다.</summary>
-    private void ChangeNpcAppearance(Npc npc, Sprite sprite)
-    {
-        if (sprite == null) return;
-        if (npc.usesPrefab)
-        {
-            npc.sr.sprite = sprite;
-        }
-        else
-        {
-            float worldHeight = npc.sr.sprite != null ? npc.sr.sprite.bounds.size.y * npc.tr.localScale.y : npc.tr.localScale.y;
-            npc.sr.sprite = sprite;
-            float newHeight = sprite.bounds.size.y;
-            if (newHeight > 0.0001f)
-            {
-                float scale = worldHeight / newHeight;
-                npc.tr.localScale = new Vector3(scale, scale, 1f);
-            }
-        }
-        Vector2 pos = npc.tr.position;
-        npc.tagOffset = new Vector2(0f, npc.sr.bounds.max.y - pos.y + 0.2f);
-        npc.followSide = npc.sr.bounds.extents.x + 0.55f;
-        npc.tag.transform.position = (Vector2)npc.tr.position + npc.tagOffset;
-    }
-
-    private void RescueNpc(Npc npc)
-    {
-        if (npc.rescued) return;
-        npc.rescued = true;
-        npc.addressLabel.gameObject.SetActive(false);
-        npc.sr.color = npc.color;
-        bool ram = npc.kind == NpcKind.Ram;
-        ChangeNpcAppearance(npc, ram ? ramSpriteFree : processorSpriteFree);
-        npc.tag.text = NpcName(npc.kind);
-        npc.tag.transform.position = (Vector2)npc.tr.position + npc.tagOffset; // 스프라이트가 그대로인 경우(위 함수가 return)를 위해 재배치
+        if (npc.Rescued) return;
+        bool ram = npc.Kind == NpcKind.Ram;
+        npc.Rescue(ram ? ramSpriteFree : processorSpriteFree);
         if (!ram) processorTimer = processorInterval;
         PlaySfx(lockSfx, 0.8f);
-        Speak(npc.kind, ram ? ramRescueLine : processorRescueLine);
 
         passiveText.text = "";
         if (IsRescued(NpcKind.Ram)) passiveText.text += "<color=#8CF>[램] 피격 시 열쇠 보존</color>\n";
         if (IsRescued(NpcKind.Processor)) passiveText.text += "<color=#FA6>[프로세서] 주변 탄 제거</color>";
     }
 
-    // 구출된 NPC는 플레이어 양옆을 따라다닌다
     private void UpdateNpcs(float dt)
     {
-        foreach (var n in npcs)
-        {
-            if (!n.rescued)
-            {
-                // 갇혀 있는 동안은 손상된 플레이어 이름처럼 글리치
-                int level = BossNameCorruptor.MaxLevel;
-                n.tag.transform.position = (Vector2)n.tr.position + n.tagOffset + Random.insideUnitCircle * (0.02f * level);
-                if (Random.value < 0.015f * level) n.tag.text = BossNameCorruptor.Corrupt(NpcName(n.kind), level, randomHex: true);
-                else if (Random.value < 0.02f) n.tag.text = n.corruptedName;
-                continue;
-            }
-            Vector2 target = playerPos + new Vector2(n.kind == NpcKind.Ram ? -n.followSide : n.followSide, 0.35f);
-            n.tr.position = Vector2.Lerp(n.tr.position, target, 1f - Mathf.Exp(-6f * dt));
-        }
+        foreach (var n in npcs) n.Tick(playerPos, dt);
     }
 
     private void UpdateProcessor(float dt)
@@ -711,7 +635,8 @@ public class RansomwareBossFight : MonoBehaviour
         if (targets.Count == 0) { processorTimer = 0.5f; return; } // 지울 탄이 생길 때까지 대기
         processorTimer = processorInterval;
 
-        Vector2 from = npcs.Find(n => n.kind == NpcKind.Processor).tr.position;
+        var processor = npcs.Find(n => n.Kind == NpcKind.Processor);
+        Vector2 from = processor.transform.position;
         foreach (var b in targets)
         {
             NeutralizeBullet(b);
@@ -725,7 +650,7 @@ public class RansomwareBossFight : MonoBehaviour
             ring.Add(playerPos + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * processorRadius);
         }
         AddProcessorFx(ring, 0.04f);
-        Speak(NpcKind.Processor, processorActionLine);
+        processor.SpeakAction();
     }
 
     private void AddProcessorFx(List<Vector2> points, float width)
@@ -866,7 +791,7 @@ public class RansomwareBossFight : MonoBehaviour
             foreach (var f in fragments)
                 if (Vector2.Distance(f.pos, p) < 1.6f) { ok = false; break; }
             foreach (var n in npcs)
-                if (!n.rescued && Vector2.Distance(n.tr.position, p) < 1.6f) { ok = false; break; }
+                if (!n.Rescued && Vector2.Distance(n.transform.position, p) < 1.6f) { ok = false; break; }
             if (ok) return p;
         }
         return Vector2.zero;
@@ -1109,6 +1034,7 @@ public class RansomwareBossFight : MonoBehaviour
             boss = bossSr.transform;
         }
         bossBaseScale = boss.localScale;
+        bossBubble = boss.GetComponentInChildren<SpeechBubble>(true);
         SetInfected(0, true);
         if (boss.GetComponentInChildren<TextMeshPro>() != null) return; // 씬에 이름표가 이미 있음
         var bossLabel = MakeText("BossName", "<color=#C88>RANSOMWARE</color>", bossPos + new Vector2(0, 1.15f), 2.4f, Color.white, 21);
@@ -1146,8 +1072,6 @@ public class RansomwareBossFight : MonoBehaviour
         subMsgText.rectTransform.sizeDelta = new Vector2(18f, 3f);
         countdownText = MakeHudText("HUD_Countdown", "", new Vector2(0f, top - 0.75f), 3.6f, Color.white, 30);
         passiveText = MakeHudText("HUD_Passive", "", new Vector2(-halfW + 0.3f + 9f, top - 0.85f), 2.4f, Color.white, 30, TextAlignmentOptions.Left);
-        dialogueText = MakeHudText("HUD_Dialogue", "", new Vector2(0f, -halfH + 0.95f), 3f, Color.white, 40);
-        dialogueText.rectTransform.sizeDelta = new Vector2(18f, 2f);
 
         // 화면 밖에 있는 조각(초록)/구멍(빨강) 방향 표시
         foreach (var f in fragments)
@@ -1155,7 +1079,7 @@ public class RansomwareBossFight : MonoBehaviour
         foreach (var sl in slots)
             offscreenMarkers.Add((sl.sr.transform, MakeHudText("Marker", "", Vector2.zero, 3.4f, BrokenColor, 35)));
         foreach (var n in npcs)
-            offscreenMarkers.Add((n.tr, MakeHudText("Marker", "", Vector2.zero, 3.4f, Color.white, 35)));
+            offscreenMarkers.Add((n.transform, MakeHudText("Marker", "", Vector2.zero, 3.4f, Color.white, 35)));
         RefreshHud();
     }
 
@@ -1208,6 +1132,24 @@ public class RansomwareBossFight : MonoBehaviour
         StartCoroutine(Phase2Routine());
     }
 
+    /// <summary>보스 말풍선 대사. 보스가 화면 밖이면 안 보이므로 놓쳐도 되는 대사만 쓴다.</summary>
+    private void BossSpeak(string line, float duration = -1f)
+    {
+        if (bossBubble != null) bossBubble.Say(line, duration);
+    }
+
+    // 그로기 대사: 앞의 GroggyLinesPhase1개는 1페이즈부터, 나머지는 2페이즈에서만 나온다
+    private static readonly string[] GroggyLines =
+    {
+        "으읏... 뭐야..!",
+        "뭐야 이건..!!",
+        "아야...",
+        "윽... 저게 귀찮게..!",
+        "방해하지 마! 이것만 끝나면...",
+        "너어..! 가만안둬!",
+    };
+    private const int GroggyLinesPhase1 = 3;
+
     private bool IsGroggy => groggyUntil >= 0f;
 
     /// <summary>그로기 시작(또는 시간 초기화): 진행 중인 공격과 날아가던 탄을 모두 지우고 포탑도 그동안 쉬게 한다.</summary>
@@ -1228,6 +1170,7 @@ public class RansomwareBossFight : MonoBehaviour
             ChangeBossAppearance(bossSpriteGroggy);
         }
         groggyUntil = Time.time + groggyDuration;
+        BossSpeak(GroggyLines[Random.Range(0, phase2 ? GroggyLines.Length : GroggyLinesPhase1)]);
         foreach (var c in computers)
             c.nextFireAt = groggyUntil + Random.Range(0f, turretFireInterval); // 끝나자마자 일제히 쏘지 않게
     }
@@ -1243,6 +1186,7 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (!IsGroggy || Time.time < groggyUntil) return;
         EndGroggy();
+        if (!phase2) BossSpeak($"{baseName}, 곱게 말할 때 주는 게 좋을 거야.");
         StartCoroutine(BossPatternLoop());
     }
 
@@ -1270,16 +1214,16 @@ public class RansomwareBossFight : MonoBehaviour
             SetInfected(i, true);
             if (computers[i].label != null) computers[i].label.text = "INFECTED";
         }
-        ShowMessage("<color=#F55>랜섬웨어가 분노했다!</color>", $"\"{baseName}, 협상은 끝났어.\"", 1.6f);
+        ShowMessage("<color=#F55>랜섬웨어가 분노했다!</color>", "", 1.6f);
+        BossSpeak("이젠 다 필요없어!\n전부 없애 버릴거야!", 3f);
         yield return new WaitForSeconds(1.6f);
 
         // 주소 암호화를 켠 경우 표기가 바뀐다
         foreach (var f in fragments) f.label.text = FragmentCode(f.index);
         if (carrying != null) carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(carrying.index)}]" : $"[{FragmentCode(carrying.index)}]";
         foreach (var s in slots) s.label.text = SlotLabel(s);
-        foreach (var n in npcs) n.addressLabel.text = AddressLabel(n.index);
-        ShowMessage("<color=#F55>이젠 다 필요없어! 전부 없애 버릴거야!</color>",
-            AddressMasked ? "방화벽이 뚫리기 전에 모두 막아야 한다. 주소도 암호화됐다!" : "방화벽이 뚫리기 전에 모두 막아야 한다", 1.4f);
+        foreach (var n in npcs) n.SetAddressText(AddressLabel(n.KeyIndex));
+        ShowMessage("<color=#F55>방화벽이 뚫리기 전에 모두 막아야 한다</color>", AddressMasked ? "주소도 암호화됐다!" : "", 1.4f);
         yield return new WaitForSeconds(1.4f);
 
         for (int i = 0; i < computers.Count; i++)
@@ -1405,7 +1349,6 @@ public class RansomwareBossFight : MonoBehaviour
 
         float dt = Time.deltaTime;
         if (Time.time > msgUntil) { msgText.text = ""; subMsgText.text = ""; }
-        if (Time.time > dialogueUntil) dialogueText.text = "";
         if (wrongSlotCooldown > 0) wrongSlotCooldown -= dt;
 
         if (state == FightState.Intro || state == FightState.Fight)
@@ -1571,7 +1514,7 @@ public class RansomwareBossFight : MonoBehaviour
             int npcStart = fragments.Count + slots.Count;
             bool done = i < fragments.Count ? fragments[i].placed || fragments[i].carried
                 : i < npcStart ? slots[i - fragments.Count].filled
-                : npcs[i - npcStart].rescued;
+                : npcs[i - npcStart].Rescued;
             Vector2 rel = (Vector2)target.position - camFollow;
             bool off = Mathf.Abs(rel.y) > halfH - 0.6f || Mathf.Abs(rel.x) > halfW - 0.3f;
             if (!show || done || !off) { marker.text = ""; continue; }
@@ -1646,7 +1589,7 @@ public class RansomwareBossFight : MonoBehaviour
         invincibleUntil = Time.time + invincibleTime;
         ClearBulletsNear(playerPos, 1.6f);
         bool droppedKey = carrying != null && !IsRescued(NpcKind.Ram);
-        if (carrying != null && !droppedKey) Speak(NpcKind.Ram, ramActionLine); // 램 패시브: 열쇠 보존
+        if (carrying != null && !droppedKey) npcs.Find(n => n.Kind == NpcKind.Ram).SpeakAction(); // 램 패시브: 열쇠 보존
         else DropCarried();
         RefreshHud();
         ShowMessage(droppedKey ? "<color=#FC3>열쇠를 떨어뜨렸다!</color>" : "<color=#F55>내 파일이 암호화되고 있다!</color>",
@@ -1751,21 +1694,22 @@ public class RansomwareBossFight : MonoBehaviour
             PlaySfx(pickupSfx, 0.6f);
             return;
         }
-        if (carrying == null) return;
-
         foreach (var n in npcs)
         {
-            if (n.rescued || Vector2.Distance(n.tr.position, playerPos) > npcRescueRange) continue;
-            if (n.index == carrying.index)
+            if (n.Rescued) continue;
+            bool touching = Vector2.Distance(n.transform.position, playerPos) <= npcRescueRange;
+            if (touching && carrying != null && n.KeyIndex == carrying.index)
             {
                 ConsumeCarried();
                 RescueNpc(n);
                 RefreshHud();
                 return;
             }
-            ShowAddressMismatch();
-            break;
+            n.SetPlayerTouching(touching);
+            if (touching && carrying != null) ShowAddressMismatch();
         }
+
+        if (carrying == null) return;
 
         foreach (var s in slots)
         {
@@ -1824,7 +1768,7 @@ public class RansomwareBossFight : MonoBehaviour
         var s = slots.Find(x => x.index == f.index);
         if (carrying == null) { carrying = f; f.carried = true; f.tr.gameObject.SetActive(false); }
         if (s != null) playerPos = s.pos + (s.horizontal ? new Vector2(0, s.pos.y > 0 ? -0.5f : 0.5f) : new Vector2(s.pos.x > 0 ? -0.5f : 0.5f, 0));
-        else playerPos = npcs.Find(x => x.index == f.index).tr.position; // NPC 몫의 열쇠
+        else playerPos = npcs.Find(x => x.KeyIndex == f.index).transform.position; // NPC 몫의 열쇠
         player.position = playerPos;
         UpdatePuzzle();
     }
@@ -1867,9 +1811,9 @@ public class RansomwareBossFight : MonoBehaviour
         // 묶인 NPC 스프라이트 뒤에 열쇠가 가려지지 않도록 밀어낸다
         foreach (var n in npcs)
         {
-            Vector2 away = carrying.pos - (Vector2)n.tr.position;
-            if (n.rescued || away.magnitude >= 1.2f) continue;
-            carrying.pos = (Vector2)n.tr.position + (away.sqrMagnitude > 0.001f ? away.normalized : Vector2.down) * 1.2f;
+            Vector2 away = carrying.pos - (Vector2)n.transform.position;
+            if (n.Rescued || away.magnitude >= 1.2f) continue;
+            carrying.pos = (Vector2)n.transform.position + (away.sqrMagnitude > 0.001f ? away.normalized : Vector2.down) * 1.2f;
         }
         carrying.dropFrom = playerPos;
         carrying.dropStartedAt = Time.time;
@@ -1930,6 +1874,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (decryptItem != null) Destroy(decryptItem.gameObject);
         if (!IsGroggy) ChangeBossAppearance(bossSpriteGroggy); // 검거된 보스는 그로기 모습으로 남는다
         bossSr.color = new Color(0.55f, 0.55f, 0.6f);
+        foreach (var n in npcs) n.FreeAtClear(n.Kind == NpcKind.Ram ? ramSpriteFree : processorSpriteFree);
         playerNameLabel.text = baseName;
         clearAt = Time.time;
         if (playerMovement != null) playerMovement.ChangeCanMove(false);
