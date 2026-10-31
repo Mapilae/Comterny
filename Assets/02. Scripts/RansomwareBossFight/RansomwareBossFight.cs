@@ -697,7 +697,7 @@ public class RansomwareBossFight : MonoBehaviour
 
         passiveText.text = "";
         if (IsRescued(NpcKind.Ram)) passiveText.text += "<color=#8CF>[램] 피격 시 열쇠 보존</color>\n";
-        if (IsRescued(NpcKind.Processor)) passiveText.text += "<color=#FA6>[프로세서] 주변 탄 제거</color>";
+        if (IsRescued(NpcKind.Processor)) passiveText.text += "<color=#FA6>[프로세서] 주변 바이러스 제거</color>";
     }
 
     private void UpdateNpcs(float dt)
@@ -1292,7 +1292,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
     }
 
-    /// <summary>전환 연출: 공격을 멈추고 모든 컴퓨터를 잠근 뒤 카운트다운 시작. 이 동안 판정 없음.</summary>
+    /// <summary>전환 연출: 공격을 멈추고 모든 컴퓨터를 잠근 뒤 카운트다운 시작. 이 동안 피격 판정 없음 (열쇠는 다룰 수 있다).</summary>
     private IEnumerator Phase2Routine()
     {
         state = FightState.Intro;
@@ -1396,12 +1396,12 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
+        decryptSpawnTimer = decryptSpawnInterval; // 연출 중 2페이즈로 넘어가면 아래까지 오지 못한다
         ShowMessage("<color=#C88>BOSS FIGHT</color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
         yield return new WaitForSeconds(2.6f);
         ShowMessage(keySprite != null ? "랜섬웨어가 방화벽을 모두 무너뜨렸다! \n포인터 열쇠를 맞는 주소에 꽂아 뚫린 곳을 막자" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하자!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
         state = FightState.Fight;
-        decryptSpawnTimer = decryptSpawnInterval;
         StartCoroutine(BossPatternLoop());
     }
 
@@ -1456,8 +1456,14 @@ public class RansomwareBossFight : MonoBehaviour
             UpdateBullets(dt);
             UpdateLasers();
             UpdateTrojans(dt);
+        }
+        if (state == FightState.Intro || state == FightState.Fight)
+        {
             UpdatePuzzle();
             if (pressedSkill) PressSkill();
+        }
+        if (state == FightState.Fight)
+        {
             UpdateDecryptItem(dt);
             if (state == FightState.Fight) UpdatePhase2(dt);
         }
@@ -1822,7 +1828,7 @@ public class RansomwareBossFight : MonoBehaviour
             if (wrongSlotTried != s)
             {
                 wrongSlotTried = s;
-                if (Random.value < trojanChance) ThrowTrojan();
+                if (state == FightState.Fight && Random.value < trojanChance) ThrowTrojan();
             }
             return;
         }
@@ -1839,9 +1845,10 @@ public class RansomwareBossFight : MonoBehaviour
         phase2Left = phase2Countdown;
         // 문을 절반(올림) 이상 막으면 2페이즈 (5개면 3개째부터)
         if (!phase2 && filledCount >= (slots.Count + 1) / 2) { EnterPhase2(); return; }
-        StartGroggy();
+        bool stunned = state == FightState.Fight; // 그로기의 StopAllCoroutines가 연출을 끊으면 Intro에서 멈춘다
+        if (stunned) StartGroggy();
         bool cured = CureNearestComputer(s.pos) >= 0; // 방화벽을 막으면 가장 가까운 좀비 PC가 정상으로 돌아온다
-        ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구! 랜섬웨어를 잠시동안 무력화시켰다!</color>",
+        ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구!{(stunned ? " 랜섬웨어를 잠시동안 무력화시켰다!" : "")}</color>",
             $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해한다")}", 1.4f);
     }
 
@@ -1894,7 +1901,7 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (heldTrojan != null)
         {
-            DropHeldTrojan(playerPos);
+            if (state == FightState.Fight) DropHeldTrojan(playerPos); // 트로이목마는 연출 중 멈춰 있어 공중에 뜬 채로 남는다
             return;
         }
         if (carrying == null)
@@ -1921,8 +1928,8 @@ public class RansomwareBossFight : MonoBehaviour
 
     private string SkillLabel()
     {
-        if (state != FightState.Fight) return null;
-        if (heldTrojan != null) return "떨어뜨리기";
+        if (state != FightState.Fight && state != FightState.Intro) return null;
+        if (heldTrojan != null) return state == FightState.Fight ? "떨어뜨리기" : null;
         if (carrying == null) return RepickableKey() != null ? "열쇠 줍기" : null;
         if (SlotInRange() != null || NpcInRange() != null) return "주소 꽂기";
         if (SwappableKey() != null) return "열쇠 바꾸기";
