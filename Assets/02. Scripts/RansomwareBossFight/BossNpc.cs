@@ -33,14 +33,16 @@ public class BossNpc : MonoBehaviour
     private float followSide;    // 플레이어 옆으로 떨어지는 거리
     private bool usesPrefab;     // 프리팹을 쓰면 구출 시 스케일을 다시 계산하지 않는다
     private bool playerTouching;
+    private GameObject guide;    // 갇혀 있는 동안 보이는 표시 (Guide Star 또는 주소 라벨)
 
-    public void Setup(NpcKind kind, int keyIndex, Color npcColor, TextMeshPro tag, TextMeshPro address, bool fromPrefab)
+    public void Setup(NpcKind kind, int keyIndex, Color npcColor, TextMeshPro tag, TextMeshPro address, GameObject guideMarker, bool fromPrefab)
     {
         Kind = kind;
         KeyIndex = keyIndex;
         color = npcColor;
         tagLabel = tag;
         addressLabel = address;
+        guide = guideMarker;
         usesPrefab = fromPrefab;
         sr = GetComponent<SpriteRenderer>();
         bubble = GetComponentInChildren<SpeechBubble>(true);
@@ -83,7 +85,7 @@ public class BossNpc : MonoBehaviour
     private void Free(Sprite freeSprite)
     {
         Rescued = true;
-        addressLabel.gameObject.SetActive(false);
+        guide.SetActive(false);
         sr.color = color;
         ChangeAppearance(freeSprite);
         tagLabel.text = DisplayName;

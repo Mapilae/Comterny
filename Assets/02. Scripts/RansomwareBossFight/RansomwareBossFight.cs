@@ -35,11 +35,15 @@ public class RansomwareBossFight : MonoBehaviour
     public Sprite trojanSprite;
     [Tooltip("무너진 방화벽: 처음엔 빨갛게 빛나는 열린 문 → 맞는 열쇠를 꽂으면 닫힌 문")]
     public Sprite doorOpenSprite, doorClosedSprite;
+    [Tooltip("문 프리팹 (루트에 SpriteRenderer, 자식에 Guide Star). 크기는 프리팹 Scale을 쓴다. 비우면 기본 문 + 주소 라벨")]
+    public SpriteRenderer doorPrefab;
     [Tooltip("막은 문 위에 표시할 쉴드 아이콘(흰색 권장). 코드에서 시안색 글로우를 입힌다. 비우면 닫힌 문만 보임")]
     public Sprite shieldSprite;
     [Tooltip("쉴드 아이콘 높이(유닛). 너비는 스프라이트 비율을 따른다")]
     public float shieldIconHeight = 0.75f;
     public AudioClip pickupSfx, lockSfx;
+    [Tooltip("주소 불일치 효과음. 비우면 hitSfx 사용")]
+    public AudioClip mismatchSfx;
     [Tooltip("보스전 BGM (기본: 05. Sounds/BGM/Comterny01(120))")]
     public AudioClip bgm;
     [Tooltip("랜섬웨어가 초조해질 때의 BGM 배속 (140bpm / 120bpm = 1.1667)")]
@@ -102,7 +106,10 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("방화벽 문 개수. 열쇠는 NPC 몫까지 더해서 생성된다")]
     [Range(2, 6)] public int fragmentCount = 5;
     public float pickupRange = 0.46f;
+    [Tooltip("문 상호작용 영역의 가로 반지름")]
     public float slotRange = 0.95f;
+    [Tooltip("문 상호작용 영역의 세로 반지름")]
+    public float slotRangeVertical = 1.5f;
 
     [Header("복호화 아이템")]
     public float decryptSpawnInterval = 5f;
@@ -265,6 +272,7 @@ public class RansomwareBossFight : MonoBehaviour
         public bool filled;
         public SpriteRenderer sr, shieldIcon;
         public TextMeshPro label;
+        public GameObject guide;   // 복구 전에만 보이는 표시 (Guide Star 또는 주소 라벨)
     }
 
     // ---- 런타임 상태 ----
@@ -508,6 +516,7 @@ public class RansomwareBossFight : MonoBehaviour
     public static readonly Color DullTextColor = new(0.55f, 0.55f, 0.55f);
     private static readonly Color FixedColor = new(0.3f, 0.95f, 1f);
     private static readonly Color BrokenColor = new(1f, 0.82f, 0.2f);           // 끼워야 할 자리 (목표 → 노랑)
+    private const float DoorGuideInset = 0.8f;
     private const float WallThick = 0.3f;
     private const float GapWidth = 1.7f;
     private const float KeyDropDistance = 1.6f, KeyDropHeight = 1.1f, KeyDropTime = 0.45f, KeyNoticeTime = 2f;
@@ -560,19 +569,36 @@ public class RansomwareBossFight : MonoBehaviour
             var (pos, horizontal) = spots[i];
             var slot = new Slot { index = order[i], pos = pos, horizontal = horizontal };
             Vector2 size = horizontal ? new Vector2(GapWidth, WallThick) : new Vector2(WallThick, GapWidth);
-            if (HasDoorArt)
+            if (doorPrefab != null)
             {
-                // 무너진 자리: 벽에 세로로 선 열린 문이 빨갛게 빛난다
-                slot.sr = MakeSprite($"Door_{slot.index}", doorOpenSprite, pos, new Vector2(1.05f, 1.6f), Color.white, 6);
-                SetDoorBlocked(slot, false);
+                slot.sr = Instantiate(doorPrefab, pos, Quaternion.identity, root);
+                slot.sr.name = $"Door_{slot.index}";
             }
+            else if (HasDoorArt)
+                slot.sr = MakeSprite($"Door_{slot.index}", doorOpenSprite, pos, new Vector2(1.05f, 1.6f), Color.white, 6);
             else slot.sr = MakeSprite($"Slot_{slot.index}", squareSprite, pos, size, BrokenColor, 6);
+            // 무너진 자리: 벽에 세로로 선 열린 문이 빨갛게 빛난다
+            if (HasDoorArt) SetDoorBlocked(slot, false);
 
-            float inX = doorOpenSprite != null ? 1.4f : 1.05f;
-            Vector2 inward = horizontal ? new Vector2(0, pos.y > 0 ? -0.55f : 0.55f) : new Vector2(pos.x > 0 ? -inX : inX, 0);
-            slot.label = MakeText($"SlotLabel_{slot.index}", SlotLabel(slot), pos + inward, 3.0f, BrokenColor, 20);
-            slot.label.outlineColor = Color.black; // 열쇠와 겹쳐도 읽히도록
-            slot.label.outlineWidth = 0.1f;
+            var guideLabel = FindGuideText(slot.sr.transform);
+            if (guideLabel != null)
+            {
+                // 벽 바깥으로 글자가 잘리지 않게 Guide Star를 방 안쪽으로 민다
+                var guide = guideLabel.transform.parent;
+                guide.position = pos + (pos.x > 0 ? Vector2.left : Vector2.right) * DoorGuideInset;
+                guideLabel.text = SlotLabel(slot);
+                slot.label = guideLabel;
+                slot.guide = guide.gameObject;
+            }
+            else
+            {
+                float inX = doorOpenSprite != null ? 1.4f : 1.05f;
+                Vector2 inward = horizontal ? new Vector2(0, pos.y > 0 ? -0.55f : 0.55f) : new Vector2(pos.x > 0 ? -inX : inX, 0);
+                slot.label = MakeText($"SlotLabel_{slot.index}", SlotLabel(slot), pos + inward, 3.0f, BrokenColor, 20);
+                slot.label.outlineColor = Color.black; // 열쇠와 겹쳐도 읽히도록
+                slot.label.outlineWidth = 0.1f;
+                slot.guide = slot.label.gameObject;
+            }
             slots.Add(slot);
         }
 
@@ -594,6 +620,13 @@ public class RansomwareBossFight : MonoBehaviour
             f.label.transform.SetParent(f.tr, true);
             fragments.Add(f);
         }
+    }
+
+    /// <summary>자식 Guide Star의 텍스트를 찾는다. Guide Star가 없으면 null.</summary>
+    private static TextMeshPro FindGuideText(Transform owner)
+    {
+        var t = owner.Find("Guide Star/Text (TMP)");
+        return t != null ? t.GetComponent<TextMeshPro>() : null;
     }
 
     private void AssignNpcs(NpcKind[] kinds, List<int> keyIndexes)
@@ -628,12 +661,23 @@ public class RansomwareBossFight : MonoBehaviour
             else sr = MakeSprite(npcName, art != null ? art : squareSprite, p, new Vector2(0.6f, 0.6f), color, 12);
             var tag = MakeText("Tag", "", p, 2f, Color.white, 13);
             tag.transform.SetParent(sr.transform, true);
-            var addressLabel = MakeText("NpcAddress", AddressLabel(keyIndexes[i]), new Vector2(p.x, sr.bounds.min.y - 0.3f), 3.0f, BrokenColor, 20);
-            addressLabel.outlineColor = Color.black;
-            addressLabel.outlineWidth = 0.1f;
-            addressLabel.transform.SetParent(sr.transform, true);
+            var addressLabel = FindGuideText(sr.transform);
+            GameObject guide;
+            if (addressLabel != null)
+            {
+                addressLabel.text = AddressLabel(keyIndexes[i]);
+                guide = addressLabel.transform.parent.gameObject;
+            }
+            else
+            {
+                addressLabel = MakeText("NpcAddress", AddressLabel(keyIndexes[i]), new Vector2(p.x, sr.bounds.min.y - 0.3f), 3.0f, BrokenColor, 20);
+                addressLabel.outlineColor = Color.black;
+                addressLabel.outlineWidth = 0.1f;
+                addressLabel.transform.SetParent(sr.transform, true);
+                guide = addressLabel.gameObject;
+            }
             if (!sr.TryGetComponent(out BossNpc npc)) npc = sr.gameObject.AddComponent<BossNpc>();
-            npc.Setup(kind, keyIndexes[i], color, tag, addressLabel, prefab != null);
+            npc.Setup(kind, keyIndexes[i], color, tag, addressLabel, guide, prefab != null);
             npcs.Add(npc);
         }
     }
@@ -1313,7 +1357,7 @@ public class RansomwareBossFight : MonoBehaviour
         s.filled = false;
         if (HasDoorArt) SetDoorBlocked(s, false);
         s.label.text = SlotLabel(s);
-        s.label.color = BrokenColor;
+        s.guide.SetActive(true);
 
         var f = fragments.Find(x => x.index == s.index);
         f.placed = false;
@@ -1746,7 +1790,7 @@ public class RansomwareBossFight : MonoBehaviour
             n.SetPlayerTouching(touching && (carrying == null || n.KeyIndex != carrying.index)); // 맞는 열쇠를 들었으면 잠겼다는 말을 하지 않는다
         }
 
-        if (wrongSlotTried != null && Vector2.Distance(wrongSlotTried.pos, playerPos) > slotRange) wrongSlotTried = null;
+        if (wrongSlotTried != null && !InSlotRange(wrongSlotTried)) wrongSlotTried = null;
     }
 
     private void PickUpKey(Fragment f)
@@ -1787,8 +1831,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (HasDoorArt) SetDoorBlocked(s, true); // 맞는 열쇠 → 문이 닫히고 쉴드 표시
         else s.sr.color = FixedColor;
         PlaySfx(lockSfx, 0.8f);
-        s.label.text = SlotLabel(s);
-        s.label.color = FixedColor;
+        s.guide.SetActive(false);
         ConsumeCarried();
         filledCount++;
         RefreshHud();
@@ -1815,7 +1858,15 @@ public class RansomwareBossFight : MonoBehaviour
         RefreshHud();
     }
 
-    private Slot SlotInRange() => slots.Find(s => !s.filled && Vector2.Distance(s.pos, playerPos) <= slotRange);
+    private bool InSlotRange(Slot s)
+    {
+        Vector2 d = playerPos - s.pos;
+        d.x /= slotRange;
+        d.y /= slotRangeVertical;
+        return d.sqrMagnitude <= 1f;
+    }
+
+    private Slot SlotInRange() => slots.Find(s => !s.filled && InSlotRange(s));
 
     /// <summary>자의로 떨어뜨린 뒤 아직 범위를 벗어나지 않아, 빈손이면 다시 주울 수 있는 열쇠</summary>
     private Fragment RepickableKey()
@@ -1913,6 +1964,7 @@ public class RansomwareBossFight : MonoBehaviour
 
     private void ShowAddressMismatch()
     {
+        PlaySfx(mismatchSfx != null ? mismatchSfx : hitSfx, hitSfxVolume); // 메시지는 쿨타임이 있어도 누를 때마다 소리로 알려준다
         if (wrongSlotCooldown > 0) return;
         wrongSlotCooldown = 1.2f;
         int need = baseAddr + carrying.index * 4;
@@ -2090,7 +2142,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (playerMovement != null && playerMovement.currentHoldingImg != null && trojanSprite != null)
             playerMovement.HoldItem(TrojanHoldId, trojanSprite);
         PlaySfx(pickupSfx, 0.6f);
-        ShowMessage("<color=#F55>트로이목마를 주웠다!</color>",
+        ShowMessage("<color=#F55>트로이목마를 주워버렸다!</color>",
             (previousKey != null ? "열쇠를 떨어뜨렸다! " : "") + "터지기 전에 떨어뜨리거나 휴지통에 버리자", 1.6f);
     }
 
@@ -2182,7 +2234,7 @@ public class RansomwareBossFight : MonoBehaviour
             if (can == null || Vector2.Distance(can.position, playerPos) > trashRange) continue;
             RemoveTrojan(t);
             PlaySfx(pickupSfx, 0.6f);
-            ShowMessage("<color=#7FF>트로이목마를 휴지통에 버렸다!</color>", "", 1.4f);
+            ShowMessage("<color=#7FF>트로이목마 바이러스를 삭제했다!</color>", "", 1.4f);
             return;
         }
 

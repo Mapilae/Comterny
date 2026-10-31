@@ -763,7 +763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -902,10 +902,12 @@ MonoBehaviour:
   trojanSprite: {fileID: 21300000, guid: 6ef52a319067cb541ba2cc56d0265e74, type: 3}
   doorOpenSprite: {fileID: 21300000, guid: cdaf7c68f735347bfac075ff7870aa32, type: 3}
   doorClosedSprite: {fileID: 21300000, guid: 72270574ae1a24e219750a92fc54be0c, type: 3}
+  doorPrefab: {fileID: 7100000000000000003, guid: b05d00c7a1e94f3c8d2e6f7a9c41d3e8, type: 3}
   shieldSprite: {fileID: 21300000, guid: d6a217011119bd14abbee74b2d3a2008, type: 3}
   shieldIconHeight: 0.75
   pickupSfx: {fileID: 8300000, guid: 8a75e3b481d61a14abc52d6f8e73eba8, type: 3}
   lockSfx: {fileID: 8300000, guid: 6184299f7d1616640b2f19a58ff7f214, type: 3}
+  mismatchSfx: {fileID: 8300000, guid: e1b057e9025f646768fb9a2b21e30dbb, type: 3}
   bgm: {fileID: 8300000, guid: 6e4a6a1fd969ac245a96dd70e5c35766, type: 3}
   bgmFastSpeed: 1.1666666
   bgmSpeedUpTime: 0.5
@@ -945,6 +947,7 @@ MonoBehaviour:
   fragmentCount: 5
   pickupRange: 0.5
   slotRange: 0.95
+  slotRangeVertical: 1.5
   decryptSpawnInterval: 5
   decryptLifeTime: 10
   bossContactRadius: 0.55
@@ -6187,6 +6190,74 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1656211079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1656211082}
+  - component: {fileID: 1656211081}
+  - component: {fileID: 1656211080}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1656211080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656211079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.StandaloneInputModule
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1656211081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656211079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1656211082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656211079}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1656361222
 GameObject:
   m_ObjectHideFlags: 0
@@ -7884,3 +7955,4 @@ SceneRoots:
   - {fileID: 165293051}
   - {fileID: 982550767}
   - {fileID: 1781642911}
+  - {fileID: 1656211082}
