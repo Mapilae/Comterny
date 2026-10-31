@@ -1737,8 +1737,9 @@ public class RansomwareBossFight : MonoBehaviour
                 phase2Left = phase2Countdown;
                 // 문을 절반(올림) 이상 막으면 2페이즈 (5개면 3개째부터)
                 if (!phase2 && filledCount >= (slots.Count + 1) / 2) { EnterPhase2(); return; }
+                bool cured = CureNearestComputer(s.pos) >= 0; // 방화벽을 막으면 가장 가까운 좀비 PC가 정상으로 돌아온다
                 ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구!</color>",
-                    $"남은 구멍 {slots.Count - filledCount}개 - 랜섬웨어가 초조해진다", 1.4f);
+                    $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해진다")}", 1.4f);
             }
             else ShowAddressMismatch();
             break;
