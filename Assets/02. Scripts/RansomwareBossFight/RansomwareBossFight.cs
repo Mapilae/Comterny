@@ -605,6 +605,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (npc.Rescued) return;
         bool ram = npc.Kind == NpcKind.Ram;
         npc.Rescue(ram ? ramSpriteFree : processorSpriteFree);
+        BossSpeak(ram ? "뭐하는 짓이야? 쓸데없는 걸 하네!" : "흥, 그런다고 막을 수 있을 것 같아?");
         if (!ram) processorTimer = processorInterval;
         PlaySfx(lockSfx, 0.8f);
 
@@ -1125,10 +1126,10 @@ public class RansomwareBossFight : MonoBehaviour
         phase2 = true;
         SpeedUpBgm();
         teleportTarget = -1; // 전환 연출이 컴퓨터 상태를 모두 정리한다
+        StopAllCoroutines();
+        ClearAllBullets();   // 여기서 스케일이 복원된다
         EndGroggy();
         ChangeBossAppearance(bossSpritePhase2);
-        StopAllCoroutines();
-        ClearAllBullets();
         StartCoroutine(Phase2Routine());
     }
 
@@ -1223,7 +1224,7 @@ public class RansomwareBossFight : MonoBehaviour
         if (carrying != null) carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(carrying.index)}]" : $"[{FragmentCode(carrying.index)}]";
         foreach (var s in slots) s.label.text = SlotLabel(s);
         foreach (var n in npcs) n.SetAddressText(AddressLabel(n.KeyIndex));
-        ShowMessage("<color=#F55>방화벽이 뚫리기 전에 모두 막아야 한다</color>", AddressMasked ? "주소도 암호화됐다!" : "", 1.4f);
+        ShowMessage("<color=#F55>랜섬웨어가 다 지워버리기 전에 모두 복구하자!</color>", AddressMasked ? "주소도 암호화됐다!" : "", 1.4f);
         yield return new WaitForSeconds(1.4f);
 
         for (int i = 0; i < computers.Count; i++)
@@ -1309,7 +1310,7 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
-        ShowMessage("<color=#C88>랜섬웨어</color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
+        ShowMessage("<color=#C88> </color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
         yield return new WaitForSeconds(2.6f);
         ShowMessage(keySprite != null ? "랜섬웨어가 방화벽을 모두 무너뜨렸다! \n포인터 열쇠를 맞는 주소에 꽂아 뚫린 곳을 막자" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하자!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
