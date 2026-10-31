@@ -22,7 +22,7 @@ public class BossNpc : MonoBehaviour
     public NpcKind Kind { get; private set; }
     public int KeyIndex { get; private set; } // 이 NPC를 푸는 열쇠의 주소 = baseAddr + index*4
     public bool Rescued { get; private set; }
-    public string DisplayName => Kind == NpcKind.Ram ? "램" : "프로세서";
+    public string DisplayName => Kind == NpcKind.Ram ? "램 주임" : "프로세서 팀장";
 
     private SpeechBubble bubble;
     private SpriteRenderer sr;

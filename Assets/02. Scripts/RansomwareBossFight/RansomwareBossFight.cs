@@ -1339,7 +1339,7 @@ public class RansomwareBossFight : MonoBehaviour
     private IEnumerator IntroRoutine()
     {
         state = FightState.Intro;
-        ShowMessage("<color=#C88> </color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
+        ShowMessage("<color=#C88>BOSS FIGHT</color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
         yield return new WaitForSeconds(2.6f);
         ShowMessage(keySprite != null ? "랜섬웨어가 방화벽을 모두 무너뜨렸다! \n포인터 열쇠를 맞는 주소에 꽂아 뚫린 곳을 막자" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하자!",
             hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
