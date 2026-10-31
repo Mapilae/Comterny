@@ -661,7 +661,7 @@ MonoBehaviour:
   cameraOrthoSize: 4
   cameraFollowSmooth: 0.12
   fragmentCount: 4
-  pickupRange: 0.6
+  pickupRange: 0.46
   slotRange: 0.95
   decryptSpawnInterval: 5
   decryptLifeTime: 10

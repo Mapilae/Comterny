@@ -98,7 +98,7 @@ public class RansomwareBossFight : MonoBehaviour
     [Header("퍼즐")]
     [Tooltip("방화벽 문 개수. 열쇠는 NPC 몫까지 더해서 생성된다")]
     [Range(2, 6)] public int fragmentCount = 5;
-    public float pickupRange = 0.6f;
+    public float pickupRange = 0.46f;
     public float slotRange = 0.95f;
 
     [Header("복호화 아이템")]
@@ -1447,7 +1447,8 @@ public class RansomwareBossFight : MonoBehaviour
             OnPlayerHit();
 
         // 근접: 가까이 오면 전기 채찍
-        if (electricWhip && state == FightState.Fight && !IsGroggy && !bossTransit && !whipping && Time.time >= whipReadyAt
+        // teleportTarget: 전선을 연결하는 동안은 아직 bossTransit이 아니지만, 이때 시작하면 이동 중에 채찍이 따라간다
+        if (electricWhip && state == FightState.Fight && !IsGroggy && !bossTransit && teleportTarget < 0 && !whipping && Time.time >= whipReadyAt
             && Vector2.Distance(bossPos, playerPos) < whipRange)
             StartCoroutine(ElectricWhip());
 
