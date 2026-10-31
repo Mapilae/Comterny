@@ -26,6 +26,8 @@ public class RansomwareBossFight : MonoBehaviour
     public Sprite bossSprite;
     [Tooltip("2페이즈(몸값 결제) 진입 시 보스 외관. 비우면 bossSprite 유지")]
     public Sprite bossSpritePhase2;
+    [Tooltip("그로기 상태의 보스 외관. 비우면 현재 외관 유지")]
+    public Sprite bossSpriteGroggy;
     [Tooltip("코드 조각 = 열쇠")]
     public Sprite keySprite;
     [Tooltip("무너진 방화벽: 처음엔 빨갛게 빛나는 열린 문 → 맞는 열쇠를 꽂으면 닫힌 문")]
@@ -105,6 +107,8 @@ public class RansomwareBossFight : MonoBehaviour
 
     [Header("보스")]
     public float bossContactRadius = 0.55f;
+    [Tooltip("방화벽을 막았을 때 보스 그로기 시간(초). 그로기 중 또 막으면 남은 시간과 상관없이 이 시간으로 다시 센다")]
+    public float groggyDuration = 3f;
 
     [Header("보스 이동: 공격 후 플레이어와 가장 가까운 컴퓨터를 해킹하며 전선 타고 순간이동")]
     public bool bossTeleport = true;
@@ -289,6 +293,9 @@ public class RansomwareBossFight : MonoBehaviour
     private bool bossTransit, whipping;
     private float whipReadyAt;
     private int bossComputer;
+    private int teleportTarget = -1;  // 이동 중인 목표 컴퓨터 (그로기로 이동이 끊겼을 때 되돌리는 용도)
+    private float groggyUntil = -1f;  // 0 이상이면 그로기 중
+    private Sprite spriteBeforeGroggy;
     private readonly List<Computer> computers = new();
     private readonly List<Bolt> bolts = new();
 
@@ -1192,10 +1199,50 @@ public class RansomwareBossFight : MonoBehaviour
     {
         phase2 = true;
         SpeedUpBgm();
+        teleportTarget = -1; // 전환 연출이 컴퓨터 상태를 모두 정리한다
+        EndGroggy();
         ChangeBossAppearance(bossSpritePhase2);
         StopAllCoroutines();
         ClearAllBullets();
         StartCoroutine(Phase2Routine());
+    }
+
+    private bool IsGroggy => groggyUntil >= 0f;
+
+    /// <summary>그로기 시작(또는 시간 초기화): 진행 중인 공격과 날아가던 탄을 모두 지우고 포탑도 그동안 쉬게 한다.</summary>
+    private void StartGroggy()
+    {
+        StopAllCoroutines();
+        ClearAllBullets();
+        if (teleportTarget >= 0)
+        {
+            // 이동이 끊기면 원래 컴퓨터로 돌아오므로 목표 컴퓨터의 해킹을 되돌린다
+            CureComputer(teleportTarget);
+            SetInfected(bossComputer, true);
+            teleportTarget = -1;
+        }
+        if (!IsGroggy)
+        {
+            spriteBeforeGroggy = bossSr.sprite;
+            ChangeBossAppearance(bossSpriteGroggy);
+        }
+        groggyUntil = Time.time + groggyDuration;
+        foreach (var c in computers)
+            c.nextFireAt = groggyUntil + Random.Range(0f, turretFireInterval); // 끝나자마자 일제히 쏘지 않게
+    }
+
+    private void EndGroggy()
+    {
+        if (!IsGroggy) return;
+        groggyUntil = -1f;
+        ChangeBossAppearance(spriteBeforeGroggy);
+    }
+
+    private void UpdateGroggy()
+    {
+        if (!IsGroggy || Time.time < groggyUntil) return;
+        EndGroggy();
+        StartCoroutine(BossPatternLoop());
     }
 
     /// <summary>보스 외관을 다른 스프라이트로 바꾼다. 이미지 비율이 달라도 기존과 같은 화면상 높이를 유지한다. sprite가 null이면 그대로 둔다.</summary>
@@ -1368,6 +1415,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
         if (state == FightState.Fight)
         {
+            UpdateGroggy();
             UpdateProcessor(dt);
             UpdateBullets(dt);
             UpdateLasers();
@@ -1446,15 +1494,15 @@ public class RansomwareBossFight : MonoBehaviour
         // 컴퓨터 위에 떠서 살짝 둥실. 이동(전선) 중에는 TeleportRoutine이 위치를 잡는다.
         if (!bossTransit)
         {
-            bossPos = bossHome + new Vector2(0f, Mathf.Sin(Time.time * 1.6f) * 0.08f);
+            bossPos = IsGroggy ? bossHome : bossHome + new Vector2(0f, Mathf.Sin(Time.time * 1.6f) * 0.08f);
             boss.position = bossPos;
         }
 
-        if (state == FightState.Fight && !bossTransit && Vector2.Distance(bossPos, playerPos) < bossContactRadius + playerHitRadius)
+        if (state == FightState.Fight && !IsGroggy && !bossTransit && Vector2.Distance(bossPos, playerPos) < bossContactRadius + playerHitRadius)
             OnPlayerHit();
 
         // 근접: 가까이 오면 전기 채찍
-        if (electricWhip && state == FightState.Fight && !bossTransit && !whipping && Time.time >= whipReadyAt
+        if (electricWhip && state == FightState.Fight && !IsGroggy && !bossTransit && !whipping && Time.time >= whipReadyAt
             && Vector2.Distance(bossPos, playerPos) < whipRange)
             StartCoroutine(ElectricWhip());
 
@@ -1737,9 +1785,10 @@ public class RansomwareBossFight : MonoBehaviour
                 phase2Left = phase2Countdown;
                 // 문을 절반(올림) 이상 막으면 2페이즈 (5개면 3개째부터)
                 if (!phase2 && filledCount >= (slots.Count + 1) / 2) { EnterPhase2(); return; }
+                StartGroggy();
                 bool cured = CureNearestComputer(s.pos) >= 0; // 방화벽을 막으면 가장 가까운 좀비 PC가 정상으로 돌아온다
-                ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구!</color>",
-                    $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해진다")}", 1.4f);
+                ShowMessage($"<color=#7FF>0x{baseAddr + s.index * 4:X4} 복구! 랜섬웨어를 잠시동안 무력화시켰다!</color>",
+                    $"남은 구멍 {slots.Count - filledCount}개 - {(cured ? "가까운 좀비 PC도 정상으로 돌아왔다" : "랜섬웨어가 초조해한다")}", 1.4f);
             }
             else ShowAddressMismatch();
             break;
@@ -1878,6 +1927,7 @@ public class RansomwareBossFight : MonoBehaviour
         StopAllCoroutines();
         ClearAllBullets();
         if (decryptItem != null) Destroy(decryptItem.gameObject);
+        if (!IsGroggy) ChangeBossAppearance(bossSpriteGroggy); // 검거된 보스는 그로기 모습으로 남는다
         bossSr.color = new Color(0.55f, 0.55f, 0.6f);
         playerNameLabel.text = baseName;
         clearAt = Time.time;
@@ -1977,6 +2027,7 @@ public class RansomwareBossFight : MonoBehaviour
 
         // 1) 목표 컴퓨터 해킹 + 전기 선이 뻗어나감
         SetInfected(to, true);
+        teleportTarget = to;
         if (computers[to].label != null) computers[to].label.text = "HACKED";
         var wire = MakeBolt(SafeElectric * new Color(1, 1, 1, 0.6f), 0.16f, 0.05f, 30, SafeCore); // 이동 경로(무해) → 노란 전기
         const float connectTime = 0.25f;
@@ -2017,6 +2068,7 @@ public class RansomwareBossFight : MonoBehaviour
 
         // 4) 도착: 튀어나오듯 등장
         bossComputer = to;
+        teleportTarget = -1;
         bossHome = dest;
         bossPos = dest;
         boss.position = dest;

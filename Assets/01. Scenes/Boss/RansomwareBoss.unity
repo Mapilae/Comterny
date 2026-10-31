@@ -669,6 +669,7 @@ MonoBehaviour:
   playerSprite: {fileID: 21300000, guid: a2ccfb2ae53d0b04bab684c1d9b1e71a, type: 3}
   bossSprite: {fileID: 21300000, guid: 7764cc9c60c1cac489bb10f80dafedea, type: 3}
   bossSpritePhase2: {fileID: 21300000, guid: bd27a960e563fe742bc7787e09628478, type: 3}
+  bossSpriteGroggy: {fileID: 21300000, guid: 2057fa85371ce6341b3a9e66c80e7b17, type: 3}
   keySprite: {fileID: 21300000, guid: 761b4e3349c14d5a8c01a9cc65629b91, type: 3}
   doorOpenSprite: {fileID: 21300000, guid: cdaf7c68f735347bfac075ff7870aa32, type: 3}
   doorClosedSprite: {fileID: 21300000, guid: 72270574ae1a24e219750a92fc54be0c, type: 3}
@@ -712,12 +713,13 @@ MonoBehaviour:
   invincibleTime: 2
   cameraOrthoSize: 4
   cameraFollowSmooth: 0.12
-  fragmentCount: 4
+  fragmentCount: 5
   pickupRange: 0.6
   slotRange: 0.95
   decryptSpawnInterval: 5
   decryptLifeTime: 10
   bossContactRadius: 0.55
+  groggyDuration: 3
   bossTeleport: 1
   teleportDelayAfterAttack: 0.7
   wireTravelTime: 0.75
