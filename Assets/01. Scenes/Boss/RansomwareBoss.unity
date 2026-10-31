@@ -672,7 +672,8 @@ MonoBehaviour:
   keySprite: {fileID: 21300000, guid: 761b4e3349c14d5a8c01a9cc65629b91, type: 3}
   doorOpenSprite: {fileID: 21300000, guid: cdaf7c68f735347bfac075ff7870aa32, type: 3}
   doorClosedSprite: {fileID: 21300000, guid: 72270574ae1a24e219750a92fc54be0c, type: 3}
-  lockSprite: {fileID: 21300000, guid: f7c19f49b4d046ed87c26a07bbff5dba, type: 3}
+  shieldSprite: {fileID: 21300000, guid: d6a217011119bd14abbee74b2d3a2008, type: 3}
+  shieldIconHeight: 0.75
   pickupSfx: {fileID: 8300000, guid: 8a75e3b481d61a14abc52d6f8e73eba8, type: 3}
   lockSfx: {fileID: 8300000, guid: 6184299f7d1616640b2f19a58ff7f214, type: 3}
   bgm: {fileID: 8300000, guid: 6e4a6a1fd969ac245a96dd70e5c35766, type: 3}
@@ -711,7 +712,7 @@ MonoBehaviour:
   invincibleTime: 2
   cameraOrthoSize: 4
   cameraFollowSmooth: 0.12
-  fragmentCount: 6
+  fragmentCount: 4
   pickupRange: 0.6
   slotRange: 0.95
   decryptSpawnInterval: 5
@@ -728,6 +729,7 @@ MonoBehaviour:
   turretBulletSpeed: 2
   turretBulletRadius: 0.085
   phase2MaskAddressInNormal: 0
+  npcRescueRange: 0.9
   processorSprite: {fileID: 21300000, guid: d46f0117f94816c42aab9934aeb9121b, type: 3}
   ramSprite: {fileID: 21300000, guid: 04ea075b5afed1c41a910250eb4c85f7, type: 3}
   processorSpriteFree: {fileID: 21300000, guid: 9fd7c4052877e3742b866ddc9b73dc47, type: 3}
