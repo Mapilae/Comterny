@@ -280,7 +280,7 @@ public class RansomwareBossFight : MonoBehaviour
     private float invincibleUntil;
     private int corruption;          // 0~2
     private string baseName, shownName;
-    private Fragment carrying;
+    private Fragment carrying, swappedOutKey;
 
     private Transform boss;
     private SpriteRenderer bossSr;
@@ -1675,24 +1675,34 @@ public class RansomwareBossFight : MonoBehaviour
     #region 퍼즐 (코드 조각 ↔ 방화벽 주소)
     private void UpdatePuzzle()
     {
-        if (carrying == null)
+        foreach (var f in fragments)
         {
-            foreach (var f in fragments)
+            if (f.carried || f.placed || IsKeyFlying(f)) continue;
+            bool inRange = Vector2.Distance(f.pos, playerPos) < pickupRange;
+            if (f == swappedOutKey)
             {
-                if (f.carried || f.placed || IsKeyFlying(f)) continue;
-                if (Vector2.Distance(f.pos, playerPos) < pickupRange)
-                {
-                    carrying = f;
-                    f.carried = true;
-                    f.tr.gameObject.SetActive(false);
-                    carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(f.index)}]" : $"[{FragmentCode(f.index)}]";
-                    SetKeyIcon(f);
-                    PlaySfx(pickupSfx, 0.6f);
-                    break;
-                }
+                // 방금 내려놓은 열쇠는 범위 밖으로 나갔다 와야 다시 주울 수 있다 (벽 근처에서 무한 교체 방지)
+                if (!inRange) swappedOutKey = null;
+                continue;
             }
+            if (!inRange) continue;
+
+            var previous = carrying;
+            if (previous != null)
+            {
+                DropCarried();
+                swappedOutKey = previous;
+                ShowMessage("<color=#FC3>열쇠를 바꿨다!</color>", $"{FragmentCode(previous.index)} → {FragmentCode(f.index)}", 1.4f);
+            }
+            carrying = f;
+            f.carried = true;
+            f.tr.gameObject.SetActive(false);
+            carryLabel.text = keySprite != null ? $"열쇠 [{FragmentCode(f.index)}]" : $"[{FragmentCode(f.index)}]";
+            SetKeyIcon(f);
+            PlaySfx(pickupSfx, 0.6f);
             return;
         }
+        if (carrying == null) return;
 
         foreach (var n in npcs)
         {
