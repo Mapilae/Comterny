@@ -17,9 +17,11 @@ public class SortClass
     }
 }
 
-public class ChangeLayerOrder : MonoBehaviour
+public class ChangeLayerOrder : MonoBehaviour, ISaveableState
 {
     [Header("변경이 영구적인지 여부")] public bool isPermanent; //변경이 영구적인가
+
+    private bool isPermanentUsed; // 영구 변경을 이미 적용함 (이후로는 오브젝트를 건드리지 않음)
 
     public SortClass[] sorts;
 
@@ -30,6 +32,23 @@ public class ChangeLayerOrder : MonoBehaviour
     public Collider2D[] colliderToDisableWhenEnter;
     public Canvas[] canvasToDisableWhenEnter;
 
+
+    // 영구 변경이 이미 적용됐다면, 이어하기 후 트리거를 다시 지날 때 오브젝트를 되돌리지 않도록 목록을 비운다
+    public string CaptureState(SceneStateTracker ids)
+    {
+        return isPermanentUsed ? "used" : null;
+    }
+
+    public void RestoreState(string data, SceneStateTracker ids)
+    {
+        if (data != "used") return;
+        isPermanentUsed = true;
+        objToEnableWhenEnter = null;
+        objToDisableWhenEnter = null;
+        colliderToEnableWhenEnter = null;
+        colliderToDisableWhenEnter = null;
+        canvasToDisableWhenEnter = null;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -68,6 +87,8 @@ public class ChangeLayerOrder : MonoBehaviour
 
             if (other.CompareTag("Player"))
             {
+                if (isPermanent) isPermanentUsed = true;
+
                 if (objToDisableWhenEnter != null)
                 {
                     foreach (var obj in objToDisableWhenEnter) obj.SetActive(!isEnter);

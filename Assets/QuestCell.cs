@@ -22,8 +22,12 @@ public class QuestCell : MonoBehaviour
         questContentText = transform.GetChild(1).GetComponent<TMP_Text>();
     }
 
+    // 완료 애니메이션 재생 중 (끝나면 꺼짐). 저장할 때 제외한다.
+    public bool IsCompleting { get; private set; }
+
     public void SetQuest(string questName, string content)
     {
+        IsCompleting = false;
         this.questName = questName;
         this.content = content;
 
@@ -39,6 +43,7 @@ public class QuestCell : MonoBehaviour
 
     public void SuccessQuest()
     {
+        IsCompleting = true;
         questObj.SetTrigger(Success);
     }
 

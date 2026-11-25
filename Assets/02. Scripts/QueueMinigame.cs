@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QueueMinigame : MonoBehaviour
+public class QueueMinigame : MonoBehaviour, ISaveableState
 {
     public Transform spawnPoint;
     public List<GameObject> disableObjs;
@@ -10,13 +11,42 @@ public class QueueMinigame : MonoBehaviour
     public List<GameObject> waitToBeSpawn;
     private readonly bool isSuccess = false;
     private GameObject blockBoxCol;
+    private bool isRestored; // 꺼진 채로 복원된 경우 나중에 켜질 때 Awake가 비우지 않게
 
 
     private void Awake()
     {
+        if (isRestored) return;
         disableObjs = new List<GameObject>();
         waitToBeSpawn = new List<GameObject>();
     }
+
+    #region 저장/불러오기
+
+    [Serializable]
+    private class SavedQueue
+    {
+        public List<int> caught = new(); // 꺼내서 아이템(데이터 상자)이 된 상자
+        public List<int> waiting = new(); // 다시 나오기를 기다리는 상자
+    }
+
+    public string CaptureState(SceneStateTracker ids)
+    {
+        if ((disableObjs == null || disableObjs.Count == 0) && (waitToBeSpawn == null || waitToBeSpawn.Count == 0))
+            return null;
+        return JsonUtility.ToJson(new SavedQueue { caught = ids.IdsOf(disableObjs), waiting = ids.IdsOf(waitToBeSpawn) });
+    }
+
+    public void RestoreState(string data, SceneStateTracker ids)
+    {
+        var saved = JsonUtility.FromJson<SavedQueue>(data);
+        if (saved == null) return;
+        disableObjs = ids.ObjectsAt(saved.caught);
+        waitToBeSpawn = ids.ObjectsAt(saved.waiting);
+        isRestored = true;
+    }
+
+    #endregion
 
     private void Start()
     {

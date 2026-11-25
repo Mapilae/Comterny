@@ -34,9 +34,9 @@ public class PlayerNameSet : MonoBehaviour
         nameField.interactable = false;
         
         strName = nameField.text;
-            //PlayerPrefs.SetString("PlayerName", strName);
-            //PlayerPrefs.Save();
-       
+
+        // 새로 시작: 이전 플레이 데이터를 비운다 (기존 세이브는 첫 스테이지에 들어갈 때 덮어써짐)
+        SaveSystem.StartNewGame();
         PlayerData.instance.SetName(strName);
         Debug.Log("Player Name Set: " + strName);
         anim.SetTrigger("move");
@@ -55,7 +55,8 @@ public class PlayerNameSet : MonoBehaviour
             PlayerData.instance.SetDifficulty(diff);
             Debug.Log("Player Difficulty Set: " + diff);
             
-            LodingScene.instance.LoadScene();
+            LoadingScene.instance.LoadSceneDependOnCrtStage(diff.Equals(0) ? 1 : 7);
+            //LoadingScene.instance.LoadScene();
             
         }
         else

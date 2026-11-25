@@ -89,6 +89,8 @@ public class InteractableObject : MonoBehaviour
         if (collision.CompareTag("Player") || collision.CompareTag("deadzone"))
         {
             isClose = true;
+            // 이어하기 직후 저장된 위치가 트리거 안이면 이미 본 자동 대사/자동 문이 다시 실행되므로 막는다
+            if (SaveSystem.IsRestoring) return;
             AutoDialogue();
             AutoDoor();
         }

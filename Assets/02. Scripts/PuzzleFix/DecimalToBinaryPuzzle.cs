@@ -4,8 +4,10 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class DecimalToBinaryPuzzle : MonoBehaviour
+public class DecimalToBinaryPuzzle : MonoBehaviour, ISaveableState
 {
+    private bool isSolved;
+
     public UISwitcher.UISwitcher[] toggleSwitches; // 8개 스위치
     public TextMeshProUGUI[] toggleLabels; // 각 토글의 Label
     public RectTransform[] tipRects; // 각 토글의 Tip
@@ -108,11 +110,28 @@ public class DecimalToBinaryPuzzle : MonoBehaviour
         successText.gameObject.SetActive(true);
         PlayerData.instance.AddVariable(141);
         PlayerMovement.instance.ChangeCanMove(true);
-        compilerGuideText.text = "컴파일러 대리";
-        chatBallon.ChangeBallonText("컴파일러번역한뒤", -1);
+        ApplySolvedTexts();
         objToHide.SetActive(false);
         objToHide2.SetActive(false);
         StartCoroutine(ClosePuzzleAfterDelay());
+    }
+
+    private void ApplySolvedTexts()
+    {
+        isSolved = true;
+        compilerGuideText.text = "컴파일러 대리";
+        chatBallon.ChangeBallonText("컴파일러번역한뒤", -1);
+    }
+
+    // 클리어 후 바뀐 이름표/말풍선 문구는 오브젝트 켜고 끄기로 복원되지 않는다
+    public string CaptureState(SceneStateTracker ids)
+    {
+        return isSolved ? "solved" : null;
+    }
+
+    public void RestoreState(string data, SceneStateTracker ids)
+    {
+        if (data == "solved") ApplySolvedTexts();
     }
 
     private IEnumerator ClosePuzzleAfterDelay()

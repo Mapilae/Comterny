@@ -6,13 +6,15 @@ public class MainMenu : MonoBehaviour
 {
     public Button loadButton;
     public TMP_Text loadText;
-    private LoadedDatas loadedDatas;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool isStarting;
+    private SaveFile save;
+
     private void Start()
     {
-        loadedDatas = SaveData.instance.Load();
-        if (loadedDatas.isDataExists.Equals(0))
+        save = SaveSystem.Load();
+
+        if (save == null)
         {
             loadButton.interactable = false;
             loadText.text = "";
@@ -20,52 +22,18 @@ public class MainMenu : MonoBehaviour
         else
         {
             loadButton.interactable = true;
-            loadText.text =
-                $"{loadedDatas.playerName}, {GetDifficulty(loadedDatas.difficulty)}, {GetCrtStage(loadedDatas.crtStage)}";
+            loadText.text = $"{save.playerName}, {SaveSystem.GetStageLabel(save)}";
         }
+
+        // 씬의 이어하기 버튼 OnClick이 비어 있어도 동작하도록 코드에서 연결한다.
+        // 인스펙터에서도 연결돼 두 번 불리더라도 isStarting으로 한 번만 실행된다.
+        loadButton.onClick.AddListener(LoadDataAndStartGame);
     }
 
     public void LoadDataAndStartGame()
     {
         //on button click
-        PlayerData.instance.SetData(loadedDatas);
-        LodingScene.instance.LoadSceneDependOnCrtStage(loadedDatas.crtStage);
-    }
-
-
-    private static string GetDifficulty(int difficulty)
-    {
-        switch (difficulty)
-        {
-            case 0:
-                return "이지 모드";
-            case 1:
-                return "컴퓨터공학도 모드";
-        }
-
-        return "";
-    }
-
-    private static string GetCrtStage(int crtStage)
-    {
-        switch (crtStage)
-        {
-            case 0:
-                return "컴터니 입성";
-            case 1:
-                return "주기억부서";
-            case 2:
-                return "시스템버스정류장";
-            case 3:
-                return "중앙처리부서";
-            case 4:
-                return "시스템소프트웨어부서";
-            case 5:
-                return "운영체제부서 가는 길";
-            case 6:
-                return "운영체제부서";
-        }
-
-        return "";
+        if (isStarting || save == null) return;
+        isStarting = SaveSystem.ContinueGame();
     }
 }

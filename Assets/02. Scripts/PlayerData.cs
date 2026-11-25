@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
+// 다른 스크립트의 Awake보다 먼저 실행되어야 씬마다 놓인 사본이 FindGameObjectWithTag("PlayerData")에 잡히지 않는다
+[DefaultExecutionOrder(-1000)]
 public class PlayerData : MonoBehaviour
 {
     // 모든 데이터를 한곳에 두고 관리하는 클래스
@@ -18,7 +19,7 @@ public class PlayerData : MonoBehaviour
 
     public static PlayerData instance;
 
-    public static string playerName = "유저 디버그";
+    public static string playerName = SaveSystem.DefaultPlayerName;
 
     [Header("Current Info")] public int crtStage;
 
@@ -35,6 +36,10 @@ public class PlayerData : MonoBehaviour
     {
         if (instance != this && instance != null)
         {
+            // 씬마다 놓인 PlayerData 프리팹 사본. DontDestroyOnLoad로 살아있는 원본만 쓴다.
+            // Destroy는 프레임 끝에 일어나므로, 그 전에 다른 스크립트가 사본을 집지 않도록 바로 끄고 태그도 뗀다.
+            gameObject.tag = "Untagged";
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
         else
@@ -42,6 +47,12 @@ public class PlayerData : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this);
         }
+    }
+
+    private static void RefreshInventory()
+    {
+        // 보스 씬/메인메뉴처럼 인벤토리 UI가 없는 씬에서도 데이터는 그대로 유지된다
+        if (Inventory.instance != null) Inventory.instance.UpdateInventory();
     }
     
     
@@ -75,13 +86,34 @@ public class PlayerData : MonoBehaviour
 
 
 
-public void SetData(LoadedDatas datas)
+/// <summary>이어하기: 세이브 내용을 그대로 적용</summary>
+public void ApplySave(SaveFile data)
 {
-    crtStage = datas.crtStage;
-    difficulty = datas.difficulty;
-    variables = datas.variables.ToList();
-    items = datas.items.ToList();
-    playerName = datas.playerName;
+    playerName = string.IsNullOrWhiteSpace(data.playerName) ? SaveSystem.DefaultPlayerName : data.playerName;
+    crtStage = data.crtStage;
+    difficulty = data.difficulty;
+    items = new List<int>(data.items ?? new List<int>());
+    variables = new List<int>(data.variables ?? new List<int>());
+    RefreshInventory();
+}
+
+/// <summary>이어하기(스테이지 중간): 저장 당시의 아이템·변수로 바꾼다</summary>
+public void ApplyProgress(List<int> savedItems, List<int> savedVariables)
+{
+    items = new List<int>(savedItems ?? new List<int>());
+    variables = new List<int>(savedVariables ?? new List<int>());
+    RefreshInventory();
+}
+
+/// <summary>새로 시작: 이전 플레이(타이틀로 돌아오기 전 상태 등)를 모두 비운다</summary>
+public void ResetForNewGame()
+{
+    playerName = SaveSystem.DefaultPlayerName;
+    crtStage = 0;
+    difficulty = 0;
+    items = new List<int>();
+    variables = new List<int>();
+    RefreshInventory();
 }
 
 public void SetDifficulty(int diff)
@@ -94,8 +126,7 @@ public void SetDifficulty(int diff)
 public void SetName(string newName)
 {
     playerName = newName;
-    //SAVE
-    SaveData.instance.Save();
+    // 저장은 첫 스테이지에 들어갈 때 SaveSystem이 자동으로 한다
 }
 
 public void ChangeCrtStage(int stageNum)
@@ -165,10 +196,8 @@ public void RemoveVariable(int varCodeToRemove)
     }
     else
     {
-        if (!variables.Count.Equals(0))
-            if (IsVariableExist(varCodeToRemove))
-                return;
-
+        if (!IsVariableExist(varCodeToRemove))
+            return;
 
         variables.Remove(varCodeToRemove);
     }
@@ -201,6 +230,7 @@ public void AddItem(int itemID, bool isPlayerClickSelf=true)
     }
     //Debug.Log("변수 등록: " + itemID);
     items.Add(itemID);
+    if (Inventory.instance == null) return;
     Inventory.instance.UpdateInventory();
     Inventory.instance.HoldLastIndexItem(isPlayerClickSelf);
 }
@@ -212,9 +242,12 @@ public bool RemoveItem(int itemID)
         {
             items.Remove(itemID);
 
-            Inventory.instance.UnholdItem();
-            Inventory.instance.UpdateInventory();
-            Inventory.instance.DisableItemInfo();
+            if (Inventory.instance != null)
+            {
+                Inventory.instance.UnholdItem();
+                Inventory.instance.UpdateInventory();
+                Inventory.instance.DisableItemInfo();
+            }
 
             return true;//success
         }
@@ -241,6 +274,6 @@ public void ResetAll()
 {
     items.Clear();
     variables.Clear();
-    Inventory.instance.UpdateInventory();
+    RefreshInventory();
 }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LodingScene : MonoBehaviour
+public class LoadingScene : MonoBehaviour
 {
-    public static LodingScene instance;
+    public static LoadingScene instance;
 
     /**
      * 불러올 씬의 이름
@@ -32,6 +32,11 @@ public class LodingScene : MonoBehaviour
     public RectTransform charSD;
     public Image fill;
 
+    private bool isLoading;
+
+    /// <summary>씬 전환(로딩 화면) 중. 이 동안에는 이전 씬 상태를 저장하지 않는다.</summary>
+    public static bool IsLoading { get; private set; }
+
     private readonly string[] msgs =
     {
         "프로그램 오류인 버그라는 단어는 컴퓨터의 오작동 원인이 벌레였던 건에서 유래되었습니다.",
@@ -50,6 +55,17 @@ public class LodingScene : MonoBehaviour
         instance = this;
     }
 
+    private void OnDestroy()
+    {
+        if (isLoading) IsLoading = false;
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics()
+    {
+        IsLoading = false;
+    }
+
     private void Start()
     {
         if (Button != null)
@@ -62,16 +78,36 @@ public class LodingScene : MonoBehaviour
         LoadScene();
     }
 
-    public void LoadScene()
+    /// <summary>씬에 로딩 화면이 있으면 그걸로, 없으면(보스 씬 단독 실행 등) 바로 로드</summary>
+    public static void Load(string sceneName)
     {
-        DontDestroyOnLoad(gameObject);
-        transform.GetChild(0).gameObject.SetActive(true);
-        StartCoroutine(LoadSceneAsync());
+        if (instance != null) instance.LoadScene(sceneName);
+        else if (Application.CanStreamedLevelBeLoaded(sceneName)) SceneManager.LoadScene(sceneName);
+        else Debug.LogError($"[LoadingScene] 씬 '{sceneName}' 이(가) 빌드 설정에 없습니다.");
     }
 
-    private IEnumerator LoadSceneAsync()
+    public void LoadScene()
     {
-        var LoadingSessionName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
+        if (isLoading) return; // 같은 프레임에 두 번 눌려도 한 번만 로드
+
+        var sceneName = LoadSceneName == "" ? "Third Scene" : LoadSceneName;
+        if (!Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            Debug.LogError($"[LoadingScene] 씬 '{sceneName}' 이(가) 빌드 설정에 없습니다. File > Build Profiles 에 추가하세요.");
+            return;
+        }
+
+        isLoading = true;
+        IsLoading = true;
+        // 이전 씬에서 넘어와 로딩 후 꺼진 로더(보스 씬처럼 자체 로더가 없는 씬)는 다시 켠다
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
+        DontDestroyOnLoad(gameObject);
+        transform.GetChild(0).gameObject.SetActive(true);
+        StartCoroutine(LoadSceneAsync(sceneName));
+    }
+
+    private IEnumerator LoadSceneAsync(string LoadingSessionName)
+    {
         // 로딩 씬을 비동기로 로드
         var asyncLoad = SceneManager.LoadSceneAsync(LoadingSessionName);
         HowLoading.text = msgs[Random.Range(0, msgs.Length)];
@@ -86,8 +122,11 @@ public class LodingScene : MonoBehaviour
         }
 
         yield return null;
-        gameObject.SetActive(false);
-        //Destroy(this.gameObject);
+        isLoading = false;
+        IsLoading = false;
+        // 새 씬에 자기 로더가 있으면(Awake에서 instance가 바뀜) 넘어온 로더는 정리해서 쌓이지 않게 한다
+        if (instance != this) Destroy(gameObject);
+        else gameObject.SetActive(false);
     }
 
     private IEnumerator LoadSceneAsync(GameObject text)
@@ -106,30 +145,12 @@ public class LodingScene : MonoBehaviour
 
     public void LoadSceneDependOnCrtStage(int crtStage)
     {
-        var sceneName = "";
-        switch (crtStage)
+        // 스테이지 번호 ↔ 씬 표는 SaveSystem.Stages 한 곳에서 관리한다
+        var sceneName = SaveSystem.GetSceneNameForStage(crtStage);
+        if (string.IsNullOrEmpty(sceneName))
         {
-            case 0:
-                sceneName = "ComternyEntry";
-                break;
-            case 1:
-                sceneName = "MainMemory";
-                break;
-            case 2:
-                sceneName = "BusStop";
-                break;
-            case 3:
-                sceneName = "CentralProcessingDept";
-                break;
-            case 4:
-                sceneName = "SystemSoftware";
-                break;
-            case 5:
-                sceneName = "GoToOS";
-                break;
-            case 6:
-                sceneName = "OperatingSystem";
-                break;
+            Debug.LogError($"[LoadingScene] stage {crtStage} 에 해당하는 씬이 없습니다.");
+            return;
         }
 
         LoadScene(sceneName);
@@ -153,9 +174,9 @@ public class LodingScene : MonoBehaviour
 
     public void QuitGame()
     {
+        SaveSystem.SaveCheckpoint();
         Debug.Log("Quitting game...");
         Application.Quit();
-        
     }
     
 }

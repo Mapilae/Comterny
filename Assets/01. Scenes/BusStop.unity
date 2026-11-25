@@ -468,7 +468,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1072595558}
-        m_TargetAssemblyTypeName: LodingScene, Assembly-CSharp
+        m_TargetAssemblyTypeName: LoadingScene, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:

@@ -45,7 +45,7 @@ public class NonPlayerCharacter : MovingFootPrint
     {
         //if (convObj != null) convObj.SetActive(false);
 
-        if (isAutoPlay) StartConversation(autoPlayID);
+        if (isAutoPlay && !SaveSystem.IsRestoring) StartConversation(autoPlayID); // 이어하기로 복원 중이면 이미 본 대사
     }
 
     public void StartConversation(string ID)

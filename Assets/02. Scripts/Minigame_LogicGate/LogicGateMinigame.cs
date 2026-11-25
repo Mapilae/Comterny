@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class LogicGateMinigame : MonoBehaviour
+public class LogicGateMinigame : MonoBehaviour, ISaveableState
 {
     public static bool canUse = true;
     public Canvas canvas;
@@ -39,6 +39,19 @@ public class LogicGateMinigame : MonoBehaviour
             LogicGateOne gate = objs[i].GetComponent<LogicGateOne>();
             if (!gate.isForNot) gates.Add(gate);
         }*/
+    }
+
+    // 클리어 후의 static 값과 볼륨(화면 색감)은 오브젝트 켜고 끄기로 복원되지 않는다
+    public string CaptureState(SceneStateTracker ids)
+    {
+        return canUse ? null : "solved";
+    }
+
+    public void RestoreState(string data, SceneStateTracker ids)
+    {
+        if (data != "solved") return;
+        canUse = false;
+        if (volume != null) volume.profile = volumeProfile;
     }
 
     private void OnEnable()
