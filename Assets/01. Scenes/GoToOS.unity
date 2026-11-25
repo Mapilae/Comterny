@@ -2403,7 +2403,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 172619647}
-        m_TargetAssemblyTypeName: LodingScene, Assembly-CSharp
+        m_TargetAssemblyTypeName: LoadingScene, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -3841,7 +3841,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 172619647}
-        m_TargetAssemblyTypeName: LodingScene, Assembly-CSharp
+        m_TargetAssemblyTypeName: LoadingScene, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:

@@ -40,6 +40,35 @@ public class QuestManager : MonoBehaviour
     }
 
 
+    /// <summary>진행 중인 퀘스트 목록 (완료 처리 중인 것 제외)</summary>
+    public List<QuestState> CaptureQuests()
+    {
+        var list = new List<QuestState>();
+        foreach (var q in quests)
+            if (q != null && q.gameObject.activeSelf && !q.IsCompleting && !string.IsNullOrEmpty(q.questName))
+                list.Add(new QuestState { name = q.questName, content = q.content });
+        return list;
+    }
+
+    /// <summary>이어하기: 저장된 퀘스트를 앞쪽 슬롯부터 다시 채운다</summary>
+    public void RestoreQuests(List<QuestState> saved)
+    {
+        foreach (var q in quests)
+            if (q != null)
+                q.gameObject.SetActive(false);
+        questCount = 0;
+        if (saved == null) return;
+
+        foreach (var s in saved)
+        {
+            if (questCount >= quests.Count) break;
+            var cell = quests[questCount];
+            cell.gameObject.SetActive(true);
+            cell.SetQuest(s.name, s.content);
+            questCount++;
+        }
+    }
+
     public void RemoveQuest(string questName)
     {
         Debug.Log("remove quest? [" + questName + "]");

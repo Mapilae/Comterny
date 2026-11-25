@@ -84,6 +84,6 @@ public class CPUWarp : MonoBehaviour
     private IEnumerator IEMoveScene()
     {
         yield return new WaitForSecondsRealtime(1f);
-        LodingScene.instance.LoadScene();
+        LoadingScene.instance.LoadScene();
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Pause : MonoBehaviour
@@ -30,6 +31,7 @@ public class Pause : MonoBehaviour
     private void Start()
     {
         //pauseMenu = this.transform.GetChild(0).gameObject;
+        isPaused = false; // 일시정지 메뉴에서 '메인으로'를 눌러 씬이 바뀐 경우 true로 남아 있다
         isPlayerObjExist = GameObject.FindWithTag("Player");
         skipBtn.interactable = currentPuzzle != null;
     }
@@ -103,14 +105,23 @@ public class Pause : MonoBehaviour
     public void GoToMainMenu()
     {
         //버튼에서 사용함
-        SaveData.instance.Save();
-        Debug.Log("MainMenu로 돌아갑니다. 다만, 현재는 아무일도 일어나지 않습니다.");
-        //LodingScene.instance.LoadScene("MainMenu");
+        if (SceneManager.GetActiveScene().name == SaveSystem.TitleSceneName)
+        {
+            OpenPauseMenu(); // 이미 메인메뉴: 메뉴만 닫는다
+            return;
+        }
+
+        SaveSystem.SaveCheckpoint();
+        isPaused = false;
+        pauseMenu.SetActive(false);
+        if (isPlayerObjExist && PlayerMovement.instance != null) PlayerMovement.instance.ChangeCanMove(false);
+        Debug.Log("MainMenu로 돌아갑니다.");
+        LoadingScene.Load(SaveSystem.TitleSceneName);
     }
 
     public void ResetSaveData()
     {
-        SaveData.instance.ResetData();
+        SaveSystem.DeleteSave();
     }
 
     public void PlayerCanMove()
@@ -126,7 +137,12 @@ public class Pause : MonoBehaviour
 
     public void QuitGame()
     {
+        SaveSystem.SaveCheckpoint();
         Debug.Log("GameQuit");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 }

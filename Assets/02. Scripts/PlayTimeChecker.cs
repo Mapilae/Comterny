@@ -9,9 +9,23 @@ public class PlayTimeChecker : MonoBehaviour
     public static float totalPlayTime;
     public TMP_Text timeText;
 
+    private static PlayTimeChecker instance;
+
+    private void Awake()
+    {
+        // 타이틀로 돌아올 때마다 메인메뉴 씬의 사본이 또 생기므로 처음 것만 남긴다
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
 
     private void Start()
     {
+        if (instance != this) return;
         DontDestroyOnLoad(this);
         StartCoroutine(Stopwatch());
         LoadPlayTime();

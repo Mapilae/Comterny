@@ -66,7 +66,8 @@ public class StackQueueSwitch : MonoBehaviour
             MobileUI.instance.SetIconImage(InteractableType.ITEM);
             anim.SetTrigger("down");
             isButtonDown = true;
-            PlayStackOrQueue();
+            // 이어하기 직후 스위치 위에서 시작하면 밟자마자 한 번 더 넣기/꺼내기가 되지 않게 한다 (스페이스로는 사용 가능)
+            if (!SaveSystem.IsRestoring) PlayStackOrQueue();
         }
     }
 

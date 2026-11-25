@@ -72,7 +72,7 @@ public class BossFightEntry : MonoBehaviour
         LoadScene(sceneName);
     }
 
-    /// <summary>본편 로딩 화면(LodingScene)이 있으면 그걸로, 없으면 바로 로드</summary>
+    /// <summary>본편 로딩 화면(LoadingScene)이 있으면 그걸로, 없으면 바로 로드</summary>
     public static void LoadScene(string sceneName)
     {
         if (string.IsNullOrEmpty(sceneName)) return;
@@ -82,7 +82,7 @@ public class BossFightEntry : MonoBehaviour
             return;
         }
 
-        var loader = LodingScene.instance;
+        var loader = LoadingScene.instance;
         if (loader != null)
         {
             // 이전 씬에서 DontDestroyOnLoad로 남은 로딩 오브젝트는 로딩 후 비활성화돼 있으므로 다시 켠다

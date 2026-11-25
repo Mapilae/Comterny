@@ -36,7 +36,7 @@ public class StackBlock
     }
 }
 
-public class StackMinigame : MonoBehaviour
+public class StackMinigame : MonoBehaviour, ISaveableState
 {
     public Transform topTextObj;
     public Collider2D veryBottom;
@@ -50,12 +50,72 @@ public class StackMinigame : MonoBehaviour
     private bool canPush = true;
     private Vector3 topLocalPos; //topTextObj의 로컬 포지션
 
+    private List<StackBlock> allBlocks; // 처음 순서 그대로의 전체 블록 (저장 시 번호로 사용)
+
+    private void Awake()
+    {
+        // 이어하기로 topTextObj 위치가 바뀌기 전에 원래 위치를 기억한다
+        if (topTextObj != null) topLocalPos = topTextObj.localPosition;
+        EnsureBlockList();
+    }
+
     private void Start()
     {
-        topLocalPos = topTextObj.localPosition;
         top = stackBlock.Count - 1;
         UpdateOrder();
     }
+
+    private void EnsureBlockList()
+    {
+        allBlocks ??= new List<StackBlock>(stackBlock);
+    }
+
+    #region 저장/불러오기
+
+    [Serializable]
+    private class SavedStack
+    {
+        public List<int> stack = new(); // 아래→위 순서
+        public List<int> removed = new();
+        public List<int> bugBlocks = new();
+    }
+
+    public string CaptureState(SceneStateTracker ids)
+    {
+        EnsureBlockList();
+        var saved = new SavedStack();
+        foreach (var b in stackBlock) saved.stack.Add(allBlocks.IndexOf(b));
+        foreach (var b in removedStackBlock) saved.removed.Add(allBlocks.IndexOf(b));
+        for (var i = 0; i < allBlocks.Count; i++)
+            if (allBlocks[i].isBugBlock)
+                saved.bugBlocks.Add(i);
+        return JsonUtility.ToJson(saved);
+    }
+
+    public void RestoreState(string data, SceneStateTracker ids)
+    {
+        EnsureBlockList();
+        var saved = JsonUtility.FromJson<SavedStack>(data);
+        if (saved == null) return;
+
+        stackBlock.Clear();
+        removedStackBlock.Clear();
+        foreach (var i in saved.stack)
+            if (i >= 0 && i < allBlocks.Count)
+                stackBlock.Add(allBlocks[i]);
+        foreach (var i in saved.removed)
+            if (i >= 0 && i < allBlocks.Count)
+                removedStackBlock.Add(allBlocks[i]);
+        for (var i = 0; i < allBlocks.Count; i++) allBlocks[i].isBugBlock = saved.bugBlocks.Contains(i);
+
+        top = stackBlock.Count - 1;
+        canPop = true;
+        canPush = true;
+        UpdateOrder();
+        ChangeTopText();
+    }
+
+    #endregion
 
     private void UpdateOrder()
     {
@@ -122,31 +182,39 @@ public class StackMinigame : MonoBehaviour
     private IEnumerator AddStackBlockAtTop(int itemID)
     {
         canPush = false; //블록을 푸시할 수 없는 상태로 변경
+        SaveSystem.SetBusy(this, true); // 블록이 떨어지는 동안은 저장하지 않음
 
-        if (itemID == -1)
+        try
         {
-            Debug.LogWarning("no item book found");
-            yield break;
-        }
-
-        for (var i = 0; i < removedStackBlock.Count; i++)
-            if (removedStackBlock[i].itemCode == itemID)
+            if (itemID == -1)
             {
-                var newBlock = removedStackBlock[i];
-                removedStackBlock.RemoveAt(i);
-                stackBlock.Add(newBlock);
-                UpdateOrder();
-                var newPos = newBlock.block.transform.position;
-                newPos.y = transform.position.y;
-                newBlock.block.transform.position = newPos;
-                newBlock.block.SetActive(true);
-                top++;
-                ChangeTopText();
-
-                yield return new WaitForSeconds(0.5f);
-                canPush = true; //이제 다시 블록을 푸시할 수 있음
+                Debug.LogWarning("no item book found");
                 yield break;
             }
+
+            for (var i = 0; i < removedStackBlock.Count; i++)
+                if (removedStackBlock[i].itemCode == itemID)
+                {
+                    var newBlock = removedStackBlock[i];
+                    removedStackBlock.RemoveAt(i);
+                    stackBlock.Add(newBlock);
+                    UpdateOrder();
+                    var newPos = newBlock.block.transform.position;
+                    newPos.y = transform.position.y;
+                    newBlock.block.transform.position = newPos;
+                    newBlock.block.SetActive(true);
+                    top++;
+                    ChangeTopText();
+
+                    yield return new WaitForSeconds(0.5f);
+                    yield break;
+                }
+        }
+        finally
+        {
+            canPush = true; //이제 다시 블록을 푸시할 수 있음 (찾는 블록이 없던 경우에도)
+            SaveSystem.SetBusy(this, false);
+        }
     }
 
     public int PopButtonClick()
@@ -165,6 +233,7 @@ public class StackMinigame : MonoBehaviour
     private IEnumerator PopBlock()
     {
         canPop = false; //블록을 팝할 수 없는 상태로 변경
+        SaveSystem.SetBusy(this, true); // 블록이 튀어나가는 동안은 저장하지 않음
         var poppedBlock = stackBlock[top];
 //        Debug.Log("the book itemcode is "+poppedBlock.itemCode);
         poppedBlock.block.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 5, ForceMode2D.Impulse);
@@ -189,5 +258,6 @@ public class StackMinigame : MonoBehaviour
         UpdateOrder();
         ChangeTopText();
         canPop = true; //이제 다시 블록을 팝할 수 있음
+        SaveSystem.SetBusy(this, false);
     }
 }

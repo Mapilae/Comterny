@@ -310,7 +310,7 @@ public class DialogueManager : MonoBehaviour
                 var key = match.Groups[1].Value.Trim();
 
                 // switch문에 따라 "player"도 처리하도록 통합
-                var value = PlayerPrefs.GetString("PlayerName", PlayerData.playerName);
+                var value = PlayerData.playerName;
 
                 // name 기준 분기
                 switch (dialogueList[crtIndex].name)

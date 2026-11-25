@@ -63,6 +63,7 @@ public class MemoryBugObject : MonoBehaviour
 
     public void StartParabola(Transform target)
     {
+        SaveSystem.SetBusy(this, true); // 날아가는 도중에 저장하면 도착 후 처리(objToEnableAfterFly)가 빠진다
         anim.SetBool("fly", true);
         // SoundManager.instance.PlaySound("bug flying");
         StartCoroutine(MoveParabola(target.position, duration, height));
@@ -105,6 +106,7 @@ public class MemoryBugObject : MonoBehaviour
         transform.parent = endParent;
         anim.SetBool("fly", false);
         objToEnableAfterFly.SetActive(true);
+        SaveSystem.SetBusy(this, false);
 
         //SoundManager.instance.StopSound();
     }
@@ -144,6 +146,7 @@ public class MemoryBugObject : MonoBehaviour
 
     public void BugDisappear()
     {
+        SaveSystem.SetBusy(this, true); // 사라지는 연출이 끝나 파괴될 때까지 저장하지 않음
         StartCoroutine(nameof(IEBugGlitch));
         col.enabled = false;
     }

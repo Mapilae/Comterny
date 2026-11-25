@@ -72,9 +72,17 @@ public class CutsceneManager : MonoBehaviour
             return; //비어있는 경우 시작 안함
         }
 
+        if (SaveSystem.IsRestoring) return; // 이어하기 복원 중에 켜진 경우: 이미 본 컷신
+
+        SaveSystem.SetBusy(this, true); // 마지막 스텝 후 꺼질 때까지 저장하지 않음
         PlayerMovement.isCutscene = true;
         StopAllCoroutines();
         StartCoroutine(StepStart());
+    }
+
+    private void OnDisable()
+    {
+        SaveSystem.SetBusy(this, false);
     }
 
     private IEnumerator StepStart()

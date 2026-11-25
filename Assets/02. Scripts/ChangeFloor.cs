@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeFloor : MonoBehaviour
+public class ChangeFloor : MonoBehaviour, ISaveableState
 {
     public static int floor = 1;
     public int numToChange = 1; // 변경할 층 수
@@ -28,6 +28,17 @@ public class ChangeFloor : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             ChangeFloorNum(numToChange);
+    }
+
+    // 현재 층(static)은 Awake에서 1층으로 초기화되므로 이어하기 때 다시 맞춘다
+    public string CaptureState(SceneStateTracker ids)
+    {
+        return floor.ToString();
+    }
+
+    public void RestoreState(string data, SceneStateTracker ids)
+    {
+        if (int.TryParse(data, out var saved)) ChangeFloorNum(saved);
     }
 
     public void ChangeFloorNum(int newFloor)
