@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/GoToOS.unity
     guid: f595ae4f8c7c4e94ebf452484b0c6bb1
-  - enabled: 1
+  - enabled: 0
     path: Assets/01. Scenes/Soeuns/OSBossCombat.unity
     guid: 7b93f78869de74c5ab3948bac323fb9f
   - enabled: 1
