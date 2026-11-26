@@ -114,6 +114,10 @@ MonoBehaviour:
     \uB204\uAC00... \uC0AC\uC6A9\uB7C9 \uC880 \uC904..\uC5EC...."
   clearLine: "\uD6C4... \uC774\uC81C\uC57C \uC5F4\uC774 \uC880 \uB0B4\uB824\uAC00\uB124.
     \uB124 \uB355\uBD84\uC5D0 \uC0B4\uC558\uC5B4."
+  rescueVoice: "\uBCF4\uC2A4\uC804\uAD6C\uCD9C"
+  actionVoice: "\uBCF4\uC2A4\uC804\uB3C4\uC6C0"
+  lockedVoice: "\uBCF4\uC2A4\uC804\uB2E4\uC6B4"
+  clearVoice: 
 --- !u!1001 &7100000000000000021
 PrefabInstance:
   m_ObjectHideFlags: 0

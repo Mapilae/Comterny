@@ -19,6 +19,13 @@ public class ChatBallon : NonPlayerCharacter
     private float maxPreferredWidth;
     private TypeWriter typeWriter;
 
+    // 말풍선마다 보이스 채널을 따로 둔다 (다이얼로그나 다른 말풍선 보이스를 끊지 않도록)
+    private string VoiceChannel => "bubble:" + GetInstanceID();
+
+    private void OnDisable()
+    {
+        VoicePlayer.Stop(VoiceChannel);
+    }
 
     private void Start()
     {
@@ -46,6 +53,7 @@ public class ChatBallon : NonPlayerCharacter
         {
             //
             StopCoroutine(nameof(PlayBallon));
+            VoicePlayer.Stop(VoiceChannel);
             isPlaying = false;
             ballonMid.gameObject.SetActive(false);
         }
@@ -115,6 +123,7 @@ public class ChatBallon : NonPlayerCharacter
                 audioSource.Play();
 
                 typeWriter.StartTyping(dialogue[currentIndex].content, "");
+                DialogueManager.PlayCellVoice(dialogue[currentIndex], VoiceChannel);
                 currentIndex++;
 
 //                Debug.Log("currentIndex changed!: " + currentIndex);

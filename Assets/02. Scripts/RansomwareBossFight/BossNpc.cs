@@ -19,10 +19,18 @@ public class BossNpc : MonoBehaviour
     [Tooltip("구출되지 못한 채로 게임을 클리어해 풀려날 때 하는 말")]
     [TextArea] public string clearLine;
 
+    [Header("보이스 (07. Voice/<캐릭터> 안의 파일명, 확장자 생략 가능. 비우면 보이스 없음)")]
+    public string rescueVoice;
+    public string actionVoice;
+    public string lockedVoice;
+    public string clearVoice;
+
     public NpcKind Kind { get; private set; }
     public int KeyIndex { get; private set; } // 이 NPC를 푸는 열쇠의 주소 = baseAddr + index*4
     public bool Rescued { get; private set; }
     public string DisplayName => Kind == NpcKind.Ram ? "램 주임" : "프로세서 팀장";
+    /// <summary>보이스 폴더(07. Voice/…)의 캐릭터 이름</summary>
+    public string VoiceCharacter => Kind == NpcKind.Ram ? "램" : "프로세서";
 
     private SpeechBubble bubble;
     private SpriteRenderer sr;
@@ -54,24 +62,24 @@ public class BossNpc : MonoBehaviour
     public void SetAddressText(string address) => addressLabel.text = address;
 
     /// <summary>말풍선으로 대사를 띄운다. 말풍선이 없는 NPC(프리팹 미사용)는 말하지 않는다.</summary>
-    public void Speak(string line, float duration = -1f)
+    public void Speak(string line, float duration = -1f, string voiceFile = null)
     {
-        if (bubble != null) bubble.Say(line, duration);
+        if (bubble != null) bubble.Say(line, duration, VoiceCharacter, voiceFile);
     }
 
-    public void SpeakAction() => Speak(actionLine);
+    public void SpeakAction() => Speak(actionLine, voiceFile: actionVoice);
 
     /// <summary>갇혀 있는 동안 플레이어와 닿았는지 알려준다. 닿는 순간에만 말하고, 떨어졌다가 다시 닿으면 또 말한다.</summary>
     public void SetPlayerTouching(bool touching)
     {
-        if (touching && !playerTouching) Speak(lockedLine);
+        if (touching && !playerTouching) Speak(lockedLine, voiceFile: lockedVoice);
         playerTouching = touching;
     }
 
     public void Rescue(Sprite freeSprite)
     {
         Free(freeSprite);
-        Speak(rescueLine);
+        Speak(rescueLine, voiceFile: rescueVoice);
     }
 
     /// <summary>클리어 시 아직 묶여 있으면 풀려난다. 이미 구출된 NPC는 아무 말도 하지 않는다.</summary>
@@ -79,7 +87,7 @@ public class BossNpc : MonoBehaviour
     {
         if (Rescued) return;
         Free(freeSprite);
-        Speak(clearLine);
+        Speak(clearLine, voiceFile: clearVoice);
     }
 
     private void Free(Sprite freeSprite)

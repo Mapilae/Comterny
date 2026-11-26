@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SheetLoader : MonoBehaviour
 {
@@ -12,7 +11,6 @@ public class SheetLoader : MonoBehaviour
 
     [Header("에러 오브젝트")] public GameObject errorObj;
 
-    private string currentId = "";
     private string strSheetData;
 
     private void Awake()
@@ -42,50 +40,10 @@ public class SheetLoader : MonoBehaviour
 
     public void ParseTSV()
     {
-        SheetData.instance.sheetDataObj.block = new List<Block>();
         isLoading = true;
-
-        var rows = strSheetData.Split('\n');
-        for (var i = 0; i < rows.Length; i++)
-        {
-            var columns = rows[i].Replace("\r", "").Split('\t');
-            if (columns.Length < 5) continue;
-
-            var id = columns[0];
-            var start_cmd = columns[1];
-            var standingNum = columns[2];
-            var char_name = columns[3];
-            var dialogue = columns[4];
-            var after_cmd = columns[5];
-
-            if (id.Equals(standingNum) && string.IsNullOrEmpty(dialogue)) continue;
-            if (id.Equals("//")) continue;
-
-            if (!string.IsNullOrEmpty(id))
-            {
-                var block = new Block(id);
-                sheetData.AddBlock(block);
-                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
-                sheetData.AddCell(id, cell);
-                currentId = id;
-            }
-            else
-            {
-                id = currentId;
-                var cell = MakeCell(start_cmd, standingNum, char_name, dialogue, after_cmd);
-                sheetData.AddCell(id, cell);
-            }
-        }
-
+        SheetData.instance.sheetDataObj.block = SheetTsvParser.Parse(strSheetData);
         isLoading = false;
-        currentId = "";
         StartDialogue();
-    }
-
-    private Cell MakeCell(string start_cmd, string standingNum, string char_name, string dialogue, string after_cmd)
-    {
-        return new Cell(char_name, string.IsNullOrEmpty(standingNum) ? "0" : standingNum, dialogue, start_cmd,
-            after_cmd);
     }
 
     public void StartDialogue()

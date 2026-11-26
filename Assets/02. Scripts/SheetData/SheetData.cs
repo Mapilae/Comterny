@@ -30,13 +30,18 @@ public class Cell
     public string start_cmd;
     public string after_cmd;
 
-    public Cell(string name, string standingNum, string content, string start_cmd, string after_cmd)
+    [Tooltip("보이스 파일명 (캐릭터 폴더 제외, 확장자 생략 가능). 캐릭터는 name으로 찾는다")]
+    public string voice;
+
+    public Cell(string name, string standingNum, string content, string start_cmd, string after_cmd,
+        string voice = "")
     {
         this.name = name;
         this.standingNum = standingNum;
         this.content = content;
         this.start_cmd = start_cmd;
         this.after_cmd = after_cmd;
+        this.voice = voice ?? "";
     }
 }
 

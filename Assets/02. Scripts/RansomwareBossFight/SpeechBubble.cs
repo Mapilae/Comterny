@@ -21,11 +21,27 @@ public class SpeechBubble : MonoBehaviour
 
     private float hideAt; // 처음엔 0이라 첫 Update에서 꺼진다
 
+    [Tooltip("보이스가 끝난 뒤 말풍선을 더 띄워두는 시간(초)")]
+    public float voiceTailTime = 0.4f;
+
+    private string VoiceChannel => "bubble:" + GetInstanceID();
+
     /// <summary>대사를 띄운다. 말하는 중이면 대사를 바꾸고 시간을 다시 센다. duration이 음수면 defaultDuration.</summary>
-    public void Say(string line, float duration = -1f)
+    public void Say(string line, float duration = -1f) => Say(line, duration, null, null);
+
+    /// <summary>
+    /// 대사 + 보이스. voiceFile은 캐릭터 폴더를 뺀 보이스 파일명이고, 캐릭터는 speaker 이름으로 찾는다.
+    /// 보이스가 있으면 말풍선은 최소한 보이스 길이만큼 떠 있다.
+    /// </summary>
+    public void Say(string line, float duration, string speaker, string voiceFile)
     {
         if (string.IsNullOrEmpty(line)) return;
-        hideAt = Time.time + (duration >= 0f ? duration : defaultDuration);
+        var showTime = duration >= 0f ? duration : defaultDuration;
+
+        var clip = VoicePlayer.Play(VoiceChannel, speaker, voiceFile); // 보이스가 없으면 이전 보이스를 끊는다
+        if (clip != null) showTime = Mathf.Max(showTime, clip.length + voiceTailTime);
+
+        hideAt = Time.time + showTime;
         gameObject.SetActive(true);
         GetComponent<Canvas>().enabled = true; // NPC 프리팹에서는 Canvas 컴포넌트를 꺼 둔 채로 저장되어 있다
 
@@ -36,6 +52,11 @@ public class SpeechBubble : MonoBehaviour
     }
 
     public void Hide() => gameObject.SetActive(false);
+
+    private void OnDisable()
+    {
+        VoicePlayer.Stop(VoiceChannel);
+    }
 
     private void Update()
     {

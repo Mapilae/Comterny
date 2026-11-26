@@ -1220,10 +1220,13 @@ public class RansomwareBossFight : MonoBehaviour
     }
 
     /// <summary>보스 말풍선 대사. 보스가 화면 밖이면 안 보이므로 놓쳐도 되는 대사만 쓴다.</summary>
-    private void BossSpeak(string line, float duration = -1f)
+    /// <param name="voiceFile">07. Voice/랜섬웨어 안의 보이스 파일명. 비우면 보이스 없음</param>
+    private void BossSpeak(string line, float duration = -1f, string voiceFile = null)
     {
-        if (bossBubble != null) bossBubble.Say(line, duration);
+        if (bossBubble != null) bossBubble.Say(line, duration, BossVoiceCharacter, voiceFile);
     }
+
+    private const string BossVoiceCharacter = "랜섬웨어";
 
     // 그로기 대사: 앞의 GroggyLinesPhase1개는 1페이즈부터, 나머지는 2페이즈에서만 나온다
     private static readonly string[] GroggyLines =
@@ -1234,6 +1237,16 @@ public class RansomwareBossFight : MonoBehaviour
         "윽... 저게 귀찮게..!",
         "방해하지 마! 이것만 끝나면...",
         "너어..! 가만안둬!",
+    };
+    // GroggyLines와 같은 순서의 보이스 파일명 (비우면 보이스 없음)
+    private static readonly string[] GroggyVoices =
+    {
+        "으윽",
+        "",
+        "아야",
+        "",
+        "5방해하지마",
+        "",
     };
     private const int GroggyLinesPhase1 = 3;
 
@@ -1257,7 +1270,8 @@ public class RansomwareBossFight : MonoBehaviour
             ChangeBossAppearance(bossSpriteGroggy);
         }
         groggyUntil = Time.time + groggyDuration;
-        BossSpeak(GroggyLines[Random.Range(0, phase2 ? GroggyLines.Length : GroggyLinesPhase1)]);
+        int groggyIdx = Random.Range(0, phase2 ? GroggyLines.Length : GroggyLinesPhase1);
+        BossSpeak(GroggyLines[groggyIdx], voiceFile: groggyIdx < GroggyVoices.Length ? GroggyVoices[groggyIdx] : null);
         foreach (var c in computers)
             c.nextFireAt = groggyUntil + Random.Range(0f, turretFireInterval); // 끝나자마자 일제히 쏘지 않게
     }
@@ -1302,7 +1316,7 @@ public class RansomwareBossFight : MonoBehaviour
             if (computers[i].label != null) computers[i].label.text = "INFECTED";
         }
         ShowMessage("<color=#F55>랜섬웨어가 분노했다!</color>", "", 1.6f);
-        BossSpeak("이젠 다 필요없어!\n전부 없애 버릴거야!", 3f);
+        BossSpeak("이젠 다 필요없어!\n전부 없애 버릴거야!", 3f, "9이젠다필요없어");
         yield return new WaitForSeconds(1.6f);
 
         // 주소 암호화를 켠 경우 표기가 바뀐다

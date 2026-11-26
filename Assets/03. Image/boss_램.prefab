@@ -115,6 +115,10 @@ MonoBehaviour:
     \uBABB \uB4E4\uC5B4\uAC00\uC694..."
   clearLine: "\uD734, \uBA54\uBAA8\uB9AC\uAC00 \uB4DC\uB514\uC5B4 \uBE44\uC5C8\uC5B4\uC694!
     \uACE0\uB9C8\uC6CC\uC694!"
+  rescueVoice: "\uBCF4\uC2A4\uC804\uAD6C\uCD9C"
+  actionVoice: "\uBCF4\uC2A4\uC804\uB3C4\uC6C0"
+  lockedVoice: "\uBCF4\uC2A4\uC804\uB2E4\uC6B4"
+  clearVoice: 
 --- !u!1001 &5524073298721951729
 PrefabInstance:
   m_ObjectHideFlags: 0

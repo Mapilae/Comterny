@@ -345,6 +345,7 @@ public class DialogueManager : MonoBehaviour
         content = content.Replace("</b>", "</color></b>");
 
         typeWriter.StartTyping(content, dialogueList[crtIndex].name); //(int)currentBlock.block[index].name_ch
+        PlayCellVoice(dialogueList[crtIndex]); // 보이스가 없는 대사면 이전 보이스를 끊는다
 
         dirManager.RunCMD(dialogueList[crtIndex].start_cmd);
 
@@ -353,6 +354,30 @@ public class DialogueManager : MonoBehaviour
         // if (index >= currentBlock.block.Count) isNoNext = true;
         //else isNoNext = false;
         //TypeWriter가 타이핑 이후에 WhenDialogueTypingEnd()를 자동으로 호출하고, 거기서 crtIndex를 1 증가시킴
+    }
+
+    /// <summary>
+    ///     대사의 보이스를 재생한다. 캐릭터는 Name 칸으로 찾고, Name이 보이스 폴더와 안 맞으면
+    ///     StandingNum의 "캐릭터:번호" 형식에 적힌 캐릭터로 찾는다.
+    /// </summary>
+    public static void PlayCellVoice(Cell cell, string channel = VoicePlayer.DialogueChannel)
+    {
+        if (cell == null || string.IsNullOrWhiteSpace(cell.voice))
+        {
+            VoicePlayer.Stop(channel);
+            return;
+        }
+
+        VoicePlayer.Play(channel, GetVoiceCharacter(cell), cell.voice);
+    }
+
+    private static string GetVoiceCharacter(Cell cell)
+    {
+        var db = VoiceDatabase.Instance;
+        if (db != null && db.FindCharacter(cell.name) != null) return cell.name;
+        if (!string.IsNullOrEmpty(cell.standingNum) && cell.standingNum.Contains(':'))
+            return cell.standingNum.Split(':')[0];
+        return cell.name;
     }
 
     public void WhenDialogueTypingEnd()
@@ -457,6 +482,7 @@ public class DialogueManager : MonoBehaviour
         else if (checkDialogueTypingEnd) WhenDialogueTypingEnd();
 
         dialogue.ResetSkipButton();
+        VoicePlayer.Stop(VoicePlayer.DialogueChannel);
 
         StartCoroutine(IEEndDialogue());
 
