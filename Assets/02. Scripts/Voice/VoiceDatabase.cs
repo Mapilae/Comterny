@@ -27,17 +27,21 @@ public class VoiceDatabase : ScriptableObject
     public List<VoiceCharacter> characters = new();
 
     private static VoiceDatabase loaded;
-    private static bool triedLoad;
+    private static bool warnedMissing;
 
     public static VoiceDatabase Instance
     {
         get
         {
-            if (loaded == null && !triedLoad)
+            // 못 찾았을 때 null을 고정으로 기억하지 않는다 (DB가 나중에 생성/갱신돼도 다시 찾도록)
+            if (loaded == null)
             {
-                triedLoad = true;
                 loaded = Resources.Load<VoiceDatabase>(ResourcePath);
-                if (loaded == null) Debug.LogWarning("[Voice] Resources/VoiceDatabase.asset이 없습니다. Tools/Voice/보이스 DB 갱신을 실행하세요.");
+                if (loaded == null && !warnedMissing)
+                {
+                    warnedMissing = true;
+                    Debug.LogWarning("[Voice] Resources/VoiceDatabase.asset이 없습니다. Tools/Voice/보이스 DB 갱신을 실행하세요.");
+                }
             }
 
             return loaded;

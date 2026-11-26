@@ -120,6 +120,24 @@ public class RansomwareBossFight : MonoBehaviour
     [Tooltip("방화벽을 막았을 때 보스 그로기 시간(초). 그로기 중 또 막으면 남은 시간과 상관없이 이 시간으로 다시 센다")]
     public float groggyDuration = 3f;
 
+    [Header("랜섬웨어 보이스 (07. Voice/랜섬웨어 안의 파일명, 비우면 보이스 없음)")]
+    [Tooltip("시작 팝업 'BOSS FIGHT - 컴터니를 영원히 잠궈 버리겠어!'")]
+    public string introPopupVoice = "2너희컴터니를";
+    [Tooltip("시작 팝업 '랜섬웨어가 방화벽을 모두 무너뜨렸다!'")]
+    public string firewallPopupVoice = "8방화벽은이미";
+    [Tooltip("2페이즈 말풍선 '이젠 다 필요없어! 전부 없애 버릴거야!'")]
+    public string phase2Voice = "9이젠다필요없어";
+    [Tooltip("그로기 말풍선. GroggyLines와 같은 순서")]
+    public string[] groggyVoices = { "으윽", "", "아야", "", "5방해하지마", "" };
+    [Tooltip("그로기가 풀릴 때 '곱게 말할 때 주는 게 좋을 거야.'")]
+    public string groggyEndVoice = "";
+    [Tooltip("램 구출 시 '뭐하는 짓이야? 쓸데없는 걸 하네!'")]
+    public string rescueRamVoice = "";
+    [Tooltip("프로세서 구출 시 '흥, 그런다고 막을 수 있을 것 같아?'")]
+    public string rescueProcessorVoice = "";
+    [Tooltip("트로이목마를 떨어뜨릴 때 '히힛, 이 장난감은 어때?'")]
+    public string trojanVoice = "";
+
     [Header("보스 이동: 공격 후 플레이어와 가장 가까운 컴퓨터를 해킹하며 전선 타고 순간이동")]
     public bool bossTeleport = true;
     [Tooltip("패턴 공격이 끝나고 이동을 시작하기까지")]
@@ -691,7 +709,8 @@ public class RansomwareBossFight : MonoBehaviour
         if (npc.Rescued) return;
         bool ram = npc.Kind == NpcKind.Ram;
         npc.Rescue(ram ? ramSpriteFree : processorSpriteFree);
-        BossSpeak(ram ? "뭐하는 짓이야? 쓸데없는 걸 하네!" : "흥, 그런다고 막을 수 있을 것 같아?");
+        BossSpeak(ram ? "뭐하는 짓이야? 쓸데없는 걸 하네!" : "흥, 그런다고 막을 수 있을 것 같아?",
+            voiceFile: ram ? rescueRamVoice : rescueProcessorVoice);
         if (!ram) processorTimer = processorInterval;
         PlaySfx(lockSfx, 0.8f);
 
@@ -1179,12 +1198,26 @@ public class RansomwareBossFight : MonoBehaviour
         progressText.text = $"방화벽 복구 <color=#7FF>{filledCount}</color>/{slots.Count}";
     }
 
-    private void ShowMessage(string main, string sub = "", float duration = 2f)
+    /// <summary>화면 중앙 팝업. voiceFile을 주면 랜섬웨어 보이스를 같이 틀고, 보이스가 끝날 때까지 팝업을 띄운다.
+    /// 실제로 띄우는 시간(초)을 돌려준다.</summary>
+    private float ShowMessage(string main, string sub = "", float duration = 2f, string voiceFile = null)
     {
         msgText.text = main;
         subMsgText.text = sub;
+        if (!string.IsNullOrWhiteSpace(voiceFile))
+        {
+            if (bossBubble != null) bossBubble.Hide(); // 말풍선 보이스와 겹치지 않게
+            var clip = VoicePlayer.Play(BossPopupVoiceChannel, BossVoiceCharacter, voiceFile);
+            if (clip != null && duration >= 0f) duration = Mathf.Max(duration, clip.length + 0.3f);
+        }
         msgUntil = duration < 0 ? float.MaxValue : Time.time + duration;
+        return duration;
     }
+
+    private const string BossPopupVoiceChannel = "ransomware-popup";
+
+    // VoicePlayer는 씬이 바뀌어도 남으므로, 재시작/나가기 때 팝업 보이스가 이어지지 않게 끊는다
+    private void OnDestroy() => VoicePlayer.Stop(BossPopupVoiceChannel);
     #endregion
 
     // =====================================================================
@@ -1223,7 +1256,9 @@ public class RansomwareBossFight : MonoBehaviour
     /// <param name="voiceFile">07. Voice/랜섬웨어 안의 보이스 파일명. 비우면 보이스 없음</param>
     private void BossSpeak(string line, float duration = -1f, string voiceFile = null)
     {
-        if (bossBubble != null) bossBubble.Say(line, duration, BossVoiceCharacter, voiceFile);
+        if (bossBubble == null) return;
+        if (!string.IsNullOrWhiteSpace(voiceFile)) VoicePlayer.Stop(BossPopupVoiceChannel); // 같은 화자의 팝업 보이스는 끊는다
+        bossBubble.Say(line, duration, BossVoiceCharacter, voiceFile);
     }
 
     private const string BossVoiceCharacter = "랜섬웨어";
@@ -1237,16 +1272,6 @@ public class RansomwareBossFight : MonoBehaviour
         "윽... 저게 귀찮게..!",
         "방해하지 마! 이것만 끝나면...",
         "너어..! 가만안둬!",
-    };
-    // GroggyLines와 같은 순서의 보이스 파일명 (비우면 보이스 없음)
-    private static readonly string[] GroggyVoices =
-    {
-        "으윽",
-        "",
-        "아야",
-        "",
-        "5방해하지마",
-        "",
     };
     private const int GroggyLinesPhase1 = 3;
 
@@ -1271,7 +1296,7 @@ public class RansomwareBossFight : MonoBehaviour
         }
         groggyUntil = Time.time + groggyDuration;
         int groggyIdx = Random.Range(0, phase2 ? GroggyLines.Length : GroggyLinesPhase1);
-        BossSpeak(GroggyLines[groggyIdx], voiceFile: groggyIdx < GroggyVoices.Length ? GroggyVoices[groggyIdx] : null);
+        BossSpeak(GroggyLines[groggyIdx], voiceFile: groggyVoices != null && groggyIdx < groggyVoices.Length ? groggyVoices[groggyIdx] : null);
         foreach (var c in computers)
             c.nextFireAt = groggyUntil + Random.Range(0f, turretFireInterval); // 끝나자마자 일제히 쏘지 않게
     }
@@ -1287,7 +1312,7 @@ public class RansomwareBossFight : MonoBehaviour
     {
         if (!IsGroggy || Time.time < groggyUntil) return;
         EndGroggy();
-        if (!phase2) BossSpeak($"{baseName}, 곱게 말할 때 주는 게 좋을 거야.");
+        if (!phase2) BossSpeak($"{baseName}, 곱게 말할 때 주는 게 좋을 거야.", voiceFile: groggyEndVoice);
         StartCoroutine(BossPatternLoop());
     }
 
@@ -1316,7 +1341,7 @@ public class RansomwareBossFight : MonoBehaviour
             if (computers[i].label != null) computers[i].label.text = "INFECTED";
         }
         ShowMessage("<color=#F55>랜섬웨어가 분노했다!</color>", "", 1.6f);
-        BossSpeak("이젠 다 필요없어!\n전부 없애 버릴거야!", 3f, "9이젠다필요없어");
+        BossSpeak("이젠 다 필요없어!\n전부 없애 버릴거야!", 3f, phase2Voice);
         yield return new WaitForSeconds(1.6f);
 
         // 주소 암호화를 켠 경우 표기가 바뀐다
@@ -1411,10 +1436,11 @@ public class RansomwareBossFight : MonoBehaviour
     {
         state = FightState.Intro;
         decryptSpawnTimer = decryptSpawnInterval; // 연출 중 2페이즈로 넘어가면 아래까지 오지 못한다
-        ShowMessage("<color=#C88>BOSS FIGHT</color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f);
-        yield return new WaitForSeconds(2.6f);
+        // 보이스가 있으면 끝까지 듣고 다음 팝업으로 넘어간다
+        float introTime = ShowMessage("<color=#C88>BOSS FIGHT</color>", $"\"컴터니를 영원히 잠궈 버리겠어! 그 누구도 나갈 수 없고, 되찾을 수도 없게!", 2.6f, introPopupVoice);
+        yield return new WaitForSeconds(introTime);
         ShowMessage(keySprite != null ? "랜섬웨어가 방화벽을 모두 무너뜨렸다! \n포인터 열쇠를 맞는 주소에 꽂아 뚫린 곳을 막자" : "코드 조각을 맞는 주소에 끼워 방화벽을 복구하자!",
-            hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f);
+            hardMode ? "포인터 산술: fw + i 의 주소는?" : "*(fw+i) 는 주소 fw + i*4 에 있다", 2.4f, firewallPopupVoice);
         state = FightState.Fight;
         StartCoroutine(BossPatternLoop());
     }
@@ -2130,7 +2156,7 @@ public class RansomwareBossFight : MonoBehaviour
         };
         trojans.Add(t);
         LaunchTrojan(t, bossPos, land, TrojanThrowTime);
-        BossSpeak($"히힛, {baseName}. 이 장난감은 어때?");
+        BossSpeak($"히힛, {baseName}. 이 장난감은 어때?", voiceFile: trojanVoice);
     }
 
     /// <summary>포물선으로 날아가 착지하면 trojanFuse를 세기 시작한다.</summary>

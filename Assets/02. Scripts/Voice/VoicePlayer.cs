@@ -67,6 +67,9 @@ public class VoicePlayer : MonoBehaviour
         source.clip = clip;
         source.volume = Volume;
         source.Play();
+#if UNITY_EDITOR
+        Debug.Log($"[Voice] 재생: {clip.name} (채널 {channel}, 볼륨 {Volume:0.##})");
+#endif
     }
 
     public static void Stop(string channel)

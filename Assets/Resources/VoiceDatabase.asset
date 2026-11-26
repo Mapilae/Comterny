@@ -83,6 +83,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: f64fd137c25a714419bb5e018bf14e5e, type: 3}
     - {fileID: 8300000, guid: 9ad599561de0d9e42985b9e0463ee882, type: 3}
     - {fileID: 8300000, guid: 787c6defce06b3441a97d0d8ec92c138, type: 3}
+    - {fileID: 8300000, guid: c61a0902401741e5ad5731c7b79f3046, type: 3}
   - name: "\uCEF4\uD30C\uC77C\uB7EC"
     aliases: []
     clips:
