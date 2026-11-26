@@ -195,7 +195,13 @@ public class PlayerMovement : MovingFootPrint
             inputVec.y = fixedJoystick.Vertical;
         }
         // Debug.Log(inputVec.x + ",  " + inputVec.y);
-
+#elif UNITY_WEBGL
+        //웹: 시작 화면에서 스마트폰(YES)을 고른 경우 조이스틱 입력 사용 (키보드 입력이 없을 때만)
+        if (MobileUI.isJoyOn && fixedJoystick != null && inputVec == Vector2.zero)
+        {
+            inputVec.x = fixedJoystick.Horizontal;
+            inputVec.y = fixedJoystick.Vertical;
+        }
 #endif
         return inputVec;
     }
