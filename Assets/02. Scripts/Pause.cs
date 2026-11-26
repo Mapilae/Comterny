@@ -16,6 +16,7 @@ public class Pause : MonoBehaviour
     public Button skipBtn;
 
     public Slider bgmSlider;
+    public Slider voiceSlider;
 
     [Header("Current Puzzle Minigame(for skip)")]
     public GameObject currentPuzzle;
@@ -34,6 +35,9 @@ public class Pause : MonoBehaviour
         isPaused = false; // 일시정지 메뉴에서 '메인으로'를 눌러 씬이 바뀐 경우 true로 남아 있다
         isPlayerObjExist = GameObject.FindWithTag("Player");
         skipBtn.interactable = currentPuzzle != null;
+
+        // 저장된 보이스 볼륨을 슬라이더에 반영 (이벤트는 발생시키지 않음)
+        if (voiceSlider != null) voiceSlider.SetValueWithoutNotify(VoicePlayer.Volume);
     }
 
     private void Update()
@@ -81,6 +85,12 @@ public class Pause : MonoBehaviour
         //Debug.Log("BGM Volume Changed: " + value);
         var value = bgmSlider.value;
         SoundManager.instance.ChangeBGMVolume(value);
+    }
+
+    public void ChangeVoiceVolume()
+    {
+        //슬라이더에서 사용함. 값은 PlayerPrefs에 저장되어 다음 실행에도 유지된다.
+        VoicePlayer.Volume = voiceSlider.value;
     }
 
     public void OpenPauseMenu()
