@@ -11,10 +11,12 @@ public class VoicePlayer : MonoBehaviour
 {
     public const string DialogueChannel = "dialogue";
 
+    public const float DefaultVolume = 0.7f;
+
     /// <summary>보이스 전체 볼륨 (설정 UI에서 바꿔 쓸 수 있도록 열어둠)</summary>
     public static float Volume
     {
-        get => PlayerPrefs.GetFloat("VoiceVolume", 1f);
+        get => PlayerPrefs.GetFloat("VoiceVolume", DefaultVolume);
         set
         {
             PlayerPrefs.SetFloat("VoiceVolume", Mathf.Clamp01(value));
